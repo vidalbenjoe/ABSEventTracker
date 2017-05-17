@@ -44,11 +44,11 @@
                               @"iPhone5, 3" : @(iPhone5C),
                               @"iPhone5, 3" : @(iPhone5C),
                               @"iPhone5, 4" : @(iPhone5C),
-                              @"iPhone6, 1" : @(iPhone5S),
-                              @"iPhone6, 2" : @(iPhone5S),
-                              @"iPhone7, 2" : @(iPhone6),
-                              
-                              
+                              @"iPhone6, 1" : @(iPhone6),
+                              @"iPhone6, 2" : @(iPhone6S),
+                              @"iPhone6, 3" : @(iPhone6Plus),
+                              @"iPhone7, 1" : @(iPhone7),
+                              @"iPhone7, 2" : @(iPhone7Plus),
                               };
     });
         return deviceNameByCode;
@@ -70,8 +70,51 @@
 
 -(NSString*) publicMethod{
    
-    
     return @"ds";
 }
+
++(NSString*) systemName{
+    
+    return @"";
+}
+
+
++(NSString*) systemVersion{
+    
+    return @"systemVersion";
+}
++(NSString*) localizeModel{
+    
+    return @"localizeModel";
+}
+
++(NSString*) platformType{
+    
+    return @"platformType";
+}
++(NSString*) deviceFamily{
+    
+    return @"deviceFamily";
+}
+
++(NSString*) userInterfaceIdiom{
+    
+    return @"userIdiom";
+}
++(NSString*) identifierForVendor{
+    
+    return @"identifierVendor";
+    
+}
+
++(NSInteger*) screenWidth{
+    
+    return 0;
+}
++(NSInteger*) screenHeight{
+    
+    return 0;
+}
+
 
 @end

@@ -48,7 +48,8 @@ typedef NS_ENUM(NSInteger, DeviceVersion){
     iPhone4S          = 4,
     iPhone5           = 5,
     iPhone5C          = 6,
-    iPhone5S          = 7,
+    iPhone5S
+    = 7,
     iPhone6           = 8,
     iPhone6Plus       = 9,
     iPhone6S          = 10,
@@ -98,10 +99,46 @@ typedef enum{
 
 + (DeviceVersion) deviceVersion;
 + (NSString*) deviceNameForVersion: (DeviceVersion) deviceVersion;
--(NSString*) publicMethod;
++(NSString*) publicMethod;
 
--(id) init;
+// Based on Luminous System Library
+//Hardware
++(NSString*) systemName;
++(NSString*) systemVersion;
++(NSString*) localizeModel;
++(NSString*) platformType;
++(NSString*) deviceFamily;
++(NSString*) userInterfaceIdiom;
++(NSString*) identifierForVendor;
++(NSInteger*) screenWidth;
++(NSInteger*) screenHeight;
++(NSInteger*) displayDensity;
++(NSInteger*) physicalMemory;
++(NSInteger*) bootTime;
++(NSInteger*) processorNumber;
+
+//Sensors
++(BOOL) isAccelometerAvailable;
++(BOOL) isGyroAvailable;
++(BOOL) isMagnetometerAvailable;
++(BOOL) isDeviceMotionAvailable;
+
+//Disk
++(NSString*) availableSpace;
++(NSString*) totalSpace;
++(NSString*) usedSpace;
+
+//Carrier
++(BOOL) isAllowVOIP;
++(NSInteger*)mobileCountryCode;
++(NSInteger*)carrierName;
++(NSInteger*)networkCountryCode;
+
+//identifier
++(NSString*) deviceIdentifierIDFA;
 
 +(id) sharedInstance;
+-(id) init;
+
 
 @end

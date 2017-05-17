@@ -12,8 +12,8 @@
 @implementation EventProcessing
     
     DeviceInfo *dasd = [[DeviceInfo alloc] init];
-    NSString *asd = [dasd publicMethod];
-
+    NSString *asd = [DeviceInfo systemName];
+   NSInteger *sd = [DeviceInfo screenWidth];
 
 @end
 
