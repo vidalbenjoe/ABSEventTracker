@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cVI-k9-tqx">
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="18U-mq-dIR">
+                                <date key="date" timeIntervalSinceReferenceDate="516880072.12032002">
+                                    <!--2017-05-19 09:47:52 +0000-->
+                                </date>
+                            </datePicker>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="cVI-k9-tqx" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="333" id="08K-NU-uST"/>
+                            <constraint firstItem="cVI-k9-tqx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="164" id="1R3-EM-Une"/>
+                            <constraint firstItem="18U-mq-dIR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="16" id="5FA-zt-mEN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="18U-mq-dIR" secondAttribute="trailing" constant="15" id="TpC-qb-L7Q"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cVI-k9-tqx" secondAttribute="bottom" constant="353" id="UxU-Wv-RU6"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="18U-mq-dIR" secondAttribute="bottom" constant="154" id="h9q-KN-j1p"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cVI-k9-tqx" secondAttribute="trailing" constant="164" id="nhX-6V-f72"/>
+                            <constraint firstItem="18U-mq-dIR" firstAttribute="top" secondItem="cVI-k9-tqx" secondAttribute="bottom" constant="21" id="o5b-YI-5hI"/>
+                        </constraints>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="134.78260869565219" y="138.58695652173915"/>
+        </scene>
+    </scenes>
+</document>

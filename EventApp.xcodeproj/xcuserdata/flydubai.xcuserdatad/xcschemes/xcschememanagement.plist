@@ -4,25 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>EventProcessing.xcscheme</key>
+		<key>EventApp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>UniversalLib.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>86F81AC81ECAC39B0098DD8E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>86F81ADA1ECAE8FB0098DD8E</key>
+		<key>8623E0911ECEA19000432B01</key>
 		<dict>
 			<key>primary</key>
 			<true/>
