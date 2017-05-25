@@ -9,6 +9,7 @@
 #ifndef Enumarations_h
 #define Enumarations_h
 
+
 // MARK: Enums
 /// The size scale to decide how you want to obtain size information
 ///
@@ -126,6 +127,5 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
     INVALID             =   4,
     TEST                =   5
 };
-
 
 #endif /* Enumarations_h */

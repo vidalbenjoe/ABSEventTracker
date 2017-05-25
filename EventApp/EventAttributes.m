@@ -62,7 +62,6 @@
     return builder;
 }
 
-
 +(instancetype) makeWithBuilder:(void (^)(EventBuilder *))updateBlock{
     EventBuilder *builder = [EventBuilder new];
     updateBlock(builder);
@@ -79,6 +78,5 @@
     EventBuilder *builder = [EventBuilder new];
     return [self initWithBuilder:builder];
 }
-
 
 @end

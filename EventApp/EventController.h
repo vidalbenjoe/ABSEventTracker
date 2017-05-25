@@ -8,13 +8,26 @@
 
 #import <Foundation/Foundation.h>
 #import "EventAttributes.h"
-@interface EventController : NSObject
+#import "EventCallBack.h"
+#import "Validator.h"
+#import "Enumarations.h"
+@protocol EventCallBacks <NSObject>
+
+-(void) onSuccess;
+-(void) onFail;
+
+@end
+
+@interface EventController : NSObject{
+    id delegate;
+}
 
 //TODO : Create method that will process the event writing from the users given attributes
 //TODO : Send the processed attributes to server
 
 +(id) init;
-+(NSString *) writeEvent:(EventAttributes *) attributes;
-
+-(void) writeEvent:(EventAttributes *) attributes;
+-(void) setDelegate:(id) newDelagate;
+-(void) initializeProperty;
 
 @end

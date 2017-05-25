@@ -9,7 +9,6 @@
 
 @interface DeviceFingerprinting : NSObject
 
-+(NSString*) buildRawEntropy;
 +(NSString*) generateDeviceFingerprint;
 
 @end

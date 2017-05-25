@@ -8,9 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "EventBuilder.h"
-#import "Enumarations.h"
-
-
 
 @interface EventAttributes : NSObject
 

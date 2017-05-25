@@ -6,10 +6,11 @@
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 
+#define IWANTTVDEF @"com.ph.abscbn.ios.EventAppd"
+#define TFCDEF @"com.ph.abscbn.ios.EventAspp"
+
 #import <Foundation/Foundation.h>
 #import "Enumarations.h"
-
-
 
 @interface PropertyEventSource : NSObject
 
@@ -17,5 +18,8 @@
 
 +(NSDictionary *) propertyDisplayName;
 -(NSString *) propertyName;
-
++(NSString *) getAppName;
++(NSString *) getBundleIdentifier;
+-(void) setDigitalProperty:(DigitalProperty) digitalProperty;
+-(DigitalProperty) getProperty;
 @end
