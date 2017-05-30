@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "PropertyEventSource.h"
-#import "Enumarations.h"
+#import "Enumerations.h"
 @interface Validator : NSObject
 
 
-+(BOOL) isSourcePropertyValid:(enum DigitalProperty) property;
++(BOOL) isSourcePropertyValid:(DigitalProperty *) property;
 
 @end

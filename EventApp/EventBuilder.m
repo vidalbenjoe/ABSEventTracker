@@ -8,7 +8,7 @@
 
 #import "EventBuilder.h"
 #import "EventAttributes.h"
-#import "Enumarations.h"
+#import "Enumerations.h"
 @implementation EventBuilder
 
 -(instancetype) init{

@@ -15,7 +15,6 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    EventController *ada = [[EventController alloc] init];
     [EventController init];
     // Override point for customization after application launch.
     EventAttributes *event = [EventAttributes makeWithBuilder:^(EventBuilder *builder){
@@ -24,7 +23,7 @@
         NSLog(@"build1: %@", builder.clickedContent);
     }];
     
-    [ada writeEvent:event];
+    [EventController writeEvent:event];
     //create event writer
     
     NSLog(@"eventAtt1: %@", event.clickedContent);

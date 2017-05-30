@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EventCallBack.h"
-@interface ViewController : UIViewController<EventCallBack>
+@interface ViewController : UIViewController
 
 
 @end

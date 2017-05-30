@@ -2,7 +2,7 @@
 //  UserAttributes.m
 //  EventApp
 //
-//  Created by Flydubai on 22/05/2017.
+//  Created by Benjoe Vidal on 22/05/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 

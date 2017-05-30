@@ -10,8 +10,8 @@
 #import "EventBuilder.h"
 
 @interface EventAttributes : NSObject
-
-@property(nonatomic, retain, readonly, getter= clickedContents) NSString *clickedContent;
+@property(nonatomic, copy, readonly) NSMutableArray *violatedQualifiers;
+@property(nonatomic, copy, readonly) NSString *clickedContent;
 @property(nonatomic, copy, readonly) NSString *searchQuery;
 
 @property(nonatomic) ActionTaken actionTaken;
@@ -39,6 +39,8 @@
 -(instancetype) initWithBuilder:(EventBuilder *) builder;
 -(instancetype) update:(void(^)(EventBuilder *)) updateBlock;
 -(instancetype) build;
+
+-(NSMutableArray *) getAttributeViolations;
 
 @end
 

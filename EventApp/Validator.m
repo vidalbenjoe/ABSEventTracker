@@ -10,16 +10,12 @@
 #import "PropertyEventSource.h"
 @implementation Validator
 
-+(BOOL) isSourcePropertyValid:(enum DigitalProperty) property{
-
-    if (property == INVALID) {
-        
++(BOOL) isSourcePropertyValid:(DigitalProperty*) property{
+    if (property == 0) {
         return false;
     }
     return true;
 }
-
-
 
 @end
 

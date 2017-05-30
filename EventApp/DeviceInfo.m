@@ -178,7 +178,7 @@
 //The type of current device
 //iPhone, iPad, iPad Air, Simulator
 +(NSString*) platformType{
-    return @"deviceFamily";
+    return [self deviceNameString];
 }
 
 +(NSString*) deviceIdiom{

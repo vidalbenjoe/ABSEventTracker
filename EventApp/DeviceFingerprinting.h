@@ -8,7 +8,5 @@
 #import <Foundation/Foundation.h>
 
 @interface DeviceFingerprinting : NSObject
-
 +(NSString*) generateDeviceFingerprint;
-
 @end

@@ -2,7 +2,7 @@
 //  Variant.m
 //  EventApp
 //
-//  Created by BenjoeVidal on 25/05/2017.
+//  Created by Benjoe Vidal on 25/05/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 
@@ -10,4 +10,8 @@
 
 @implementation Variant
 
+@synthesize persistentVariant;
+@synthesize arbitaryVariant;
 @end
+
+

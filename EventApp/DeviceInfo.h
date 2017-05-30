@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Enumarations.h"
+#import "Enumerations.h"
 
 
 

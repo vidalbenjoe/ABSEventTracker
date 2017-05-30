@@ -9,13 +9,28 @@
 #import "PropertyEventSource.h"
 
 @implementation PropertyEventSource
-
 @synthesize property;
 
+NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net";
+NSString* const eventTokenURL           = @"/token";
+NSString* const eventWriteURL           = @"/api/event/write";
+NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
+
+
++(instancetype)init{
+    static PropertyEventSource *shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [[super alloc] init];
+    });
+    return shared;
+}
+
 +(NSDictionary *) propertyDisplayName{
-    return @{@(SKY_ON_DEMAND) : @"Sky On Demand",
-             @(I_WANT_TV)    : @"iWantTV",
-             @(NO_INK)       : @"NoInk"};
+    return @{@(SKY_ON_DEMAND)   :   @"Sky On Demand",
+             @(I_WANT_TV)       :   @"iWantTV",
+             @(NO_INK)          :   @"NoInk"
+             };
 }
 
 -(NSString *) propertyName{
@@ -39,7 +54,6 @@
 -(DigitalProperty) getProperty{
     return property;
 }
-
 
 
 @end

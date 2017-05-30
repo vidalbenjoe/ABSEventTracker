@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Enumarations.h"
+#import "Enumerations.h"
 
 @interface EventBuilder : NSObject
 @property(nonatomic, copy) NSString *clickedContent;
@@ -35,5 +35,6 @@
 @property(nonatomic) NSInteger *duration;
 
 -(instancetype) init;
+
 
 @end

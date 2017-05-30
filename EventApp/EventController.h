@@ -10,7 +10,8 @@
 #import "EventAttributes.h"
 #import "EventCallBack.h"
 #import "Validator.h"
-#import "Enumarations.h"
+#import "Enumerations.h"
+#import "DeviceInvariant.h"
 @protocol EventCallBacks <NSObject>
 
 -(void) onSuccess;
@@ -26,7 +27,8 @@
 //TODO : Send the processed attributes to server
 
 +(id) init;
--(void) writeEvent:(EventAttributes *) attributes;
++(void) writeDevice:(DeviceInvariant *) attributes;
++(void) writeEvent:(EventAttributes *) attributes;
 -(void) setDelegate:(id) newDelagate;
 -(void) initializeProperty;
 
