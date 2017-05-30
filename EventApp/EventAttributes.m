@@ -80,8 +80,7 @@
 
 -(NSMutableArray *) getAttributeViolations{
     // Create a set of validation per DP
-    
-    
+
     return violatedQualifiers;
 }
 

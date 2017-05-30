@@ -34,26 +34,18 @@
         [builder setPreviousScreen:@"asda"];
         
     }];
+
     [EventController writeEvent:attrib];
     
-    DeviceInvariant *deviceInvariant = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
-        [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
-        [builder setDeviceOS:[DeviceInfo systemVersion]];
-        [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
-        [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
-        [builder setDeviceType:[DeviceInfo platformType]];
+    UserAttributes *device = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
+        [builder setFirstName:@"Benjoe"];
+        [builder setLastName:@"Vidal"];
     }];
 
-    [EventController writeDevice:deviceInvariant];
+    [EventController initWithUser:device];
     
-    
-    
-//    Invariant *inva = [[Invariant alloc] init];
-//    [inva initInvariant:deviceInvariant propertyInvariant:property];
-    
-
     NSLog(@"devIn: %@",  [[[AttributeManager init] deviceinvariant] deviceType]);
-    NSLog(@"dwsInis: %@",  deviceInvariant.deviceType);
+   
     
     NSLog(@"getDeWrite: %@",  [[[AttributeManager init] eventattributes] clickedContent]);
    

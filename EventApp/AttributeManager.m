@@ -29,8 +29,6 @@
     NSLog(@"AttributeManagerw: %@", eventAttributes.clickedContent);
 }
 
-
-
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     userattributes = userAttributes;
 }
@@ -40,7 +38,6 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
 }
-
 
 -(void) verifyEventAttribute: (EventAttributes*) eventAttributes{
     NSMutableArray *violatedQualifiers = eventAttributes.getAttributeViolations;

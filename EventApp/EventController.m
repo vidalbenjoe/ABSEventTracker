@@ -8,9 +8,11 @@
 
 #import "EventController.h"
 #import "AttributeManager.h"
+#import "DeviceInvariant.h"
+#import "DeviceFingerprinting.h"
+#import "DeviceInfo.h"
 @implementation EventController
 BOOL hasInitialized = false;
-
 
 +(id) init{
     static EventController *shared = nil;
@@ -18,6 +20,7 @@ BOOL hasInitialized = false;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         if (!hasInitialized) {
+            
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
                 [[self propertySource] setDigitalProperty:I_WANT_TV];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -29,6 +32,19 @@ BOOL hasInitialized = false;
             }else{
                 [[self propertySource] setDigitalProperty:INVALID];
             }
+            
+            DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
+                [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
+                [builder setDeviceOS:[DeviceInfo systemVersion]];
+                [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
+                [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
+                [builder setDeviceType:[DeviceInfo platformType]];
+            }];
+            
+            [self initWithDevice:device];
+            
+          
+            
             hasInitialized = true;
         }
         
@@ -40,17 +56,21 @@ BOOL hasInitialized = false;
     PropertyEventSource *propertyeventSource = [[PropertyEventSource alloc] init];
     return propertyeventSource;
 }
-
-
-+(void) writeDevice:(DeviceInvariant *) attributes{
-    [[AttributeManager init] setDeviceInvariantAttributes:attributes];
++(void) initAppProperty:(PropertyEventSource *) attributes{
+      [[AttributeManager init] setPropertyAttributes:attributes];
 }
 
+
++(void) initWithUser:(UserAttributes *) attributes {
+    [[AttributeManager init] setUserAttributes:attributes];
+}
++(void) initWithDevice:(DeviceInvariant *) attributes{
+    [[AttributeManager init] setDeviceInvariantAttributes:attributes];
+}
 +(void) writeEvent:(EventAttributes *) attributes{
     [self superclass];
     [[AttributeManager init] setEventAttributes:attributes];
-    
-    
+
     
     //* VALIDATE EVENT PROPERTY
     //* INITIALIZE ATTRIBUTE MANAGER
