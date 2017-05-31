@@ -17,7 +17,6 @@
 		868B92641ED40A6F00401955 /* EventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 868B92631ED40A6F00401955 /* EventBuilder.m */; };
 		868E07E61ED7CC0F004666D9 /* Enumerations.m in Sources */ = {isa = PBXBuildFile; fileRef = 868E07E51ED7CC0F004666D9 /* Enumerations.m */; };
 		868E07EF1ED80EAC004666D9 /* SessionAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 868E07EE1ED80EAC004666D9 /* SessionAttributes.m */; };
-		868E07F31EDC2917004666D9 /* IsolatedAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 868E07F21EDC2917004666D9 /* IsolatedAttributes.m */; };
 		8690A1E71ED2B470003C0CC7 /* EventAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1E61ED2B470003C0CC7 /* EventAttributes.m */; };
 		8690A1EC1ED2E6B1003C0CC7 /* UserAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1EB1ED2E6B1003C0CC7 /* UserAttributes.m */; };
 		8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1EF1ED2ED56003C0CC7 /* DeviceFingerprinting.m */; };
@@ -31,6 +30,8 @@
 		86A478A91ED6E37F00EA37A9 /* Variant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A81ED6E37F00EA37A9 /* Variant.m */; };
 		86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */; };
 		86B185D81EDEA73400900836 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D71EDEA73400900836 /* ABSEventTracker.m */; };
+		86B185DD1EDEC6EC00900836 /* Aribitary.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185DC1EDEC6EC00900836 /* Aribitary.m */; };
+		86B185E01EDEC78E00900836 /* Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185DF1EDEC78E00900836 /* Session.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,8 +53,6 @@
 		868E07E51ED7CC0F004666D9 /* Enumerations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enumerations.m; sourceTree = "<group>"; };
 		868E07ED1ED80EAC004666D9 /* SessionAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionAttributes.h; sourceTree = "<group>"; };
 		868E07EE1ED80EAC004666D9 /* SessionAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionAttributes.m; sourceTree = "<group>"; };
-		868E07F11EDC2917004666D9 /* IsolatedAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IsolatedAttributes.h; sourceTree = "<group>"; };
-		868E07F21EDC2917004666D9 /* IsolatedAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IsolatedAttributes.m; sourceTree = "<group>"; };
 		8690A1E51ED2B470003C0CC7 /* EventAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAttributes.h; sourceTree = "<group>"; };
 		8690A1E61ED2B470003C0CC7 /* EventAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventAttributes.m; sourceTree = "<group>"; };
 		8690A1EA1ED2E6B1003C0CC7 /* UserAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAttributes.h; sourceTree = "<group>"; };
@@ -81,6 +80,10 @@
 		86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventAttributeQualifier.m; sourceTree = "<group>"; };
 		86B185D61EDEA73400900836 /* ABSEventTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSEventTracker.h; sourceTree = "<group>"; };
 		86B185D71EDEA73400900836 /* ABSEventTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventTracker.m; sourceTree = "<group>"; };
+		86B185DB1EDEC6EC00900836 /* Aribitary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aribitary.h; sourceTree = "<group>"; };
+		86B185DC1EDEC6EC00900836 /* Aribitary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aribitary.m; sourceTree = "<group>"; };
+		86B185DE1EDEC78E00900836 /* Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Session.h; sourceTree = "<group>"; };
+		86B185DF1EDEC78E00900836 /* Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Session.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,15 +181,6 @@
 			name = Session;
 			sourceTree = "<group>";
 		};
-		868E07F01EDC2901004666D9 /* Isolated */ = {
-			isa = PBXGroup;
-			children = (
-				868E07F11EDC2917004666D9 /* IsolatedAttributes.h */,
-				868E07F21EDC2917004666D9 /* IsolatedAttributes.m */,
-			);
-			name = Isolated;
-			sourceTree = "<group>";
-		};
 		8690A1E41ED2B45D003C0CC7 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,7 +201,7 @@
 		8690A1E91ED2E69B003C0CC7 /* Attributes */ = {
 			isa = PBXGroup;
 			children = (
-				868E07F01EDC2901004666D9 /* Isolated */,
+				86B185DA1EDEBF9400900836 /* Variant */,
 				868E07EC1ED80E8E004666D9 /* Session */,
 				8691E74B1ED5496700780ADE /* User */,
 				868B92461ED3FF8C00401955 /* Event */,
@@ -299,6 +293,17 @@
 			name = Mapper;
 			sourceTree = "<group>";
 		};
+		86B185DA1EDEBF9400900836 /* Variant */ = {
+			isa = PBXGroup;
+			children = (
+				86B185DB1EDEC6EC00900836 /* Aribitary.h */,
+				86B185DC1EDEC6EC00900836 /* Aribitary.m */,
+				86B185DE1EDEC78E00900836 /* Session.h */,
+				86B185DF1EDEC78E00900836 /* Session.m */,
+			);
+			name = Variant;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -375,6 +380,7 @@
 				86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */,
 				8623E0B61ECEA51A00432B01 /* main.m in Sources */,
 				8691E74A1ED5430200780ADE /* EventController.m in Sources */,
+				86B185E01EDEC78E00900836 /* Session.m in Sources */,
 				868E07EF1ED80EAC004666D9 /* SessionAttributes.m in Sources */,
 				86A478A31ED6E15E00EA37A9 /* PersistentVariant.m in Sources */,
 				8623E0B51ECEA50F00432B01 /* ViewController.m in Sources */,
@@ -382,11 +388,11 @@
 				8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */,
 				8691E7561ED58C1F00780ADE /* DeviceInvariant.m in Sources */,
 				868E07E61ED7CC0F004666D9 /* Enumerations.m in Sources */,
+				86B185DD1EDEC6EC00900836 /* Aribitary.m in Sources */,
 				8623E0B41ECEA50B00432B01 /* AppDelegate.m in Sources */,
 				8691E74F1ED55A6800780ADE /* PropertyEventSource.m in Sources */,
 				86A478A91ED6E37F00EA37A9 /* Variant.m in Sources */,
 				86A478991ED6AD2300EA37A9 /* Validator.m in Sources */,
-				868E07F31EDC2917004666D9 /* IsolatedAttributes.m in Sources */,
 				86B185D81EDEA73400900836 /* ABSEventTracker.m in Sources */,
 				8623E0B31ECEA50600432B01 /* DeviceInfo.m in Sources */,
 				86A478A61ED6E2AE00EA37A9 /* ArbitaryVariant.m in Sources */,

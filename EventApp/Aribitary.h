@@ -1,14 +1,14 @@
 //
-//  IsolatedAttributes.h
+//  Aribitary.h
 //  EventApp
 //
-//  Created by Benjoe Vidal on 29/05/2017.
+//  Created by Benjoe Vidal on 31/05/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface IsolatedAttributes : NSObject
+@interface Aribitary : NSObject
 @property(nonatomic, copy, readonly) NSString *applicationLoadTimeStamp;
 @property(nonatomic, copy, readonly) NSString *applicationAbandonTimeStamp;
 @property(nonatomic, copy, readonly) NSString *postCommentTimeStamp;

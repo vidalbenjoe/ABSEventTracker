@@ -91,6 +91,8 @@
     if (violatedQualifiers.count == 0) {
         
     }
+    
+    
     if (error) {
         NSString *errorMessage = [NSString stringWithFormat:@"Property %@ is required", eventAttributes];
         NSDictionary *userInfo = @{
