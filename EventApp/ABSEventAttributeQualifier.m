@@ -9,6 +9,7 @@
 #import "ABSEventAttributeQualifier.h"
 #import "Enumerations.h"
 
+
 @implementation ABSEventAttributeQualifier
 +(NSMutableArray *) iwantTVQualifiedAttributes{
     NSMutableArray *qualifiers = [[NSMutableArray alloc] initWithObjects:
@@ -81,6 +82,33 @@
                                   @(PREVIOSAPP),
                                   @(TARGETAPP),nil];
     return qualifiers;
+}
+
++(id) verifyEventAttribute: (EventAttributes*) eventAttributes error:(NSError *) error{
+    NSError *errore = nil;
+    NSMutableArray *violatedQualifiers = eventAttributes.getAttributeViolations;
+    NSLog(@"volation: %@", violatedQualifiers);
+    if (violatedQualifiers.count == 0) {
+        
+    }
+    if (error) {
+        NSString *errorMessage = [NSString stringWithFormat:@"Property %@ is required", eventAttributes];
+        NSDictionary *userInfo = @{
+                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(errorMessage, nil)
+                                   };
+        errore = [NSError errorWithDomain:errorMessage
+                                     code:-1
+                                 userInfo:userInfo];
+        NSLog(@"error %@", error.description);
+    }
+    
+    return self;
+}
+
++(void) checkAttributeViolation: (EventAttributeQualifier *) qualifier{
+   
+   
+    
 }
 
 

@@ -7,7 +7,7 @@
 //
 
 #import "EventAttributes.h"
-
+#import "ABSEventAttributeQualifier.h"
 @implementation EventAttributes
 @synthesize violatedQualifiers;
 -(instancetype) initWithBuilder:(EventBuilder *)builder{
@@ -80,10 +80,12 @@
 
 -(NSMutableArray *) getAttributeViolations{
     // Create a set of validation per DP
-    
-    
+    NSMutableArray *vio = [NSMutableArray array];
+    [vio addObject:[ABSEventAttributeQualifier iwantTVQualifiedAttributes]];
 
-    return violatedQualifiers;
+    NSLog(@"vsio %@", vio);
+    
+    return vio;
 }
 
 @end

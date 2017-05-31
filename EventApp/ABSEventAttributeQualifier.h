@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "EventAttributes.h"
 @interface ABSEventAttributeQualifier : NSObject
-
++(NSMutableArray *) iwantTVQualifiedAttributes;
++(id) verifyEventAttribute: (EventAttributes*) eventAttributes error:(NSError *) error;
 @end

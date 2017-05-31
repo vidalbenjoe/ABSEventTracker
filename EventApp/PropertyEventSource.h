@@ -10,7 +10,7 @@
 #define TFC_ID              @"com.ph.abscbn.tfc"
 #define SKY_ON_DEMAND_ID    @"com.abs.cbn.sky.on.demand"
 #define NEWS_ID             @"com.abs.cbn.news"
-#define EVENTAPP_ID         @"com.abs.cbn.EventApp"
+#define EVENTAPP_ID         @"com.ph.abscbn.ios.EventApp"
 #define INVALID_ID          @"com.invalid"
 
 #import <Foundation/Foundation.h>

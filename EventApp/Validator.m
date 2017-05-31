@@ -12,7 +12,7 @@
 
 
 
-+(BOOL) isSourcePropertyValid:(DigitalProperty*) property{
++(BOOL) isSourcePropertyValid:(NSNumber*) property{
     
     
     

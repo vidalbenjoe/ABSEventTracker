@@ -12,6 +12,6 @@
 @interface Validator : NSObject
 
 
-+(BOOL) isSourcePropertyValid:(DigitalProperty *) property;
++(BOOL) isSourcePropertyValid:(NSNumber *) property;
 
 @end

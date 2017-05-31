@@ -7,6 +7,7 @@
 //
 
 #import "AttributeManager.h"
+#import "ABSEventAttributeQualifier.h"
 
 @implementation AttributeManager
 @synthesize userattributes;
@@ -25,7 +26,7 @@
 
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
-    [self verifyEventAttribute:eventattributes];
+    [ABSEventAttributeQualifier verifyEventAttribute:eventattributes error:nil];
     NSLog(@"AttributeManagerw: %@", eventAttributes.clickedContent);
 }
 
@@ -37,14 +38,6 @@
 }
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
-}
-
--(void) verifyEventAttribute: (EventAttributes*) eventAttributes{
-    NSMutableArray *violatedQualifiers = eventAttributes.getAttributeViolations;
-    NSLog(@"volation: %@", violatedQualifiers);
-    if (violatedQualifiers.count == 0) {
-        
-    }
 }
 
 @end

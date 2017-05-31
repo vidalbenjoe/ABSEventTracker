@@ -23,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-      [EventController init];
         NSString *sti = @"Ang Probinsyano Ep 2";
         EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
@@ -32,21 +31,12 @@
         [builder setSearchQuery:sti];
         [builder setActionTaken:FACEBOOK_LIKE];
         [builder setPreviousScreen:@"asda"];
-        
     }];
     
     [EventController writeEvent:attrib];
     
-    UserAttributes *device = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
-        [builder setFirstName:@"Benjoe"];
-        [builder setLastName:@"Vidal"];
-    }];
-
-    [EventController initWithUser:device];
-    
+  
     NSLog(@"devIn: %@",  [[[AttributeManager init] deviceinvariant] deviceType]);
-   
-    
     NSLog(@"getDeWrite: %@",  [[[AttributeManager init] eventattributes] clickedContent]);
    
     

@@ -6,7 +6,7 @@
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 
 #import "AppDelegate.h"
-#import "EventAttributes.h"
+#import "ABSEventTracker.h"
 #import "EventController.h"
 @interface AppDelegate ()
 
@@ -15,7 +15,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [EventController init];
+    [ABSEventTracker init];
     // Override point for customization after application launch.
     EventAttributes *event = [EventAttributes makeWithBuilder:^(EventBuilder *builder){
         builder.clickedContent = @"testContent";

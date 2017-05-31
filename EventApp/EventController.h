@@ -11,8 +11,7 @@
 #import "EventCallBack.h"
 #import "Validator.h"
 #import "Enumerations.h"
-#import "DeviceInvariant.h"
-#import "UserAttributes.h"
+
 @protocol EventCallBacks <NSObject>
 
 -(void) onSuccess;
@@ -28,8 +27,6 @@
 //TODO : Send the processed attributes to server
 
 +(id) init;
-+(void) initWithUser:(UserAttributes *) attributes;
-+(void) initWithDevice:(DeviceInvariant *) attributes;
 +(void) writeEvent:(EventAttributes *) attributes;
 -(void) setDelegate:(id) newDelagate;
 
