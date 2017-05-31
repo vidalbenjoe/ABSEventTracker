@@ -29,6 +29,7 @@
 		86A478A31ED6E15E00EA37A9 /* PersistentVariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A21ED6E15E00EA37A9 /* PersistentVariant.m */; };
 		86A478A61ED6E2AE00EA37A9 /* ArbitaryVariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A51ED6E2AE00EA37A9 /* ArbitaryVariant.m */; };
 		86A478A91ED6E37F00EA37A9 /* Variant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A81ED6E37F00EA37A9 /* Variant.m */; };
+		86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,8 @@
 		86A478A51ED6E2AE00EA37A9 /* ArbitaryVariant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArbitaryVariant.m; sourceTree = "<group>"; };
 		86A478A71ED6E37F00EA37A9 /* Variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variant.h; sourceTree = "<group>"; };
 		86A478A81ED6E37F00EA37A9 /* Variant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Variant.m; sourceTree = "<group>"; };
+		86B185D31EDE699000900836 /* ABSEventAttributeQualifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSEventAttributeQualifier.h; sourceTree = "<group>"; };
+		86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventAttributeQualifier.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +187,7 @@
 		8690A1E41ED2B45D003C0CC7 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				86B185CF1EDE634B00900836 /* Mapper */,
 				86A478A01ED6E06D00EA37A9 /* Variant */,
 				86A478931ED6813F00EA37A9 /* Manager */,
 				8691E7531ED58BBE00780ADE /* Invariant */,
@@ -281,6 +285,15 @@
 			name = Network;
 			sourceTree = "<group>";
 		};
+		86B185CF1EDE634B00900836 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				86B185D31EDE699000900836 /* ABSEventAttributeQualifier.h */,
+				86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */,
+			);
+			name = Mapper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -354,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86A478961ED6814C00EA37A9 /* AttributeManager.m in Sources */,
+				86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */,
 				8623E0B61ECEA51A00432B01 /* main.m in Sources */,
 				8691E74A1ED5430200780ADE /* EventController.m in Sources */,
 				868E07EF1ED80EAC004666D9 /* SessionAttributes.m in Sources */,

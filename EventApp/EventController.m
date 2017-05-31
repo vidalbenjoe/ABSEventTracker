@@ -19,18 +19,19 @@ BOOL hasInitialized = false;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
-        if (!hasInitialized) {
             
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
-                [[self propertySource] setDigitalProperty:I_WANT_TV];
+                [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                [[self propertySource] setDigitalProperty:NO_INK];
+                [[PropertyEventSource init] setDigitalProperty:NO_INK];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]) {
-                [[self propertySource] setDigitalProperty:SKY_ON_DEMAND];
+                [[PropertyEventSource init] setDigitalProperty:SKY_ON_DEMAND];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]) {
-                [[self propertySource] setDigitalProperty:NEWS];
+                [[PropertyEventSource init] setDigitalProperty:NEWS];
+            }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: EVENTAPP_ID]) {
+                [[PropertyEventSource init] setDigitalProperty:TEST];
             }else{
-                [[self propertySource] setDigitalProperty:INVALID];
+                [[PropertyEventSource init] setDigitalProperty:INVALID];
             }
             
             DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
@@ -43,34 +44,35 @@ BOOL hasInitialized = false;
             
             [self initWithDevice:device];
             
-          
-            
-            hasInitialized = true;
-        }
+            NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
         
     });
     return shared;
 }
 
-+(PropertyEventSource *) propertySource{
-    PropertyEventSource *propertyeventSource = [[PropertyEventSource alloc] init];
-    return propertyeventSource;
-}
+
 +(void) initAppProperty:(PropertyEventSource *) attributes{
       [[AttributeManager init] setPropertyAttributes:attributes];
 }
-
-
 +(void) initWithUser:(UserAttributes *) attributes {
     [[AttributeManager init] setUserAttributes:attributes];
 }
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
-+(void) writeEvent:(EventAttributes *) attributes{
-    [self superclass];
-    [[AttributeManager init] setEventAttributes:attributes];
 
++(void) writeEvent:(EventAttributes *) attributes{
+    [[AttributeManager init] setEventAttributes:attributes];
+   
+
+    
+    
+    
+    
+    
+//    if ([Validator isSourcePropertyValid:[[self propertySource] propertyName]]) {
+//        
+//    }
     
     //* VALIDATE EVENT PROPERTY
     //* INITIALIZE ATTRIBUTE MANAGER
@@ -88,8 +90,7 @@ BOOL hasInitialized = false;
 //        NSLog(@"SOURCE IS INVALID");
 //    }
     
-    
-    
+
 //    [Validator isSourcePropertyValid:];
     //PSEUDO CODE
     //sample condition
@@ -100,9 +101,6 @@ BOOL hasInitialized = false;
 //    }else{
 //        [delegate onFail];
 //    }
-    
-}
--(void) initializeProperty{
     
 }
 

@@ -10,7 +10,12 @@
 #import "PropertyEventSource.h"
 @implementation Validator
 
+
+
 +(BOOL) isSourcePropertyValid:(DigitalProperty*) property{
+    
+    
+    
     if (property == 0) {
         return false;
     }

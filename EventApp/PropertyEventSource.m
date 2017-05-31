@@ -27,9 +27,9 @@ NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 }
 
 +(NSDictionary *) propertyDisplayName{
-    return @{@(SKY_ON_DEMAND)   :   @"Sky On Demand",
-             @(I_WANT_TV)       :   @"iWantTV",
-             @(NO_INK)          :   @"NoInk"
+    return @{@(I_WANT_TV)           :       @"iWantTV",
+             @(SKY_ON_DEMAND)       :       @"Sky On Demand",
+             @(NO_INK)              :       @"NoInk"
              };
 }
 

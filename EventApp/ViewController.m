@@ -34,7 +34,7 @@
         [builder setPreviousScreen:@"asda"];
         
     }];
-
+    
     [EventController writeEvent:attrib];
     
     UserAttributes *device = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {

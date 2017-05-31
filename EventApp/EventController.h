@@ -32,6 +32,5 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes;
 +(void) writeEvent:(EventAttributes *) attributes;
 -(void) setDelegate:(id) newDelagate;
--(void) initializeProperty;
 
 @end
