@@ -2,7 +2,7 @@
 //  ABSEventTracker.m
 //  EventApp
 //
-//  Created by Flydubai on 31/05/2017.
+//  Created by Benjoe Vidal on 31/05/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 #import "ABSEventTracker.h"
@@ -23,12 +23,18 @@
             [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
             [builder setDeviceType:[DeviceInfo platformType]];
         }];
+        
+        PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
+        [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
+        [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+        
         [self initWithDevice:device];
+        [self initAppProperty:digitalProperty];
+
         NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
     });
     return shared;
 }
-
 +(void) initEventSource{
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
@@ -54,6 +60,5 @@
 }
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
-    
 }
 @end

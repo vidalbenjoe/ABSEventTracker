@@ -27,14 +27,14 @@
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
     [ABSEventAttributeQualifier verifyEventAttribute:eventattributes error:nil];
-    NSLog(@"AttributeManagerw: %@", eventAttributes.clickedContent);
+    NSLog(@"AttributeManagerw: %@", eventAttributes.searchQuery);
 }
-
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     userattributes = userAttributes;
 }
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes{
     propertyinvariant = propertyAttributes;
+     NSLog(@"applicationName: %@", propertyAttributes.applicationName);
 }
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;

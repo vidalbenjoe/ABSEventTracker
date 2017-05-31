@@ -10,12 +10,12 @@
 
 @implementation PropertyEventSource
 @synthesize property;
-
+@synthesize applicationName;
+@synthesize bundleIdentifier;
 NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net";
 NSString* const eventTokenURL           = @"/token";
 NSString* const eventWriteURL           = @"/api/event/write";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
-
 
 +(instancetype)init{
     static PropertyEventSource *shared = nil;
@@ -38,7 +38,7 @@ NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 }
 
 +(NSString *) getAppName{
-    NSString *appname = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+     NSString *appname = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
     return appname;
 }
 

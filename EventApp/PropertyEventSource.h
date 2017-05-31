@@ -19,6 +19,8 @@
 @interface PropertyEventSource : NSObject
 
 @property(nonatomic, assign) DigitalProperty property;
+@property(nonatomic, assign) NSString *applicationName;
+@property(nonatomic, assign) NSString *bundleIdentifier;
 extern NSString* const eventAppsBaseURL;
 extern NSString* const eventWriteURL;
 
@@ -26,6 +28,7 @@ extern NSString* const eventWriteURL;
 
 +(NSDictionary *) propertyDisplayName;
 -(NSString *) propertyName;
+
 +(NSString *) getAppName;
 +(NSString *) getBundleIdentifier;
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty;

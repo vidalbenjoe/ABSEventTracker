@@ -27,6 +27,11 @@ BOOL hasInitialized = false;
     [[AttributeManager init] setEventAttributes:attributes];
 }
 
+
+
+
+
+
 -(void) testBlock:(NSString *) name
          password: (NSString *) password
        completion: (void (^)(BOOL *success)) completionBlock{

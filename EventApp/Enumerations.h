@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, DeviceVersion){
 
 
 typedef NS_ENUM(NSInteger, EventAttributeQualifier){
-    CLICKEDCONTENT       =   0,
+    CLICKEDCONTENT          =   0,
     LATITUDE                =   1,
     LONGITUDE               =   2,
     SEARCHQUERY             =   3,

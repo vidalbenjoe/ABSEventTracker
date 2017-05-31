@@ -100,15 +100,14 @@
                                      code:-1
                                  userInfo:userInfo];
         NSLog(@"error %@", error.description);
+        
     }
     
     return self;
 }
 
-+(void) checkAttributeViolation: (EventAttributeQualifier *) qualifier{
++(void) checkAttributeViolation: (enum EventAttributeQualifier *) qualifier{
    
-   
-    
 }
 
 
