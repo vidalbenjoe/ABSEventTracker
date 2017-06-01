@@ -23,6 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
         NSString *sti = @"Ang Probinsyano Ep 2";
         EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];

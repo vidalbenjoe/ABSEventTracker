@@ -156,7 +156,6 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 
 @interface Enumerations : NSObject
 
-
 @property(nonatomic, assign) DigitalProperty property;
 
 @end

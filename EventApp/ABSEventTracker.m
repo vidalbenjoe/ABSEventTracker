@@ -16,6 +16,7 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         [self initEventSource];
+        
         DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
             [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
             [builder setDeviceOS:[DeviceInfo systemVersion]];
