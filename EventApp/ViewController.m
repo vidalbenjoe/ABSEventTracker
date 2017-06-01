@@ -28,7 +28,7 @@
         NSString *sti = @"Ang Probinsyano Ep 2";
         EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
-        [builder setMetaTags:eventWriteURL];
+        [builder setMetaTags:@"TAGS"];
         [builder setArticleAuthor:@"Bob Ong"];
         [builder setSearchQuery:sti];
         [builder setActionTaken:FACEBOOK_LIKE];

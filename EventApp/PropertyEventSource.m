@@ -12,10 +12,6 @@
 @synthesize property;
 @synthesize applicationName;
 @synthesize bundleIdentifier;
-NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net";
-NSString* const eventTokenURL           = @"/token";
-NSString* const eventWriteURL           = @"/api/event/write";
-NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 
 +(instancetype)init{
     static PropertyEventSource *shared = nil;

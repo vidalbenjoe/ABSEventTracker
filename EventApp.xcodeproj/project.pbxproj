@@ -31,6 +31,7 @@
 		86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */; };
 		86B185D81EDEA73400900836 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D71EDEA73400900836 /* ABSEventTracker.m */; };
 		86DA32D01EDFC4D200E894E8 /* ABSNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DA32CF1EDFC4D200E894E8 /* ABSNetworking.m */; };
+		86DA32D41EE0059A00E894E8 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DA32D31EE0059A00E894E8 /* Constants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,8 @@
 		86B185D71EDEA73400900836 /* ABSEventTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventTracker.m; sourceTree = "<group>"; };
 		86DA32CE1EDFC4D200E894E8 /* ABSNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSNetworking.h; sourceTree = "<group>"; };
 		86DA32CF1EDFC4D200E894E8 /* ABSNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSNetworking.m; sourceTree = "<group>"; };
+		86DA32D21EE0059A00E894E8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		86DA32D31EE0059A00E894E8 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +233,8 @@
 				8691E74E1ED55A6800780ADE /* PropertyEventSource.m */,
 				868E07E41ED7CC0F004666D9 /* Enumerations.h */,
 				868E07E51ED7CC0F004666D9 /* Enumerations.m */,
+				86DA32D21EE0059A00E894E8 /* Constants.h */,
+				86DA32D31EE0059A00E894E8 /* Constants.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */,
 				8691E7561ED58C1F00780ADE /* DeviceInvariant.m in Sources */,
 				868E07E61ED7CC0F004666D9 /* Enumerations.m in Sources */,
+				86DA32D41EE0059A00E894E8 /* Constants.m in Sources */,
 				86DA32D01EDFC4D200E894E8 /* ABSNetworking.m in Sources */,
 				8623E0B41ECEA50B00432B01 /* AppDelegate.m in Sources */,
 				8691E74F1ED55A6800780ADE /* PropertyEventSource.m in Sources */,
