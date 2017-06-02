@@ -17,7 +17,6 @@
         _deviceScreenWidth          = builder.deviceScreenWidth;
         _deviceScreenHeight         = builder.deviceScreenHeight;
     }
-    
     return self;
 }
 

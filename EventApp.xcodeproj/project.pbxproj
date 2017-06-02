@@ -512,6 +512,7 @@
 				DEVELOPMENT_TEAM = N824669R3R;
 				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = EventApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ph.abscbn.ios.EventApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -525,6 +526,7 @@
 				DEVELOPMENT_TEAM = N824669R3R;
 				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = EventApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ph.abscbn.ios.EventApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

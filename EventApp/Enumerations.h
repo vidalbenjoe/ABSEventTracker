@@ -152,6 +152,16 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
     TEST                =   5
 };
 
+
+typedef NS_ENUM(NSUInteger, HTTPStatus){
+    SUCCESS                =   200,
+    UNAUTHORIZE             =   401,
+    BAD_REQUEST             =   400,
+    NOT_FOUND               =   404,
+    INTERNAL_SERVER_ERROR   =   500
+   
+};
+
 #endif /* Enumarations_h */
 
 @interface Enumerations : NSObject

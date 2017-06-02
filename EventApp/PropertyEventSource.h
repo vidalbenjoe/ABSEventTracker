@@ -23,6 +23,10 @@
 +(NSDictionary *) propertyDisplayName;
 -(NSString *) propertyName;
 
+
+
+
+
 +(NSString *) getAppName;
 +(NSString *) getBundleIdentifier;
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty;

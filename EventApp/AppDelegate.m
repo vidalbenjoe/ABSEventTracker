@@ -27,7 +27,6 @@
     //create event writer
     
     NSLog(@"eventAtt1: %@", event.clickedContent);
-   
     
     return YES;
 }

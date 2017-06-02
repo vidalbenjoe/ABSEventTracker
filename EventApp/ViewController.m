@@ -14,7 +14,7 @@
 #import "EventController.h"
 #import "DeviceInvariant.h"
 #import "AttributeManager.h"
-
+#import "ABSNetworking.h"
 @interface ViewController ()
 
 @end
@@ -25,7 +25,9 @@
     [super viewDidLoad];
     
     
-        NSString *sti = @"Ang Probinsyano Ep 2";
+        NSString *sti = [ABSNetworking generateMobileHeader];
+    
+        NSLog(@"mobileHeder %@", sti);
         EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setMetaTags:@"TAGS"];

@@ -12,5 +12,5 @@
 @interface ABSNetworking : NSURLProtocol
 
 -(instancetype) eventDispatcher:(AttributeManager *) attributes;
-
++(NSString *) generateMobileHeader;
 @end
