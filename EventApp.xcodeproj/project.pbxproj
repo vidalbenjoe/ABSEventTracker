@@ -17,6 +17,7 @@
 		868B92641ED40A6F00401955 /* EventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 868B92631ED40A6F00401955 /* EventBuilder.m */; };
 		868E07E61ED7CC0F004666D9 /* Enumerations.m in Sources */ = {isa = PBXBuildFile; fileRef = 868E07E51ED7CC0F004666D9 /* Enumerations.m */; };
 		868E07EF1ED80EAC004666D9 /* SessionAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 868E07EE1ED80EAC004666D9 /* SessionAttributes.m */; };
+		868EFECB1EE808490050A7FF /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 868EFECA1EE808490050A7FF /* AuthManager.m */; };
 		8690A1E71ED2B470003C0CC7 /* EventAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1E61ED2B470003C0CC7 /* EventAttributes.m */; };
 		8690A1EC1ED2E6B1003C0CC7 /* UserAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1EB1ED2E6B1003C0CC7 /* UserAttributes.m */; };
 		8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1EF1ED2ED56003C0CC7 /* DeviceFingerprinting.m */; };
@@ -55,6 +56,8 @@
 		868E07E51ED7CC0F004666D9 /* Enumerations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enumerations.m; sourceTree = "<group>"; };
 		868E07ED1ED80EAC004666D9 /* SessionAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionAttributes.h; sourceTree = "<group>"; };
 		868E07EE1ED80EAC004666D9 /* SessionAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionAttributes.m; sourceTree = "<group>"; };
+		868EFEC91EE808490050A7FF /* AuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthManager.h; sourceTree = "<group>"; };
+		868EFECA1EE808490050A7FF /* AuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthManager.m; sourceTree = "<group>"; };
 		8690A1E51ED2B470003C0CC7 /* EventAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAttributes.h; sourceTree = "<group>"; };
 		8690A1E61ED2B470003C0CC7 /* EventAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventAttributes.m; sourceTree = "<group>"; };
 		8690A1EA1ED2E6B1003C0CC7 /* UserAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAttributes.h; sourceTree = "<group>"; };
@@ -219,6 +222,8 @@
 			children = (
 				8690A1EE1ED2ED56003C0CC7 /* DeviceFingerprinting.h */,
 				8690A1EF1ED2ED56003C0CC7 /* DeviceFingerprinting.m */,
+				868EFEC91EE808490050A7FF /* AuthManager.h */,
+				868EFECA1EE808490050A7FF /* AuthManager.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -399,6 +404,7 @@
 				86A478991ED6AD2300EA37A9 /* Validator.m in Sources */,
 				86B185D81EDEA73400900836 /* ABSEventTracker.m in Sources */,
 				8623E0B31ECEA50600432B01 /* DeviceInfo.m in Sources */,
+				868EFECB1EE808490050A7FF /* AuthManager.m in Sources */,
 				86A478A61ED6E2AE00EA37A9 /* ArbitaryVariant.m in Sources */,
 				8690A1E71ED2B470003C0CC7 /* EventAttributes.m in Sources */,
 				8690A1EC1ED2E6B1003C0CC7 /* UserAttributes.m in Sources */,

@@ -1,5 +1,5 @@
 //
-//  ABSBigDataServiceDispatcher.h
+//  AuthManager.h
 //  EventApp
 //
 //  Created by Benjoe Vidal on 07/06/2017.
@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ABSBigDataServiceDispatcher : NSObject
-+(void) requestToken;
+@interface AuthManager : NSObject
+
 @end

@@ -10,12 +10,7 @@
 #import "PropertyEventSource.h"
 @implementation Validator
 
-
-
 +(BOOL) isSourcePropertyValid:(NSNumber*) property{
-    
-    
-    
     if (property == 0) {
         return false;
     }

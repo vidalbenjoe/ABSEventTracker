@@ -156,21 +156,23 @@ didReceiveResponse:(NSURLResponse *)response
  * the data may be dis-contiguous, you should use
  * [NSData enumerateByteRangesUsingBlock:] to access it.
  */
+
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
 {
     NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"Received String %@",str);
-    
+    // Append the new data to receivedData.
+    [_receivedData appendData:data];
 }
+
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error
 {
-    if(error == nil){
-        NSLog(@"Download is Succesfull");
-        
-    }else
-        NSLog(@"Error %@",[error userInfo]);
+    if(error != nil){
+         NSLog(@"Error %@",[error userInfo]);
+        return;
+    }
+    NSLog(@"Download is Succesfull");
 }
-
 @end

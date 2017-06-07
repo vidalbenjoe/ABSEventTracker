@@ -2,7 +2,7 @@
 //  ABSBigDataServiceDispatcher.m
 //  EventApp
 //
-//  Created by Flydubai on 07/06/2017.
+//  Created by Benjoe Vidal on 07/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //  Act as a bridge to API Call ABSNetworking
 
@@ -10,7 +10,6 @@
 #import "Constants.h"
 #import "ABSNetworking.h"
 @implementation ABSBigDataServiceDispatcher
-
 
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier
@@ -23,8 +22,6 @@
 }
 
 +(void) requestSecurityhash: (void (^)(NSString *sechash))handler{
-    
-    
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSDictionary *header = @{@"x-mobile-header" : [self generateNewMobileHeader]};
     [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -55,6 +52,11 @@
             }];
         });
     }];
+}
+
+-(void) dispatchAttribute:(EventAttributes *) attributes{
     
 }
+
+
 @end

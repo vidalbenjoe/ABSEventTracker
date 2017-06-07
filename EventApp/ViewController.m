@@ -32,7 +32,7 @@
 //        NSLog(@"TTOKEN: %@" , token);
 //    }];
 //    
-    [ABSBigDataServiceDispatcher test];
+    [ABSBigDataServiceDispatcher requestToken];
     
 
     NSMutableArray *qualified = [ABSEventAttributeQualifier iwantTVQualifiedAttributes];
