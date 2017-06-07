@@ -14,14 +14,13 @@
 #define EVENTAPP_ID         @"com.ph.abscbn.ios.EventApp"
 #define INVALID_ID          @"com.invalid"
 
-#define GET                 @"GET"
-#define POST_METHOD         @"POST"
-#define PUT_METHOD          @"PUT"
-#define DELETE_METHODs
+
 
 @interface Constants : NSObject
 extern NSString* const eventAppsBaseURL;
+extern NSString* const eventTokenURL;
 extern NSString* const eventWriteURL;
+extern NSString* const eventMobileResourceURL;
 
 
 

@@ -28,8 +28,10 @@
 		86A478A31ED6E15E00EA37A9 /* PersistentVariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A21ED6E15E00EA37A9 /* PersistentVariant.m */; };
 		86A478A61ED6E2AE00EA37A9 /* ArbitaryVariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A51ED6E2AE00EA37A9 /* ArbitaryVariant.m */; };
 		86A478A91ED6E37F00EA37A9 /* Variant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A81ED6E37F00EA37A9 /* Variant.m */; };
+		86AB618A1EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AB61891EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m */; };
 		86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */; };
 		86B185D81EDEA73400900836 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D71EDEA73400900836 /* ABSEventTracker.m */; };
+		86C1EA9E1EE4FB2E006990AF /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C1EA9D1EE4FB2E006990AF /* CacheManager.m */; };
 		86DA32D01EDFC4D200E894E8 /* ABSNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DA32CF1EDFC4D200E894E8 /* ABSNetworking.m */; };
 		86DA32D41EE0059A00E894E8 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DA32D31EE0059A00E894E8 /* Constants.m */; };
 /* End PBXBuildFile section */
@@ -76,10 +78,14 @@
 		86A478A51ED6E2AE00EA37A9 /* ArbitaryVariant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArbitaryVariant.m; sourceTree = "<group>"; };
 		86A478A71ED6E37F00EA37A9 /* Variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variant.h; sourceTree = "<group>"; };
 		86A478A81ED6E37F00EA37A9 /* Variant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Variant.m; sourceTree = "<group>"; };
+		86AB61881EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSBigDataServiceDispatcher.h; sourceTree = "<group>"; };
+		86AB61891EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSBigDataServiceDispatcher.m; sourceTree = "<group>"; };
 		86B185D31EDE699000900836 /* ABSEventAttributeQualifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSEventAttributeQualifier.h; sourceTree = "<group>"; };
 		86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventAttributeQualifier.m; sourceTree = "<group>"; };
 		86B185D61EDEA73400900836 /* ABSEventTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSEventTracker.h; sourceTree = "<group>"; };
 		86B185D71EDEA73400900836 /* ABSEventTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventTracker.m; sourceTree = "<group>"; };
+		86C1EA9C1EE4FB2E006990AF /* CacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManager.h; sourceTree = "<group>"; };
+		86C1EA9D1EE4FB2E006990AF /* CacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
 		86DA32CE1EDFC4D200E894E8 /* ABSNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSNetworking.h; sourceTree = "<group>"; };
 		86DA32CF1EDFC4D200E894E8 /* ABSNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSNetworking.m; sourceTree = "<group>"; };
 		86DA32D21EE0059A00E894E8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -261,6 +267,8 @@
 			children = (
 				86A478941ED6814C00EA37A9 /* AttributeManager.h */,
 				86A478951ED6814C00EA37A9 /* AttributeManager.m */,
+				86C1EA9C1EE4FB2E006990AF /* CacheManager.h */,
+				86C1EA9D1EE4FB2E006990AF /* CacheManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -283,6 +291,8 @@
 			children = (
 				86DA32CE1EDFC4D200E894E8 /* ABSNetworking.h */,
 				86DA32CF1EDFC4D200E894E8 /* ABSNetworking.m */,
+				86AB61881EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.h */,
+				86AB61891EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -370,6 +380,7 @@
 			files = (
 				86A478961ED6814C00EA37A9 /* AttributeManager.m in Sources */,
 				86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */,
+				86AB618A1EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m in Sources */,
 				8623E0B61ECEA51A00432B01 /* main.m in Sources */,
 				8691E74A1ED5430200780ADE /* EventController.m in Sources */,
 				868E07EF1ED80EAC004666D9 /* SessionAttributes.m in Sources */,
@@ -378,6 +389,7 @@
 				868B92641ED40A6F00401955 /* EventBuilder.m in Sources */,
 				8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */,
 				8691E7561ED58C1F00780ADE /* DeviceInvariant.m in Sources */,
+				86C1EA9E1EE4FB2E006990AF /* CacheManager.m in Sources */,
 				868E07E61ED7CC0F004666D9 /* Enumerations.m in Sources */,
 				86DA32D41EE0059A00E894E8 /* Constants.m in Sources */,
 				86DA32D01EDFC4D200E894E8 /* ABSNetworking.m in Sources */,

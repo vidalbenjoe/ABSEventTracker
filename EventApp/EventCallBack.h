@@ -10,5 +10,7 @@
 
 @protocol EventCallBack <NSObject>
 -(void) onSuccess;
--(void) onFail;
+-(void) onFailure;
+-(void) onTokenRefresh;
+-(void) onSecurityCodeRefresh;
 @end

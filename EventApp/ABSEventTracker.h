@@ -13,9 +13,6 @@
 #import "AttributeManager.h"
 #import "Constants.h"
 @interface ABSEventTracker : NSObject
-
 +(id) init;
-+(void) initWithUser:(UserAttributes *) attributes;
-+(void) initWithDevice:(DeviceInvariant *) attributes;
-
++(void) initEventAttributes: (EventAttributes *) attributes;
 @end

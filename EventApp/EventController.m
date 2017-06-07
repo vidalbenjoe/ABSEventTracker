@@ -1,5 +1,5 @@
 //
-//  EventController.m
+//  EventController.m or the ABSEngineController // Act as a Facade(Reading and writing event attributes)
 //  EventApp
 //
 //  Created by Benjoe Vidal on 24/05/2017.
@@ -22,18 +22,44 @@ BOOL hasInitialized = false;
     });
     return shared;
 }
+/**
+ Functions to write event attributes to Attribute Manager.
+ @param attributes EventAttributes
+ */
 
 +(void) writeEvent:(EventAttributes *) attributes{
-    [[AttributeManager init] setEventAttributes:attributes];
-}
-
--(void) testBlock:(NSString *) name
-         password: (NSString *) password
-       completion: (void (^)(BOOL *success)) completionBlock{
+    BOOL verifiedQualifiers = [self verifyEventAttribute:attributes error:nil];
+    if (verifiedQualifiers) {
+        [[AttributeManager init] setEventAttributes:attributes];
+    }
 }
 
 -(void) setDelegate:(id) newDelagate{
     delegate = newDelagate;
+}
+
+
++(BOOL) verifyEventAttribute: (EventAttributes*) eventAttributes error:(NSError *) error{
+    NSError *errore = nil;
+    NSMutableArray *violatedQualifiers = eventAttributes.getAttributeViolations;
+    NSLog(@"volation: %@", violatedQualifiers);
+
+    if (violatedQualifiers.count == 0) {
+        
+    }
+    
+    if (error) {
+        NSString *errorMessage = [NSString stringWithFormat:@"Property %@ is required", eventAttributes];
+        NSDictionary *userInfo = @{
+                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(errorMessage, nil)
+                                   };
+        errore = [NSError errorWithDomain:errorMessage
+                                     code:-1
+                                 userInfo:userInfo];
+        NSLog(@"error %@", error.description);
+        
+    }
+    return true;
 }
 
 @end

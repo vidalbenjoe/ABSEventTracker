@@ -23,9 +23,9 @@
     });
     return shared;
 }
+
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
-    [ABSEventAttributeQualifier verifyEventAttribute:eventattributes error:nil];
 }
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     userattributes = userAttributes;

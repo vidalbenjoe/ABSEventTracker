@@ -79,6 +79,10 @@
 }
 
 -(NSMutableArray *) getAttributeViolations{
+    
+    
+    // get violated attribute from the other objecrs
+    //check if the assign Qualifiers not contain new qualifiers
     // Create a set of validation per DP
     NSMutableArray *vio = [NSMutableArray array];
     [vio addObject:[ABSEventAttributeQualifier iwantTVQualifiedAttributes]];

@@ -89,28 +89,7 @@ typedef NS_ENUM(NSInteger, DeviceVersion){
 };
 
 
-typedef NS_ENUM(NSInteger, EventAttributeQualifier){
-    CLICKEDCONTENT          =   0,
-    LATITUDE                =   1,
-    LONGITUDE               =   2,
-    SEARCHQUERY             =   3,
-    ACTIONTAKEN             =   4,
-    READARTICLE             =   5,
-    ARTICLEAUTHOR           =   6,
-    ARTICLEPOSTDATE         =   7,
-    COMMENTCONTENT          =   8,
-    ARTICLECHARACTERCOUNT   =   9,
-    LOGINTIMESTAMP          =   10,
-    LIKEDCONTENT            =   11,
-    SHARERETWEETCONTENT     =   12,
-    FOLLOWEDEEENTITY        =   13,
-    RATING                  =   14,
-    READINGDURATIONINMILLS  =   15,
-    METATAGS                =   17,
-    PREVIOSAPP              =   18,
-    TARGETAPP               =   19
 
-};
 
 typedef NS_ENUM(NSInteger, ActionTaken){
     FACEBOOK_LIKE       =   0,

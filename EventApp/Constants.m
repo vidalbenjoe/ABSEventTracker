@@ -10,7 +10,7 @@
 
 @implementation Constants
 
-NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net/api/event/mobiledatasource";
+NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net";
 NSString* const eventTokenURL           = @"/token";
 NSString* const eventWriteURL           = @"/api/event/write";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";

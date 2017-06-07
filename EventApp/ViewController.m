@@ -11,41 +11,53 @@
 #import "DeviceFingerprinting.h"
 
 #import "EventAttributes.h"
-#import "EventController.h"
+#import "ABSEventTracker.h"
 #import "DeviceInvariant.h"
 #import "AttributeManager.h"
 #import "ABSNetworking.h"
+#import "ABSEventAttributeQualifier.h"
+#import "ABSBigDataServiceDispatcher.h"
 @interface ViewController ()
-
+@property (weak, nonatomic) IBOutlet UILabel *appTitle;
 @end
 
 @implementation ViewController
-
+@synthesize appTitle;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [appTitle setAdjustsFontSizeToFitWidth:TRUE];
     
+//    ABSNetworking *absnetworking = [[ABSNetworking alloc] init];
+//    [absnetworking requestNewToken:^(NSString *token) {
+//        NSLog(@"TTOKEN: %@" , token);
+//    }];
+//    
+    [ABSBigDataServiceDispatcher test];
     
-        NSString *sti = [ABSNetworking generateMobileHeader];
+
+    NSMutableArray *qualified = [ABSEventAttributeQualifier iwantTVQualifiedAttributes];
+    BOOL isTheObjectThere = [qualified containsObject: @"PREVIsOUSAPP"];
     
-        NSLog(@"mobileHeder %@", sti);
+    if (isTheObjectThere) {
+        NSLog(@"hasAttrib");
+    }
+    
+    NSLog(@"qualifiers: %@ ", qualified);
         EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setMetaTags:@"TAGS"];
         [builder setArticleAuthor:@"Bob Ong"];
-        [builder setSearchQuery:sti];
+        [builder setSearchQuery:@""];
         [builder setActionTaken:FACEBOOK_LIKE];
         [builder setPreviousScreen:@"asda"];
     }];
     
-    [EventController writeEvent:attrib];
+    [ABSEventTracker initEventAttributes:attrib];
     
-  
     NSLog(@"devIn: %@",  [[[AttributeManager init] deviceinvariant] deviceType]);
     NSLog(@"getDeWrite: %@",  [[[AttributeManager init] eventattributes] clickedContent]);
-   
     
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

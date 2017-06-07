@@ -14,5 +14,4 @@
 @synthesize sessionStart;
 @synthesize sessionEnd;
 
-
 @end

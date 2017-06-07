@@ -8,6 +8,8 @@
 #import "ABSEventTracker.h"
 #import "DeviceFingerprinting.h"
 #import "DeviceInfo.h"
+#import "EventController.h"
+
 @implementation ABSEventTracker
 
 +(id) init{
@@ -16,7 +18,6 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         [self initEventSource];
-        
         DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
             [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
             [builder setDeviceOS:[DeviceInfo systemVersion]];
@@ -34,6 +35,7 @@
 
         NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
     });
+    
     return shared;
 }
 +(void) initEventSource{
@@ -56,10 +58,15 @@
 +(void) initAppProperty:(PropertyEventSource *) attributes{
     [[AttributeManager init] setPropertyAttributes:attributes];
 }
+
 +(void) initWithUser:(UserAttributes *) attributes {
     [[AttributeManager init] setUserAttributes:attributes];
 }
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
++(void) initEventAttributes: (EventAttributes *) attributes{
+    [EventController writeEvent:attributes];
+}
+
 @end
