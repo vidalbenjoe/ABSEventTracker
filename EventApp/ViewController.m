@@ -5,7 +5,7 @@
 //  Created by Benjoe Vidal on 19/05/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
-
+#import <UIKit/UIKit.h>
 #import "ViewController.h"
 #import "DeviceInfo.h"
 #import "DeviceFingerprinting.h"
@@ -26,24 +26,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [appTitle setAdjustsFontSizeToFitWidth:TRUE];
-    
-//    ABSNetworking *absnetworking = [[ABSNetworking alloc] init];
-//    [absnetworking requestNewToken:^(NSString *token) {
-//        NSLog(@"TTOKEN: %@" , token);
-//    }];
-//    
-    [ABSBigDataServiceDispatcher requestToken];
-    
+}
 
-    NSMutableArray *qualified = [ABSEventAttributeQualifier iwantTVQualifiedAttributes];
-    BOOL isTheObjectThere = [qualified containsObject: @"PREVIsOUSAPP"];
-    
-    if (isTheObjectThere) {
-        NSLog(@"hasAttrib");
-    }
-    
-    NSLog(@"qualifiers: %@ ", qualified);
-        EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)writerButton:(id)sender {
+    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setMetaTags:@"TAGS"];
         [builder setArticleAuthor:@"Bob Ong"];
@@ -54,15 +45,5 @@
     
     [ABSEventTracker initEventAttributes:attrib];
     
-    NSLog(@"devIn: %@",  [[[AttributeManager init] deviceinvariant] deviceType]);
-    NSLog(@"getDeWrite: %@",  [[[AttributeManager init] eventattributes] clickedContent]);
-    
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 @end

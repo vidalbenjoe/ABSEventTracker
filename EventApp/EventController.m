@@ -28,38 +28,12 @@ BOOL hasInitialized = false;
  */
 
 +(void) writeEvent:(EventAttributes *) attributes{
-    BOOL verifiedQualifiers = [self verifyEventAttribute:attributes error:nil];
-    if (verifiedQualifiers) {
-        [[AttributeManager init] setEventAttributes:attributes];
-    }
+      [[AttributeManager init] setEventAttributes:attributes];
 }
-
 -(void) setDelegate:(id) newDelagate{
     delegate = newDelagate;
 }
 
 
-+(BOOL) verifyEventAttribute: (EventAttributes*) eventAttributes error:(NSError *) error{
-    NSError *errore = nil;
-    NSMutableArray *violatedQualifiers = eventAttributes.getAttributeViolations;
-    NSLog(@"volation: %@", violatedQualifiers);
-
-    if (violatedQualifiers.count == 0) {
-        
-    }
-    
-    if (error) {
-        NSString *errorMessage = [NSString stringWithFormat:@"Property %@ is required", eventAttributes];
-        NSDictionary *userInfo = @{
-                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(errorMessage, nil)
-                                   };
-        errore = [NSError errorWithDomain:errorMessage
-                                     code:-1
-                                 userInfo:userInfo];
-        NSLog(@"error %@", error.description);
-        
-    }
-    return true;
-}
 
 @end

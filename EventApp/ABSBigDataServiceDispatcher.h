@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "AttributeManager.h"
 @interface ABSBigDataServiceDispatcher : NSObject
-+(void) requestToken;
++(void)requestToken: (void (^)(NSString *token))handler;
++(void) dispatchAttribute:(AttributeManager *) attributes;
 @end

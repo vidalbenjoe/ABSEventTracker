@@ -8,7 +8,8 @@
 
 #import "AttributeManager.h"
 #import "ABSEventAttributeQualifier.h"
-
+#import "AttributeWriter.h"
+#import "ABSBigDataServiceDispatcher.h"
 @implementation AttributeManager
 @synthesize userattributes;
 @synthesize eventattributes;
@@ -21,11 +22,13 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
     });
+
     return shared;
 }
 
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
+    [self writer];
 }
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     userattributes = userAttributes;
@@ -35,6 +38,11 @@
 }
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
+}
+
+-(void) writer{
+    
+    [ABSBigDataServiceDispatcher dispatchAttribute:self];
 }
 
 @end

@@ -16,7 +16,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABSEventTracker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="03n-nr-oNP">
@@ -24,17 +24,29 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nRo-nt-CDh">
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <state key="normal" title="Writing Tester"/>
+                                <connections>
+                                    <action selector="writerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PcK-nl-nYo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="nRo-nt-CDh" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="142" id="4Tp-62-RWF"/>
                             <constraint firstItem="03n-nr-oNP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="97" id="BdV-nt-FTW"/>
+                            <constraint firstItem="03n-nr-oNP" firstAttribute="top" secondItem="nRo-nt-CDh" secondAttribute="bottom" constant="26" id="CQw-ZL-ovd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="03n-nr-oNP" secondAttribute="bottom" constant="235" id="EFq-qj-euY"/>
                             <constraint firstItem="03n-nr-oNP" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="204" id="EfX-3A-LV0"/>
+                            <constraint firstItem="nRo-nt-CDh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="86" id="Omb-1h-1wU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="03n-nr-oNP" secondAttribute="trailing" constant="97" id="cuw-A1-8Hy"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nRo-nt-CDh" secondAttribute="trailing" constant="85" id="uIU-5t-5Ey"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="appTitle" destination="03n-nr-oNP" id="XWn-Eo-gjW"/>
+                        <outlet property="view" destination="8bC-Xf-vdC" id="IO3-sw-n9F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

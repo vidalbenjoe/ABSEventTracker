@@ -9,5 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface AuthManager : NSObject
-
++(void) storeTokenToUserDefault: (NSString *) value;
++(void) storeSecurityHashTouserDefault: (NSString *) value;
++(NSString *) retrieveServerTokenFromUserDefault;
++(NSString *) retrieveSecurityHashFromUserDefault;
 @end

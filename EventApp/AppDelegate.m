@@ -15,19 +15,10 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
     [ABSEventTracker init];
-    // Override point for customization after application launch.
-    EventAttributes *event = [EventAttributes makeWithBuilder:^(EventBuilder *builder){
-        builder.clickedContent = @"testContent";
-        builder.latitute = 2.4;
-        NSLog(@"build1: %@", builder.clickedContent);
-    }];
-    
-    [EventController writeEvent:event];
-    //create event writer
-    
-    NSLog(@"eventAtt1: %@", event.clickedContent);
-    
+});
+  
     return YES;
 }
 
