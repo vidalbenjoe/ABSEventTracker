@@ -10,6 +10,10 @@
 
 @interface CacheManager : NSObject
 
+@property(nonatomic) NSNumber *_id;
+@property(nonatomic) NSDictionary *cacheDictionary;
 
++(void) storeFailedAttributesToCacheManager: (NSString *) identifier attributesDictionary:(NSMutableDictionary *) attributes;
++(NSMutableDictionary *) retrieveFailedAttributesFromCacheManager;
 
 @end

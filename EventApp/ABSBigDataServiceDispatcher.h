@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "AttributeManager.h"
-@interface ABSBigDataServiceDispatcher : NSObject
+#import "EventCallBack.h"
+@interface ABSBigDataServiceDispatcher : NSObject <EventCallBack>
 +(void)requestToken: (void (^)(NSString *token))handler;
 +(void) dispatchAttribute:(AttributeManager *) attributes;
 @end

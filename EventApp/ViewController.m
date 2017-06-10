@@ -17,6 +17,8 @@
 #import "ABSNetworking.h"
 #import "ABSEventAttributeQualifier.h"
 #import "ABSBigDataServiceDispatcher.h"
+#import "CacheManager.h"
+
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *appTitle;
 @end
@@ -26,6 +28,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [appTitle setAdjustsFontSizeToFitWidth:TRUE];
+    
+    NSMutableDictionary *cache = [CacheManager retrieveFailedAttributesFromCacheManager];
+    NSLog(@"cached %@", cache);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,6 +39,7 @@
 }
 
 - (IBAction)writerButton:(id)sender {
+    
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setMetaTags:@"TAGS"];
@@ -45,5 +51,6 @@
     
     [ABSEventTracker initEventAttributes:attrib];
     
+   
 }
 @end

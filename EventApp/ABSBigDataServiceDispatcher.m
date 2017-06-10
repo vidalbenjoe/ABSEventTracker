@@ -10,24 +10,15 @@
 #import "Constants.h"
 #import "ABSNetworking.h"
 #import "AuthManager.h"
+#import "CacheManager.h"
 
 @implementation ABSBigDataServiceDispatcher
-
-+(NSString *) generateNewMobileHeader{
-    // GET bundleIdentifier
-    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\" : \"%@\"}", I_WANT_TV_ID];
-    NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
-    // Get NSString from NSData object in Base64
-    NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
-    NSLog(@"mobileHeader: %@", base64Encoded);
-    return base64Encoded;
-}
 
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler{
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        NSDictionary *header = @{@"x-mobile-header" : [self generateNewMobileHeader]};
+        NSDictionary *header = @{@"x-mobile-header" : [Constants generateNewMobileHeader]};
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
@@ -52,6 +43,7 @@
             NSLog(@"tuken: %@", token);
             NSLog(@"responseObject: %@", responseObject);
             [AuthManager storeTokenToUserDefault:token];
+            
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [self requestSecurityHashViaHttp:^(NSString *sechash) {
                     [AuthManager storeSecurityHashTouserDefault:sechash];
@@ -61,70 +53,103 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-//    NSString *post = [NSString stringWithFormat:@"fingerprintID=%@&SiteDomain=%@",attributes.eventattributes.clickedContent,attributes.eventattributes.articleAuthor];
-    
-    NSDictionary *attributesw = @{@"fingerprintID"          : attributes.eventattributes.clickedContent,
-                                 @"SiteDomain"              : attributes.deviceinvariant.deviceOS,
-                                 @"DeviceOS"                : attributes.deviceinvariant.deviceOS,
-                                 @"ScreenSize"              : @"",
-                                 @"DeviceType"              : @"",
-                                 @"PageURL"                 : @"",
-                                 @"PageAccessTimeStamp"     : @"",
-                                 @"AbandonTimeStamp"        : @"",
-                                 @"WritingEventTimestamp"   : @"",
-                                 @"LogoutTimeStamp"         : @"",
-                                 @"BigDataSessionID"        : @"",
-                                 @"SessionStartTimestamp"   : @"",
-                                 @"SessionEndTimestamp"     : @"",
-                                 @"SearchTimeStamp"         : @"",
-                                 @"FirstName"               : @"",
-                                 @"MiddleName"              : @"",
-                                 @"LastName"                : @"",
-                                 @"GigyaID"                 : @"",
-                                 @"ClickedContent"          : @"",
-                                 @"Longitude"               : @"",
-                                 @"Latitude"                : @"",
-                                 @"QueryString"             : @"",
-                                 @"ActionTaken"             : @"",
-                                 @"ReadArticle"             : @"",
-                                 @"ReadingDuration"         : @"",
-                                 @"ArticleAuthor"           : @"",
-                                 @"ArticlePostDate"         : @"",
-                                 @"CommentContent"          : @"",
-                                 @"ArticleContentAmount"    : @"",
-                                 @"LoginTimeStamp"          : @"",
-                                 @"LikedContent"            : @"",
-                                 @"ShareRetweetContent"     : @"",
-                                 @"FollowedEntity"          : @"",
-                                 @"Rating"                  : @"",
-                                 @"PageMetaTags"            : @"",
-                                 @"PreviousWebpage"         : @"",
-                                 @"LinkDestination"         : @"",};
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            ObjectOrNull(attributes.eventattributes.clickedContent) , @"fingerprintID",
+            ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
+            ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
+            @"domain" , @"ScreenSize",
+            ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
+            ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
+            @"domain" , @"PageAccessTimeStamp",
+            @"domain" , @"AbandonTimeStamp",
+            @"domain" , @"WritingEventTimestamp",
+            @"domain" , @"LogoutTimeStamp",
+            @"domain" , @"BigDataSessionID",
+            @"domain" , @"SessionStartTimestamp",
+            @"domain" , @"SessionEndTimestamp",
+            @"domain" , @"SearchTimeStamp",
+            ObjectOrNull(attributes.userattributes.firstName) , @"FirstName",
+            ObjectOrNull(attributes.userattributes.middleName) , @"MiddleName",
+            ObjectOrNull(attributes.userattributes.lastName) , @"LastName",
+            ObjectOrNull(attributes.userattributes.gigyaID) , @"GigyaID",
+            ObjectOrNull(attributes.userattributes.gigyaID) , @"ClickedContent",
+            [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]], @"Longitude",
+            [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]] , @"Latitude",
+            ObjectOrNull(attributes.eventattributes.searchQuery) , @"QueryString",
+            @"domain" , @"ActionTaken",
+            ObjectOrNull(attributes.eventattributes.readArticles) , @"ReadArticle",
+            @"" , @"ReadingDuration",
+            ObjectOrNull(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
+            ObjectOrNull(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
+            ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentContent",
+            @"", @"ArticleContentAmount",
+            ObjectOrNull(attributes.eventattributes.loginTimeStamp) , @"LoginTimeStamp",
+            ObjectOrNull(attributes.eventattributes.likedContent) , @"LikedContent",
+            ObjectOrNull(attributes.eventattributes.shareRetweetContent) , @"ShareRetweetContent",
+            ObjectOrNull(attributes.eventattributes.followEntity) , @"FollowedEntity",
+            @"" , @"Rating",
+            ObjectOrNull(attributes.eventattributes.metaTags) , @"PageMetaTags",
+            ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousWebpage",
+            ObjectOrNull(attributes.eventattributes.screenDestination) , @"LinkDestination", nil];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
-      
         NSMutableString *resultString = [NSMutableString string];
-        for (NSString* key in [attributesw allKeys]){
+        for (NSString* key in [dict allKeys]){
             if ([resultString length]>0)
                 [resultString appendString:@"&"];
-            [resultString appendFormat:@"%@=%@", key, [attributesw objectForKey:key]];
+                [resultString appendFormat:@"%@=%@", key, [dict objectForKey:key]];
         }
-        
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            [self requestToken:^(NSString *token) {
-                
-            }];
+            NSLog(@"writeError: %@", error);
+            NSLog(@"attributeDict: %@", dict);
+            NSMutableArray * arr = [[NSMutableArray alloc] init];
+        
+            NSMutableDictionary *idDictionary =[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                         [NSString stringWithFormat:@"%i", RANDOM_ID] , @"id",
+                                         dict , @"attributes", nil];
+            [arr addObject:idDictionary];
+            
+            NSData *dictionaryData = [NSJSONSerialization dataWithJSONObject:arr options:NSJSONWritingPrettyPrinted error:&error];
+          
+            NSString *jsonString = [[NSString alloc] initWithData:dictionaryData encoding:NSUTF8StringEncoding];
+            NSLog(@"jsonData as string:\n%@", jsonString);
+            [CacheManager storeFailedAttributesToCacheManager:@"" attributesDictionary:idDictionary];
         }];
-    
     });
 }
 
+static id ObjectOrNull(id object){
+    return object ?: [NSNull null];
+}
+
+
+
+
+
+-(void) onSuccess{
+    
+}
+
+-(void) onFailure{
+    
+   
+  //Save Dictionary to cache
+ 
+    
+}
+
+-(void) onTokenRefresh{
+    
+}
+
+-(void) onSecurityCodeRefresh{
+    
+}
 
 @end

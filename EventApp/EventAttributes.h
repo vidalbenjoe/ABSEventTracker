@@ -31,9 +31,9 @@
 
 @property(nonatomic) float latitute;
 @property(nonatomic) float longitude;
-@property(nonatomic) NSInteger *articleCharacterCount;
-@property(nonatomic) NSInteger *rating;
-@property(nonatomic) NSInteger *duration;
+@property(nonatomic) int *articleCharacterCount;
+@property(nonatomic) int *rating;
+@property(nonatomic) int *duration;
 
 +(instancetype) makeWithBuilder:(void (^) (EventBuilder *)) updateBlock;
 -(instancetype) initWithBuilder:(EventBuilder *) builder;

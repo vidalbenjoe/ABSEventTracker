@@ -12,7 +12,7 @@
 
 @implementation ABSEventTracker
 
-+(id) init{
++(ABSEventTracker *) init{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

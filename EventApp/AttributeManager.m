@@ -16,19 +16,18 @@
 @synthesize propertyinvariant;
 @synthesize deviceinvariant;
 
-+(id) init{
-    static AttributeManager *shared = nil;
-    static dispatch_once_t onceToken;
++(AttributeManager*) init{
+    static dispatch_once_t onceToken = 0;
+    static id shared = nil;
     dispatch_once(&onceToken, ^{
-        shared = [[super alloc] init];
+        shared = [[self alloc] init];
     });
-
     return shared;
 }
 
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
-    [self writer];
+    [AttributeWriter writer:self];
 }
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     userattributes = userAttributes;
@@ -39,10 +38,4 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
 }
-
--(void) writer{
-    
-    [ABSBigDataServiceDispatcher dispatchAttribute:self];
-}
-
 @end

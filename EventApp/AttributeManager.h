@@ -13,17 +13,22 @@
 #import "DeviceInvariant.h"
 
 @interface AttributeManager : NSObject
++(AttributeManager*) init;
+
 
 @property(nonatomic) EventAttributes *eventattributes;
 @property(nonatomic) UserAttributes *userattributes;
 @property(nonatomic) PropertyEventSource *propertyinvariant;
 @property(nonatomic) DeviceInvariant *deviceinvariant;
 
-+(id) init;
 
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
 -(void) setUserAttributes:(UserAttributes *) userAttributes;
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes;
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
 
+
+
+
 @end
+

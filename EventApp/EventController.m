@@ -34,6 +34,4 @@ BOOL hasInitialized = false;
     delegate = newDelagate;
 }
 
-
-
 @end

@@ -33,7 +33,6 @@
              };
 }
 
-
 -(NSString *) actionTakenName{
     return [[self class] actionTakenByName][@(self.property)];
 }

@@ -10,8 +10,7 @@
 #import "ABSBigDataServiceDispatcher.h"
 @implementation AttributeWriter
 @synthesize manager;
--(void) writer{
-    NSLog(@"managerValue: %@", manager.eventattributes.clickedContent);
++(void) writer:(AttributeManager *) manager{
     [ABSBigDataServiceDispatcher dispatchAttribute:manager];
 }
 

@@ -8,15 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "Enumerations.h"
-
-
-
 @interface DeviceInfo : NSObject
 
 + (DeviceVersion) deviceVersion;
 + (NSString*) deviceNameForVersion: (DeviceVersion) deviceVersion;
 
-// Based on Luminous System Library
 //Hardware
 +(NSString*) deviceName;
 +(NSString*) systemName;
@@ -34,7 +30,6 @@
 
 +(NSInteger) physicalMemory;
 +(NSInteger) processorNumber;
-
 
 //
 ////Sensors

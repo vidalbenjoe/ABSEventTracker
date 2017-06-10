@@ -10,8 +10,6 @@
 #import "PropertyEventSource.h"
 #import "Enumerations.h"
 @interface Validator : NSObject
-
-
 +(BOOL) isSourcePropertyValid:(NSNumber *) property;
 
 @end

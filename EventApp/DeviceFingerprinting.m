@@ -24,7 +24,6 @@
 //Generate device finger print based on the device info.
 +(NSString*) generateDeviceFingerprint{
     NSString * rawString = [self buildRawEntropy];
-    
     return rawString;
 }
 @end

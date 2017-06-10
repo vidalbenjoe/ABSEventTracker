@@ -30,7 +30,6 @@
     return builder;
 }
 
-
 +(instancetype) makeWithBuilder:(void (^)(DeviceInvariantBuilder *))updateBlock{
     DeviceInvariantBuilder *builder = [DeviceInvariantBuilder new];
     updateBlock(builder);

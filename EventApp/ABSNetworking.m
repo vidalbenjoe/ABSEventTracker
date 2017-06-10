@@ -1,7 +1,5 @@
 //
 //  ABSNetworking.m
-//  EventApp
-//
 //  Created by Benjoe Vidal on 01/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
@@ -10,10 +8,11 @@
 #import "Constants.h"
 #import "ABSBigDataServiceDispatcher.h"
 #import "AuthManager.h"
+
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
 @synthesize requestBody;
-//eventDispatcher
+
 +(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config{
     static ABSNetworking *shared = nil;
     static dispatch_once_t onceToken;
@@ -23,24 +22,21 @@ NSURLSessionConfiguration *sessionConfiguration;
     });
     return shared;
 }
-// Send a dictionary to server
+
 -(void) POST:(NSURL *) url parameters:(NSDictionary *) params success:(void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
                    cachePolicy: NSURLRequestUseProtocolCachePolicy
                    timeoutInterval:60.0];
     [requestBody setHTTPMethod:@"POST"];
-    
-    
-//    [sessionConfiguration setHTTPAdditionalHeaders:@{@"authorization": [NSString stringWithFormat:@"bearer %@",[AuthManager retrieveServerTokenFromUserDefault]]}];
-//    
+
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                      NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       if (respHttp.statusCode != SUCCESS) {
+                                        errorHandler(task, error);
                                           [self HTTPerrorLogger:respHttp];
-                                          errorHandler(task, error);
                                           return;
                                       }
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -52,7 +48,7 @@ NSURLSessionConfiguration *sessionConfiguration;
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
      requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
-                   cachePolicy: NSURLRequestUseProtocolCachePolicy
+                   cachePolicy: NSURLRequestReturnCacheDataElseLoad
                    timeoutInterval:60.0];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -67,7 +63,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                                           errorHandler(task, error);
                                           return;
                                       }
-                                      
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                       successHandler(task, dictionary);
                                       NSLog(@"HTTP_STATUS: success %@", response);
@@ -76,6 +71,13 @@ NSURLSessionConfiguration *sessionConfiguration;
 }
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    dispatch_semaphore_t    sem;
+    __block NSData *        result;
+    
+    result = nil;
+    
+    sem = dispatch_semaphore_create(0);
+    
     
     for (id key in headers){
         id token = [headers objectForKey:key];
@@ -84,28 +86,31 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
-                   cachePolicy: NSURLRequestUseProtocolCachePolicy
-                   timeoutInterval:60.0];
+                   cachePolicy: NSURLRequestReturnCacheDataElseLoad
+                   timeoutInterval:60.0
+                   ];
+    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     
-    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
-                                  ^(NSData *data, NSURLResponse *response, NSError *error) {
-                                      NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-                                      if (respHttp.statusCode != SUCCESS) {
-                                          [self HTTPerrorLogger:respHttp];
-                                          errorHandler(task, error);
-                                          return;
-                                      }
-                                      
-                                      NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-                                      successHandler(task, dictionary);
-                                      NSLog(@"HTTP_STATUS: success %@", response);
-                                  }];
-    [task resume];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+    
+    [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        successHandler(nil, dictionary);
+        NSLog(@"HTTP_STATUS: success %@", response);
+        NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+        if (respHttp.statusCode != SUCCESS) {
+            [self HTTPerrorLogger:respHttp];
+            errorHandler(nil, error);
+            return;
+        }
+        dispatch_semaphore_signal(sem);
+    }] resume];
+    
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
 }
 
 
@@ -121,10 +126,11 @@ NSURLSessionConfiguration *sessionConfiguration;
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-        
         if (respHttp.statusCode != SUCCESS) {
             [self HTTPerrorLogger:respHttp];
             errorHandler(datatask, error);
+            
+            
             return;
         }
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -135,13 +141,13 @@ NSURLSessionConfiguration *sessionConfiguration;
 
 -(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
     if (respHttp.statusCode == UNAUTHORIZE) {
-        NSLog(@"HTTP_STATUS: anauthorize");
+        NSLog(@"HTTP_STATUS 401: UNAUTHORIZE");
     }else if (respHttp.statusCode== BAD_REQUEST) {
-        NSLog(@"HTTP_STATUS: badrequest");
+        NSLog(@"HTTP_STATUS 400: BAD_REQUET");
     }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR) {
-        NSLog(@"HTTP_STATUS: internalerror");
+        NSLog(@"HTTP_STATUS 500: INTERNAL SERVER ERROR");
     }else if (respHttp.statusCode== NOT_FOUND) {
-        NSLog(@"HTTP_STATUS: internalerror");
+        NSLog(@"HTTP_STATUS 404: NOT FOUND");
     }
 }
 @end
