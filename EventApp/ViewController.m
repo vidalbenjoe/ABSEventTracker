@@ -22,6 +22,7 @@
 @interface ViewController ()
 - (IBAction)readPlist:(UIButton *)sender;
 @property (weak, nonatomic) IBOutlet UILabel *appTitle;
+- (IBAction)clearCache:(UIButton *)sender;
 @end
 
 @implementation ViewController
@@ -30,8 +31,6 @@
     [super viewDidLoad];
     [appTitle setAdjustsFontSizeToFitWidth:TRUE];
     
-    NSMutableDictionary *cache = [CacheManager retrieveFailedAttributesFromCacheByIndex];
-    NSLog(@"cached %@", cache);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,5 +53,8 @@
 - (IBAction)readPlist:(UIButton *)sender {
     
      NSLog(@"sdadwww: %@", [CacheManager retrieveFailedAttributesFromCacheByIndex]);
+}
+- (IBAction)clearCache:(UIButton *)sender {
+    [CacheManager removeAllCachedAttributes];
 }
 @end

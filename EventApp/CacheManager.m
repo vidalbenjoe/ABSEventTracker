@@ -14,9 +14,9 @@
     NSError *error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"myPlistFile.plist"];
+    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
     if (![[NSFileManager defaultManager] fileExistsAtPath: plistPath]){
-     NSString *bundle = [[NSBundle mainBundle] pathForResource:@"myPlistFile" ofType:@"plist"];
+     NSString *bundle = [[NSBundle mainBundle] pathForResource:@"cache" ofType:@"plist"];
      [[NSFileManager defaultManager] copyItemAtPath:bundle toPath:plistPath error:&error];
     }
     NSMutableArray *cachedList = [NSMutableArray arrayWithContentsOfFile:plistPath];
@@ -36,37 +36,34 @@
 +(NSMutableDictionary *) retrieveFailedAttributesFromCacheByIndex{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *recentFilePath = [documentsDirectory stringByAppendingPathComponent:@"myPlistFile.plist"];
-    NSArray *history = [NSArray arrayWithContentsOfFile:recentFilePath];
-    NSLog(@"historyCount: %@", [history objectAtIndex:0]);
-
+    NSString *recentFilePath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
+    NSMutableArray *history = [NSMutableArray arrayWithContentsOfFile:recentFilePath];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[history objectAtIndex:0] forKey:@"attributes"];
+    if (history.count > 0) {
+        [dic setObject:[history objectAtIndex:0] forKey:@"attributes"];
+    }
     return dic;
 }
 
-+(void) deleteAttributeCacheByID:(NSString *) attributeID{
-//    NSMutableDictionary *cachedAttributes = [self retrieveFailedAttributesFromCacheManager];
-//    NSString *cachedAttributeID = cachedAttributes[@"id"];
-    
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary * dict = [userDefaults dictionaryRepresentation];
-    for (id key in dict) {
-        NSLog(@"keyDic: %@", key);
-//        [userDefaults removeObjectForKey:key];
-    }
-
++(void) removeCachedAttributeByFirstIndex{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *recentFilePath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
+    NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:recentFilePath];
+    [cache removeObjectAtIndex:0];
+    [cache writeToFile:recentFilePath atomically: YES];
 }
 
 + (void) removeAllCachedAttributes
 {
-    NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary * dict = [userDefaults dictionaryRepresentation];
-    for (id key in dict) {
-//        [userDefaults removeObjectForKey:key];
-         NSLog(@"removeKey: %@", key);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
+    NSError *error;
+    if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error])
+    {
+        //TODO: Handle/Log error
     }
-    [userDefaults synchronize];
 }
 
 

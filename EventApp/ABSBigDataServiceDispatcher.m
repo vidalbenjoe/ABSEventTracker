@@ -105,6 +105,7 @@
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            
             [CacheManager storeFailedAttributesToCacheManager:dict];
         }];
     });

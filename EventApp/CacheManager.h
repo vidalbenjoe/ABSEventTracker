@@ -15,5 +15,5 @@
 
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes;
 +(NSMutableDictionary *) retrieveFailedAttributesFromCacheByIndex;
-
++ (void) removeAllCachedAttributes;
 @end
