@@ -23,7 +23,7 @@
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
+            NSLog(SECHASH_ERROR_REQUEST);
         }];
     });
 }
@@ -40,10 +40,7 @@
         [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
             // store the token somewhere
             NSString *token = responseObject[@"access_token"];
-            NSLog(@"tuken: %@", token);
-            NSLog(@"responseObject: %@", responseObject);
             [AuthManager storeTokenToUserDefault:token];
-            
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [self requestSecurityHashViaHttp:^(NSString *sechash) {
                     [AuthManager storeSecurityHashTouserDefault:sechash];
@@ -52,12 +49,13 @@
     });
 }
 
+
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull(attributes.eventattributes.clickedContent) , @"fingerprintID",
             ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
             ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
-            @"domain" , @"ScreenSize",
+            [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
             ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
             ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
             @"domain" , @"PageAccessTimeStamp",
@@ -94,7 +92,8 @@
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-       ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
         NSMutableString *resultString = [NSMutableString string];
         for (NSString* key in [dict allKeys]){
@@ -106,31 +105,20 @@
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(@"writeError: %@", error);
-            NSLog(@"attributeDict: %@", dict);
-            NSMutableArray * arr = [[NSMutableArray alloc] init];
-        
-            NSMutableDictionary *idDictionary =[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                         [NSString stringWithFormat:@"%i", RANDOM_ID] , @"id",
-                                         dict , @"attributes", nil];
-            [arr addObject:idDictionary];
-            
-            NSData *dictionaryData = [NSJSONSerialization dataWithJSONObject:arr options:NSJSONWritingPrettyPrinted error:&error];
-          
-            NSString *jsonString = [[NSString alloc] initWithData:dictionaryData encoding:NSUTF8StringEncoding];
-            NSLog(@"jsonData as string:\n%@", jsonString);
-            [CacheManager storeFailedAttributesToCacheManager:@"" attributesDictionary:idDictionary];
+            [CacheManager storeFailedAttributesToCacheManager:dict];
         }];
     });
 }
 
 static id ObjectOrNull(id object){
-    return object ?: [NSNull null];
+    return object ?: @"";
 }
 
-
-
-
++(long) generateID: (long) generateKey{
+    
+    
+    return [self generateID:RANDOM_ID];
+}
 
 -(void) onSuccess{
     

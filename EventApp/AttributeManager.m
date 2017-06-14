@@ -10,6 +10,7 @@
 #import "ABSEventAttributeQualifier.h"
 #import "AttributeWriter.h"
 #import "ABSBigDataServiceDispatcher.h"
+
 @implementation AttributeManager
 @synthesize userattributes;
 @synthesize eventattributes;
@@ -25,6 +26,22 @@
     return shared;
 }
 
+- (void) encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:propertyinvariant forKey:@"properyInvariant"];
+    [encoder encodeObject:eventattributes forKey:@"eventAttributes"];
+    [encoder encodeObject:userattributes forKey:@"userAttributes"];
+    [encoder encodeObject:userattributes forKey:@"deviceInvariant"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+     self = [self init];
+     self.propertyinvariant = [decoder decodeObjectForKey:@"properyInvariant"];
+     self.eventattributes = [decoder decodeObjectForKey:@"eventAttributes"];
+     self.userattributes = [decoder decodeObjectForKey:@"userAttributes"];
+     self.userattributes = [decoder decodeObjectForKey:@"deviceInvariant"];
+    return self;
+}
+
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
     [AttributeWriter writer:self];
@@ -38,4 +55,11 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
 }
+
+
+
+
+
+
+
 @end

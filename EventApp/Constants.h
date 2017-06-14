@@ -16,6 +16,8 @@
 
 #define RANDOM_ID           arc4random_uniform(900000) + 100000
 
+#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR"
+
 @interface Constants : NSObject
 extern NSString* const eventAppsBaseURL;
 extern NSString* const eventTokenURL;

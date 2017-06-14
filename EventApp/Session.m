@@ -1,19 +1,17 @@
 //
-//  PersistentVariant.m
+//  Session.m
 //  EventApp
 //
-//  Created by Flydubai on 25/05/2017.
+//  Created by Flydubai on 14/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 
-#import "PersistentVariant.h"
+#import "Session.h"
 
-@implementation PersistentVariant
+@implementation Session
 
 @synthesize bigDataSessionID;
 @synthesize sessionStartTimeStamp;
 @synthesize sessionEndTimeStamp;
 
-
-@synthesize applicationLaunchTimeStamp;
 @end

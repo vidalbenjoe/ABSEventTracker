@@ -12,9 +12,8 @@
 #import "PropertyEventSource.h"
 #import "DeviceInvariant.h"
 
-@interface AttributeManager : NSObject
+@interface AttributeManager : NSObject <NSCoding>
 +(AttributeManager*) init;
-
 
 @property(nonatomic) EventAttributes *eventattributes;
 @property(nonatomic) UserAttributes *userattributes;
@@ -26,7 +25,6 @@
 -(void) setUserAttributes:(UserAttributes *) userAttributes;
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes;
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
-
 
 
 

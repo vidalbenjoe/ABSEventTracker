@@ -78,25 +78,22 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     sem = dispatch_semaphore_create(0);
     
-    
     for (id key in headers){
         id token = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
     
-    requestBody = [[NSMutableURLRequest alloc]
+     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
+     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
                    cachePolicy: NSURLRequestReturnCacheDataElseLoad
                    timeoutInterval:60.0
                    ];
-    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
-    
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
-    
     [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         successHandler(nil, dictionary);

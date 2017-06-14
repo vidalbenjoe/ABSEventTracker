@@ -31,17 +31,26 @@
                                     <action selector="writerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PcK-nl-nYo"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFi-Fz-4yV">
+                                <state key="normal" title="Read Plist Tester"/>
+                                <connections>
+                                    <action selector="readPlist:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Faj-1A-ZjV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="nRo-nt-CDh" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="142" id="4Tp-62-RWF"/>
                             <constraint firstItem="03n-nr-oNP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="97" id="BdV-nt-FTW"/>
+                            <constraint firstItem="hFi-Fz-4yV" firstAttribute="top" secondItem="03n-nr-oNP" secondAttribute="bottom" constant="50" id="Bzf-8n-vQa"/>
                             <constraint firstItem="03n-nr-oNP" firstAttribute="top" secondItem="nRo-nt-CDh" secondAttribute="bottom" constant="26" id="CQw-ZL-ovd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="03n-nr-oNP" secondAttribute="bottom" constant="235" id="EFq-qj-euY"/>
                             <constraint firstItem="03n-nr-oNP" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="204" id="EfX-3A-LV0"/>
                             <constraint firstItem="nRo-nt-CDh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="86" id="Omb-1h-1wU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="03n-nr-oNP" secondAttribute="trailing" constant="97" id="cuw-A1-8Hy"/>
+                            <constraint firstItem="hFi-Fz-4yV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="104" id="kES-fS-vg9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nRo-nt-CDh" secondAttribute="trailing" constant="85" id="uIU-5t-5Ey"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hFi-Fz-4yV" secondAttribute="trailing" constant="104" id="uMu-gF-uMj"/>
                         </constraints>
                     </view>
                     <connections>
@@ -51,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-100" y="-25"/>
+            <point key="canvasLocation" x="-100" y="-25.637181409295355"/>
         </scene>
     </scenes>
 </document>

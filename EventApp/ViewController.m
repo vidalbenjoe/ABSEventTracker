@@ -20,6 +20,7 @@
 #import "CacheManager.h"
 
 @interface ViewController ()
+- (IBAction)readPlist:(UIButton *)sender;
 @property (weak, nonatomic) IBOutlet UILabel *appTitle;
 @end
 
@@ -29,7 +30,7 @@
     [super viewDidLoad];
     [appTitle setAdjustsFontSizeToFitWidth:TRUE];
     
-    NSMutableDictionary *cache = [CacheManager retrieveFailedAttributesFromCacheManager];
+    NSMutableDictionary *cache = [CacheManager retrieveFailedAttributesFromCacheByIndex];
     NSLog(@"cached %@", cache);
 }
 
@@ -48,9 +49,10 @@
         [builder setActionTaken:FACEBOOK_LIKE];
         [builder setPreviousScreen:@"asda"];
     }];
-    
     [ABSEventTracker initEventAttributes:attrib];
+}
+- (IBAction)readPlist:(UIButton *)sender {
     
-   
+     NSLog(@"sdadwww: %@", [CacheManager retrieveFailedAttributesFromCacheByIndex]);
 }
 @end
