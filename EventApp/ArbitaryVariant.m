@@ -9,7 +9,9 @@
 #import "ArbitaryVariant.h"
 
 @implementation ArbitaryVariant
+
 @synthesize applicationAbandonTimeStamp;
+@synthesize applicationLaunchTimeStamp;
 @synthesize postCommentTimeStamp;
 @synthesize logoutTimeStamp;
 @synthesize searchTimeStamp;

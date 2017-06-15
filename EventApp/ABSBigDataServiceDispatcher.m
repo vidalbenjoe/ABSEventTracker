@@ -89,10 +89,8 @@
             ObjectOrNull(attributes.eventattributes.metaTags) , @"PageMetaTags",
             ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousWebpage",
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"LinkDestination", nil];
-    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
         NSMutableString *resultString = [NSMutableString string];
@@ -105,7 +103,6 @@
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
             [CacheManager storeFailedAttributesToCacheManager:dict];
         }];
     });
@@ -115,21 +112,11 @@ static id ObjectOrNull(id object){
     return object ?: @"";
 }
 
-+(long) generateID: (long) generateKey{
-    
-    
-    return [self generateID:RANDOM_ID];
-}
-
 -(void) onSuccess{
     
 }
 
 -(void) onFailure{
-    
-   
-  //Save Dictionary to cache
- 
     
 }
 
@@ -140,5 +127,6 @@ static id ObjectOrNull(id object){
 -(void) onSecurityCodeRefresh{
     
 }
+
 
 @end

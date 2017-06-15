@@ -8,7 +8,7 @@
 #import "Constants.h"
 #import "ABSBigDataServiceDispatcher.h"
 #import "AuthManager.h"
-
+#import "ABSNetworking+HTTPErrorHandler.h"
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
 @synthesize requestBody;
@@ -36,7 +36,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                      NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       if (respHttp.statusCode != SUCCESS) {
                                         errorHandler(task, error);
-                                          [self HTTPerrorLogger:respHttp];
+                                         [ABSNetworking HTTPerrorLogger:respHttp];
                                           return;
                                       }
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -59,7 +59,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       if (respHttp.statusCode != SUCCESS) {
-                                          [self HTTPerrorLogger:respHttp];
+                                          [ABSNetworking HTTPerrorLogger:respHttp];
                                           errorHandler(task, error);
                                           return;
                                       }
@@ -100,7 +100,7 @@ NSURLSessionConfiguration *sessionConfiguration;
         NSLog(@"HTTP_STATUS: success %@", response);
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         if (respHttp.statusCode != SUCCESS) {
-            [self HTTPerrorLogger:respHttp];
+            [ABSNetworking HTTPerrorLogger:respHttp];
             errorHandler(nil, error);
             return;
         }
@@ -124,10 +124,8 @@ NSURLSessionConfiguration *sessionConfiguration;
     NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         if (respHttp.statusCode != SUCCESS) {
-            [self HTTPerrorLogger:respHttp];
+            [ABSNetworking HTTPerrorLogger:respHttp];
             errorHandler(datatask, error);
-            
-            
             return;
         }
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -136,15 +134,5 @@ NSURLSessionConfiguration *sessionConfiguration;
     [datatask resume];
 }
 
--(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
-    if (respHttp.statusCode == UNAUTHORIZE) {
-        NSLog(@"HTTP_STATUS 401: UNAUTHORIZE");
-    }else if (respHttp.statusCode== BAD_REQUEST) {
-        NSLog(@"HTTP_STATUS 400: BAD_REQUET");
-    }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR) {
-        NSLog(@"HTTP_STATUS 500: INTERNAL SERVER ERROR");
-    }else if (respHttp.statusCode== NOT_FOUND) {
-        NSLog(@"HTTP_STATUS 404: NOT FOUND");
-    }
-}
+
 @end

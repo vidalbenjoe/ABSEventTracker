@@ -88,9 +88,6 @@ typedef NS_ENUM(NSInteger, DeviceVersion){
     iPodTouch6Gen     = 33
 };
 
-
-
-
 typedef NS_ENUM(NSInteger, ActionTaken){
     FACEBOOK_LIKE       =   0,
     FACEBOOK_SHARE      =   1,

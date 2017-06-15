@@ -23,8 +23,6 @@
 
 @end
 
-
-
 @interface DeviceInvariantBuilder : NSObject
 @property(nonatomic, assign) NSString *deviceFingerprint;
 @property(nonatomic, assign) NSString *deviceOS;

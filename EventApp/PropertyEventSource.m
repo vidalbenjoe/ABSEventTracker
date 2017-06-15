@@ -22,17 +22,6 @@
     return shared;
 }
 
-+(NSDictionary *) propertyDisplayName{
-    return @{@(I_WANT_TV)           :       @"iWantTV",
-             @(SKY_ON_DEMAND)       :       @"Sky On Demand",
-             @(NO_INK)              :       @"NoInk"
-             };
-}
-
--(NSString *) propertyName{
-    return [[self class] propertyDisplayName][@(self.property)];
-}
-
 +(NSString *) getAppName{
      NSString *appname = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
     return appname;
@@ -50,9 +39,5 @@
 -(DigitalProperty) getProperty{
     return property;
 }
-
-
-
-
 
 @end

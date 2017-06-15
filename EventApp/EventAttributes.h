@@ -40,8 +40,6 @@
 -(instancetype) update:(void(^)(EventBuilder *)) updateBlock;
 -(instancetype) build;
 
--(NSMutableArray *) getAttributeViolations;
-
 @end
 
 

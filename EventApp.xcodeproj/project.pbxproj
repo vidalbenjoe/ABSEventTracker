@@ -9,15 +9,17 @@
 /* Begin PBXBuildFile section */
 		8623E0A01ECEA19000432B01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8623E09E1ECEA19000432B01 /* Main.storyboard */; };
 		8623E0A21ECEA19000432B01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8623E0A11ECEA19000432B01 /* Assets.xcassets */; };
-		8623E0A51ECEA19000432B01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8623E0A31ECEA19000432B01 /* LaunchScreen.storyboard */; };
 		8623E0B31ECEA50600432B01 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E0AF1ECEA1C300432B01 /* DeviceInfo.m */; };
 		8623E0B41ECEA50B00432B01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E0991ECEA19000432B01 /* AppDelegate.m */; };
 		8623E0B51ECEA50F00432B01 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E09C1ECEA19000432B01 /* ViewController.m */; };
 		8623E0B61ECEA51A00432B01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E0961ECEA19000432B01 /* main.m */; };
 		8647D58E1EEA641D00A93E30 /* AttributeWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8647D58D1EEA641D00A93E30 /* AttributeWriter.m */; };
+		864D41F61EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 864D41F51EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m */; };
+		864D41FF1EF262B8008104A3 /* FormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 864D41FE1EF262B8008104A3 /* FormatUtils.m */; };
+		864D42021EF2A235008104A3 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 864D42011EF2A235008104A3 /* SessionManager.m */; };
+		864D42051EF2A2AD008104A3 /* SessionManager+SessionRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 864D42041EF2A2AD008104A3 /* SessionManager+SessionRule.m */; };
 		868B92641ED40A6F00401955 /* EventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 868B92631ED40A6F00401955 /* EventBuilder.m */; };
 		868E07E61ED7CC0F004666D9 /* Enumerations.m in Sources */ = {isa = PBXBuildFile; fileRef = 868E07E51ED7CC0F004666D9 /* Enumerations.m */; };
-		868E07EF1ED80EAC004666D9 /* SessionAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 868E07EE1ED80EAC004666D9 /* SessionAttributes.m */; };
 		868EFECB1EE808490050A7FF /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 868EFECA1EE808490050A7FF /* AuthManager.m */; };
 		8690A1E71ED2B470003C0CC7 /* EventAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1E61ED2B470003C0CC7 /* EventAttributes.m */; };
 		8690A1EC1ED2E6B1003C0CC7 /* UserAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8690A1EB1ED2E6B1003C0CC7 /* UserAttributes.m */; };
@@ -27,12 +29,11 @@
 		8691E7561ED58C1F00780ADE /* DeviceInvariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8691E7551ED58C1F00780ADE /* DeviceInvariant.m */; };
 		86A478961ED6814C00EA37A9 /* AttributeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478951ED6814C00EA37A9 /* AttributeManager.m */; };
 		86A478991ED6AD2300EA37A9 /* Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478981ED6AD2300EA37A9 /* Validator.m */; };
-		86A478A31ED6E15E00EA37A9 /* PersistentVariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A21ED6E15E00EA37A9 /* PersistentVariant.m */; };
 		86A478A61ED6E2AE00EA37A9 /* ArbitaryVariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A51ED6E2AE00EA37A9 /* ArbitaryVariant.m */; };
-		86A478A91ED6E37F00EA37A9 /* Variant.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A478A81ED6E37F00EA37A9 /* Variant.m */; };
 		86AB618A1EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AB61891EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m */; };
 		86B185D51EDE699000900836 /* ABSEventAttributeQualifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */; };
 		86B185D81EDEA73400900836 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B185D71EDEA73400900836 /* ABSEventTracker.m */; };
+		86B7CBDA1EF1474400B54EC2 /* cache.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86B7CBD91EF1474400B54EC2 /* cache.plist */; };
 		86C1EA9E1EE4FB2E006990AF /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C1EA9D1EE4FB2E006990AF /* CacheManager.m */; };
 		86DA32D01EDFC4D200E894E8 /* ABSNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DA32CF1EDFC4D200E894E8 /* ABSNetworking.m */; };
 		86DA32D41EE0059A00E894E8 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DA32D31EE0059A00E894E8 /* Constants.m */; };
@@ -47,18 +48,23 @@
 		8623E09C1ECEA19000432B01 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8623E09F1ECEA19000432B01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8623E0A11ECEA19000432B01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8623E0A41ECEA19000432B01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8623E0A61ECEA19000432B01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8623E0AE1ECEA1C300432B01 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		8623E0AF1ECEA1C300432B01 /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
 		8647D58C1EEA641D00A93E30 /* AttributeWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributeWriter.h; sourceTree = "<group>"; };
 		8647D58D1EEA641D00A93E30 /* AttributeWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributeWriter.m; sourceTree = "<group>"; };
+		864D41F41EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABSNetworking+HTTPErrorHandler.h"; sourceTree = "<group>"; };
+		864D41F51EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABSNetworking+HTTPErrorHandler.m"; sourceTree = "<group>"; };
+		864D41FD1EF262B8008104A3 /* FormatUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatUtils.h; sourceTree = "<group>"; };
+		864D41FE1EF262B8008104A3 /* FormatUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatUtils.m; sourceTree = "<group>"; };
+		864D42001EF2A235008104A3 /* SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionManager.h; sourceTree = "<group>"; };
+		864D42011EF2A235008104A3 /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
+		864D42031EF2A2AD008104A3 /* SessionManager+SessionRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SessionManager+SessionRule.h"; sourceTree = "<group>"; };
+		864D42041EF2A2AD008104A3 /* SessionManager+SessionRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SessionManager+SessionRule.m"; sourceTree = "<group>"; };
 		868B92621ED40A6F00401955 /* EventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBuilder.h; sourceTree = "<group>"; };
 		868B92631ED40A6F00401955 /* EventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventBuilder.m; sourceTree = "<group>"; };
 		868E07E41ED7CC0F004666D9 /* Enumerations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enumerations.h; sourceTree = "<group>"; };
 		868E07E51ED7CC0F004666D9 /* Enumerations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enumerations.m; sourceTree = "<group>"; };
-		868E07ED1ED80EAC004666D9 /* SessionAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionAttributes.h; sourceTree = "<group>"; };
-		868E07EE1ED80EAC004666D9 /* SessionAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionAttributes.m; sourceTree = "<group>"; };
 		868EFEC91EE808490050A7FF /* AuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthManager.h; sourceTree = "<group>"; };
 		868EFECA1EE808490050A7FF /* AuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthManager.m; sourceTree = "<group>"; };
 		8690A1E51ED2B470003C0CC7 /* EventAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAttributes.h; sourceTree = "<group>"; };
@@ -78,18 +84,15 @@
 		86A478951ED6814C00EA37A9 /* AttributeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributeManager.m; sourceTree = "<group>"; };
 		86A478971ED6AD2300EA37A9 /* Validator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Validator.h; sourceTree = "<group>"; };
 		86A478981ED6AD2300EA37A9 /* Validator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Validator.m; sourceTree = "<group>"; };
-		86A478A11ED6E15E00EA37A9 /* PersistentVariant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentVariant.h; sourceTree = "<group>"; };
-		86A478A21ED6E15E00EA37A9 /* PersistentVariant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentVariant.m; sourceTree = "<group>"; };
 		86A478A41ED6E2AE00EA37A9 /* ArbitaryVariant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArbitaryVariant.h; sourceTree = "<group>"; };
 		86A478A51ED6E2AE00EA37A9 /* ArbitaryVariant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArbitaryVariant.m; sourceTree = "<group>"; };
-		86A478A71ED6E37F00EA37A9 /* Variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Variant.h; sourceTree = "<group>"; };
-		86A478A81ED6E37F00EA37A9 /* Variant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Variant.m; sourceTree = "<group>"; };
 		86AB61881EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSBigDataServiceDispatcher.h; sourceTree = "<group>"; };
 		86AB61891EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSBigDataServiceDispatcher.m; sourceTree = "<group>"; };
 		86B185D31EDE699000900836 /* ABSEventAttributeQualifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSEventAttributeQualifier.h; sourceTree = "<group>"; };
 		86B185D41EDE699000900836 /* ABSEventAttributeQualifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventAttributeQualifier.m; sourceTree = "<group>"; };
 		86B185D61EDEA73400900836 /* ABSEventTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSEventTracker.h; sourceTree = "<group>"; };
 		86B185D71EDEA73400900836 /* ABSEventTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSEventTracker.m; sourceTree = "<group>"; };
+		86B7CBD91EF1474400B54EC2 /* cache.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cache.plist; sourceTree = "<group>"; };
 		86C1EA9C1EE4FB2E006990AF /* CacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManager.h; sourceTree = "<group>"; };
 		86C1EA9D1EE4FB2E006990AF /* CacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
 		86DA32CE1EDFC4D200E894E8 /* ABSNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSNetworking.h; sourceTree = "<group>"; };
@@ -135,9 +138,9 @@
 				8623E09C1ECEA19000432B01 /* ViewController.m */,
 				8623E09E1ECEA19000432B01 /* Main.storyboard */,
 				8623E0A11ECEA19000432B01 /* Assets.xcassets */,
-				8623E0A31ECEA19000432B01 /* LaunchScreen.storyboard */,
 				8623E0A61ECEA19000432B01 /* Info.plist */,
 				8623E0951ECEA19000432B01 /* Supporting Files */,
+				86B7CBD91EF1474400B54EC2 /* cache.plist */,
 			);
 			path = EventApp;
 			sourceTree = "<group>";
@@ -169,6 +172,8 @@
 				8623E0AF1ECEA1C300432B01 /* DeviceInfo.m */,
 				86A478971ED6AD2300EA37A9 /* Validator.h */,
 				86A478981ED6AD2300EA37A9 /* Validator.m */,
+				864D41FD1EF262B8008104A3 /* FormatUtils.h */,
+				864D41FE1EF262B8008104A3 /* FormatUtils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -187,8 +192,10 @@
 		868E07EC1ED80E8E004666D9 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				868E07ED1ED80EAC004666D9 /* SessionAttributes.h */,
-				868E07EE1ED80EAC004666D9 /* SessionAttributes.m */,
+				864D42001EF2A235008104A3 /* SessionManager.h */,
+				864D42011EF2A235008104A3 /* SessionManager.m */,
+				864D42031EF2A2AD008104A3 /* SessionManager+SessionRule.h */,
+				864D42041EF2A2AD008104A3 /* SessionManager+SessionRule.m */,
 			);
 			name = Session;
 			sourceTree = "<group>";
@@ -286,12 +293,8 @@
 		86A478A01ED6E06D00EA37A9 /* Variant */ = {
 			isa = PBXGroup;
 			children = (
-				86A478A11ED6E15E00EA37A9 /* PersistentVariant.h */,
-				86A478A21ED6E15E00EA37A9 /* PersistentVariant.m */,
 				86A478A41ED6E2AE00EA37A9 /* ArbitaryVariant.h */,
 				86A478A51ED6E2AE00EA37A9 /* ArbitaryVariant.m */,
-				86A478A71ED6E37F00EA37A9 /* Variant.h */,
-				86A478A81ED6E37F00EA37A9 /* Variant.m */,
 			);
 			name = Variant;
 			sourceTree = "<group>";
@@ -303,6 +306,8 @@
 				86DA32CF1EDFC4D200E894E8 /* ABSNetworking.m */,
 				86AB61881EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.h */,
 				86AB61891EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m */,
+				864D41F41EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.h */,
+				864D41F51EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -375,9 +380,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8623E0A51ECEA19000432B01 /* LaunchScreen.storyboard in Resources */,
 				8623E0A21ECEA19000432B01 /* Assets.xcassets in Resources */,
 				8623E0A01ECEA19000432B01 /* Main.storyboard in Resources */,
+				86B7CBDA1EF1474400B54EC2 /* cache.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,24 +398,25 @@
 				86AB618A1EE7C55F00CE38D5 /* ABSBigDataServiceDispatcher.m in Sources */,
 				8623E0B61ECEA51A00432B01 /* main.m in Sources */,
 				8691E74A1ED5430200780ADE /* EventController.m in Sources */,
-				868E07EF1ED80EAC004666D9 /* SessionAttributes.m in Sources */,
-				86A478A31ED6E15E00EA37A9 /* PersistentVariant.m in Sources */,
 				8647D58E1EEA641D00A93E30 /* AttributeWriter.m in Sources */,
 				8623E0B51ECEA50F00432B01 /* ViewController.m in Sources */,
 				868B92641ED40A6F00401955 /* EventBuilder.m in Sources */,
 				8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */,
+				864D41F61EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
 				8691E7561ED58C1F00780ADE /* DeviceInvariant.m in Sources */,
+				864D42021EF2A235008104A3 /* SessionManager.m in Sources */,
+				864D42051EF2A2AD008104A3 /* SessionManager+SessionRule.m in Sources */,
 				86C1EA9E1EE4FB2E006990AF /* CacheManager.m in Sources */,
 				868E07E61ED7CC0F004666D9 /* Enumerations.m in Sources */,
 				86DA32D41EE0059A00E894E8 /* Constants.m in Sources */,
 				86DA32D01EDFC4D200E894E8 /* ABSNetworking.m in Sources */,
 				8623E0B41ECEA50B00432B01 /* AppDelegate.m in Sources */,
 				8691E74F1ED55A6800780ADE /* PropertyEventSource.m in Sources */,
-				86A478A91ED6E37F00EA37A9 /* Variant.m in Sources */,
 				86A478991ED6AD2300EA37A9 /* Validator.m in Sources */,
 				86B185D81EDEA73400900836 /* ABSEventTracker.m in Sources */,
 				8623E0B31ECEA50600432B01 /* DeviceInfo.m in Sources */,
 				868EFECB1EE808490050A7FF /* AuthManager.m in Sources */,
+				864D41FF1EF262B8008104A3 /* FormatUtils.m in Sources */,
 				86A478A61ED6E2AE00EA37A9 /* ArbitaryVariant.m in Sources */,
 				8690A1E71ED2B470003C0CC7 /* EventAttributes.m in Sources */,
 				8690A1EC1ED2E6B1003C0CC7 /* UserAttributes.m in Sources */,
@@ -426,14 +432,6 @@
 				8623E09F1ECEA19000432B01 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		8623E0A31ECEA19000432B01 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8623E0A41ECEA19000432B01 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

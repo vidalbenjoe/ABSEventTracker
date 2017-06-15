@@ -10,8 +10,8 @@
 #import "Constants.h"
 #import "AttributeManager.h"
 @interface ABSNetworking : NSURLProtocol  <NSURLSessionDelegate, NSURLSessionDataDelegate>{
-@private
-    NSMutableData* _receivedData;
+    
+    @private NSMutableData* _receivedData;
 }
 @property(nonatomic) NSMutableURLRequest *requestBody;
 
@@ -23,5 +23,6 @@
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
 
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
+
 
 @end

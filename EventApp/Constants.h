@@ -17,13 +17,13 @@
 #define RANDOM_ID           arc4random_uniform(900000) + 100000
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR"
+#define DEFAULT_SESSION_EXPIRATION_IN_MINUTES   30
 
 @interface Constants : NSObject
 extern NSString* const eventAppsBaseURL;
 extern NSString* const eventTokenURL;
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
-
 
 +(NSString *) generateNewMobileHeader;
 @end

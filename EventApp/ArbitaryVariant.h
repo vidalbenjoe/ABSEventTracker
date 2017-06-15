@@ -11,6 +11,7 @@
 @interface ArbitaryVariant : NSObject
 
 @property(nonatomic, weak) NSString *applicationAbandonTimeStamp;
+@property(nonatomic, weak) NSString *applicationLaunchTimeStamp;
 @property(nonatomic, weak) NSString *postCommentTimeStamp;
 @property(nonatomic, weak) NSString *logoutTimeStamp;
 @property(nonatomic, weak) NSString *searchTimeStamp;

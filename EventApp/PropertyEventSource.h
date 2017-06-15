@@ -16,11 +16,8 @@
 @property(nonatomic, assign) DigitalProperty property;
 @property(nonatomic, assign) NSString *applicationName;
 @property(nonatomic, assign) NSString *bundleIdentifier;
+
 +(instancetype) init;
-
-+(NSDictionary *) propertyDisplayName;
--(NSString *) propertyName;
-
 
 +(NSString *) getAppName;
 +(NSString *) getBundleIdentifier;

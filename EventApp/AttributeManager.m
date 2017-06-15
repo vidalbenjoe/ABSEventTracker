@@ -16,6 +16,7 @@
 @synthesize eventattributes;
 @synthesize propertyinvariant;
 @synthesize deviceinvariant;
+@synthesize session;
 
 +(AttributeManager*) init{
     static dispatch_once_t onceToken = 0;
@@ -55,10 +56,9 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
 }
-
-
-
-
+-(void) setSession:(SessionManager *)sessionAttributes{
+    session = sessionAttributes;
+}
 
 
 

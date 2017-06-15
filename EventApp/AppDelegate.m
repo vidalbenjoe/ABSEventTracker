@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "ABSEventTracker.h"
 #import "EventController.h"
+#import "SessionManager.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +18,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
     [ABSEventTracker init];
+        
+       
 });
   
     return YES;

@@ -9,11 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface CacheManager : NSObject
-
 @property(nonatomic) NSNumber *_id;
 @property(nonatomic) NSDictionary *cacheDictionary;
-
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes;
++(void) removeCachedAttributeByFirstIndex;
++(void) removeAllCachedAttributes;
 +(NSMutableDictionary *) retrieveFailedAttributesFromCacheByIndex;
-+ (void) removeAllCachedAttributes;
 @end

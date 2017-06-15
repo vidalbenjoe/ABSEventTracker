@@ -12,59 +12,52 @@
 
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes{
     NSError *error;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
-    if (![[NSFileManager defaultManager] fileExistsAtPath: plistPath]){
+    if (![[NSFileManager defaultManager] fileExistsAtPath: [self cachePath]]){
      NSString *bundle = [[NSBundle mainBundle] pathForResource:@"cache" ofType:@"plist"];
-     [[NSFileManager defaultManager] copyItemAtPath:bundle toPath:plistPath error:&error];
+     [[NSFileManager defaultManager] copyItemAtPath:bundle toPath:[self cachePath] error:&error];
     }
-    NSMutableArray *cachedList = [NSMutableArray arrayWithContentsOfFile:plistPath];
+    NSMutableArray *cachedList = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
     if (nil == cachedList) {
         cachedList = [[NSMutableArray alloc] initWithCapacity:0];
     }
     [cachedList addObject:attributes];
-    BOOL success = [cachedList writeToFile:plistPath atomically: YES];
+    BOOL success = [cachedList writeToFile:[self cachePath] atomically: YES];
     if (success) {
         NSLog(@"Failed server response cached!");
     }else{
         NSLog(@"Failed to save cache");
     }
-
 }
 
 +(NSMutableDictionary *) retrieveFailedAttributesFromCacheByIndex{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *recentFilePath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
-    NSMutableArray *history = [NSMutableArray arrayWithContentsOfFile:recentFilePath];
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    if (history.count > 0) {
-        [dic setObject:[history objectAtIndex:0] forKey:@"attributes"];
+    
+    NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    if (cache.count > 0) {
+        [attributes setObject:[cache objectAtIndex:0] forKey:@"attributes"];
     }
-    return dic;
+    return attributes;
 }
 
 +(void) removeCachedAttributeByFirstIndex{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *recentFilePath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
-    NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:recentFilePath];
+    NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
     [cache removeObjectAtIndex:0];
-    [cache writeToFile:recentFilePath atomically: YES];
+    [cache writeToFile:[self cachePath] atomically: YES];
 }
 
-+ (void) removeAllCachedAttributes
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
++ (void) removeAllCachedAttributes{
     NSError *error;
-    if(![[NSFileManager defaultManager] removeItemAtPath:path error:&error])
+    if(![[NSFileManager defaultManager] removeItemAtPath:[self cachePath] error:&error])
     {
         //TODO: Handle/Log error
     }
 }
 
++(NSString*) cachePath{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
+    return plistPath;
+}
 
 @end

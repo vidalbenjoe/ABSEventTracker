@@ -39,16 +39,21 @@
 }
 
 - (IBAction)writerButton:(id)sender {
+    SessionManager *session = [[SessionManager alloc] init];
+    [session establish];
     
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setMetaTags:@"TAGS"];
         [builder setArticleAuthor:@"Bob Ong"];
         [builder setSearchQuery:@""];
-        [builder setActionTaken:FACEBOOK_LIKE];
+        [builder setActionTaken:ABANDON];
         [builder setPreviousScreen:@"asda"];
     }];
+    
     [ABSEventTracker initEventAttributes:attrib];
+    NSLog(@"EventAttdwributes: %ld", (long)[attrib actionTaken]);
+    
 }
 - (IBAction)readPlist:(UIButton *)sender {
     

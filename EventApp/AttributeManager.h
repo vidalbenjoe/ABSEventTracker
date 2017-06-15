@@ -11,7 +11,7 @@
 #import "UserAttributes.h"
 #import "PropertyEventSource.h"
 #import "DeviceInvariant.h"
-
+#import "SessionManager.h"
 @interface AttributeManager : NSObject <NSCoding>
 +(AttributeManager*) init;
 
@@ -19,13 +19,13 @@
 @property(nonatomic) UserAttributes *userattributes;
 @property(nonatomic) PropertyEventSource *propertyinvariant;
 @property(nonatomic) DeviceInvariant *deviceinvariant;
-
+@property(nonatomic) SessionManager *session;
 
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
 -(void) setUserAttributes:(UserAttributes *) userAttributes;
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes;
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
-
+-(void) setSession:(SessionManager *)sessionAttributes;
 
 
 @end
