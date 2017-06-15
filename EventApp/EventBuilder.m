@@ -34,9 +34,9 @@
         _latitute               = 0;
         _longitude              = 0;
         
-        _articleCharacterCount  = nil;
-        _rating                 = nil;
-        _duration               = nil;
+        _articleCharacterCount  = 0;
+        _rating                 = 0;
+        _duration               = 0;
         
     }
     return self;

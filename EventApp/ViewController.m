@@ -39,16 +39,23 @@
 }
 
 - (IBAction)writerButton:(id)sender {
-    SessionManager *session = [[SessionManager alloc] init];
-    [session establish];
+  
     
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+       
         [builder setClickedContent:@"Button"];
-        [builder setMetaTags:@"TAGS"];
+        [builder setSearchQuery:@"Search..."];
+        [builder setActionTaken:LOAD];
+        [builder setReadArticles:@"Philstar"];
         [builder setArticleAuthor:@"Bob Ong"];
-        [builder setSearchQuery:@""];
-        [builder setActionTaken:ABANDON];
-        [builder setPreviousScreen:@"asda"];
+        [builder setArticlePostDate:@"June 15, 2017"];
+        [builder setCommentContent:@"comment content"];
+        [builder setArticleCharacterCount:4];
+        [builder setFollowEntity:@"entity"];
+        [builder setMetaTags:@"TAGS"];
+        [builder setDuration:230];
+        [builder setPreviousScreen:@"previous screen"];
+        [builder setScreenDestination:@"screenDestination"];
     }];
     
     [ABSEventTracker initEventAttributes:attrib];

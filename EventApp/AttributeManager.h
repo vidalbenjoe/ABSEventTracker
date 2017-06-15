@@ -12,6 +12,7 @@
 #import "PropertyEventSource.h"
 #import "DeviceInvariant.h"
 #import "SessionManager.h"
+#import "ArbitaryVariant.h"
 @interface AttributeManager : NSObject <NSCoding>
 +(AttributeManager*) init;
 
@@ -20,13 +21,14 @@
 @property(nonatomic) PropertyEventSource *propertyinvariant;
 @property(nonatomic) DeviceInvariant *deviceinvariant;
 @property(nonatomic) SessionManager *session;
+@property(nonatomic) ArbitaryVariant *arbitaryinvariant;
 
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
 -(void) setUserAttributes:(UserAttributes *) userAttributes;
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes;
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
 -(void) setSession:(SessionManager *)sessionAttributes;
-
+-(void) setActionTimeStamp:(ArbitaryVariant *) timestamp;
 
 @end
 

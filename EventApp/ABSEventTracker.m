@@ -18,6 +18,7 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         [self initEventSource];
+        SessionManager *session = [[SessionManager alloc] init];
         DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
             [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
             [builder setDeviceOS:[DeviceInfo systemVersion]];
@@ -30,6 +31,7 @@
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
         
+        [session establish];
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
 

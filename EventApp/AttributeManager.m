@@ -17,6 +17,7 @@
 @synthesize propertyinvariant;
 @synthesize deviceinvariant;
 @synthesize session;
+@synthesize arbitaryinvariant;
 
 +(AttributeManager*) init{
     static dispatch_once_t onceToken = 0;
@@ -32,6 +33,7 @@
     [encoder encodeObject:eventattributes forKey:@"eventAttributes"];
     [encoder encodeObject:userattributes forKey:@"userAttributes"];
     [encoder encodeObject:userattributes forKey:@"deviceInvariant"];
+    [encoder encodeObject:arbitaryinvariant forKey:@"arbitaryInvariant"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -40,6 +42,7 @@
      self.eventattributes = [decoder decodeObjectForKey:@"eventAttributes"];
      self.userattributes = [decoder decodeObjectForKey:@"userAttributes"];
      self.userattributes = [decoder decodeObjectForKey:@"deviceInvariant"];
+    self.arbitaryinvariant = [decoder decodeObjectForKey:@"arbitaryInvariant"];
     return self;
 }
 
@@ -60,6 +63,8 @@
     session = sessionAttributes;
 }
 
-
+-(void) setActionTimeStamp:(ArbitaryVariant *) timestamp{
+    arbitaryinvariant = timestamp;
+}
 
 @end

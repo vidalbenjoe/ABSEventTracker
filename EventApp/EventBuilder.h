@@ -30,9 +30,9 @@
 
 @property(nonatomic) float latitute;
 @property(nonatomic) float longitude;
-@property(nonatomic) int *articleCharacterCount;
-@property(nonatomic) int *rating;
-@property(nonatomic) int *duration;
+@property(nonatomic) int articleCharacterCount;
+@property(nonatomic) int rating;
+@property(nonatomic) int duration;
 
 -(instancetype) init;
 

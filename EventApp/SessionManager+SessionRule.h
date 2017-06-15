@@ -7,7 +7,6 @@
 //
 
 #import "SessionManager.h"
-
 @interface SessionManager (SessionRule)
 -(void) updateSession;
 -(void) updateSessionTime;

@@ -11,6 +11,7 @@
 #import "ABSNetworking.h"
 #import "AuthManager.h"
 #import "CacheManager.h"
+#import "DeviceFingerprinting.h"
 
 @implementation ABSBigDataServiceDispatcher
 
@@ -49,61 +50,63 @@
     });
 }
 
-
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            ObjectOrNull(attributes.eventattributes.clickedContent) , @"fingerprintID",
+    NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
             ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
             ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
             [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
             ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
             ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
-            @"domain" , @"PageAccessTimeStamp",
-            @"domain" , @"AbandonTimeStamp",
-            @"domain" , @"WritingEventTimestamp",
-            @"domain" , @"LogoutTimeStamp",
+            ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp) , @"PageAccessTimeStamp",
+            ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp) , @"AbandonTimeStamp",
+            ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp) , @"WritingEventTimestamp",
+            ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp) , @"LogoutTimeStamp",
+            ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp) , @"SearchTimeStamp",
             @"domain" , @"BigDataSessionID",
-            @"domain" , @"SessionStartTimestamp",
-            @"domain" , @"SessionEndTimestamp",
-            @"domain" , @"SearchTimeStamp",
+            ObjectOrNull(attributes.session.sessionStart) , @"SessionStartTimestamp",
+            ObjectOrNull(attributes.session.sessionEnd) , @"SessionEndTimestamp",
             ObjectOrNull(attributes.userattributes.firstName) , @"FirstName",
             ObjectOrNull(attributes.userattributes.middleName) , @"MiddleName",
             ObjectOrNull(attributes.userattributes.lastName) , @"LastName",
             ObjectOrNull(attributes.userattributes.gigyaID) , @"GigyaID",
-            ObjectOrNull(attributes.userattributes.gigyaID) , @"ClickedContent",
-            [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]], @"Longitude",
-            [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]] , @"Latitude",
+            ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
+            ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
+            ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
             ObjectOrNull(attributes.eventattributes.searchQuery) , @"QueryString",
-            @"domain" , @"ActionTaken",
+             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.actionTaken]) , @"ActionTaken",
             ObjectOrNull(attributes.eventattributes.readArticles) , @"ReadArticle",
-            @"" , @"ReadingDuration",
+            ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.duration]) , @"ReadingDuration",
             ObjectOrNull(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
             ObjectOrNull(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
             ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentContent",
-            @"", @"ArticleContentAmount",
+                                                 ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]), @"ArticleContentAmount",
             ObjectOrNull(attributes.eventattributes.loginTimeStamp) , @"LoginTimeStamp",
             ObjectOrNull(attributes.eventattributes.likedContent) , @"LikedContent",
             ObjectOrNull(attributes.eventattributes.shareRetweetContent) , @"ShareRetweetContent",
             ObjectOrNull(attributes.eventattributes.followEntity) , @"FollowedEntity",
-            @"" , @"Rating",
+             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.rating]) , @"Rating",
             ObjectOrNull(attributes.eventattributes.metaTags) , @"PageMetaTags",
             ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousWebpage",
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"LinkDestination", nil];
+    
+
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
         NSMutableString *resultString = [NSMutableString string];
-        for (NSString* key in [dict allKeys]){
+        for (NSString* key in [attributesDictionary allKeys]){
             if ([resultString length]>0)
                 [resultString appendString:@"&"];
-                [resultString appendFormat:@"%@=%@", key, [dict objectForKey:key]];
+                [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
         }
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            [CacheManager storeFailedAttributesToCacheManager:dict];
+            [CacheManager storeFailedAttributesToCacheManager:attributesDictionary];
+            NSLog(@"failedRequestAttributes: %@", attributesDictionary);
         }];
     });
 }

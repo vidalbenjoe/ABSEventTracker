@@ -37,7 +37,7 @@
         _rating                 = builder.rating;
         _duration               = builder.duration;
     }
-    
+    [self action];
     return self;
 }
 
@@ -61,12 +61,14 @@
     builder.articleCharacterCount   = _articleCharacterCount;
     builder.rating                  = _rating;
     builder.duration = _duration;
+    
     return builder;
 }
 
 +(instancetype) makeWithBuilder:(void (^)(EventBuilder *))updateBlock{
     EventBuilder *builder = [EventBuilder new];
     updateBlock(builder);
+    
     return [[EventAttributes alloc] initWithBuilder: builder];
 }
 
@@ -76,13 +78,16 @@
     return [[EventAttributes alloc] initWithBuilder:builder];
 }
 -(instancetype) build{
+    
     EventBuilder *builder = [EventBuilder new];
+    
     return [self initWithBuilder:builder];
 }
 
 
 -(void) action{
-      ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
+    NSLog(@"acion");
+    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     switch (_actionTaken) {
         case FACEBOOK_LIKE:
             
@@ -133,14 +138,12 @@
             
         case LOGIN:
             break;
-            
         case READ_ARTICLES:
             break;
-            
         case OTHERS:
             break;
-            
         case LOAD:
+            NSLog(@"loadwd");
             [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
             break;
         case ABANDON:

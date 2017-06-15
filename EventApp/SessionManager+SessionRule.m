@@ -14,28 +14,29 @@
     NSDate *start = [self sessionStart];
     NSDate *end = [self sessionEnd];
     
-    long startMinute = [start timeIntervalSinceReferenceDate];
-    long endMinute = [end timeIntervalSinceReferenceDate];
+    long startMinute = [start timeIntervalSince1970];
+    long endMinute = [end timeIntervalSince1970];
+  
+    NSLog(@"startTUM: %@", start);
+    NSLog(@"startTUM: %@", end);
     
     NSLog(@"startMinute: %ld", startMinute);
-    NSLog(@"startMinute: %ld", endMinute);
+    NSLog(@"endMinute: %ld", endMinute);
     
-    if ((endMinute - startMinute) <= 0) {
-        [self updateSessionID];
-        return;
-    } else {
-        [self updateSessionTime];
-    }
+//    if ((endMinute - startMinute) <= 0) {
+//        [self updateSessionID];
+//        return;
+//    } else {
+//        [self updateSessionTime];
+//    }
 }
-
 
 -(void) updateSessionTime{
     NSDate *currentTime = [NSDate date];
-    NSDate *add30Min = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTES*60)];
-    
+    NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTES*60)];
     [self setSessionStart:currentTime];
-    [self setSessionEnd:add30Min];
-    
+    [self setSessionEnd:endtime];
+    [self updateSession];
     
 }
 
