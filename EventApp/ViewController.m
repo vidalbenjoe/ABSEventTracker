@@ -42,7 +42,6 @@
   
     
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-       
         [builder setClickedContent:@"Button"];
         [builder setSearchQuery:@"Search..."];
         [builder setActionTaken:LOAD];
@@ -52,11 +51,16 @@
         [builder setCommentContent:@"comment content"];
         [builder setArticleCharacterCount:4];
         [builder setFollowEntity:@"entity"];
+        [builder setLikedContent:@"Liked"];
         [builder setMetaTags:@"TAGS"];
+        [builder setLatitute:120.421412];
+        [builder setLongitude:14.2323];
         [builder setDuration:230];
+        [builder setRating:23];
         [builder setPreviousScreen:@"previous screen"];
         [builder setScreenDestination:@"screenDestination"];
     }];
+    
     
     [ABSEventTracker initEventAttributes:attrib];
     NSLog(@"EventAttdwributes: %ld", (long)[attrib actionTaken]);

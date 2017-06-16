@@ -27,6 +27,14 @@
             [builder setDeviceType:[DeviceInfo platformType]];
         }];
         
+        UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
+            [builder setFirstName:@"Benjoe"];
+            [builder setLastName:@"Vidal"];
+            [builder setMiddleName:@"Rivera"];
+            [builder setSsoID:@"SSOID"];
+            [builder setGigyaID:@"GIGYAID"];
+        }];
+        
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
@@ -34,7 +42,7 @@
         [session establish];
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
-
+        [self initWithUser:user];
         NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
     });
     

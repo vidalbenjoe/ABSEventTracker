@@ -42,9 +42,11 @@
             // store the token somewhere
             NSString *token = responseObject[@"access_token"];
             [AuthManager storeTokenToUserDefault:token];
+             NSLog(@"authSuccs: %@ ", token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [self requestSecurityHashViaHttp:^(NSString *sechash) {
                     [AuthManager storeSecurityHashTouserDefault:sechash];
+                    NSLog(@"authErrir: %@ ", sechash);
                 }];
         }];
     });
@@ -90,8 +92,8 @@
             ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousWebpage",
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"LinkDestination", nil];
     
-
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
@@ -102,9 +104,15 @@
                 [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
         }
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            
+            [self requestToken:^(NSString *token) {
+                NSLog(@"returnedTokenL %@", token);
+            }];
+            
             [CacheManager storeFailedAttributesToCacheManager:attributesDictionary];
             NSLog(@"failedRequestAttributes: %@", attributesDictionary);
         }];
