@@ -10,8 +10,12 @@
 #import "ABSBigDataServiceDispatcher.h"
 @implementation AttributeWriter
 @synthesize manager;
+
 +(void) writer:(AttributeManager *) manager{
+    [[SessionManager init] update];
     [ABSBigDataServiceDispatcher dispatchAttribute:manager];
 }
+
+
 
 @end

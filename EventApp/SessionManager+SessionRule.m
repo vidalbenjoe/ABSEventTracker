@@ -11,24 +11,43 @@
 @implementation SessionManager (SessionRule)
 
 -(void) updateSession{
-    NSDate *start = [self sessionStart];
+    NSDate *start = [NSDate date];
     NSDate *end = [self sessionEnd];
+    CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
     
-    long startMinute = [start timeIntervalSince1970];
-    long endMinute = [end timeIntervalSince1970];
+    long startInterval = [start timeIntervalSince1970];
+    long endInterval = [end timeIntervalSince1970];
   
-    NSLog(@"startTUM: %@", start);
-    NSLog(@"startTUM: %@", end);
+    long startMinute = (startInterval / 1000) / 60;
+    long endMinute = (endInterval / 1000) / 60;
     
-    NSLog(@"startMinute: %ld", startMinute);
-    NSLog(@"endMinute: %ld", endMinute);
+    NSTimeInterval date = [start timeIntervalSinceReferenceDate];
+    double milliseconds = date*1000;
+    float seconds = milliseconds / 1000.0;
+    float minutes = seconds / 60.0;
     
-//    if ((endMinute - startMinute) <= 0) {
-//        [self updateSessionID];
-//        return;
-//    } else {
-//        [self updateSessionTime];
-//    }
+    NSLog(@"seconds: %f", minutes);
+    
+    //get milliseconds of the start then convert to minute
+
+    
+    NSLog(@"timwe: %f", time);
+    
+    NSLog(@"startInterval: %ld", startInterval);
+    NSLog(@"endInterval %ld",endInterval);
+    
+    NSLog(@"startMinutes: %ld", startMinute);
+    NSLog(@"endMinutes %ld",endMinute);
+    
+    NSLog(@"startTime %@",start);
+    NSLog(@"endTime %@",start);
+    
+    if ((endMinute - startMinute) <= 0) {
+        [self updateSessionID];
+        return;
+    } else {
+        [self updateSessionTime];
+    }
 }
 
 -(void) updateSessionTime{
@@ -36,8 +55,10 @@
     NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTES*60)];
     [self setSessionStart:currentTime];
     [self setSessionEnd:endtime];
-    [self updateSession];
     
+    NSLog(@"currentTime %@",currentTime);
+    NSLog(@"curentEndTime %@",endtime);
+//    [self updateSession];
 }
 
 -(void) updateSessionID{

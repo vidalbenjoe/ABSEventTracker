@@ -18,7 +18,7 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         [self initEventSource];
-        SessionManager *session = [[SessionManager alloc] init];
+        [[SessionManager init] establish];
         DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
             [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
             [builder setDeviceOS:[DeviceInfo systemVersion]];
@@ -38,11 +38,12 @@
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+
         
-        [session establish];
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
         [self initWithUser:user];
+        [self initSession:[SessionManager init]];
         NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
     });
     
@@ -68,7 +69,6 @@
 +(void) initAppProperty:(PropertyEventSource *) attributes{
     [[AttributeManager init] setPropertyAttributes:attributes];
 }
-
 +(void) initWithUser:(UserAttributes *) attributes {
     [[AttributeManager init] setUserAttributes:attributes];
 }
@@ -77,6 +77,10 @@
 }
 +(void) initEventAttributes: (EventAttributes *) attributes{
     [EventController writeEvent:attributes];
+}
+
++(void) initSession :(SessionManager*) attributes{
+    [[AttributeManager init] setSession:attributes];
 }
 
 @end

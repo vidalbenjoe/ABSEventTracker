@@ -10,6 +10,7 @@
 #import "ABSEventAttributeQualifier.h"
 #import "ArbitaryVariant.h"
 #import "FormatUtils.h"
+#import "AttributeManager.h"
 @implementation EventAttributes
 @synthesize violatedQualifiers;
 -(instancetype) initWithBuilder:(EventBuilder *)builder{
@@ -88,6 +89,7 @@
 -(void) action{
     NSLog(@"acion");
     ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
+ 
     switch (_actionTaken) {
         case FACEBOOK_LIKE:
             
@@ -143,13 +145,14 @@
         case OTHERS:
             break;
         case LOAD:
-            NSLog(@"loadwd");
             [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
             break;
+      
         case ABANDON:
             [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate]];
             break;
         case LOGOUT:
+            
             [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate]];
             break;
         case SEARCH:
@@ -161,6 +164,7 @@
         default:
             break;
     }
+//       [[AttributeManager init] setActionTimeStamp:arbitary];
 }
 
 @end

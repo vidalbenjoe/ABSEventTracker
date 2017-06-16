@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
 @interface SessionManager : NSObject
 @property(nonatomic, assign) int sessionID;
-@property(nonatomic, assign) NSDate *sessionStart;
-@property(nonatomic, assign) NSDate *sessionEnd;
-
+@property(nonatomic, retain) NSDate *sessionStart;
+@property(nonatomic, retain) NSDate *sessionEnd;
++(SessionManager*) init;
 -(void) establish;
 -(void) update;
-
 @end

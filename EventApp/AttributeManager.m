@@ -62,7 +62,6 @@
 -(void) setSession:(SessionManager *)sessionAttributes{
     session = sessionAttributes;
 }
-
 -(void) setActionTimeStamp:(ArbitaryVariant *) timestamp{
     arbitaryinvariant = timestamp;
 }

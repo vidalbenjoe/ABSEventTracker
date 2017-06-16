@@ -12,7 +12,7 @@
 
 NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net";
 NSString* const eventTokenURL           = @"/token";
-NSString* const eventWriteURL           = @"/api/event/write";
+NSString* const eventWriteURL           = @"/sapi/event/write";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 
 +(NSString *) generateNewMobileHeader{

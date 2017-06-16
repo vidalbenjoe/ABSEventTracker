@@ -12,9 +12,10 @@
 #import "AuthManager.h"
 #import "CacheManager.h"
 #import "DeviceFingerprinting.h"
+#import "ArbitaryVariant.h"
 
 @implementation ABSBigDataServiceDispatcher
-
+@synthesize arbitary;
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler{
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -53,6 +54,17 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
+    
+    
+    
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+//    [formatter setDateStyle:NSDateFormatterShortStyle];
+//    [formatter setTimeStyle:NSDateFormatterNoStyle];
+//    NSString *result = [formatter stringFromDate:attributes.session.sessionEnd];
+//
+//    NSLog(@"sessionsadaw: %@",result);
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
             ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
@@ -66,8 +78,8 @@
             ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp) , @"LogoutTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp) , @"SearchTimeStamp",
             @"domain" , @"BigDataSessionID",
-            ObjectOrNull(attributes.session.sessionStart) , @"SessionStartTimestamp",
-            ObjectOrNull(attributes.session.sessionEnd) , @"SessionEndTimestamp",
+            @"" , @"SessionStartTimestamp",
+            @"", @"SessionEndTimestamp",
             ObjectOrNull(attributes.userattributes.firstName) , @"FirstName",
             ObjectOrNull(attributes.userattributes.middleName) , @"MiddleName",
             ObjectOrNull(attributes.userattributes.lastName) , @"LastName",
@@ -109,9 +121,9 @@
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             
-            [self requestToken:^(NSString *token) {
-                NSLog(@"returnedTokenL %@", token);
-            }];
+//            [self requestToken:^(NSString *token) {
+//                NSLog(@"returnedTokenL %@", token);
+//            }];
             
             [CacheManager storeFailedAttributesToCacheManager:attributesDictionary];
             NSLog(@"failedRequestAttributes: %@", attributesDictionary);

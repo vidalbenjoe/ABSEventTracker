@@ -18,4 +18,13 @@
     NSLog(@"The Current Time is %@",[dateFormatter stringFromDate:now]);
     return [dateFormatter stringFromDate:now];
 }
+
++(NSString *) dateFormatter:(NSDate *) date{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [formatter setDateStyle:NSDateFormatterShortStyle];
+    [formatter setTimeStyle:NSDateFormatterNoStyle];
+    NSString *result = [formatter stringFromDate:date];
+    return result;
+}
 @end

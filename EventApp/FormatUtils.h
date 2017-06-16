@@ -11,5 +11,5 @@
 @interface FormatUtils : NSObject
 
 +(NSString *) getCurrentTimeAndDate;
-
++(NSString *) dateFormatter:(NSDate *) date;
 @end

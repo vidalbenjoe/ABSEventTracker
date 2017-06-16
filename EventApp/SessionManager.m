@@ -12,6 +12,14 @@
 @synthesize sessionID;
 @synthesize sessionStart;
 @synthesize sessionEnd;
++(SessionManager*) init{
+    static dispatch_once_t onceToken = 0;
+    static id shared = nil;
+    dispatch_once(&onceToken, ^{
+        shared = [[self alloc] init];
+    });
+    return shared;
+}
 
 -(void) establish{
     [self updateSessionID];
@@ -21,5 +29,6 @@
 -(void) update{
     [self updateSession];
 }
+
 
 @end
