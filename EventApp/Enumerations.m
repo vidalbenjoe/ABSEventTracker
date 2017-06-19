@@ -9,6 +9,7 @@
 #import "Enumerations.h"
 
 @implementation Enumerations
+
 +(NSDictionary *) actionTakenByName{
     return @{@(FACEBOOK_LIKE)       : @"FacebookLike",
              @(FACEBOOK_SHARE)      : @"FaceboookShare",
@@ -25,15 +26,18 @@
              @(SOCIAL_LIKE)         : @"SocialLike",
              @(CLICK_HYPERLINK)     : @"ClickHyperlink",
              @(RATE)                : @"Rate",
+             @(LOAD)                : @"Load",
+             @(UNSPECIFIED)         : @"Unspecified",
              @(CLICK_IMAGE)         : @"ClikImage",
-             @(FACEBOOK_FOLLOW)     : @"FacebookFollow",
              @(SLIDER)              : @"Slider",
              @(READ_ARTICLES)       : @"ReadArticle",
-             @(ABANDON)             : @"Abandon"
+             @(ABANDON)             : @"Abandon",
+             @(OTHERS)              : @"Other"
              };
 }
 
--(NSString *) actionTakenName{
-    return [[self class] actionTakenByName][@(self.property)];
++(NSString *) convertActionTaken: (ActionTaken) action{
+    return [[self class] actionTakenByName][@(action)];
 }
+
 @end

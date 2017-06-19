@@ -130,7 +130,7 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 
 
 typedef NS_ENUM(NSUInteger, HTTPStatus){
-    SUCCESS                =   200,
+    SUCCESS                =    200,
     UNAUTHORIZE             =   401,
     BAD_REQUEST             =   400,
     NOT_FOUND               =   404,
@@ -141,9 +141,6 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
 #endif /* Enumarations_h */
 
 @interface Enumerations : NSObject
-
-@property(nonatomic, assign) DigitalProperty property;
--(NSString *) actionTakenName;
-
++(NSString *) convertActionTaken: (ActionTaken) action;
 @end
 

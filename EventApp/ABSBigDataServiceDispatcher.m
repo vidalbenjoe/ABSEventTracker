@@ -55,9 +55,8 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-//    NSLog(@"sessionStartdaw: %@",attributes.session.sessionID);
     NSLog(@"enumasd: %@", [DeviceFingerprinting generateDeviceFingerprint]);
-    
+    NSString *action = [Enumerations convertActionTaken:attributes.eventattributes.actionTaken];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
             ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
@@ -81,7 +80,7 @@
             ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
             ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
             ObjectOrNull(attributes.eventattributes.searchQuery) , @"QueryString",
-            @"", @"ActionTaken",
+            ObjectOrNull(action), @"ActionTaken",
             ObjectOrNull(attributes.eventattributes.readArticles) , @"ReadArticle",
             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.duration]) , @"ReadingDuration",
             ObjectOrNull(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
@@ -101,12 +100,11 @@
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
         NSMutableString *resultString = [NSMutableString string];
-//        for (NSString* key in [attributesDictionary allKeys]){
-//            if ([resultString length]>0)
-//                [resultString appendString:@"&"];
-//                [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
-//        }
-        
+        for (NSString* key in [attributesDictionary allKeys]){
+            if ([resultString length]>0)
+                [resultString appendString:@"&"];
+                [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
+        }
         NSLog(@"dicwe: %@", attributesDictionary);
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
         

@@ -39,7 +39,6 @@
 }
 
 - (IBAction)writerButton:(id)sender {
-  
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setSearchQuery:@"Search..."];

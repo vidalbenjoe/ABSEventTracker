@@ -17,7 +17,7 @@
 @property(nonatomic, weak) NSString *searchTimeStamp;
 
 -(NSString*) getLaunchTime;
-+(instancetype) init;
++(ArbitaryVariant*) init;
 +(instancetype) makeWithBuilder:(void (^) (ArbitaryBuilder *)) updateBlock;
 -(instancetype) initTimeStampWithBuilder:(ArbitaryBuilder *) builder;
 -(instancetype) update:(void(^)(ArbitaryBuilder *)) updateBlock;

@@ -44,11 +44,14 @@
         [self initAppProperty:digitalProperty];
         [self initWithUser:user];
         [self initSession:[SessionManager init]];
+        [self initArbitaryAttributes:[ArbitaryVariant init]];
         
-        ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
-        [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+        EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+            [builder setActionTaken:LOAD];
+        }];
         
-        
+        [ABSEventTracker initEventAttributes:attrib];
+
         NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
     });
     
@@ -84,7 +87,8 @@
     [EventController writeEvent:attributes];
 }
 
--(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
++(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
+    [attributes setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
     [[AttributeManager init] setActionTimeStamp:attributes];
 }
 

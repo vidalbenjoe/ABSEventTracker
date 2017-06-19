@@ -10,7 +10,7 @@
 
 @implementation ArbitaryVariant
 @synthesize applicationLaunchTimeStamp;
-+(instancetype) init{
++(ArbitaryVariant*) init{
     static ArbitaryVariant *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
