@@ -40,19 +40,18 @@
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
         
-        [self initWithDevice:device];
-        [self initAppProperty:digitalProperty];
-        [self initWithUser:user];
-        [self initSession:[SessionManager init]];
-        [self initArbitaryAttributes:[ArbitaryVariant init]];
-        
-        EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-            [builder setActionTaken:LOAD];
-        }];
-        
-        [ABSEventTracker initEventAttributes:attrib];
-
-        NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            [self initWithDevice:device];
+            [self initAppProperty:digitalProperty];
+            [self initWithUser:user];
+            [self initSession:[SessionManager init]];
+            EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:LOAD];
+            }];
+            [ABSEventTracker initEventAttributes:attrib];
+            
+        });
     });
     
     return shared;
@@ -83,12 +82,8 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
-+(void) initEventAttributes: (EventAttributes *) attributes{
-    [EventController writeEvent:attributes];
-}
 
 +(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
-    [attributes setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
     [[AttributeManager init] setActionTimeStamp:attributes];
 }
 
@@ -96,6 +91,9 @@
     [[AttributeManager init] setSession:attributes];
 }
 
++(void) initEventAttributes: (EventAttributes *) attributes{
+    [EventController writeEvent:attributes];
+}
 
 
 

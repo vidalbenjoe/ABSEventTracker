@@ -55,7 +55,7 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    NSLog(@"enumasd: %@", [DeviceFingerprinting generateDeviceFingerprint]);
+    NSLog(@"enumasd: %@", attributes.arbitaryinvariant.applicationLaunchTimeStamp);
     NSString *action = [Enumerations convertActionTaken:attributes.eventattributes.actionTaken];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -105,9 +105,7 @@
                 [resultString appendString:@"&"];
                 [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
         }
-        NSLog(@"dicwe: %@", attributesDictionary);
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {

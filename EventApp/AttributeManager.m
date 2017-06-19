@@ -43,7 +43,7 @@
      self.eventattributes = [decoder decodeObjectForKey:@"eventAttributes"];
      self.userattributes = [decoder decodeObjectForKey:@"userAttributes"];
      self.userattributes = [decoder decodeObjectForKey:@"deviceInvariant"];
-    self.arbitaryinvariant = [decoder decodeObjectForKey:@"arbitaryInvariant"];
+     self.arbitaryinvariant = [decoder decodeObjectForKey:@"arbitaryInvariant"];
     return self;
 }
 
@@ -62,10 +62,12 @@
 }
 -(void) setSession:(SessionManager *)sessionAttributes{
     session = sessionAttributes;
-   
+     NSLog(@"sessionSTarTest %@", [sessionAttributes sessionStart]);
 }
+
 -(void) setActionTimeStamp:(ArbitaryVariant *) timestamp{
     arbitaryinvariant = timestamp;
+    NSLog(@"dawgdqhk %@", [timestamp applicationLaunchTimeStamp]);
 }
 
 @end

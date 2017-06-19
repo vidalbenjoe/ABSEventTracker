@@ -31,6 +31,10 @@ BOOL hasInitialized = false;
     ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     NSLog(@"luggs:%ld",(long)attributes.actionTaken);
     switch (attributes.actionTaken) {
+        case LOAD:
+            NSLog(@"action-w: Abandoned");
+            [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            break;
         case ABANDON:
             NSLog(@"action-w: Abandoned");
             [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate]];
@@ -50,7 +54,6 @@ BOOL hasInitialized = false;
         default:
             break;
     }
-    
     
     [[AttributeManager init] setActionTimeStamp:arbitary];
     [[AttributeManager init] setEventAttributes:attributes];

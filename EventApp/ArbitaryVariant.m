@@ -9,7 +9,6 @@
 #import "ArbitaryVariant.h"
 
 @implementation ArbitaryVariant
-@synthesize applicationLaunchTimeStamp;
 +(ArbitaryVariant*) init{
     static ArbitaryVariant *shared = nil;
     static dispatch_once_t onceToken;
@@ -19,14 +18,11 @@
     return shared;
 }
 
--(NSString*) getLaunchTime{
-    return applicationLaunchTimeStamp;
-}
 
 -(instancetype) initTimeStampWithBuilder:(ArbitaryBuilder *)builder{
     if (self = [super init]) {
         _applicationAbandonTimeStamp      =   builder.applicationAbandonTimeStamp;
-        applicationLaunchTimeStamp       =   builder.applicationLaunchTimeStamp;
+        _applicationLaunchTimeStamp       =   builder.applicationLaunchTimeStamp;
         _postCommentTimeStamp             =   builder.postCommentTimeStamp;
         _logoutTimeStamp                  =   builder.logoutTimeStamp;
         _searchTimeStamp                  =   builder.searchTimeStamp;
@@ -37,7 +33,7 @@
 -(ArbitaryBuilder *) makeBuilder{
     ArbitaryBuilder *builder = [ArbitaryBuilder new];
     builder.applicationAbandonTimeStamp     =   _applicationAbandonTimeStamp;
-    builder.applicationLaunchTimeStamp     =   applicationLaunchTimeStamp;
+    builder.applicationLaunchTimeStamp      =   _applicationLaunchTimeStamp;
     builder.postCommentTimeStamp            =   _postCommentTimeStamp;
     builder.logoutTimeStamp                 =   _logoutTimeStamp;
     builder.searchTimeStamp                 =   _searchTimeStamp;
@@ -68,11 +64,11 @@
 
 -(instancetype) init{
     if (self = [super init]) {
-        _applicationAbandonTimeStamp                      =   nil;
-        _applicationLaunchTimeStamp                    =   nil;
-        _postCommentTimeStamp                  =   nil;
-        _logoutTimeStamp                 =   nil;
-        _searchTimeStamp                   =   nil;
+        _applicationAbandonTimeStamp            =   nil;
+        _applicationLaunchTimeStamp             =   nil;
+        _postCommentTimeStamp                   =   nil;
+        _logoutTimeStamp                        =   nil;
+        _searchTimeStamp                        =   nil;
     }
     return self;
 }

@@ -12,7 +12,7 @@
 #import "ArbitaryVariant.h"
 @interface ABSBigDataServiceDispatcher : NSObject<EventCallBack>
 
-@property(nonatomic, retain) ArbitaryVariant *arbitary;
+@property(nonatomic) ArbitaryVariant *arbitary;
 
 +(void)requestToken: (void (^)(NSString *token))handler;
 +(void) dispatchAttribute:(AttributeManager *) attributes;

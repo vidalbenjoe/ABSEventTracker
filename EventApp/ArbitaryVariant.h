@@ -11,12 +11,11 @@
 @interface ArbitaryVariant : NSObject
 
 @property(nonatomic, weak) NSString *applicationAbandonTimeStamp;
-@property(nonatomic, strong, retain) NSString *applicationLaunchTimeStamp;
+@property(nonatomic, weak) NSString *applicationLaunchTimeStamp;
 @property(nonatomic, weak) NSString *postCommentTimeStamp;
 @property(nonatomic, weak) NSString *logoutTimeStamp;
 @property(nonatomic, weak) NSString *searchTimeStamp;
 
--(NSString*) getLaunchTime;
 +(ArbitaryVariant*) init;
 +(instancetype) makeWithBuilder:(void (^) (ArbitaryBuilder *)) updateBlock;
 -(instancetype) initTimeStampWithBuilder:(ArbitaryBuilder *) builder;

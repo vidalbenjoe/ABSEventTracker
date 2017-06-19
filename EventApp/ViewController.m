@@ -30,7 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [appTitle setAdjustsFontSizeToFitWidth:TRUE];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +60,6 @@
     
     [ABSEventTracker initEventAttributes:attrib];
     NSLog(@"EventAttdwributes: %ld", (long)[attrib actionTaken]);
-    
     
 }
 - (IBAction)readPlist:(UIButton *)sender {
