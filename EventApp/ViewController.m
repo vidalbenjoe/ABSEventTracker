@@ -40,11 +40,10 @@
 
 - (IBAction)writerButton:(id)sender {
   
-    
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setSearchQuery:@"Search..."];
-        [builder setActionTaken:LOAD];
+        [builder setActionTaken:ABANDON];
         [builder setReadArticles:@"Philstar"];
         [builder setArticleAuthor:@"Bob Ong"];
         [builder setArticlePostDate:@"June 15, 2017"];
@@ -61,9 +60,9 @@
         [builder setScreenDestination:@"screenDestination"];
     }];
     
-    
     [ABSEventTracker initEventAttributes:attrib];
     NSLog(@"EventAttdwributes: %ld", (long)[attrib actionTaken]);
+    
     
 }
 - (IBAction)readPlist:(UIButton *)sender {

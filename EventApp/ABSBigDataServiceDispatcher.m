@@ -13,6 +13,7 @@
 #import "CacheManager.h"
 #import "DeviceFingerprinting.h"
 #import "ArbitaryVariant.h"
+#import "FormatUtils.h"
 
 @implementation ABSBigDataServiceDispatcher
 @synthesize arbitary;
@@ -54,16 +55,8 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    
-    
-    
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    [formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-//    [formatter setDateStyle:NSDateFormatterShortStyle];
-//    [formatter setTimeStyle:NSDateFormatterNoStyle];
-//    NSString *result = [formatter stringFromDate:attributes.session.sessionEnd];
-//
-//    NSLog(@"sessionsadaw: %@",result);
+//    NSLog(@"sessionStartdaw: %@",attributes.session.sessionID);
+//    NSLog(@"enumasd: %@", attributes.session.sessionID);
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -77,9 +70,9 @@
             ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp) , @"WritingEventTimestamp",
             ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp) , @"LogoutTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp) , @"SearchTimeStamp",
-            @"domain" , @"BigDataSessionID",
-            @"" , @"SessionStartTimestamp",
-            @"", @"SessionEndTimestamp",
+            ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID])  , @"BigDataSessionID",
+            ObjectOrNull(attributes.session.sessionStart) , @"SessionStartTimestamp",
+            ObjectOrNull(attributes.session.sessionEnd), @"SessionEndTimestamp",
             ObjectOrNull(attributes.userattributes.firstName) , @"FirstName",
             ObjectOrNull(attributes.userattributes.middleName) , @"MiddleName",
             ObjectOrNull(attributes.userattributes.lastName) , @"LastName",
@@ -88,13 +81,13 @@
             ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
             ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
             ObjectOrNull(attributes.eventattributes.searchQuery) , @"QueryString",
-             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.actionTaken]) , @"ActionTaken",
+            @"", @"ActionTaken",
             ObjectOrNull(attributes.eventattributes.readArticles) , @"ReadArticle",
             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.duration]) , @"ReadingDuration",
             ObjectOrNull(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
             ObjectOrNull(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
             ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentContent",
-                                                 ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]), @"ArticleContentAmount",
+            ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]), @"ArticleContentAmount",
             ObjectOrNull(attributes.eventattributes.loginTimeStamp) , @"LoginTimeStamp",
             ObjectOrNull(attributes.eventattributes.likedContent) , @"LikedContent",
             ObjectOrNull(attributes.eventattributes.shareRetweetContent) , @"ShareRetweetContent",
@@ -103,27 +96,23 @@
             ObjectOrNull(attributes.eventattributes.metaTags) , @"PageMetaTags",
             ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousWebpage",
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"LinkDestination", nil];
-    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
         NSMutableString *resultString = [NSMutableString string];
-        for (NSString* key in [attributesDictionary allKeys]){
-            if ([resultString length]>0)
-                [resultString appendString:@"&"];
-                [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
-        }
+//        for (NSString* key in [attributesDictionary allKeys]){
+//            if ([resultString length]>0)
+//                [resultString appendString:@"&"];
+//                [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
+//        }
+        
+        NSLog(@"dicwe: %@", attributesDictionary);
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
         
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"postrespodwnseObject: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
-//            [self requestToken:^(NSString *token) {
-//                NSLog(@"returnedTokenL %@", token);
-//            }];
             
             [CacheManager storeFailedAttributesToCacheManager:attributesDictionary];
             NSLog(@"failedRequestAttributes: %@", attributesDictionary);

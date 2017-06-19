@@ -24,6 +24,7 @@
     static id shared = nil;
     dispatch_once(&onceToken, ^{
         shared = [[self alloc] init];
+        
     });
     return shared;
 }
@@ -61,6 +62,7 @@
 }
 -(void) setSession:(SessionManager *)sessionAttributes{
     session = sessionAttributes;
+   
 }
 -(void) setActionTimeStamp:(ArbitaryVariant *) timestamp{
     arbitaryinvariant = timestamp;

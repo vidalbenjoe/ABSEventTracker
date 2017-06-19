@@ -8,6 +8,9 @@
 
 #import "DeviceFingerprinting.h"
 #import "DeviceInfo.h"
+#import <CommonCrypto/CommonKeyDerivation.h>
+
+
 
 @implementation DeviceFingerprinting
 +(NSString*) buildRawEntropy{
@@ -26,4 +29,6 @@
     NSString * rawString = [self buildRawEntropy];
     return rawString;
 }
+
+
 @end

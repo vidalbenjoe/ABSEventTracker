@@ -143,6 +143,7 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
 @interface Enumerations : NSObject
 
 @property(nonatomic, assign) DigitalProperty property;
+-(NSString *) actionTakenName;
 
 @end
 

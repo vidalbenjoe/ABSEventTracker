@@ -10,5 +10,6 @@
 #import "AttributeManager.h"
 @interface AttributeWriter : NSObject
 @property(nonatomic) AttributeManager *manager;
+@property(nonatomic) ActionTaken *action;
 +(void) writer:(AttributeManager *) manager;
 @end

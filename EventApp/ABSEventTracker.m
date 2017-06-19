@@ -9,9 +9,10 @@
 #import "DeviceFingerprinting.h"
 #import "DeviceInfo.h"
 #import "EventController.h"
-
+#import "EventAttributes.h"
+#import "FormatUtils.h"
 @implementation ABSEventTracker
-
+@synthesize events;
 +(ABSEventTracker *) init{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
@@ -38,12 +39,16 @@
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-
         
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
         [self initWithUser:user];
         [self initSession:[SessionManager init]];
+        
+        ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
+        [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+        
+        
         NSLog(@"properwName: %lu",(unsigned long)[[PropertyEventSource init] property]);
     });
     
@@ -79,8 +84,15 @@
     [EventController writeEvent:attributes];
 }
 
+-(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
+    [[AttributeManager init] setActionTimeStamp:attributes];
+}
+
 +(void) initSession :(SessionManager*) attributes{
     [[AttributeManager init] setSession:attributes];
 }
+
+
+
 
 @end

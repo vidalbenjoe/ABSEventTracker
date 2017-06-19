@@ -27,4 +27,14 @@
     NSString *result = [formatter stringFromDate:date];
     return result;
 }
+
++(NSString *) randomUUID{
+    unsigned char bytes[128];
+    int result = SecRandomCopyBytes(kSecRandomDefault, 128, bytes);
+    if (result != noErr) {
+        return nil;
+    }
+    NSString *randomUUID = [[NSUUID alloc] initWithUUIDBytes:bytes].UUIDString;
+    return randomUUID;
+}
 @end

@@ -12,4 +12,5 @@
 
 +(NSString *) getCurrentTimeAndDate;
 +(NSString *) dateFormatter:(NSDate *) date;
++(NSString *) randomUUID;
 @end

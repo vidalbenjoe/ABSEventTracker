@@ -8,13 +8,14 @@
 
 #import "AttributeWriter.h"
 #import "ABSBigDataServiceDispatcher.h"
+#import "Enumerations.h"
 @implementation AttributeWriter
 @synthesize manager;
-
 +(void) writer:(AttributeManager *) manager{
     [[SessionManager init] update];
     [ABSBigDataServiceDispatcher dispatchAttribute:manager];
 }
+
 
 
 

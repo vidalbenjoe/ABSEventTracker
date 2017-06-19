@@ -38,7 +38,7 @@
         _rating                 = builder.rating;
         _duration               = builder.duration;
     }
-    [self action];
+
     return self;
 }
 
@@ -85,86 +85,5 @@
     return [self initWithBuilder:builder];
 }
 
-
--(void) action{
-    NSLog(@"acion");
-    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
- 
-    switch (_actionTaken) {
-        case FACEBOOK_LIKE:
-            
-            break;
-            
-        case FACEBOOK_SHARE:
-            
-            break;
-            
-        case FACEBOOK_FOLLOW:
-            break;
-            
-        case TWITTER_SHARE:
-            break;
-        case TWITTER_FOLLOW:
-            break;
-            
-        case INSTAGRAM_SHARE:
-            break;
-            
-        case INSTAGRAM_FOLLOW:
-            break;
-            
-        case CLICK_HYPERLINK:
-            
-            break;
-            
-        case SOCIAL_SHARE:
-            
-            break;
-            
-        case SOCIAL_FOLLOW:
-            
-            break;
-        
-        case SOCIAL_LIKE:
-            break;
-            
-        case RATE:
-            
-            break;
-            
-        case CLICK_IMAGE:
-            break;
-            
-        case SLIDER:
-            break;
-            
-        case LOGIN:
-            break;
-        case READ_ARTICLES:
-            break;
-        case OTHERS:
-            break;
-        case LOAD:
-            [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
-            break;
-      
-        case ABANDON:
-            [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate]];
-            break;
-        case LOGOUT:
-            
-            [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate]];
-            break;
-        case SEARCH:
-            [arbitary setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
-            break;
-        case POST_COMMENT:
-            [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate]];
-            break;
-        default:
-            break;
-    }
-//       [[AttributeManager init] setActionTimeStamp:arbitary];
-}
 
 @end

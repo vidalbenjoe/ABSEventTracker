@@ -13,6 +13,7 @@
 #import "AttributeManager.h"
 #import "Constants.h"
 @interface ABSEventTracker : NSObject
+@property(nonatomic) EventAttributes *events;
 +(ABSEventTracker *) init;
 +(void) initEventAttributes: (EventAttributes *) attributes;
 @end

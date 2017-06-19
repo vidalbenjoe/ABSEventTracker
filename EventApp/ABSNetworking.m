@@ -110,7 +110,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
 }
 
-
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     NSURL *urlString = [NSURL URLWithString:url];
     for (id key in headers){

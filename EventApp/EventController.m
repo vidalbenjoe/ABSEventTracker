@@ -8,7 +8,7 @@
 
 #import "EventController.h"
 #import "AttributeManager.h"
-
+#import "FormatUtils.h"
 #import "DeviceFingerprinting.h"
 #import "DeviceInfo.h"
 @implementation EventController
@@ -28,10 +28,37 @@ BOOL hasInitialized = false;
  */
 
 +(void) writeEvent:(EventAttributes *) attributes{
-      [[AttributeManager init] setEventAttributes:attributes];
+    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
+    NSLog(@"luggs:%ld",(long)attributes.actionTaken);
+    switch (attributes.actionTaken) {
+        case ABANDON:
+            NSLog(@"action-w: Abandoned");
+            [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            break;
+        case LOGOUT:
+            NSLog(@"action-w:Logout");
+            [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            break;
+        case SEARCH:
+            NSLog(@"action-w:Search");
+            [arbitary setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            break;
+        case POST_COMMENT:
+            NSLog(@"action-w:Post");
+            [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            break;
+        default:
+            break;
+    }
+    
+    
+    [[AttributeManager init] setActionTimeStamp:arbitary];
+    [[AttributeManager init] setEventAttributes:attributes];
+    
 }
 -(void) setDelegate:(id) newDelagate{
     delegate = newDelagate;
 }
+
 
 @end
