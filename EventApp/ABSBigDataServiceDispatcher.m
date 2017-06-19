@@ -56,7 +56,7 @@
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
 //    NSLog(@"sessionStartdaw: %@",attributes.session.sessionID);
-//    NSLog(@"enumasd: %@", attributes.session.sessionID);
+    NSLog(@"enumasd: %@", [DeviceFingerprinting generateDeviceFingerprint]);
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",

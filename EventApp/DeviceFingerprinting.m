@@ -9,8 +9,7 @@
 #import "DeviceFingerprinting.h"
 #import "DeviceInfo.h"
 #import <CommonCrypto/CommonKeyDerivation.h>
-
-
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation DeviceFingerprinting
 +(NSString*) buildRawEntropy{
@@ -27,8 +26,18 @@
 //Generate device finger print based on the device info.
 +(NSString*) generateDeviceFingerprint{
     NSString * rawString = [self buildRawEntropy];
-    return rawString;
+    
+    const char *cStr = [rawString UTF8String];
+    unsigned char digest[16];
+    CC_MD5(cStr, (CC_LONG)cStr, digest);
+    
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    return  output;
 }
+
 
 
 @end
