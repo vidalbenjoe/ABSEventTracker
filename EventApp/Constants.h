@@ -17,7 +17,7 @@
 #define RANDOM_ID           arc4random_uniform(900000) + 100000
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR"
-#define DEFAULT_SESSION_EXPIRATION_IN_MINUTES   30
+#define DEFAULT_SESSION_EXPIRATION_IN_MINUTES   1
 
 @interface Constants : NSObject
 extern NSString* const eventAppsBaseURL;

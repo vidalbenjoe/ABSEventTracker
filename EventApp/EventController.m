@@ -33,23 +33,26 @@ BOOL hasInitialized = false;
     switch (attributes.actionTaken) {
         case LOAD:
             NSLog(@"action-w: Abandoned");
-            [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case ABANDON:
             NSLog(@"action-w: Abandoned");
-            [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case LOGOUT:
             NSLog(@"action-w:Logout");
-            [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+
             break;
         case SEARCH:
             NSLog(@"action-w:Search");
-            [arbitary setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            [arbitary setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+
             break;
         case POST_COMMENT:
             NSLog(@"action-w:Post");
-            [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate]];
+            [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+
             break;
         default:
             break;

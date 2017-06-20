@@ -10,9 +10,9 @@
 #import "AuthManager.h"
 #import "ABSNetworking+HTTPErrorHandler.h"
 @implementation ABSNetworking
+
 NSURLSessionConfiguration *sessionConfiguration;
 @synthesize requestBody;
-
 +(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config{
     static ABSNetworking *shared = nil;
     static dispatch_once_t onceToken;
@@ -131,6 +131,7 @@ NSURLSessionConfiguration *sessionConfiguration;
         successHandler(datatask, dictionary);
     }];
     [datatask resume];
+
 }
 
 

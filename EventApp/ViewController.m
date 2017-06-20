@@ -38,10 +38,11 @@
 }
 
 - (IBAction)writerButton:(id)sender {
+    
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setSearchQuery:@"Search..."];
-        [builder setActionTaken:ABANDON];
+        [builder setActionTaken:CLICK_IMAGE];
         [builder setReadArticles:@"Philstar"];
         [builder setArticleAuthor:@"Bob Ong"];
         [builder setArticlePostDate:@"June 15, 2017"];
@@ -60,10 +61,8 @@
     
     [ABSEventTracker initEventAttributes:attrib];
     NSLog(@"EventAttdwributes: %ld", (long)[attrib actionTaken]);
-    
 }
 - (IBAction)readPlist:(UIButton *)sender {
-    
      NSLog(@"sdadwww: %@", [CacheManager retrieveFailedAttributesFromCacheByIndex]);
 }
 - (IBAction)clearCache:(UIButton *)sender {

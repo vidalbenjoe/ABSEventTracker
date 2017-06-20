@@ -10,13 +10,12 @@
 
 @implementation FormatUtils
 
-+(NSString*) getCurrentTimeAndDate{
-    NSDate *now = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyy-mm-dd hh:mm:ss";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    NSLog(@"The Current Time is %@",[dateFormatter stringFromDate:now]);
-    return [dateFormatter stringFromDate:now];
++(NSString*) getCurrentTimeAndDate: (NSDate *) date{
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setCalendar:calendar];
+    [dateFormat setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    return [dateFormat stringFromDate:date];
 }
 
 +(NSString *) dateFormatter:(NSDate *) date{

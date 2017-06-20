@@ -22,7 +22,14 @@
     long endMinute = [self convertEndMillisecondsToMinutes:endInterval];
    
     //get milliseconds of the start then convert to minute
-    NSLog(@"timwe: %f", startInterval);
+    NSLog(@"startSession: %@", start);
+    NSLog(@"endSession: %@", end);
+    
+    NSLog(@"startInterval: %f", startInterval);
+    NSLog(@"endInterval: %f", endInterval);
+    
+    NSLog(@"startMinute: %ld", startMinute);
+    NSLog(@"endMinute: %ld", endMinute);
 
     if ((endMinute - startMinute) <= 0) {
         [self updateSessionID];

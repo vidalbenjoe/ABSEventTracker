@@ -20,14 +20,17 @@
         shared = [[super alloc] init];
         [self initEventSource];
         [[SessionManager init] establish];
+        
+        
+    
+        
         DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
             [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
             [builder setDeviceOS:[DeviceInfo systemVersion]];
             [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
             [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
-            [builder setDeviceType:[DeviceInfo platformType]];
+            [builder setDeviceType:[DeviceInfo deviceType]];
         }];
-        
         UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
             [builder setFirstName:@"Benjoe"];
             [builder setLastName:@"Vidal"];
@@ -35,11 +38,9 @@
             [builder setSsoID:@"SSOID"];
             [builder setGigyaID:@"GIGYAID"];
         }];
-        
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-        
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
             [self initWithDevice:device];
@@ -50,13 +51,13 @@
                 [builder setActionTaken:LOAD];
             }];
             [ABSEventTracker initEventAttributes:attrib];
-            
         });
     });
     
     return shared;
 }
 +(void) initEventSource{
+    
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -82,11 +83,9 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
-
 +(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
     [[AttributeManager init] setActionTimeStamp:attributes];
 }
-
 +(void) initSession :(SessionManager*) attributes{
     [[AttributeManager init] setSession:attributes];
 }

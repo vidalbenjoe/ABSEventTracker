@@ -177,7 +177,7 @@
 }
 //The type of current device
 //iPhone, iPad, iPad Air, Simulator
-+(NSString*) platformType{
++(NSString*) deviceType{
     return [self deviceNameString];
 }
 
@@ -279,6 +279,11 @@
         // Return -1 (not found)
         return -1;
     }
+}
+
++(NSString *) deviceUUID{
+    NSString *uniqueIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    return uniqueIdentifier;
 }
 
 @end

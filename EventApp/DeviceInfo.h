@@ -18,7 +18,7 @@
 +(NSString*) systemName;
 +(NSString*) systemVersion;
 +(NSString*) localizeModel;
-+(NSString*) platformType;
++(NSString*) deviceType;
 +(NSString*) userInterfaceIdiom: (DeviceIdiom) idiom;
 +(NSString*) identifierForVendor;
 
@@ -30,6 +30,8 @@
 
 +(NSInteger) physicalMemory;
 +(NSInteger) processorNumber;
+
++(NSString *) deviceUUID;
 
 //
 ////Sensors

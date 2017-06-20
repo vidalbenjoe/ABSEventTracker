@@ -10,7 +10,7 @@
 
 @interface FormatUtils : NSObject
 
-+(NSString *) getCurrentTimeAndDate;
++(NSString*) getCurrentTimeAndDate: (NSDate *) date;
 +(NSString *) dateFormatter:(NSDate *) date;
 +(NSString *) randomUUID;
 @end
