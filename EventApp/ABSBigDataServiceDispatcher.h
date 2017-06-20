@@ -10,10 +10,11 @@
 #import "AttributeManager.h"
 #import "EventCallBack.h"
 #import "ArbitaryVariant.h"
-@interface ABSBigDataServiceDispatcher : NSObject<EventCallBack>
+@interface ABSBigDataServiceDispatcher : NSObject
 
 @property(nonatomic) ArbitaryVariant *arbitary;
 
++(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler;
 +(void)requestToken: (void (^)(NSString *token))handler;
 +(void) dispatchAttribute:(AttributeManager *) attributes;
 

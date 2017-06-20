@@ -12,22 +12,12 @@
 #import "Validator.h"
 #import "Enumerations.h"
 
-@protocol EventCallBacks <NSObject>
-
--(void) onSuccess;
--(void) onFail;
-
-@end
-
-@interface EventController : NSObject{
-    id delegate;
-}
+@interface EventController : NSObject
 
 //TODO : Create method that will process the event writing from the users given attributes
 //TODO : Send the processed attributes to server
 
 +(id) init;
 +(void) writeEvent:(EventAttributes *) attributes;
--(void) setDelegate:(id) newDelagate;
 
 @end

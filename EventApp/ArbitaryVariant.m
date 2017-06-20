@@ -24,6 +24,7 @@
         _applicationAbandonTimeStamp      =   builder.applicationAbandonTimeStamp;
         _applicationLaunchTimeStamp       =   builder.applicationLaunchTimeStamp;
         _postCommentTimeStamp             =   builder.postCommentTimeStamp;
+        _loginTimeStamp                   =   builder.loginTimeStamp;
         _logoutTimeStamp                  =   builder.logoutTimeStamp;
         _searchTimeStamp                  =   builder.searchTimeStamp;
     }
@@ -35,6 +36,7 @@
     builder.applicationAbandonTimeStamp     =   _applicationAbandonTimeStamp;
     builder.applicationLaunchTimeStamp      =   _applicationLaunchTimeStamp;
     builder.postCommentTimeStamp            =   _postCommentTimeStamp;
+    builder.loginTimeStamp                  =   _loginTimeStamp;
     builder.logoutTimeStamp                 =   _logoutTimeStamp;
     builder.searchTimeStamp                 =   _searchTimeStamp;
     
@@ -67,6 +69,7 @@
         _applicationAbandonTimeStamp            =   nil;
         _applicationLaunchTimeStamp             =   nil;
         _postCommentTimeStamp                   =   nil;
+        _loginTimeStamp                         =   nil;
         _logoutTimeStamp                        =   nil;
         _searchTimeStamp                        =   nil;
     }

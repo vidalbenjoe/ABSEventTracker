@@ -14,9 +14,9 @@
 -(void) updateSession{
     NSDate *start = [self sessionStart];
     NSDate *end = [self sessionEnd];
-  
-    NSTimeInterval startInterval = [start timeIntervalSinceReferenceDate];
-    NSTimeInterval endInterval = [end timeIntervalSinceReferenceDate];
+
+    NSTimeInterval startInterval = [[NSDate date] timeIntervalSinceDate:start];
+    NSTimeInterval endInterval = [[NSDate date] timeIntervalSinceDate:end];
     
     long startMinute = [self convertStartMillisecondsToMinutes:startInterval];
     long endMinute = [self convertEndMillisecondsToMinutes:endInterval];
@@ -30,9 +30,11 @@
     
     NSLog(@"startMinute: %ld", startMinute);
     NSLog(@"endMinute: %ld", endMinute);
-
+    NSLog(@"timeFormula %d", (endMinute - startMinute) <= 0);
+    
     if ((endMinute - startMinute) <= 0) {
         [self updateSessionID];
+        NSLog(@"updateSessionID");
         return;
     } else {
         [self updateSessionTime];
@@ -42,10 +44,15 @@
 -(void) updateSessionTime{
     NSDate *currentTime = [NSDate date];
     NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTES*60)];
-    [self setSessionStart:currentTime];
-    [self setSessionEnd:endtime];
-    NSLog(@"currentTime %@",currentTime);
-    NSLog(@"curentEndTime %@",endtime);
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    [dateFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    NSDate *a = [dateFormat dateFromString:[FormatUtils getCurrentTimeAndDate:currentTime]];
+    NSDate *b = [dateFormat dateFromString:[FormatUtils getCurrentTimeAndDate:endtime]];
+    [self setSessionStart: a];
+    [self setSessionEnd:b];
+    NSLog(@"currentTime %@",a);
+    NSLog(@"curentEndTime %@",b);
 }
 
 -(void) updateSessionID{

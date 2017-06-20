@@ -7,8 +7,10 @@
 //
 
 #import "DeviceInfo.h"
+#import "Reachability.h"
 #import <sys/utsname.h>
 #import <UIKit/UIKit.h>
+#import <AdSupport/ASIdentifierManager.h>
 @implementation DeviceInfo
 
 +(id)sharedInstance{
@@ -284,6 +286,42 @@
 +(NSString *) deviceUUID{
     NSString *uniqueIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     return uniqueIdentifier;
+}
+
++(NSString *) deviceIDFA{
+    NSString *idfaString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    return idfaString;
+}
+
++(NSString*) totalSpace{
+    return @"";
+}
+
++(NSString *) deviceConnectivity{
+    NSString *connectivity;
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+    NetworkStatus status = [reachability currentReachabilityStatus];
+    
+    if(status == NotReachable)
+    {
+        //No internet
+        connectivity = @"No Internet";
+        
+    }
+    else if (status == ReachableViaWiFi)
+    {
+         //WiFi
+        connectivity = @"Wifi";
+       
+    }
+    else if (status == ReachableViaWWAN)
+    {
+        //3G
+        connectivity = @"3G";
+    }
+    
+    return connectivity;
 }
 
 @end

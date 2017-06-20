@@ -32,25 +32,21 @@
 +(NSInteger) processorNumber;
 
 +(NSString *) deviceUUID;
++(NSString *) deviceIDFA;
 
-//
-////Sensors
-//+(BOOL) isAccelometerAvailable;
-//+(BOOL) isGyroAvailable;
-//+(BOOL) isMagnetometerAvailable;
-//+(BOOL) isDeviceMotionAvailable;
-//
 ////Disk
-//+(NSString*) availableSpace;
-//+(NSString*) totalSpace;
-//+(NSString*) usedSpace;
-//
++(NSString*) totalSpace;
+
 ////Carrier
 //+(BOOL) isAllowVOIP;
 //+(NSInteger*)mobileCountryCode;
 //+(NSInteger*)carrierName;
 //+(NSInteger*)networkCountryCode;
 //
+
+//Network
++(NSString *) deviceConnectivity;
+
 ////identifier
 //+(NSString*) deviceIdentifierIDFA;
 

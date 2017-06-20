@@ -29,7 +29,6 @@
     builder.firstName   =   _firstName;
     builder.middleName  =   _middleName;
     builder.lastName    =   _lastName;
-    
     return builder;
 }
 

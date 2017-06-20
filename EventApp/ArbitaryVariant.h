@@ -13,6 +13,7 @@
 @property(nonatomic, weak) NSString *applicationAbandonTimeStamp;
 @property(nonatomic, weak) NSString *applicationLaunchTimeStamp;
 @property(nonatomic, weak) NSString *postCommentTimeStamp;
+@property(nonatomic, weak) NSString *loginTimeStamp;
 @property(nonatomic, weak) NSString *logoutTimeStamp;
 @property(nonatomic, weak) NSString *searchTimeStamp;
 
@@ -28,6 +29,7 @@
 @property(nonatomic, assign) NSString *applicationAbandonTimeStamp;
 @property(nonatomic, assign) NSString *applicationLaunchTimeStamp;
 @property(nonatomic, strong) NSString *postCommentTimeStamp;
+@property(nonatomic, strong) NSString *loginTimeStamp;
 @property(nonatomic, strong) NSString *logoutTimeStamp;
 @property(nonatomic, strong) NSString *searchTimeStamp;
 -(instancetype) init;

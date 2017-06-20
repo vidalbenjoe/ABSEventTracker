@@ -18,6 +18,7 @@
              @(TWITTER_FOLLOW)      : @"TwitterFollow",
              @(INSTAGRAM_SHARE)     : @"InstagramShare",
              @(INSTAGRAM_FOLLOW)    : @"InstagramFollow",
+             @(LOGIN)               : @"Login",
              @(LOGOUT)              : @"Logout",
              @(POST_COMMENT)        : @"PostComment",
              @(SEARCH)              : @"Searh",

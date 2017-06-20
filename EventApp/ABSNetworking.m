@@ -41,7 +41,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                       }
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                       successHandler(task, dictionary);
-                                      NSLog(@"HTTP_STATUS: success %@", response);
+                                      NSLog(@"HTTP_STATUS:  %@", response);
                                   }];
     [task resume];
 }
@@ -65,7 +65,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                       }
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                       successHandler(task, dictionary);
-                                      NSLog(@"HTTP_STATUS: success %@", response);
+                                      NSLog(@"HTTP_STATUS:  %@", response);
                                   }];
     [task resume];
 }
@@ -97,7 +97,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         successHandler(nil, dictionary);
-        NSLog(@"HTTP_STATUS: success %@", response);
+        NSLog(@"HTTP_STATUS:  %@", response);
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         if (respHttp.statusCode != SUCCESS) {
             [ABSNetworking HTTPerrorLogger:respHttp];

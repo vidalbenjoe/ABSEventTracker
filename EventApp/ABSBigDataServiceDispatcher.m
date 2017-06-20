@@ -44,7 +44,8 @@
             // store the token somewhere
             NSString *token = responseObject[@"access_token"];
             [AuthManager storeTokenToUserDefault:token];
-             NSLog(@"authSuccs: %@ ", token);
+            handler(token);
+            NSLog(@"authSuccs: %@ ", token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [self requestSecurityHashViaHttp:^(NSString *sechash) {
                     [AuthManager storeSecurityHashTouserDefault:sechash];
@@ -55,17 +56,21 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    NSLog(@"enumasd: %@", attributes.arbitaryinvariant.applicationLaunchTimeStamp);
+    
+    NSLog(@"MY_SECHASH: %@", [AuthManager retrieveSecurityHashFromUserDefault]);
+    
+    NSLog(@"MY_TOKEN: %@", [AuthManager retrieveServerTokenFromUserDefault]);
+    
     NSString *action = [Enumerations convertActionTaken:attributes.eventattributes.actionTaken];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
-            ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
+            ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationName",
             ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
             [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
             ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
             ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
-            ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp) , @"PageAccessTimeStamp",
-            ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp) , @"AbandonTimeStamp",
+            ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp) , @"ApplicationLoadTimeStamp",
+            ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp) , @"ApplicationAbandonTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp) , @"WritingEventTimestamp",
             ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp) , @"LogoutTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp) , @"SearchTimeStamp",
@@ -87,14 +92,15 @@
             ObjectOrNull(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
             ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentContent",
             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]), @"ArticleContentAmount",
-            ObjectOrNull(attributes.eventattributes.loginTimeStamp) , @"LoginTimeStamp",
+            ObjectOrNull(attributes.arbitaryinvariant.loginTimeStamp) , @"LoginTimeStamp",
             ObjectOrNull(attributes.eventattributes.likedContent) , @"LikedContent",
             ObjectOrNull(attributes.eventattributes.shareRetweetContent) , @"ShareRetweetContent",
             ObjectOrNull(attributes.eventattributes.followEntity) , @"FollowedEntity",
              ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.rating]) , @"Rating",
-            ObjectOrNull(attributes.eventattributes.metaTags) , @"PageMetaTags",
-            ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousWebpage",
-            ObjectOrNull(attributes.eventattributes.screenDestination) , @"LinkDestination", nil];
+            ObjectOrNull(attributes.eventattributes.metaTags) , @"MobileApplicationMetaTags",
+            ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousAppUniqueId",
+            ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId", nil];
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -106,12 +112,13 @@
                 [resultString appendFormat:@"%@=%@", key, [attributesDictionary objectForKey:key]];
         }
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSLog(@"postrespodwnseObject: %@", responseObject);
+            NSLog(@"request response: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
             [CacheManager storeFailedAttributesToCacheManager:attributesDictionary];
             NSLog(@"failedRequestAttributes: %@", attributesDictionary);
+            
         }];
     });
 }
@@ -120,21 +127,6 @@ static id ObjectOrNull(id object){
     return object ?: @"";
 }
 
--(void) onSuccess{
-    
-}
-
--(void) onFailure{
-    
-}
-
--(void) onTokenRefresh{
-    
-}
-
--(void) onSecurityCodeRefresh{
-    
-}
 
 
 @end

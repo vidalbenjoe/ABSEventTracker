@@ -16,4 +16,5 @@
 @property(nonatomic) EventAttributes *events;
 +(ABSEventTracker *) init;
 +(void) initEventAttributes: (EventAttributes *) attributes;
++(void) initWithUser:(UserAttributes *) attributes;
 @end

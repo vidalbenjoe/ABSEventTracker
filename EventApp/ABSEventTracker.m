@@ -21,9 +21,6 @@
         [self initEventSource];
         [[SessionManager init] establish];
         
-        
-    
-        
         DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
             [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
             [builder setDeviceOS:[DeviceInfo systemVersion]];
@@ -31,13 +28,11 @@
             [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
             [builder setDeviceType:[DeviceInfo deviceType]];
         }];
-        UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
-            [builder setFirstName:@"Benjoe"];
-            [builder setLastName:@"Vidal"];
-            [builder setMiddleName:@"Rivera"];
-            [builder setSsoID:@"SSOID"];
-            [builder setGigyaID:@"GIGYAID"];
-        }];
+        
+        
+        
+        
+       
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
@@ -45,8 +40,9 @@
         dispatch_async(queue, ^{
             [self initWithDevice:device];
             [self initAppProperty:digitalProperty];
-            [self initWithUser:user];
+           
             [self initSession:[SessionManager init]];
+            
             EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                 [builder setActionTaken:LOAD];
             }];
@@ -79,6 +75,10 @@
 }
 +(void) initWithUser:(UserAttributes *) attributes {
     [[AttributeManager init] setUserAttributes:attributes];
+    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+        [builder setActionTaken:LOGIN];
+    }];
+    [ABSEventTracker initEventAttributes:attrib];
 }
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
@@ -93,7 +93,6 @@
 +(void) initEventAttributes: (EventAttributes *) attributes{
     [EventController writeEvent:attributes];
 }
-
 
 
 @end

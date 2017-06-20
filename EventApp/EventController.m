@@ -35,6 +35,10 @@ BOOL hasInitialized = false;
             NSLog(@"action-w: Abandoned");
             [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
+        case LOGIN:
+            NSLog(@"action-w: LOGIN");
+            [arbitary setLoginTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            break;
         case ABANDON:
             NSLog(@"action-w: Abandoned");
             [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -42,12 +46,10 @@ BOOL hasInitialized = false;
         case LOGOUT:
             NSLog(@"action-w:Logout");
             [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-
             break;
         case SEARCH:
             NSLog(@"action-w:Search");
             [arbitary setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-
             break;
         case POST_COMMENT:
             NSLog(@"action-w:Post");
@@ -61,9 +63,6 @@ BOOL hasInitialized = false;
     [[AttributeManager init] setActionTimeStamp:arbitary];
     [[AttributeManager init] setEventAttributes:attributes];
     
-}
--(void) setDelegate:(id) newDelagate{
-    delegate = newDelagate;
 }
 
 
