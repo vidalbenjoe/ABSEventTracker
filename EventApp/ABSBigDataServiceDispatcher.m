@@ -25,6 +25,7 @@
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
+            NSLog(@"sechashdw: %@", sechash);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST);
         }];
@@ -56,15 +57,18 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    
-    NSLog(@"MY_SECHASH: %@", [AuthManager retrieveSecurityHashFromUserDefault]);
+    [self requestSecurityHashViaHttp:^(NSString *sechash) {
+        
+        NSLog(@"MY_SECHASH: %@", sechash);
+        
+    }];
     
     NSLog(@"MY_TOKEN: %@", [AuthManager retrieveServerTokenFromUserDefault]);
     
     NSString *action = [Enumerations convertActionTaken:attributes.eventattributes.actionTaken];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
-            ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationName",
+            ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
             ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
             [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
             ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",

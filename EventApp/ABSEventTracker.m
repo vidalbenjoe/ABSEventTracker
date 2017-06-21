@@ -13,6 +13,7 @@
 #import "FormatUtils.h"
 @implementation ABSEventTracker
 @synthesize events;
+
 +(ABSEventTracker *) init{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;

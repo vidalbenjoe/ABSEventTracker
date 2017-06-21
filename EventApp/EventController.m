@@ -59,11 +59,8 @@ BOOL hasInitialized = false;
         default:
             break;
     }
-    
     [[AttributeManager init] setActionTimeStamp:arbitary];
     [[AttributeManager init] setEventAttributes:attributes];
-    
 }
-
 
 @end

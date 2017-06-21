@@ -11,6 +11,8 @@
 #import <sys/utsname.h>
 #import <UIKit/UIKit.h>
 #import <AdSupport/ASIdentifierManager.h>
+
+#import<CoreTelephony/CTTelephonyNetworkInfo.h>
 @implementation DeviceInfo
 
 +(id)sharedInstance{
@@ -302,23 +304,44 @@
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];
     NetworkStatus status = [reachability currentReachabilityStatus];
-    
     if(status == NotReachable)
     {
         //No internet
         connectivity = @"No Internet";
-        
     }
     else if (status == ReachableViaWiFi)
     {
          //WiFi
         connectivity = @"Wifi";
-       
     }
     else if (status == ReachableViaWWAN)
     {
-        //3G
-        connectivity = @"3G";
+        CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+        NSString * carrierType = netinfo.currentRadioAccessTechnology;
+        if ([carrierType isEqualToString:CTRadioAccessTechnologyGPRS]) {
+           connectivity = @"2G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyEdge]) {
+           connectivity = @"2G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyWCDMA]) {
+           connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyHSDPA]) {
+          connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyHSUPA]) {
+           connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyCDMA1x]) {
+           connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0]) {
+           connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA]) {
+           connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]) {
+            connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyeHRPD]) {
+            connectivity = @"3G";
+        } else if ([carrierType isEqualToString:CTRadioAccessTechnologyLTE]) {
+           connectivity = @"4G";
+        }
+        
     }
     
     return connectivity;

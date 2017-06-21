@@ -26,7 +26,7 @@
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo physicalMemory]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo processorNumber]]];
     [rawComponents addObject:[DeviceInfo deviceUUID]];
-//    [rawComponents addObject:[DeviceInfo deviceConnectivity]];
+    [rawComponents addObject:[DeviceInfo deviceConnectivity]];
     [rawComponents addObject:[DeviceInfo deviceIDFA]];
     return [rawComponents componentsJoinedByString:@","];
 }

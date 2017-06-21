@@ -46,7 +46,6 @@
     [ABSBigDataServiceDispatcher requestSecurityHashViaHttp:^(NSString *sechash) {
         [AuthManager storeSecurityHashTouserDefault:sechash];
         NSLog(@"callback-hash : %@", sechash);
-
     }];
 }
 
