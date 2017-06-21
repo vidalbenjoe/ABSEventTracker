@@ -57,14 +57,6 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    [self requestSecurityHashViaHttp:^(NSString *sechash) {
-        
-        NSLog(@"MY_SECHASH: %@", sechash);
-        
-    }];
-    
-    NSLog(@"MY_TOKEN: %@", [AuthManager retrieveServerTokenFromUserDefault]);
-    
     NSString *action = [Enumerations convertActionTaken:attributes.eventattributes.actionTaken];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -126,6 +118,32 @@
         }];
     });
 }
+
+
++(void) dispatchCachedAttributes{
+    NSDictionary *cachedAttributes = [CacheManager retrieveFailedAttributesFromCacheByIndex];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    dispatch_async(queue, ^{
+        NSMutableString *resultString = [NSMutableString string];
+        for (NSString* key in [cachedAttributes allKeys]){
+            if ([resultString length]>0)
+                [resultString appendString:@"&"];
+            [resultString appendFormat:@"%@=%@", key, [cachedAttributes objectForKey:key]];
+        }
+        NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        
+        [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            [CacheManager removeCachedAttributeByFirstIndex];
+            NSLog(@"request response: %@", responseObject);
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            
+        }];
+    });
+
+}
+
 
 static id ObjectOrNull(id object){
     return object ?: @"";

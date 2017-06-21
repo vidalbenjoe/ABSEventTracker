@@ -12,7 +12,8 @@
 #import "PropertyEventSource.h"
 #import "AttributeManager.h"
 #import "Constants.h"
-@interface ABSEventTracker : NSObject
+#import <UIKit/UIKit.h>
+@interface ABSEventTracker : NSObject<UIApplicationDelegate>
 @property(nonatomic) EventAttributes *events;
 +(ABSEventTracker *) init;
 +(void) initEventAttributes: (EventAttributes *) attributes;

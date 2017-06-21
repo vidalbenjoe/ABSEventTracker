@@ -13,6 +13,7 @@
 		8623E0B41ECEA50B00432B01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E0991ECEA19000432B01 /* AppDelegate.m */; };
 		8623E0B51ECEA50F00432B01 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E09C1ECEA19000432B01 /* ViewController.m */; };
 		8623E0B61ECEA51A00432B01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E0961ECEA19000432B01 /* main.m */; };
+		8637FBDD1EFA7C0200E2789E /* BackgroundLooper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8637FBDC1EFA7C0200E2789E /* BackgroundLooper.m */; };
 		8647D58E1EEA641D00A93E30 /* AttributeWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8647D58D1EEA641D00A93E30 /* AttributeWriter.m */; };
 		864D41F61EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 864D41F51EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m */; };
 		864D41FF1EF262B8008104A3 /* FormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 864D41FE1EF262B8008104A3 /* FormatUtils.m */; };
@@ -52,6 +53,8 @@
 		8623E0A61ECEA19000432B01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8623E0AE1ECEA1C300432B01 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		8623E0AF1ECEA1C300432B01 /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
+		8637FBDB1EFA7C0200E2789E /* BackgroundLooper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLooper.h; sourceTree = "<group>"; };
+		8637FBDC1EFA7C0200E2789E /* BackgroundLooper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLooper.m; sourceTree = "<group>"; };
 		8647D58C1EEA641D00A93E30 /* AttributeWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributeWriter.h; sourceTree = "<group>"; };
 		8647D58D1EEA641D00A93E30 /* AttributeWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributeWriter.m; sourceTree = "<group>"; };
 		864D41F41EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABSNetworking+HTTPErrorHandler.h"; sourceTree = "<group>"; };
@@ -218,6 +221,8 @@
 				8691E7491ED5430200780ADE /* EventController.m */,
 				86B185D61EDEA73400900836 /* ABSEventTracker.h */,
 				86B185D71EDEA73400900836 /* ABSEventTracker.m */,
+				8637FBDB1EFA7C0200E2789E /* BackgroundLooper.h */,
+				8637FBDC1EFA7C0200E2789E /* BackgroundLooper.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -406,6 +411,7 @@
 				8647D58E1EEA641D00A93E30 /* AttributeWriter.m in Sources */,
 				8623E0B51ECEA50F00432B01 /* ViewController.m in Sources */,
 				868B92641ED40A6F00401955 /* EventBuilder.m in Sources */,
+				8637FBDD1EFA7C0200E2789E /* BackgroundLooper.m in Sources */,
 				8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */,
 				864D41F61EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
 				86819A161EF8FF6A00895511 /* Reachability.m in Sources */,

@@ -15,8 +15,14 @@
     NSDate *start = [self sessionStart];
     NSDate *end = [self sessionEnd];
 
-    NSTimeInterval startInterval = [[NSDate date] timeIntervalSinceDate:start];
-    NSTimeInterval endInterval = [[NSDate date] timeIntervalSinceDate:end];
+    
+    
+    NSTimeInterval startInterval = [start timeIntervalSinceReferenceDate];
+    NSTimeInterval endInterval = [end timeIntervalSinceReferenceDate];
+    double startmilliseconds = startInterval*1000;
+    double endmilliseconds = endInterval*1000;
+    
+    
     
     long startMinute = [self convertStartMillisecondsToMinutes:startInterval];
     long endMinute = [self convertEndMillisecondsToMinutes:endInterval];
@@ -28,6 +34,9 @@
     NSLog(@"startInterval: %f", startInterval);
     NSLog(@"endInterval: %f", endInterval);
     
+    NSLog(@"startmilliseconds: %f", startmilliseconds);
+    NSLog(@"endmilliseconds: %f", endmilliseconds);
+    
     NSLog(@"startMinute: %ld", startMinute);
     NSLog(@"endMinute: %ld", endMinute);
     NSLog(@"timeFormula %d", (endMinute - startMinute) <= 0);
@@ -38,6 +47,7 @@
         return;
     } else {
         [self updateSessionTime];
+         NSLog(@"updateSessionTime");
     }
 }
 

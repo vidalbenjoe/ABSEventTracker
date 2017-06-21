@@ -295,6 +295,7 @@
     return idfaString;
 }
 
+
 +(NSString*) totalSpace{
     return @"";
 }

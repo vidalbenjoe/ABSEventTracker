@@ -9,9 +9,7 @@
 #import "ABSNetworking+HTTPErrorHandler.h"
 #import "AuthManager.h"
 @implementation ABSNetworking (HTTPErrorHandler)
-
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
-    
     if (respHttp.statusCode == UNAUTHORIZE) {
         NSLog(@"Event Library-HTTP_STATUS 401: UNAUTHORIZE");
           [self onTokenRefresh];
@@ -31,9 +29,11 @@
 -(void) onSuccess{
     
 }
+
 -(void) onFailure{
     
 }
+
 
 +(void) onTokenRefresh{
     [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {

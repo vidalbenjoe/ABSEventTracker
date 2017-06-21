@@ -30,7 +30,6 @@
 }
 
 +(NSMutableDictionary *) retrieveFailedAttributesFromCacheByIndex{
-    
     NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     if (cache.count > 0) {

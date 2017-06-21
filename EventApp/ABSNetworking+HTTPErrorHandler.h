@@ -10,7 +10,6 @@
 #import "EventCallBack.h"
 #import "ABSBigDataServiceDispatcher.h"
 @interface ABSNetworking (HTTPErrorHandler)<EventCallBack>
-
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp;
 
 @end

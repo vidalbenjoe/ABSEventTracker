@@ -33,6 +33,7 @@
 
 //Generate device finger print based on the device info.
 +(NSString*) generateDeviceFingerprint{
+    
     NSString * rawString = [self buildRawEntropy];
     const char *cStr = [rawString UTF8String];
     unsigned char digest[16];
@@ -40,7 +41,6 @@
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
         [output appendFormat:@"%02x", digest[i]];
-    NSLog(@"Raw Fingerprint:  %@", rawString);
     return  output;
 }
 @end

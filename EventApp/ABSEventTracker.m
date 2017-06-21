@@ -29,10 +29,6 @@
             [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
             [builder setDeviceType:[DeviceInfo deviceType]];
         }];
-        
-        
-        
-        
        
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
@@ -51,6 +47,17 @@
         });
     });
     
+    
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
+        // isInBackground = YES;
+        //  ------ UI not available
+        NSLog(@"BG-LOOPER:  background: YES");
+    }
+    else {
+        NSLog(@"BG-LOOPER:  background: YES");
+        // isInBackground = NO;
+        //   ------ UI is available
+    }
     return shared;
 }
 +(void) initEventSource{
@@ -94,6 +101,7 @@
 +(void) initEventAttributes: (EventAttributes *) attributes{
     [EventController writeEvent:attributes];
 }
+
 
 
 @end
