@@ -10,11 +10,11 @@
 
 @implementation AuthManager
 
-
 +(void) storeTokenToUserDefault: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"responseToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 +(NSString *) retrieveServerTokenFromUserDefault{
     NSString *token = [[NSUserDefaults standardUserDefaults]
                             stringForKey:@"responseToken"];

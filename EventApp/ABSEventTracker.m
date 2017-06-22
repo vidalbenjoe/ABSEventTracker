@@ -33,19 +33,27 @@
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+        
+        
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
             [self initWithDevice:device];
             [self initAppProperty:digitalProperty];
-           
             [self initSession:[SessionManager init]];
             
-            EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                [builder setActionTaken:LOAD];
+            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+                [AuthManager storeTokenToUserDefault:token];
+                NSLog(@"initialToken: %@", token);
+                EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                    [builder setActionTaken:LOAD];
+                }];
+                [ABSEventTracker initEventAttributes:attrib];
             }];
-            [ABSEventTracker initEventAttributes:attrib];
         });
     });
+    
+    
+    
     
     
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
@@ -58,6 +66,8 @@
         // isInBackground = NO;
         //   ------ UI is available
     }
+    
+   
     return shared;
 }
 +(void) initEventSource{

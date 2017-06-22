@@ -13,6 +13,8 @@
 #import "AttributeManager.h"
 #import "Constants.h"
 #import <UIKit/UIKit.h>
+#import "ABSBigDataServiceDispatcher.h"
+#import "AuthManager.h"
 @interface ABSEventTracker : NSObject<UIApplicationDelegate>
 @property(nonatomic) EventAttributes *events;
 +(ABSEventTracker *) init;
