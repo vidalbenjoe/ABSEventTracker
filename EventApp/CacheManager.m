@@ -38,6 +38,23 @@
     return attributes;
 }
 
+
++(NSMutableArray *) retrieveAllCacheArray{
+    NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
+
+    return cache;
+}
+
++(NSMutableDictionary *) retrieveAllFailedAttributesFromCache{
+    NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    for (int i = 0; i < cache.count; i++) {
+          [attributes setObject:[cache objectAtIndex:i] forKey:@"attributes"];
+    }
+    
+    return attributes;
+}
+
 +(void) removeCachedAttributeByFirstIndex{
     NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
     [cache removeObjectAtIndex:0];

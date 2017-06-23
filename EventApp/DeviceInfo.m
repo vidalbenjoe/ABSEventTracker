@@ -11,9 +11,11 @@
 #import <sys/utsname.h>
 #import <UIKit/UIKit.h>
 #import <AdSupport/ASIdentifierManager.h>
-
-#import<CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
 @implementation DeviceInfo
+// Mobile Gestalt EquipmentInfo
+extern CFTypeRef MGCopyAnswer(CFStringRef);
 
 +(id)sharedInstance{
     static DeviceInfo *shared = nil;
@@ -298,6 +300,14 @@
 
 +(NSString*) totalSpace{
     return @"";
+}
+
++ (NSString *)ICCID {
+    CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = [netinfo subscriberCellularProvider];
+    NSLog(@"Carrier Name: %@", [carrier carrierName]);
+    
+    return [carrier carrierName];
 }
 
 +(NSString *) deviceConnectivity{

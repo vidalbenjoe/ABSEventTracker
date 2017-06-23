@@ -15,6 +15,7 @@
 #import <UIKit/UIKit.h>
 #import "ABSBigDataServiceDispatcher.h"
 #import "AuthManager.h"
+#import "BackgroundLooper.h"
 @interface ABSEventTracker : NSObject<UIApplicationDelegate>
 @property(nonatomic) EventAttributes *events;
 +(ABSEventTracker *) init;

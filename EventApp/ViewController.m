@@ -20,13 +20,13 @@
 #import "CacheManager.h"
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *imageUI;
+@property (weak, nonatomic) IBOutlet UITextField *serchField;
 
 - (IBAction)logoutButton:(id)sender;
 
 - (IBAction)loginButton:(id)sender;
 - (IBAction)facebookLikeButton:(id)sender;
-@property (weak, nonatomic) IBOutlet UIImageView *imageUI;
-@property (weak, nonatomic) IBOutlet UITextField *serchField;
 
 - (IBAction)readPlist:(UIButton *)sender;
 @property (weak, nonatomic) IBOutlet UILabel *appTitle;
@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [appTitle setAdjustsFontSizeToFitWidth:TRUE];
-    
+     [ABSBigDataServiceDispatcher performQueueForCachedAttributes];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didRecognizeTapGesture:)];
     [self.serchField.superview addGestureRecognizer:tapGesture];
     [self.imageUI.superview addGestureRecognizer:tapGesture];
@@ -77,7 +77,7 @@
     NSLog(@"EventAttdwributes: %ld", (long)[attrib actionTaken]);
 }
 - (IBAction)readPlist:(UIButton *)sender {
-     NSLog(@"sdadwww: %@", [CacheManager retrieveFailedAttributesFromCacheByIndex]);
+     NSLog(@"sdadwww: %@", [CacheManager retrieveAllCacheArray]);
 }
 - (IBAction)clearCache:(UIButton *)sender {
     [CacheManager removeAllCachedAttributes];

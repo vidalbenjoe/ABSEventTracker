@@ -14,11 +14,12 @@
 #import "DeviceFingerprinting.h"
 #import "ArbitaryVariant.h"
 #import "FormatUtils.h"
+#import "KSCustomOperation.h"
 
 @implementation ABSBigDataServiceDispatcher
 @synthesize arbitary;
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler{
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         NSDictionary *header = @{@"x-mobile-header" : [Constants generateNewMobileHeader]};
@@ -56,27 +57,26 @@
         });
     }];
     
-    
-    
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     NSMutableDictionary *writerAttributes = [self writerAttribute:attributes];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:
+     @"TestNotification" object:nil userInfo:writerAttributes];
     NSLog(@"mytokne: %@", [AuthManager retrieveServerTokenFromUserDefault]);
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
     dispatch_async(queue, ^{
         NSMutableString *resultString = [NSMutableString string];
         for (NSString* key in [writerAttributes allKeys]){
             if ([resultString length]>0)
                 [resultString appendString:@"&"];
-                [resultString appendFormat:@"%@=%@", key, [writerAttributes objectForKey:key]];
+            [resultString appendFormat:@"%@=%@", key, [writerAttributes objectForKey:key]];
         }
         
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"request response: %@", [responseObject description]);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -86,30 +86,80 @@
         }];
     });
 }
-
-
-+(void) dispatchCachedAttributes{
-    NSDictionary *cachedAttributes = [CacheManager retrieveFailedAttributesFromCacheByIndex];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    dispatch_async(queue, ^{
++(void) performQueueForCachedAttributes{
+    NSLog(@"CacheByIndex-array: %lu",(unsigned long)[[CacheManager retrieveAllCacheArray] count]);
+    
+    if ([[CacheManager retrieveAllCacheArray] count] > 0) {
+        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+        for (int i = 0; i < [CacheManager retrieveAllCacheArray].count ; i++) {
+            [attributes setObject:[[CacheManager retrieveAllCacheArray] objectAtIndex:i] forKey:@"attributes"];
+      
+        NSOperationQueue *operationQueue = [NSOperationQueue new];
+        [operationQueue setMaxConcurrentOperationCount:5];
+        KSCustomOperation *customOperation = [[KSCustomOperation alloc] initWithData:attributes];
+        //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
+        
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         NSMutableString *resultString = [NSMutableString string];
-        for (NSString* key in [cachedAttributes allKeys]){
+        for (NSString* key in [attributes allKeys]){
             if ([resultString length]>0)
                 [resultString appendString:@"&"];
-            [resultString appendFormat:@"%@=%@", key, [cachedAttributes objectForKey:key]];
+            [resultString appendFormat:@"%@=%@", key, [attributes objectForKey:key]];
         }
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             [CacheManager removeCachedAttributeByFirstIndex];
             NSLog(@"request response: %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
+            [CacheManager storeFailedAttributesToCacheManager:attributes];
         }];
-    });
+        
+        NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
+            //This is the completion block that will get called when the custom operation work is completed.
+            NSLog(@"Do Something here. Probably alert the user that the work is complete");
+        }];
+        
+        customOperation.completionBlock =^{
+            NSLog(@"Completed");
+            NSLog(@"CacheByIndex-complet: %lu",(unsigned long)[[CacheManager retrieveAllCacheArray] count]);
+            NSLog(@"Operation Completion Block. Do something here. Probably alert the user that the work is complete");
+            //This is another way of catching the Custom Operation completition.
+            //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
+        };
+        
+        [blockCompletionOperation addDependency:customOperation];
+        [operationQueue addOperation:blockCompletionOperation];
+        [operationQueue addOperation:customOperation];
+        [customOperation start];
+            //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method
+          }
+    }
+    
+    
+    
+}
 
++(void)dispatchCachedAttributes:(id)obj
+{
+    //    NSLog(@"is testMethodOne running on main thread? ANS - %@",[NSThread isMainThread]? @"YES":@"NO");
+    //    NSLog(@"obj %@",obj);
+    //Do something using Obj or with Obj
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSMutableString *resultString = [NSMutableString string];
+    for (NSString* key in [obj allKeys]){
+        if ([resultString length]>0)
+            [resultString appendString:@"&"];
+        [resultString appendFormat:@"%@=%@", key, [obj objectForKey:key]];
+    }
+    NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [CacheManager removeCachedAttributeByFirstIndex];
+        NSLog(@"request response: %@", responseObject);
+    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+        [CacheManager storeFailedAttributesToCacheManager:obj];
+    }];
 }
 
 +(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes{

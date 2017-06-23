@@ -17,5 +17,7 @@
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler;
 +(void) requestToken: (void (^)(NSString *token))handler;
 +(void) dispatchAttribute:(AttributeManager *) attributes;
-+(void) dispatchCachedAttributes;
++(void) performQueueForCachedAttributes;
+
+
 @end

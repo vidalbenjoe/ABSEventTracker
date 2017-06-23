@@ -15,4 +15,6 @@
 +(void) removeCachedAttributeByFirstIndex;
 +(void) removeAllCachedAttributes;
 +(NSMutableDictionary *) retrieveFailedAttributesFromCacheByIndex;
++(NSMutableDictionary *) retrieveAllFailedAttributesFromCache;
++(NSMutableArray *) retrieveAllCacheArray;
 @end

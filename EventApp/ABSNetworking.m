@@ -71,24 +71,21 @@ NSURLSessionConfiguration *sessionConfiguration;
 }
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
-    dispatch_semaphore_t    sem;
     __block NSData *        result;
-    
     result = nil;
-    
-    sem = dispatch_semaphore_create(0);
+     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     for (id key in headers){
         id token = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
-    
      sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
      requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
                    cachePolicy: NSURLRequestReturnCacheDataElseLoad
                    timeoutInterval:60.0
                    ];
+    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
@@ -104,10 +101,11 @@ NSURLSessionConfiguration *sessionConfiguration;
             errorHandler(nil, error);
             return;
         }
-        dispatch_semaphore_signal(sem);
     }] resume];
+      dispatch_async(queue, ^{
+          
+      });
     
-    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
 }
 
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{

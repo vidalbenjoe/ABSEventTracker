@@ -47,7 +47,6 @@ static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char*
 #endif
 }
 
-
 static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
 {
 #pragma unused (target, flags)

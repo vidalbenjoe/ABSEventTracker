@@ -9,7 +9,23 @@
 #import "BackgroundLooper.h"
 
 @implementation BackgroundLooper
+@synthesize appdelegate;
+
+
++(BackgroundLooper *) init{
+    static BackgroundLooper *shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [[super alloc] init];
+        
+    });
+    
+    return shared;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [appdelegate application:application didFinishLaunchingWithOptions:launchOptions];
+    
     NSLog(@"BG-LOOPER: lanuch");
     return YES;
 }
@@ -23,6 +39,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
     NSLog(@"BG-LOOPER: enterbackground");
 }
 

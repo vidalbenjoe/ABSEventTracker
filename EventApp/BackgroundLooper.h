@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface BackgroundLooper : UIApplication<UIApplicationDelegate>
-
+#import "AppDelegate.h"
+@interface BackgroundLooper : UIResponder <UIApplicationDelegate>
+@property(nonatomic) AppDelegate *appdelegate;
++(BackgroundLooper *) init;
 @end

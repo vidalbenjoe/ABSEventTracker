@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface KSCustomOperation : NSOperation
+{
+    BOOL executing;
+    BOOL finished;
+}
 
+@property  (strong) NSDictionary *mainDataDictionary;
+-(id)initWithData:(id)dataDictionary;
 @end

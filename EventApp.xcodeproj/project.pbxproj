@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86074A601EFBFAC800F80D87 /* KSCustomOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86074A5F1EFBFAC800F80D87 /* KSCustomOperation.m */; };
 		8623E0A01ECEA19000432B01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8623E09E1ECEA19000432B01 /* Main.storyboard */; };
 		8623E0A21ECEA19000432B01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8623E0A11ECEA19000432B01 /* Assets.xcassets */; };
 		8623E0B31ECEA50600432B01 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8623E0AF1ECEA1C300432B01 /* DeviceInfo.m */; };
@@ -42,6 +43,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		86074A5E1EFBFAC800F80D87 /* KSCustomOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSCustomOperation.h; sourceTree = "<group>"; };
+		86074A5F1EFBFAC800F80D87 /* KSCustomOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSCustomOperation.m; sourceTree = "<group>"; };
 		8623E0921ECEA19000432B01 /* EventApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EventApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8623E0961ECEA19000432B01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8623E0981ECEA19000432B01 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 				864D41FE1EF262B8008104A3 /* FormatUtils.m */,
 				86819A141EF8FF6A00895511 /* Reachability.h */,
 				86819A151EF8FF6A00895511 /* Reachability.m */,
+				86074A5E1EFBFAC800F80D87 /* KSCustomOperation.h */,
+				86074A5F1EFBFAC800F80D87 /* KSCustomOperation.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -415,6 +420,7 @@
 				8690A1F01ED2ED56003C0CC7 /* DeviceFingerprinting.m in Sources */,
 				864D41F61EF22B19008104A3 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
 				86819A161EF8FF6A00895511 /* Reachability.m in Sources */,
+				86074A601EFBFAC800F80D87 /* KSCustomOperation.m in Sources */,
 				8691E7561ED58C1F00780ADE /* DeviceInvariant.m in Sources */,
 				864D42021EF2A235008104A3 /* SessionManager.m in Sources */,
 				864D42051EF2A2AD008104A3 /* SessionManager+SessionRule.m in Sources */,

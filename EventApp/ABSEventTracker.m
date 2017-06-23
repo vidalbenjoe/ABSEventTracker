@@ -34,9 +34,25 @@
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
         
+//        if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+//            NSLog(@"BSLOOPER : yes");
+//        }else if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive){
+//            NSLog(@"BSLOOPER : active");
+//        }else if ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive){
+//            NSLog(@"BSLOOPER : Inactive");
+//        }
         
+        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+        if (state == UIApplicationStateBackground) {
+            NSLog(@"BSLOOPER : background");
+        }else if (state == UIApplicationStateInactive) {
+            NSLog(@"BSLOOPER : inactive");
+        }
+       
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_async(queue, ^{
+            
+            NSLog(@"Queue: %@", queue);
             [self initWithDevice:device];
             [self initAppProperty:digitalProperty];
             [self initSession:[SessionManager init]];
@@ -44,34 +60,19 @@
             [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                 [AuthManager storeTokenToUserDefault:token];
                 NSLog(@"initialToken: %@", token);
+                
+               
                 EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                     [builder setActionTaken:LOAD];
                 }];
                 [ABSEventTracker initEventAttributes:attrib];
+                
             }];
         });
     });
-    
-    
-    
-    
-    
-    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
-        // isInBackground = YES;
-        //  ------ UI not available
-        NSLog(@"BG-LOOPER:  background: YES");
-    }
-    else {
-        NSLog(@"BG-LOOPER:  background: YES");
-        // isInBackground = NO;
-        //   ------ UI is available
-    }
-    
-   
     return shared;
 }
 +(void) initEventSource{
-    
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -112,6 +113,8 @@
     [EventController writeEvent:attributes];
 }
 
-
+-(void) someMethod:(NSNotification*)notification {
+    NSLog(@"BSLOOPER : yes");
+}
 
 @end

@@ -36,7 +36,7 @@
 
 ////Disk
 +(NSString*) totalSpace;
-
++ (NSString *)ICCID;
 ////Carrier
 //+(BOOL) isAllowVOIP;
 //+(NSInteger*)mobileCountryCode;
