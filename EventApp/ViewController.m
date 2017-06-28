@@ -18,6 +18,7 @@
 #import "ABSEventAttributeQualifier.h"
 #import "ABSBigDataServiceDispatcher.h"
 #import "CacheManager.h"
+#import "EventController.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageUI;
@@ -42,7 +43,6 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didRecognizeTapGesture:)];
     [self.serchField.superview addGestureRecognizer:tapGesture];
     [self.imageUI.superview addGestureRecognizer:tapGesture];
-    
 
 }
 
@@ -73,7 +73,7 @@
         [builder setScreenDestination:@"screenDestination"];
     }];
     
-    [ABSEventTracker initEventAttributes:attrib];
+    [EventController writeEvent:attrib];
     NSLog(@"EventAttdwributes: %ld", (long)[attrib actionTaken]);
 }
 - (IBAction)readPlist:(UIButton *)sender {
@@ -91,13 +91,13 @@
             EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                 [builder setActionTaken:SEARCH];
             }];
-            [ABSEventTracker initEventAttributes:attrib];
+            [EventController writeEvent:attrib];
         }else if (CGRectContainsPoint(self.imageUI.frame, point)) {
             NSLog(@"UI-ACTION: IMAGE_TAP");
             EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                 [builder setActionTaken:CLICK_IMAGE];
             }];
-            [ABSEventTracker initEventAttributes:attrib];
+            [EventController writeEvent:attrib];
         }
 
     }
@@ -107,7 +107,7 @@
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGOUT];
     }];
-    [ABSEventTracker initEventAttributes:attrib];
+    [EventController writeEvent:attrib];
 }
 
 - (IBAction)loginButton:(id)sender {
@@ -129,6 +129,6 @@
         [builder setActionTaken:FACEBOOK_LIKE];
     }];
     
-    [ABSEventTracker initEventAttributes:attrib];
+    [EventController writeEvent:attrib];
 }
 @end
