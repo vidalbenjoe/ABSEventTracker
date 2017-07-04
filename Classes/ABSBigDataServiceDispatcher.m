@@ -17,6 +17,7 @@
 #import "Enumerations.h"
 #import "EventCallBack.h"
 
+
 @implementation ABSBigDataServiceDispatcher
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -165,7 +166,7 @@
 
 +(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes{
     
-    NSString *action = [Action convertActionTaken:attributes.eventattributes.actionTaken];
+    NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
