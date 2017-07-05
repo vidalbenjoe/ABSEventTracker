@@ -11,14 +11,6 @@
 #ifndef Enumarations_h
 #define Enumarations_h
 
-// MARK: Enums
-/// The size scale to decide how you want to obtain size information
-///
-/// - bytes:     In bytes
-/// - kilobytes: In kilobytes
-/// - megabytes: In megabytes
-/// - gigabytes: In gigabytes
-
 
 
 /// The battery state

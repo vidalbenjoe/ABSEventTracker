@@ -20,7 +20,6 @@
 +(void) initializeProperty{
     [self initEventSource];
             [[SessionManager init] establish];
-    
     DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
         [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
                     [builder setDeviceOS:[DeviceInfo systemVersion]];
@@ -29,9 +28,9 @@
                     [builder setDeviceType:[DeviceInfo deviceType]];
     }];
     
-            PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
-            [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
-            [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+    PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
+    [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
+    [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
 
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{

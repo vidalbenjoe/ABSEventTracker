@@ -32,10 +32,10 @@
 - (IBAction)trackEvent:(id)sender {
     
     UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
-    
+        [builder setFirstName:@""];
+        [builder setLastName:@""];
     }];
     [ABSEventTracker initWithUser:user];
-    
     
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];

@@ -7,7 +7,7 @@
 //
 
 #import "Constant.h"
-
+#import "PropertyEventSource.h"
 @implementation Constant
 
 NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net";
@@ -17,7 +17,7 @@ NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier
-    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\" : \"%@\"}", I_WANT_TV_ID];
+    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\" : \"%@\"}", [PropertyEventSource getBundleIdentifier]];
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];

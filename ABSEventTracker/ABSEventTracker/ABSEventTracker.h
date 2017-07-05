@@ -9,6 +9,5 @@
 #import <Foundation/Foundation.h>
 @interface ABSEventTracker : NSObject
 +(ABSEventTracker *) init;
-
 @end
 
