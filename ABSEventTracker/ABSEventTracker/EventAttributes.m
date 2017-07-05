@@ -119,8 +119,6 @@
         _clickedContent         = nil;
         _searchQuery            = nil;
         
-        _actionTaken            = 0;
-        
         _readArticles           = nil;
         _articleAuthor          = nil;
         _articlePostDate        = nil;
@@ -133,6 +131,8 @@
         _metaTags               = nil;
         _previousScreen         = nil;
         _screenDestination      = nil;
+        
+        _actionTaken            = 0;
         
         _latitute               = 0;
         _longitude              = 0;

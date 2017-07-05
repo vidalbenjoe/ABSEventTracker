@@ -1,5 +1,6 @@
 //
-//  EventController.m or the ABSEngineController // Act as a Facade(Reading and writing event attributes)
+//  EventController.m or the ABSEngineController
+// Act as a Facade(Reading and writing event attributes)
 //  EventApp
 //
 //  Created by Benjoe Vidal on 24/05/2017.

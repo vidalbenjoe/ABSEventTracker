@@ -14,7 +14,6 @@ NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.
 NSString* const eventTokenURL           = @"/token";
 NSString* const eventWriteURL           = @"/api/event/write";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
-
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier
     NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\" : \"%@\"}", [PropertyEventSource getBundleIdentifier]];

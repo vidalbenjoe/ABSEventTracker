@@ -18,7 +18,6 @@
         _middleName     =   builder.middleName;
         _lastName       =   builder.lastName;
     }
-    
     return self;
 }
 

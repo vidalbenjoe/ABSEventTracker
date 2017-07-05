@@ -8,7 +8,9 @@
 #import <Foundation/Foundation.h>
 #import "AttributeManager.h"
 @interface AttributeWriter : NSObject
-@property(nonatomic) AttributeManager *manager;
-@property(nonatomic) ActionTaken *action;
+/**
+ * This method is resposible for writing event attributes into the server data like.
+ * @parameters manager
+ */
 +(void) writer:(AttributeManager *) manager;
 @end

@@ -17,12 +17,11 @@
         NSLog(@"Event Library-HTTP_STATUS 400: BAD_REQUET");
     }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR) {
         NSLog(@"Event Library-HTTP_STATUS 500: INTERNAL SERVER ERROR");
-    }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR || respHttp.statusCode== BAD_REQUEST) {
+    }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR ||
+              respHttp.statusCode== BAD_REQUEST) {
         [self onSecurityCodeRefresh];
     }else if (respHttp.statusCode== NOT_FOUND) {
         NSLog(@"Event Library-HTTP_STATUS 404: NOT FOUND");
-    }else{
-        
     }
 }
 
