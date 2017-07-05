@@ -19,7 +19,6 @@
     }
     return self;
 }
-
 -(DeviceInvariantBuilder *) makeBuilder{
     DeviceInvariantBuilder *builder = [DeviceInvariantBuilder new];
     builder.deviceFingerprint       = _deviceFingerprint;
@@ -47,18 +46,15 @@
 }
 
 @end
-
 // DeviceInvariantBuilder
-
 @implementation DeviceInvariantBuilder
-
 -(instancetype) init{
     if (self = [super init]) {
         _deviceFingerprint          = nil;
         _deviceOS                   = nil;
         _deviceType                 = nil;
         _deviceScreenWidth          =   0;
-        _deviceScreenHeight         =   1;
+        _deviceScreenHeight         =   0;
     }
     return self;
 }

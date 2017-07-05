@@ -81,11 +81,9 @@ typedef NS_ENUM(NSInteger, DeviceVersion){
 +(NSInteger) processorNumber;
 
 +(NSString *) deviceUUID;
-+(NSString *) deviceIDFA;
 
 ////Disk
 +(NSString*) totalSpace;
-+ (NSString *)ICCID;
 ////Carrier
 //+(BOOL) isAllowVOIP;
 //+(NSInteger*)mobileCountryCode;

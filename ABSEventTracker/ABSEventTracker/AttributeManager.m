@@ -65,7 +65,7 @@
     NSLog(@"sessionSTarTest %@", [sessionAttributes sessionStart]);
 }
 
--(void) setActionTimeStamp:(ArbitaryVariant *) timestamp{
+-(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp{
     arbitaryinvariant = timestamp;
     NSLog(@"dawgdqhk %@", [timestamp applicationLaunchTimeStamp]);
 }

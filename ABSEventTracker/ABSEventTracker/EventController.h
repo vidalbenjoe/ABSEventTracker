@@ -10,11 +10,12 @@
 #import "EventAttributes.h"
 
 @interface EventController : NSObject
-
-//TODO : Create method that will process the event writing from the users given attributes
-//TODO : Send the processed attributes to server
-
+/** Method to initialize EventController class */
 +(id) init;
+/**
+* Wrapper function to write event attributes -> EventAttributes.
+* Function that handle writing of Arbitary, action, and event attributes into AttributeManager
+*/
 +(void) writeEvent:(EventAttributes *) attributes;
 
 @end

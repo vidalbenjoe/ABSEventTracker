@@ -10,9 +10,6 @@
 
 #ifndef Enumarations_h
 #define Enumarations_h
-
-
-
 /// The battery state
 ///
 /// - unknown:   State unknown

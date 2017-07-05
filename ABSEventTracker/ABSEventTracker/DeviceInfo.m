@@ -5,14 +5,13 @@
 //  Created by Benjoe Vidal on 16/05/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
-
+#import <UIKit/UIKit.h>
+#import <sys/utsname.h>
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "DeviceInfo.h"
 #import "Reachability.h"
-#import <sys/utsname.h>
-#import <AdSupport/ASIdentifierManager.h>
-#import <UIKit/UIKit.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
+
 @implementation DeviceInfo
 // Mobile Gestalt EquipmentInfo
 extern CFTypeRef MGCopyAnswer(CFStringRef);
@@ -106,6 +105,10 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
     return deviceNameByCode;
 }
 
+/**
+ * This method will generate current device version
+ * Ex: iOS 10.3
+ */
 + (DeviceVersion) deviceVersion{
     struct utsname systemInfo;
     uname(&systemInfo);
@@ -114,7 +117,10 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
     return version;
     
 }
-
+/**
+ * This method will get the current device name
+ * Ex: MyIphone7
+ */
 + (NSString *)deviceNameString
 {
     return [DeviceInfo deviceNameForVersion:[DeviceInfo deviceVersion]];
@@ -177,7 +183,8 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
 +(NSString*) systemVersion{
     return [[UIDevice currentDevice] systemVersion];
 }
-
+// Localize model of device
+//Ex: iPhone
 +(NSString*) localizeModel{
     return [[UIDevice currentDevice] localizedModel];
 }
@@ -186,11 +193,11 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
 +(NSString*) deviceType{
     return [self deviceNameString];
 }
-
+//Current user interface of device:
+// Ex: Phone, Tablet, TV, CarPlay
 +(NSString*) deviceIdiom{
     return [DeviceInfo userInterfaceIdiom:[DeviceInfo interfaceIdiom]];
 }
-
 +(NSString*) getUserInterfaceIdiom{
     return [self deviceIdiom];
 }
@@ -221,12 +228,17 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
              }[@(idiom)];
 }
 
-//An alphanumeric string that uniquely identifies a device to the app’s vendor.
-//Ex: 4375A586-0C0F-41CA-B60D-B497CCR0143F
+/**
+ * Return an alphanumeric string that uniquely identifies a device to the app’s vendor.
+ * Ex: 4375A586-0C0F-41CA-B60D-B497CCR0143F
+ */
 +(NSString*) identifierForVendor{
     return [[UIDevice currentDevice] identifierForVendor].UUIDString;
 }
 
+/*
+ * Return device width
+ */
 + (NSInteger)screenWidth {
     // Get the screen width
     @try {
@@ -239,7 +251,6 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
             // Invalid Width
             return -1;
         }
-        
         // Successful
         return Width;
     }
@@ -249,7 +260,9 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
     }
 }
 
-
+/*
+ * Return device height
+ */
 +(NSInteger) screenHeight{
     // Get the screen height
     @try {
@@ -270,11 +283,16 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
         return -1;
     }
 }
-
+/*
+ * Return device physical memory
+ */
 +(NSInteger) physicalMemory{
     return [[NSProcessInfo processInfo] physicalMemory] / 1073741824.;      //gibi
 }
 
+/*
+ * Return device processor count
+ */
 +(NSInteger) processorNumber{
     if ([[NSProcessInfo processInfo] respondsToSelector:@selector(processorCount)]) {
         // Get the number of processors
@@ -287,29 +305,40 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
     }
 }
 
+/*
+ * Return device UUID
+ */
 +(NSString *) deviceUUID{
     NSString *uniqueIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     return uniqueIdentifier;
 }
 
-+(NSString *) deviceIDFA{
-    NSString *idfaString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-    return idfaString;
-}
-
-
-+(NSString*) totalSpace{
-    return @"";
-}
-
-+ (NSString *)ICCID {
-    CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
-    CTCarrier *carrier = [netinfo subscriberCellularProvider];
-    NSLog(@"Carrier Name: %@", [carrier carrierName]);
+/*
+ * Return device total Space
+ */
++(NSNumber*) totalSpace{
+    uint64_t totalSpace = 0;
+    uint64_t totalFreeSpace = 0;
     
-    return [carrier carrierName];
+    __autoreleasing NSError *error = nil;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
+    
+    if (dictionary) {
+        NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
+        totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
+        NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
+    } else {
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
+
+    }
+    return [NSNumber numberWithUnsignedLongLong:((totalSpace/1024ll)/1024ll)];
 }
 
+/*
+ * Detect device connectivity
+ * Ex: Wifi, 2G, 3G, 4G
+ */
 +(NSString *) deviceConnectivity{
     NSString *connectivity;
     Reachability *reachability = [Reachability reachabilityForInternetConnection];

@@ -21,10 +21,8 @@ BOOL hasInitialized = false;
     });
     return shared;
 }
-/**
- Functions to write event attributes to Attribute Manager.
- @param attributes EventAttributes
- */
+
+#pragma mark - EventAttributes
 +(void) writeEvent:(EventAttributes *) attributes{
     ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     NSLog(@"luggs:%ld",(long)attributes.actionTaken);
@@ -52,12 +50,11 @@ BOOL hasInitialized = false;
         case POST_COMMENT:
             NSLog(@"action-w:Post");
             [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-            
             break;
         default:
             break;
     }
-    [[AttributeManager init] setActionTimeStamp:arbitary];
+    [[AttributeManager init] setArbitaryAttributes:arbitary];
     [[AttributeManager init] setEventAttributes:attributes];
 }
 

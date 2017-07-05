@@ -28,10 +28,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 - (IBAction)trackEvent:(id)sender {
-    
     UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
+        [builder setSsoID:@""];
+        [builder setGigyaID:@""];
         [builder setFirstName:@""];
         [builder setLastName:@""];
     }];

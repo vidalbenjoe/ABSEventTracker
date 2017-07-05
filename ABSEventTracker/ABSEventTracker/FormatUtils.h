@@ -9,8 +9,16 @@
 #import <Foundation/Foundation.h>
 
 @interface FormatUtils : NSObject
-
+/**
+ * Get current time and date
+ */
 +(NSString*) getCurrentTimeAndDate: (NSDate *) date;
+/**
+ * Date formatter
+ */
 +(NSString *) dateFormatter:(NSDate *) date;
+/**
+ * Generate randomUUID
+ */
 +(NSString *) randomUUID;
 @end

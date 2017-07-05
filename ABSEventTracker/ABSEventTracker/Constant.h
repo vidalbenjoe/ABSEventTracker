@@ -14,16 +14,16 @@
 #define EVENTAPP_ID         @"com.ph.abscbn.ios.EventApp"
 #define INVALID_ID          @"com.invalid"
 
-#define RANDOM_ID           arc4random_uniform(900000) + 100000
-
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR"
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTES   1
 
 @interface Constant : NSObject
-extern NSString* const eventAppsBaseURL;
-extern NSString* const eventTokenURL;
+extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
+extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
-
+/*!
+ * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier
+ */
 +(NSString *) generateNewMobileHeader;
 @end

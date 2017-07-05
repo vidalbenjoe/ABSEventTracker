@@ -1,5 +1,5 @@
 //
-//  KSCustomOperation.h
+//  ABSCustomOperation.h
 //  EventApp
 //
 //  Created by  Benjoe Vidal on 22/06/2017.
@@ -15,5 +15,8 @@
 }
 
 @property  (strong) NSDictionary *mainDataDictionary;
+/*!
+ * initilize data sent by EventDispatcher
+ */
 -(id)initWithData:(id)dataDictionary;
 @end

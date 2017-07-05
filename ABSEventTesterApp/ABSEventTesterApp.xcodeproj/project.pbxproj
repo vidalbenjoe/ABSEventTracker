@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		86429F511F0C86A700913425 /* ABSEventTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8645B9E11F05117800F21735 /* ABSEventTracker.framework */; };
+		86429F571F0CCB7100913425 /* ABSEventTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86429F561F0CCB7100913425 /* ABSEventTracker.framework */; };
 		8645B80A1F05049600F21735 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B8091F05049600F21735 /* main.m */; };
 		8645B80D1F05049600F21735 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B80C1F05049600F21735 /* AppDelegate.m */; };
 		8645B8101F05049600F21735 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B80F1F05049600F21735 /* ViewController.m */; };
@@ -17,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		86429F561F0CCB7100913425 /* ABSEventTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ABSEventTracker.framework; sourceTree = "<group>"; };
 		8645B8051F05049600F21735 /* ABSEventTesterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABSEventTesterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8645B8091F05049600F21735 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8645B80B1F05049600F21735 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -27,7 +28,6 @@
 		8645B8141F05049600F21735 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8645B8171F05049600F21735 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8645B8191F05049600F21735 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8645B9E11F05117800F21735 /* ABSEventTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ABSEventTracker.framework; sourceTree = "<group>"; };
 		86B5644C1F0B9269001626D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		86B5644E1F0B9272001626D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86429F511F0C86A700913425 /* ABSEventTracker.framework in Frameworks */,
+				86429F571F0CCB7100913425 /* ABSEventTracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,9 +88,9 @@
 		8645B9DA1F050B9900F21735 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				86429F561F0CCB7100913425 /* ABSEventTracker.framework */,
 				86B5644E1F0B9272001626D5 /* Foundation.framework */,
 				86B5644C1F0B9269001626D5 /* UIKit.framework */,
-				8645B9E11F05117800F21735 /* ABSEventTracker.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

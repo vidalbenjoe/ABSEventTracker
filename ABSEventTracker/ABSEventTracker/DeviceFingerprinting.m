@@ -11,6 +11,11 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "DeviceInfo.h"
 @implementation DeviceFingerprinting
+
+/*!
+ * Consolidating device entropy for device fingerprinting
+ */
+
 +(NSString*) buildRawEntropy{
     NSMutableArray *rawComponents = [NSMutableArray array];
     //Getting data from the device info
@@ -22,18 +27,19 @@
     [rawComponents addObject:[DeviceInfo getUserInterfaceIdiom]];
     [rawComponents addObject:[DeviceInfo deviceConnectivity]];
     [rawComponents addObject:[DeviceInfo deviceUUID]];
-    [rawComponents addObject:[DeviceInfo deviceIDFA]];
+    [rawComponents addObject:[DeviceInfo totalSpace]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo screenWidth]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo screenHeight]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo physicalMemory]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo processorNumber]]];
-    //    [rawComponents addObject:[DeviceInfo ICCID]];
+//        [rawComponents addObject:[DeviceInfo ICCID]];
     return [rawComponents componentsJoinedByString:@","];
 }
 
-//Generate device finger print based on the device info.
+/*!
+ * Generate MD5 format device fingerprint based on the device info.
+ */
 +(NSString*) generateDeviceFingerprint{
-    
     NSString * rawString = [self buildRawEntropy];
     const char *cStr = [rawString UTF8String];
     unsigned char digest[16];

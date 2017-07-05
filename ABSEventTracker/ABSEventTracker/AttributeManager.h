@@ -29,7 +29,7 @@
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes;
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
 -(void) setSession:(SessionManager *)sessionAttributes;
--(void) setActionTimeStamp:(ArbitaryVariant *) timestamp;
+-(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp;
 
 @end
 

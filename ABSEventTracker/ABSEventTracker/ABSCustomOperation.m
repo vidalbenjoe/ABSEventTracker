@@ -1,5 +1,5 @@
 //
-//  KSCustomOperation.m
+//  ABSCustomOperation.m
 //  EventApp
 //
 //  Created by Benjoe Vidal on 22/06/2017.
@@ -19,7 +19,6 @@
         _mainDataDictionary = dataDictionary;
         executing = NO;
         finished = NO;
-        
     }
     return self;
 }
