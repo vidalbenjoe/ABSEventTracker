@@ -201,7 +201,7 @@
 
 +(NSDictionary *) recommendationPopular {
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"test" , @"das", nil];
-    NSString *proprty = [PropertyEventSource convertPropertyTaken:GIGYA];
+    NSString *proprty = [PropertyEventSource convertPropertyTaken:I_WANT_TV];
     NSLog(@"proproprty: %@",proprty);
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
