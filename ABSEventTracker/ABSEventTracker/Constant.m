@@ -14,9 +14,15 @@ NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.
 NSString* const eventTokenURL           = @"/token";
 NSString* const eventWriteURL           = @"/api/event/write";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
+
+NSString* const recommendationPopular           = @"/api/recommendation/popular";    //GET
+NSString* const recommendationUserToItem        = @"/api/recommendation/usertoitem"; //POST
+NSString* const recommendationItemToItem        = @"/api/recommendation/itemtoitem"; //POST
+NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
+
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier
-    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\" : \"%@\"}", [PropertyEventSource getBundleIdentifier]];
+    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\" : \"%@\"}", I_WANT_TV_ID];
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];

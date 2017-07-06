@@ -15,18 +15,22 @@
 #import "Constant.h"
 #import "EventController.h"
 #import "DeviceInfo.h"
+
 @implementation ABSEventTracker (Initializer)
 +(void) initializeProperty{
     [self initEventSource];
     // Initilize Session
     [[SessionManager init] establish];
+    
+   
     // Get device information to be used on device fingerprinting and analytics.
-    DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^(DeviceInvariantBuilder *builder) {
+    DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
+                               (DeviceInvariantBuilder *builder) {
         [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
-                    [builder setDeviceOS:[DeviceInfo systemVersion]];
-                    [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
-                    [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
-                    [builder setDeviceType:[DeviceInfo deviceType]];
+        [builder setDeviceOS:[DeviceInfo systemVersion]];
+        [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
+        [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
+        [builder setDeviceType:[DeviceInfo deviceType]];
     }];
     // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
     PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
@@ -39,15 +43,15 @@
                     [self initAppProperty:digitalProperty];
                     [self initSession:[SessionManager init]];
                     // Request Token from initilization
-                    [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+                        [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                         // Store the response token by then block handler into NSUserDefault
                         [AuthManager storeTokenToUserDefault:token];
-                                        EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                                            // set Event action into LOAD
-                                            [builder setActionTaken:LOAD];
-                                        }];
-                                        // Write LOAD action to to server.
-                                        [ABSEventTracker initEventAttributes:attrib];
+                        EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                            // set Event action into LOAD
+                            [builder setActionTaken:LOAD];
+                                }];
+                        // Write LOAD action to to server.
+                        [ABSEventTracker initEventAttributes:attrib];
                     }];
     });
 }
@@ -56,6 +60,7 @@
  * IMPORTANT: if the bundleIdentifier of the current app don't meet the pre-defined identifier, the server will not return any valid security hash.
  * Security hash is used to request a Token.
  */
+
 +(void) initEventSource{
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
@@ -70,6 +75,7 @@
     }else{
         [[PropertyEventSource init] setDigitalProperty:INVALID];
     }
+     [self readPopularRecommendation];
     NSLog(@"pwfw: %lu", (unsigned long)[[PropertyEventSource init] property]);
 }
 
@@ -120,6 +126,7 @@
  * sessionStart
  * sessionEnd
  */
+
 +(void) initSession :(SessionManager*) attributes{
     [[AttributeManager init] setSession:attributes];
 }
@@ -146,11 +153,15 @@
  * articleCharacterCount
  * rating
  * duration
- *
  */
 
 +(void) initEventAttributes: (EventAttributes *) attributes{
     [EventController writeEvent:attributes];
 }
+
++(NSDictionary*) readPopularRecommendation{
+    return [ABSBigDataServiceDispatcher recommendationPopular];
+}
+
 
 @end

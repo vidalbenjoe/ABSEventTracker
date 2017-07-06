@@ -28,8 +28,8 @@ NSURLSessionConfiguration *sessionConfiguration;
                    initWithURL:url
                    cachePolicy: NSURLRequestUseProtocolCachePolicy
                    timeoutInterval:60.0];
-    [requestBody setHTTPMethod:@"POST"];
     
+    [requestBody setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -39,6 +39,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                           [ABSNetworking HTTPerrorLogger:respHttp];
                                           return;
                                       }
+                                      
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                       successHandler(task, dictionary);
                                       NSLog(@"HTTP_STATUS:  %@", response);

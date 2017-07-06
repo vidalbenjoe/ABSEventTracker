@@ -21,9 +21,35 @@
  */
 +(void) initWithUser:(UserAttributes *) attributes;
 /*!
- * Method name: initEventAttributes
- * Method Description: Initilize Event attributes by calling this method on the controller
- * Parameters: EventAttributes - clickedContent, searchQuery, actionTaken, readArticles, articleAuthor, articlePostDate, commentContent, loginTimeStamp, likedContent, shareRetweetContent, followEntity, metaTags, previousScreen, screenDestionation, latitude, logitude, articleCharacterCount, rating, duration
+ * @discussion Initilize Event attributes by calling this method on the controller
+ * @params
+ * attributes -
+ * clickedContent
+ * searchQuery
+ * actionTaken
+ * readArticles
+ * articleAuthor
+ * articlePostDate
+ * commentContent
+ * loginTimeStamp
+ * likedContent
+ * shareRetweetContent
+ * followEntity
+ * metaTags
+ * previousScreen
+ * screenDestionation
+ * latitude
+ * logitude
+ * articleCharacterCount
+ * rating
+ * duration
  */
 +(void) initEventAttributes: (EventAttributes *) attributes;
+
+
+/*!
+ * This method returns recommendation from API
+ */
++(NSDictionary*) readPopularRecommendation;
+
 @end

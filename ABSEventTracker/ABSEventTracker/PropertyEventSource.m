@@ -35,8 +35,24 @@
     property = digitalProperty;
 }
 
--(DigitalProperty) getProperty{
-    return property;
++(NSDictionary *) properyTakenByName{
+    return @{@(GIGYA)               : @"1",
+             @(I_WANT_TV)           : @"2",
+             @(TFC)                 : @"3",
+             @(SKY_ON_DEMAND)       : @"4",
+             @(ONE_MUSIC)           : @"5",
+             @(NO_INK)              : @"6",
+             @(SINEHUB)             : @"7",
+             @(NEWS)                : @"8",
+             @(INVALID)             : @"9",
+             @(TEST)                : @"10"
+             };
 }
+
++(NSString *) convertPropertyTaken: (DigitalProperty) property{
+    return [[self class] properyTakenByName][@(property)];
+}
+
+
 
 @end

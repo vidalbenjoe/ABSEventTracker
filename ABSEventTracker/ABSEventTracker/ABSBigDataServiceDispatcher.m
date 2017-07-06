@@ -14,10 +14,11 @@
 #import "DeviceFingerprinting.h"
 #import "FormatUtils.h"
 #import "ABSCustomOperation.h"
-#import "Enumerations.h"
 #import "EventCallBack.h"
 
 @implementation ABSBigDataServiceDispatcher
+
+
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -153,6 +154,7 @@
 
 +(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes{
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
             ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
@@ -193,6 +195,29 @@
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId", nil];
     
     return attributesDictionary;
+}
+
+                /********************RECOMMENDATION********************/
+
++(NSDictionary *) recommendationPopular {
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"test" , @"das", nil];
+    NSString *proprty = [PropertyEventSource convertPropertyTaken:GIGYA];
+    NSLog(@"proproprty: %@",proprty);
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        NSDictionary *header = @{@"propertyID" : proprty,
+                                 @"authorization" : [AuthManager retrieveServerTokenFromUserDefault]};
+        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//            NSString *sechash = responseObject[@"seccode"];
+            
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(SECHASH_ERROR_REQUEST);
+        }];
+    });
+
+    return dictionary;
+    
 }
 
 

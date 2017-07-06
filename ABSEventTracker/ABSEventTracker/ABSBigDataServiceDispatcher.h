@@ -11,11 +11,10 @@
 #import "ArbitaryVariant.h"
 @interface ABSBigDataServiceDispatcher : NSObject
 
-
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler;
 +(void) requestToken: (void (^)(NSString *token))handler;
 +(void) dispatchAttribute:(AttributeManager *) attributes;
 +(void) performQueueForCachedAttributes;
 
-
++(NSDictionary *) recommendationPopular;
 @end

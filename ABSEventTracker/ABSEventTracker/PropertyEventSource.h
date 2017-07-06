@@ -13,12 +13,16 @@
 /// - NOINK        :   NOINK
 
 typedef NS_ENUM(NSUInteger, DigitalProperty){
-    SKY_ON_DEMAND       =   0,
-    NEWS                =   1,
+    GIGYA               =   1,
     I_WANT_TV           =   2,
-    NO_INK              =   3,
-    INVALID             =   4,
-    TEST                =   5
+    TFC                 =   3,
+    SKY_ON_DEMAND       =   4,
+    ONE_MUSIC           =   5,
+    NO_INK              =   6,
+    SINEHUB             =   7,
+    NEWS                =   8,
+    INVALID             =   9,
+    TEST                =   10
 };
 
 @interface PropertyEventSource : NSObject
@@ -33,5 +37,6 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 +(NSString *) getBundleIdentifier;
 
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty;
--(DigitalProperty) getProperty;
+
++(NSString *) convertPropertyTaken: (DigitalProperty) property;
 @end
