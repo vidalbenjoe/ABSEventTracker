@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import <ABSEventTracker/EventController.h>
 #import <ABSEventTracker/EventAttributes.h>
 #import <ABSEventTracker/UserAttributes.h>
 #import <ABSEventTracker/ABSEventTracker+Initializer.h>
@@ -19,7 +18,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -30,7 +28,6 @@
 
 - (IBAction)trackEvent:(id)sender {
     UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
-        [builder setSsoID:@""];
         [builder setGigyaID:@""];
         [builder setFirstName:@""];
         [builder setLastName:@""];
@@ -40,21 +37,22 @@
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setSearchQuery:@"Search..."];
-        [builder setActionTaken:SEARCH];
         [builder setReadArticles:@"Philstar"];
         [builder setArticleAuthor:@"Bob Ong"];
         [builder setArticlePostDate:@"June 15, 2017"];
         [builder setCommentContent:@"comment content"];
-        [builder setArticleCharacterCount:4];
         [builder setFollowEntity:@"entity"];
         [builder setLikedContent:@"Liked"];
         [builder setMetaTags:@"TAGS"];
+        [builder setPreviousScreen:@"previous screen"];
+        [builder setScreenDestination:@"screenDestination"];
+        
+        [builder setArticleCharacterCount:4];
+        [builder setActionTaken:SEARCH];
         [builder setLatitute:120.421412];
         [builder setLongitude:14.2323];
         [builder setDuration:230];
         [builder setRating:23];
-        [builder setPreviousScreen:@"previous screen"];
-        [builder setScreenDestination:@"screenDestination"];
     }];
     
     [ABSEventTracker initEventAttributes:attrib];

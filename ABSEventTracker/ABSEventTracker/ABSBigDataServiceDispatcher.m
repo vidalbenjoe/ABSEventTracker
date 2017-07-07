@@ -15,7 +15,7 @@
 #import "FormatUtils.h"
 #import "ABSCustomOperation.h"
 #import "EventCallBack.h"
-
+#import "Popular.h"
 @implementation ABSBigDataServiceDispatcher
 
 
@@ -86,10 +86,8 @@
 }
 
 +(void) performQueueForCachedAttributes{
-    NSLog(@"CacheByIndex-Ar: %lu",(unsigned long)[[CacheManager retrieveAllCacheArray] count]);
     if ([[CacheManager retrieveAllCacheArray] count] > 0) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-        
         // Loop cached array and add to queue
         for (int i = 0; i < [CacheManager retrieveAllCacheArray].count ; i++) {
             // Add cached Array to attributes dictionary
@@ -117,7 +115,6 @@
                 //This is the completion block that will get called when the custom operation work is completed.
                 // Work completed
             }];
-            
             customOperation.completionBlock =^{
                 NSLog(@"Completed");
                 NSLog(@"CacheByIndex-complet: %lu",(unsigned long)[[CacheManager retrieveAllCacheArray] count]);
@@ -146,7 +143,6 @@
     NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
     [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
         [CacheManager removeCachedAttributeByFirstIndex];
-        NSLog(@"request response: %@", responseObject);
     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
         [CacheManager storeFailedAttributesToCacheManager:obj];
     }];
@@ -155,7 +151,10 @@
 +(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes{
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     
+    NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            userID , @"GigyaID",
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
             ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
             ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
@@ -173,7 +172,6 @@
             ObjectOrNull(attributes.userattributes.firstName) , @"FirstName",
             ObjectOrNull(attributes.userattributes.middleName) , @"MiddleName",
             ObjectOrNull(attributes.userattributes.lastName) , @"LastName",
-            ObjectOrNull(attributes.userattributes.gigyaID) , @"GigyaID",
             ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
             ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
             ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
@@ -200,7 +198,7 @@
                 /********************RECOMMENDATION********************/
 
 +(NSDictionary *) recommendationPopular {
-    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"test" , @"das", nil];
+    NSMutableDictionary *popularRecomendation = [[NSMutableDictionary alloc] init];
     NSString *proprty = [PropertyEventSource convertPropertyTaken:I_WANT_TV];
     NSLog(@"proproprty: %@",proprty);
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -209,15 +207,22 @@
         NSDictionary *header = @{@"propertyID" : proprty,
                                  @"authorization" : [AuthManager retrieveServerTokenFromUserDefault]};
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-//            NSString *sechash = responseObject[@"seccode"];
-            
+            NSArray *results = [responseObject valueForKey:@"recommendationDetails"];
+            for (NSDictionary *groupDic in results) {
+                Popular *popular = [[Popular alloc] init];
+                for (NSString *key in groupDic) {
+                    if ([popular respondsToSelector:NSSelectorFromString(key)]) {
+                        [popular setValue:[groupDic valueForKey:key] forKey:key];
+                    }
+                }
+                [popularRecomendation setObject:popular forKey:@"popular"];
+            }
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(SECHASH_ERROR_REQUEST);
+            NSLog(@"resporeerrorreco: %@", error);
         }];
     });
-
-    return dictionary;
     
+    return popularRecomendation;
 }
 
 

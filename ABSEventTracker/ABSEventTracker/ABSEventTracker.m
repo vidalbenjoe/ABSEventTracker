@@ -10,11 +10,12 @@
 
 @implementation ABSEventTracker
 
-+(ABSEventTracker *) init{
++(ABSEventTracker *) initializeTracker{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
+        // This line will initilize all of the required attributes and entropy to be able to gather event and device related properties.
         [self initializeProperty];
     });
     return shared;

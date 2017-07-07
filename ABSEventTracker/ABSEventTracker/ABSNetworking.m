@@ -109,7 +109,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     
 }
 
--(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+-(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     NSURL *urlString = [NSURL URLWithString:url];
     for (id key in headers){
         id mobileHeaderValue = [headers objectForKey:key];

@@ -22,7 +22,6 @@
     // Initilize Session
     [[SessionManager init] establish];
     
-   
     // Get device information to be used on device fingerprinting and analytics.
     DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
                                (DeviceInvariantBuilder *builder) {

@@ -14,6 +14,6 @@
  * This method will initialize multiple attribute such as DeviceInvariant and PropertyEventSource.
  * This method will also trigger SessionManager.
  */
-+(ABSEventTracker *) init;
++(ABSEventTracker *) initializeTracker;
 @end
 

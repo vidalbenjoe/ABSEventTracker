@@ -47,6 +47,7 @@
 		8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B7C71F04F99F00F21735 /* EventAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B77E1F04F51B00F21735 /* ABSEventTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8645B7FB1F05042900F21735 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B77F1F04F51B00F21735 /* ABSEventTracker.m */; };
+		8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661CC581F0E3A4A006D7A1D /* Popular.m */; };
 		868B25E21F061669007E8CF0 /* ABSEventTracker+Initializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 868B25E01F061669007E8CF0 /* ABSEventTracker+Initializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		868B25E31F061669007E8CF0 /* ABSEventTracker+Initializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */; };
 /* End PBXBuildFile section */
@@ -121,6 +122,8 @@
 		8645B7EE1F04FEAC00F21735 /* EventCallBack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCallBack.h; sourceTree = "<group>"; };
 		8645B7F11F05001B00F21735 /* PropertyEventSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyEventSource.h; sourceTree = "<group>"; };
 		8645B7F21F05001B00F21735 /* PropertyEventSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyEventSource.m; sourceTree = "<group>"; };
+		8661CC571F0E3A4A006D7A1D /* Popular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Popular.h; sourceTree = "<group>"; };
+		8661CC581F0E3A4A006D7A1D /* Popular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Popular.m; sourceTree = "<group>"; };
 		868B25E01F061669007E8CF0 /* ABSEventTracker+Initializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABSEventTracker+Initializer.h"; sourceTree = "<group>"; };
 		868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABSEventTracker+Initializer.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +209,7 @@
 		8645B7BE1F04F92C00F21735 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				8661CC561F0E3A29006D7A1D /* Recommendation */,
 				8645B7E01F04FCF100F21735 /* Invariant */,
 				8645B7DC1F04FC3700F21735 /* Variant */,
 				8645B7D51F04FB8600F21735 /* Manager */,
@@ -308,6 +312,15 @@
 				8645B7F21F05001B00F21735 /* PropertyEventSource.m */,
 			);
 			name = DigitalProperty;
+			sourceTree = "<group>";
+		};
+		8661CC561F0E3A29006D7A1D /* Recommendation */ = {
+			isa = PBXGroup;
+			children = (
+				8661CC571F0E3A4A006D7A1D /* Popular.h */,
+				8661CC581F0E3A4A006D7A1D /* Popular.m */,
+			);
+			name = Recommendation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -432,6 +445,7 @@
 				8645B7C11F04F94000F21735 /* EventController.m in Sources */,
 				8645B7EA1F04FDDA00F21735 /* ABSNetworking.m in Sources */,
 				8645B7AA1F04F72100F21735 /* Constant.m in Sources */,
+				8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */,
 				8645B7C91F04F99F00F21735 /* EventAttributes.m in Sources */,
 				8645B7D81F04FB9400F21735 /* AttributeManager.m in Sources */,
 				8645B7E71F04FDAA00F21735 /* ABSBigDataServiceDispatcher.m in Sources */,
