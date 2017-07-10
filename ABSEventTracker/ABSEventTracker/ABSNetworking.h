@@ -7,18 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Constant.h"
 #import "AttributeManager.h"
+#import "Constant.h"
 typedef NS_ENUM(NSUInteger, HTTPStatus){
     SUCCESS                =    200,
     UNAUTHORIZE             =   401,
     BAD_REQUEST             =   400,
     NOT_FOUND               =   404,
     INTERNAL_SERVER_ERROR   =   500
-    
 };
+
 @interface ABSNetworking : NSURLProtocol  <NSURLSessionDelegate, NSURLSessionDataDelegate>{
-    
 @private NSMutableData* _receivedData;
 }
 @property(nonatomic) NSMutableURLRequest *requestBody;
@@ -30,8 +29,9 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
 
+-(void) POST:(NSURL *) url HTTPBody:(NSData *) body headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
+
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
 
--(void) POST:(NSURL *) url HTTPBody:(NSData *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
 
 @end

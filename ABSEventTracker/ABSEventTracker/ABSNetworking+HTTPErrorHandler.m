@@ -9,8 +9,8 @@
 #import "ABSNetworking+HTTPErrorHandler.h"
 #import "AuthManager.h"
 
-
 #pragma mark - HTTPerrorLogger
+
 @implementation ABSNetworking (HTTPErrorHandler)
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
     if (respHttp.statusCode == UNAUTHORIZE) {

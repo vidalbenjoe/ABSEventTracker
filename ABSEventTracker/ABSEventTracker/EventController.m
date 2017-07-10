@@ -1,6 +1,5 @@
 //
 //  EventController.m or the ABSEngineController
-// Act as a Facade(Reading and writing event attributes)
 //  EventApp
 //
 //  Created by Benjoe Vidal on 24/05/2017.
@@ -26,7 +25,6 @@ BOOL hasInitialized = false;
 #pragma mark - EventAttributes
 +(void) writeEvent:(EventAttributes *) attributes{
     ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
-    
     switch (attributes.actionTaken) {
         case LOAD:
             [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];

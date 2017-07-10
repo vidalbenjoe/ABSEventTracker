@@ -27,25 +27,25 @@
     return shared;
 }
 
-#pragma mark Event Attributes
+#pragma mark - Event Attributes
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
     [AttributeWriter writer:self];
 }
-#pragma mark User Attributes
+#pragma mark - User Attributes
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     userattributes = userAttributes;
 }
-#pragma mark Property Attributes
+#pragma mark - Property Attributes
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes{
     propertyinvariant = propertyAttributes;
     //    NSLog(@"successProperrty")
 }
-#pragma mark Device Attributes
+#pragma mark - Device Attributes
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
 }
-#pragma mark Sessiin Manager
+#pragma mark - Sessiin Manager
 -(void) setSession:(SessionManager *)sessionAttributes{
     session = sessionAttributes;
     NSLog(@"sessionSTarTest %@", [sessionAttributes sessionStart]);

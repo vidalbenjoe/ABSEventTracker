@@ -19,7 +19,6 @@
 
 @implementation ABSEventTracker (Initializer)
 +(void) initializeProperty{
-    [self initEventSource];
     // Initilize Session
     [[SessionManager init] establish];
     
@@ -39,6 +38,7 @@
     // Background queue upon which you can dispatch background tasks that are run asynchronously to avoid blocking of UIs
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
+                    [self initEventSource];
                     [self initWithDevice:device];
                     [self initAppProperty:digitalProperty];
                     [self initSession:[SessionManager init]];
@@ -75,8 +75,6 @@
     }else{
         [[PropertyEventSource init] setDigitalProperty:INVALID];
     }
-//     [self readPopularRecommendation];
-    NSLog(@"pwfw: %lu", (unsigned long)[[PropertyEventSource init] property]);
 }
 
 /**
@@ -160,7 +158,7 @@
 }
 
 +(NSMutableArray*) readPopularRecommendation{
-    return [ABSRecommendationEngine recommendationUserToItem];
+    return [ABSRecommendationEngine recommendationPopular];
 }
 
 

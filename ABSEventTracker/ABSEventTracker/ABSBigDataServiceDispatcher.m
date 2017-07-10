@@ -8,13 +8,13 @@
 
 #import "ABSBigDataServiceDispatcher.h"
 #import "Constant.h"
+#import "HTTPCallBack.h"
 #import "ABSNetworking.h"
 #import "AuthManager.h"
 #import "CacheManager.h"
 #import "DeviceFingerprinting.h"
 #import "FormatUtils.h"
 #import "ABSCustomOperation.h"
-#import "HTTPCallBack.h"
 #import "Popular.h"
 @implementation ABSBigDataServiceDispatcher
 
@@ -26,7 +26,6 @@
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
-            NSLog(@"sechashdw: %@", sechash);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST);
         }];

@@ -38,5 +38,6 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty;
 
+
 +(NSString *) convertPropertyTaken: (DigitalProperty) property;
 @end

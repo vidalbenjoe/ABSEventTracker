@@ -10,34 +10,24 @@
 #import "PropertyEventSource.h"
 #import "ABSNetworking.h"
 #import "AuthManager.h"
-
+#import "PropertyEventSource.h"
 #import "Popular.h"
 @implementation ABSRecommendationEngine
+@synthesize attributesManager;
 
-/********************RECOMMENDATION********************/
 
-+(NSDictionary *) recommendationPopular {
-    NSMutableDictionary *popularRecomendation = [[NSMutableDictionary alloc] init];
-    NSString *proprty = [PropertyEventSource convertPropertyTaken:I_WANT_TV];
-    NSLog(@"proproprty: %@",proprty);
++(NSMutableArray *) recommendationPopular {
+    PropertyEventSource *eventsource = [PropertyEventSource init];
+    NSMutableArray *popularRecomendation = [[NSMutableArray alloc] init];
+    NSString *proprty = [PropertyEventSource convertPropertyTaken:eventsource.property];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSDictionary *header = @{@"authorization":[AuthManager retrieveServerTokenFromUserDefault]};
     dispatch_async(queue, ^{
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        NSDictionary *header = @{@"propertyID" : proprty,
-                                 @"authorization" : [AuthManager retrieveServerTokenFromUserDefault]};
-        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSArray *results = [responseObject valueForKey:@"recommendationDetails"];
-            for (NSDictionary *groupDic in results) {
-                Popular *popular = [[Popular alloc] init];
-                for (NSString *key in groupDic) {
-                    if ([popular respondsToSelector:NSSelectorFromString(key)]) {
-                        [popular setValue:[groupDic valueForKey:key] forKey:key];
-                    }
-                }
-                [popularRecomendation setObject:popular forKey:@"popular"];
-            }
+        [networking GET:eventAppsBaseURL path:[NSString stringWithFormat:@"%@?propertyID=%@",recommendationPopular, proprty] headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            [popularRecomendation addObject:responseObject];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(@"resporeerrorreco: %@", error);
+            NSLog(@"resporeerrorreco");
         }];
     });
     
@@ -45,14 +35,15 @@
 }
 
 +(NSMutableArray *) recommendationItemToItem{
+    AttributeManager *attrib = [AttributeManager init];
     NSMutableArray *itemtoitemArr = [[NSMutableArray alloc] init];
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"0123456" , @"FingerPrintId",
-                                           @"jophet_test" , @"SiteDomain",
+                                           attrib.deviceinvariant.deviceFingerprint , @"FingerPrintId",
+                                           attrib.propertyinvariant.applicationName , @"SiteDomain",
                                            @"1" , @"RecoItemCount",
-                                           @"0" , @"GigyaID",
+                                           attrib.userattributes.gigyaID ? @"" : attrib.userattributes.ssoID , @"GigyaID",
                                            @"3" , @"RecoPropertyId",nil];
-    NSData *JSONData = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
+    NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
                                                        options:0
                                                          error:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -61,8 +52,7 @@
     dispatch_async(queue, ^{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?contentID=%@", eventAppsBaseURL,recommendationItemToItem, @"243"]];
         NSDictionary *header = @{@"Content-Type" : @"application/json"};
-        [networking POST:url HTTPBody:JSONData headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSLog(@"requestItemToItem: %@", [responseObject description]);
+        [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             [itemtoitemArr addObject:responseObject];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             
@@ -74,15 +64,16 @@
 }
 
 +(NSMutableArray *) recommendationUserToItem{
+    AttributeManager *attrib = [AttributeManager init];
     NSMutableArray *userToItemArr = [[NSMutableArray alloc] init];
     NSMutableDictionary *usertoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"0123456" , @"FingerPrintId",
-                                           @"jophet_test" , @"SiteDomain",
+                                           attrib.deviceinvariant.deviceFingerprint , @"FingerPrintId",
+                                           attrib.propertyinvariant.applicationName , @"SiteDomain",
                                            @"1" , @"IsReco",
                                            @"2" , @"RecoType",
-                                           @"001cea84-00fc-466d-80c4-2f49794f6a2f"  , @"GigyaID",
+                                           attrib.userattributes.gigyaID  , @"GigyaID",
                                            @"3" , @"RecoPropertyId",nil];
-    NSData *JSONData = [NSJSONSerialization dataWithJSONObject:usertoitemDict
+    NSData *body = [NSJSONSerialization dataWithJSONObject:usertoitemDict
                                                        options:0
                                                          error:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -91,7 +82,7 @@
     dispatch_async(queue, ^{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,recommendationUserToItem]];
         NSDictionary *header = @{@"Content-Type" : @"application/json"};
-        [networking POST:url HTTPBody:JSONData headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"requestUserToItem: %@", [responseObject description]);
             [userToItemArr addObject:responseObject];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -112,7 +103,7 @@
                                            @"2" , @"RecoType",
                                            @"001cea84-00fc-466d-80c4-2f49794f6a2f"  , @"GigyaID",
                                            @"3" , @"RecoPropertyId",nil];
-    NSData *JSONData = [NSJSONSerialization dataWithJSONObject:usertoitemDict
+    NSData *body = [NSJSONSerialization dataWithJSONObject:usertoitemDict
                                                        options:0
                                                          error:nil];
     
@@ -121,7 +112,7 @@
     dispatch_async(queue, ^{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,recommendationCommunityToItem]];
         NSDictionary *header = @{@"Content-Type" : @"application/json"};
-        [networking POST:url HTTPBody:JSONData headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"requestUserToItem: %@", [responseObject description]);
             [userToItemArr addObject:responseObject];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {

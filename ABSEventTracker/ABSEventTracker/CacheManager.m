@@ -72,7 +72,7 @@
 +(NSString*) cachePath{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"cache.plist"];
+    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"info.plist"];
     return plistPath;
 }
 
