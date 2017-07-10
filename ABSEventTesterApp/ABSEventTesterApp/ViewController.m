@@ -61,7 +61,6 @@
 }
 
 
-
 - (IBAction)readItem:(id)sender {
     [ABSEventTracker readPopularRecommendation];
 }

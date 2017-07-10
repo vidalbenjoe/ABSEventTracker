@@ -13,6 +13,7 @@
 
 #import "Popular.h"
 @implementation ABSRecommendationEngine
+
 /********************RECOMMENDATION********************/
 
 +(NSDictionary *) recommendationPopular {
@@ -42,7 +43,6 @@
     
     return popularRecomendation;
 }
-
 
 +(NSMutableArray *) recommendationItemToItem{
     NSMutableArray *itemtoitemArr = [[NSMutableArray alloc] init];
@@ -115,6 +115,7 @@
     NSData *JSONData = [NSJSONSerialization dataWithJSONObject:usertoitemDict
                                                        options:0
                                                          error:nil];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{

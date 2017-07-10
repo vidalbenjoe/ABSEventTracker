@@ -160,7 +160,7 @@
 }
 
 +(NSMutableArray*) readPopularRecommendation{
-    return [ABSRecommendationEngine recommendationItemToItem];
+    return [ABSRecommendationEngine recommendationUserToItem];
 }
 
 

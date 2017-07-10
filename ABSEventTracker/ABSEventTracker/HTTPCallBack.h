@@ -1,14 +1,14 @@
 //
-//  EventCallBack.h
-//  EventApp
+//  HTTPCallBack.h
+//  ABSEventTracker
 //
-//  Created by Benjoe Vidal on 24/05/2017.
+//  Created by Flydubai on 10/07/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@protocol EventCallBack <NSObject>
+@protocol HTTPCallBack <NSObject>
 @optional
 -(void) onSuccess;
 @optional
