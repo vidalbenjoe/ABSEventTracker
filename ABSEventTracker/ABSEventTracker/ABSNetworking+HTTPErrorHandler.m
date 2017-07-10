@@ -8,6 +8,7 @@
 
 #import "ABSNetworking+HTTPErrorHandler.h"
 #import "AuthManager.h"
+
 @implementation ABSNetworking (HTTPErrorHandler)
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
     if (respHttp.statusCode == UNAUTHORIZE) {
@@ -24,14 +25,12 @@
         NSLog(@"Event Library-HTTP_STATUS 404: NOT FOUND");
     }
 }
-
 +(void) onTokenRefresh{
     [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
         [AuthManager storeTokenToUserDefault:token];
         NSLog(@"callback-token : %@", token);
     }];
 }
-
 +(void) onSecurityCodeRefresh{
     [ABSBigDataServiceDispatcher requestSecurityHashViaHttp:^(NSString *sechash) {
         [AuthManager storeSecurityHashTouserDefault:sechash];

@@ -50,6 +50,8 @@
 		8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661CC581F0E3A4A006D7A1D /* Popular.m */; };
 		868B25E21F061669007E8CF0 /* ABSEventTracker+Initializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 868B25E01F061669007E8CF0 /* ABSEventTracker+Initializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		868B25E31F061669007E8CF0 /* ABSEventTracker+Initializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */; };
+		86E2AA931F135BA300B64A4A /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; };
+		86E2AA941F135BA300B64A4A /* ABSRecommendationEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +128,8 @@
 		8661CC581F0E3A4A006D7A1D /* Popular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Popular.m; sourceTree = "<group>"; };
 		868B25E01F061669007E8CF0 /* ABSEventTracker+Initializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABSEventTracker+Initializer.h"; sourceTree = "<group>"; };
 		868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABSEventTracker+Initializer.m"; sourceTree = "<group>"; };
+		86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSRecommendationEngine.h; sourceTree = "<group>"; };
+		86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSRecommendationEngine.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +305,8 @@
 				8645B7EB1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.h */,
 				8645B7EC1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m */,
 				8645B7EE1F04FEAC00F21735 /* EventCallBack.h */,
+				86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */,
+				86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -334,6 +340,7 @@
 				868B25E21F061669007E8CF0 /* ABSEventTracker+Initializer.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
+				86E2AA931F135BA300B64A4A /* ABSRecommendationEngine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +451,7 @@
 				8645B7B11F04F7F100F21735 /* DeviceInfo.m in Sources */,
 				8645B7C11F04F94000F21735 /* EventController.m in Sources */,
 				8645B7EA1F04FDDA00F21735 /* ABSNetworking.m in Sources */,
+				86E2AA941F135BA300B64A4A /* ABSRecommendationEngine.m in Sources */,
 				8645B7AA1F04F72100F21735 /* Constant.m in Sources */,
 				8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */,
 				8645B7C91F04F99F00F21735 /* EventAttributes.m in Sources */,

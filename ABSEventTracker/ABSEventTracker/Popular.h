@@ -16,4 +16,6 @@
 @property (nonatomic, strong) NSString *contentCategorySubID;
 @property (nonatomic, strong) NSString *contentCategoryName;
 
+
+
 @end

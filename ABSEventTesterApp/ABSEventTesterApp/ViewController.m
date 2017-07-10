@@ -35,6 +35,7 @@
     [ABSEventTracker initWithUser:user];
     
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+        
         [builder setClickedContent:@"Button"];
         [builder setSearchQuery:@"Search..."];
         [builder setReadArticles:@"Philstar"];
@@ -47,14 +48,21 @@
         [builder setPreviousScreen:@"previous screen"];
         [builder setScreenDestination:@"screenDestination"];
         
-        [builder setArticleCharacterCount:4];
         [builder setActionTaken:SEARCH];
+        [builder setArticleCharacterCount:4];
         [builder setLatitute:120.421412];
         [builder setLongitude:14.2323];
         [builder setDuration:230];
         [builder setRating:23];
+        
     }];
     
     [ABSEventTracker initEventAttributes:attrib];
+}
+
+
+
+- (IBAction)readItem:(id)sender {
+    [ABSEventTracker readPopularRecommendation];
 }
 @end

@@ -16,5 +16,4 @@
 +(void) dispatchAttribute:(AttributeManager *) attributes;
 +(void) performQueueForCachedAttributes;
 
-+(NSDictionary *) recommendationPopular;
 @end

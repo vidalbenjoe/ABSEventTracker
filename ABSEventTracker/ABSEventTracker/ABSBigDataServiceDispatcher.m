@@ -18,7 +18,6 @@
 #import "Popular.h"
 @implementation ABSBigDataServiceDispatcher
 
-
 +(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -76,6 +75,7 @@
             [resultString appendFormat:@"%@=%@", key, [writerAttributes objectForKey:key]];
         }
         NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"request response: %@", [responseObject description]);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -195,41 +195,9 @@
     return attributesDictionary;
 }
 
-                /********************RECOMMENDATION********************/
-
-+(NSDictionary *) recommendationPopular {
-    NSMutableDictionary *popularRecomendation = [[NSMutableDictionary alloc] init];
-    NSString *proprty = [PropertyEventSource convertPropertyTaken:I_WANT_TV];
-    NSLog(@"proproprty: %@",proprty);
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        NSDictionary *header = @{@"propertyID" : proprty,
-                                 @"authorization" : [AuthManager retrieveServerTokenFromUserDefault]};
-        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSArray *results = [responseObject valueForKey:@"recommendationDetails"];
-            for (NSDictionary *groupDic in results) {
-                Popular *popular = [[Popular alloc] init];
-                for (NSString *key in groupDic) {
-                    if ([popular respondsToSelector:NSSelectorFromString(key)]) {
-                        [popular setValue:[groupDic valueForKey:key] forKey:key];
-                    }
-                }
-                [popularRecomendation setObject:popular forKey:@"popular"];
-            }
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(@"resporeerrorreco: %@", error);
-        }];
-    });
-    
-    return popularRecomendation;
-}
-
 
 static id ObjectOrNull(id object){
     return object ?: @"";
 }
-
-
 
 @end

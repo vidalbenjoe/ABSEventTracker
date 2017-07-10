@@ -13,7 +13,7 @@
 #import "DeviceInvariant.h"
 #import "SessionManager.h"
 #import "ArbitaryVariant.h"
-@interface AttributeManager : NSObject <NSCoding>
+@interface AttributeManager : NSObject
 
 +(AttributeManager*) init;
 
@@ -30,6 +30,5 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
 -(void) setSession:(SessionManager *)sessionAttributes;
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp;
-
 @end
 

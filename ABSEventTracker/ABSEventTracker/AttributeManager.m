@@ -23,51 +23,40 @@
     static id shared = nil;
     dispatch_once(&onceToken, ^{
         shared = [[self alloc] init];
-        
     });
     return shared;
 }
 
-- (void) encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:propertyinvariant forKey:@"properyInvariant"];
-    [encoder encodeObject:eventattributes forKey:@"eventAttributes"];
-    [encoder encodeObject:userattributes forKey:@"userAttributes"];
-    [encoder encodeObject:userattributes forKey:@"deviceInvariant"];
-    [encoder encodeObject:arbitaryinvariant forKey:@"arbitaryInvariant"];
-}
-
-- (id)initWithCoder:(NSCoder *)decoder {
-    self = [self init];
-    self.propertyinvariant = [decoder decodeObjectForKey:@"properyInvariant"];
-    self.eventattributes = [decoder decodeObjectForKey:@"eventAttributes"];
-    self.userattributes = [decoder decodeObjectForKey:@"userAttributes"];
-    self.userattributes = [decoder decodeObjectForKey:@"deviceInvariant"];
-    self.arbitaryinvariant = [decoder decodeObjectForKey:@"arbitaryInvariant"];
-    return self;
-}
-
+#pragma mark Event Attributes
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
     [AttributeWriter writer:self];
 }
+#pragma mark User Attributes
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     userattributes = userAttributes;
 }
+#pragma mark Property Attributes
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes{
     propertyinvariant = propertyAttributes;
     //    NSLog(@"successProperrty")
 }
+#pragma mark Device Attributes
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
 }
+#pragma mark Sessiin Manager
 -(void) setSession:(SessionManager *)sessionAttributes{
     session = sessionAttributes;
     NSLog(@"sessionSTarTest %@", [sessionAttributes sessionStart]);
 }
-
+#pragma mark Arbitary Attributes
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp{
     arbitaryinvariant = timestamp;
     NSLog(@"dawgdqhk %@", [timestamp applicationLaunchTimeStamp]);
 }
+
+
+
 
 @end

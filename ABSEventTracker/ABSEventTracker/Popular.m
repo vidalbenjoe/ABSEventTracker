@@ -7,8 +7,6 @@
 //
 
 #import "Popular.h"
-
 @implementation Popular
-
 
 @end

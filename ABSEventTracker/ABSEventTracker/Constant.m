@@ -16,9 +16,9 @@ NSString* const eventWriteURL           = @"/api/event/write";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 
 NSString* const recommendationPopular           = @"/api/recommendation/popular";    //GET
-NSString* const recommendationUserToItem        = @"/api/recommendation/usertoitem"; //POST
-NSString* const recommendationItemToItem        = @"/api/recommendation/itemtoitem"; //POST
-NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
+NSString* const recommendationUserToItem        = @"/api/recommendation/usertoitemtest"; //POST
+NSString* const recommendationItemToItem        = @"/api/recommendation/itemtoitemtest"; //POST
+NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
 
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier

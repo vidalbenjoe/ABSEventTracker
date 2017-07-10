@@ -11,7 +11,7 @@
 @interface ABSEventTracker (Initializer)
 /*!
  * Underlying implentation for ABSEventTracker
- * This class will act as a Facade for different sub-modules that constitutes the entire ABS-CBN BigData android library event processing functionality.
+ * This class will act as a Facade for different sub-modules that constitutes the entire ABS-CBN BigData iOS library event processing functionality.
  */
 +(void) initializeProperty;
 /*!
@@ -45,11 +45,9 @@
  * duration
  */
 +(void) initEventAttributes: (EventAttributes *) attributes;
-
-
 /*!
  * This method returns recommendation from API
  */
-+(NSDictionary*) readPopularRecommendation;
++(NSMutableArray*) readPopularRecommendation;
 
 @end

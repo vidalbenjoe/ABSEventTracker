@@ -22,6 +22,13 @@ extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google
 extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
+
+extern NSString* const recommendationPopular;
+extern NSString* const recommendationUserToItem;
+extern NSString* const recommendationItemToItem;
+extern NSString* const recommendationCommunityToItem;
+
+
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier
  */

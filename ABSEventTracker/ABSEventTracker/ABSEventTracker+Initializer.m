@@ -11,6 +11,7 @@
 #import "AuthManager.h"
 #import "DeviceFingerprinting.h"
 #import "ABSBigDataServiceDispatcher.h"
+#import "ABSRecommendationEngine.h"
 #import "PropertyEventSource.h"
 #import "Constant.h"
 #import "EventController.h"
@@ -74,7 +75,7 @@
     }else{
         [[PropertyEventSource init] setDigitalProperty:INVALID];
     }
-     [self readPopularRecommendation];
+//     [self readPopularRecommendation];
     NSLog(@"pwfw: %lu", (unsigned long)[[PropertyEventSource init] property]);
 }
 
@@ -158,8 +159,8 @@
     [EventController writeEvent:attributes];
 }
 
-+(NSDictionary*) readPopularRecommendation{
-    return [ABSBigDataServiceDispatcher recommendationPopular];
++(NSMutableArray*) readPopularRecommendation{
+    return [ABSRecommendationEngine recommendationItemToItem];
 }
 
 

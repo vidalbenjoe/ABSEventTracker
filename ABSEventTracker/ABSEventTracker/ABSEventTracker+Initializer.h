@@ -48,6 +48,6 @@
 /*!
  * This method returns recommendation from API
  */
-+(NSDictionary*) readPopularRecommendation;
++(NSMutableArray*) readPopularRecommendation;
 
 @end
