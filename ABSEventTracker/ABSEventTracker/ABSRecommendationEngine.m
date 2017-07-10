@@ -15,7 +15,6 @@
 @implementation ABSRecommendationEngine
 @synthesize attributesManager;
 
-
 +(NSMutableArray *) recommendationPopular {
     PropertyEventSource *eventsource = [PropertyEventSource init];
     NSMutableArray *popularRecomendation = [[NSMutableArray alloc] init];
@@ -27,10 +26,9 @@
         [networking GET:eventAppsBaseURL path:[NSString stringWithFormat:@"%@?propertyID=%@",recommendationPopular, proprty] headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             [popularRecomendation addObject:responseObject];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(@"resporeerrorreco");
+            
         }];
     });
-    
     return popularRecomendation;
 }
 
@@ -60,7 +58,6 @@
     });
     
     return itemtoitemArr;
-    
 }
 
 +(NSMutableArray *) recommendationUserToItem{
@@ -78,7 +75,6 @@
                                                          error:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
     dispatch_async(queue, ^{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,recommendationUserToItem]];
         NSDictionary *header = @{@"Content-Type" : @"application/json"};
@@ -95,9 +91,10 @@
 
 
 +(NSMutableArray *) recommendationCommunityToItem{
+      AttributeManager *attrib = [AttributeManager init];
     NSMutableArray *userToItemArr = [[NSMutableArray alloc] init];
     NSMutableDictionary *usertoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"0123456" , @"FingerPrintId",
+                                           attrib.deviceinvariant.deviceFingerprint , @"FingerPrintId",
                                            @"jophet_test" , @"SiteDomain",
                                            @"1" , @"IsReco",
                                            @"2" , @"RecoType",

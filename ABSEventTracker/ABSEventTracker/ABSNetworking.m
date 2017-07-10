@@ -3,12 +3,14 @@
 //  Created by Benjoe Vidal on 01/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
+
 #import "ABSNetworking.h"
 #import "AuthManager.h"
 #import "AttributeManager.h"
 #import "ABSBigDataServiceDispatcher.h"
 #import "ABSNetworking+HTTPErrorHandler.h"
 #import "Constant.h"
+
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
 @synthesize requestBody;
@@ -44,6 +46,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                   }];
     [task resume];
 }
+
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
@@ -100,9 +103,7 @@ NSURLSessionConfiguration *sessionConfiguration;
             }
         }] resume];
     });
-    
 }
-
 
 -(void) POST:(NSURL *) url HTTPBody:(NSData *) body headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     __block NSData *        result;
@@ -119,6 +120,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                    cachePolicy: NSURLRequestReturnCacheDataElseLoad
                    timeoutInterval:60.0
                    ];
+    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:body];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -145,7 +147,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     }
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
-    
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;

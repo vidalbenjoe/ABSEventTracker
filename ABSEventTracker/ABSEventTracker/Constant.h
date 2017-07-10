@@ -28,7 +28,6 @@ extern NSString* const recommendationUserToItem;
 extern NSString* const recommendationItemToItem;
 extern NSString* const recommendationCommunityToItem;
 
-
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier
  */

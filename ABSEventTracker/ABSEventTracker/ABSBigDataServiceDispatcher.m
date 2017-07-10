@@ -4,7 +4,7 @@
 //
 //  Created by Benjoe Vidal on 07/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
-//  Act as a bridge to API Call ABSNetworking
+//
 
 #import "ABSBigDataServiceDispatcher.h"
 #import "Constant.h"

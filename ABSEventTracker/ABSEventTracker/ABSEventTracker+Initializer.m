@@ -76,7 +76,6 @@
         [[PropertyEventSource init] setDigitalProperty:INVALID];
     }
 }
-
 /**
  * Set the property attributes into Attributes Manager.
  */
@@ -101,7 +100,6 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
-
 /**
  * Set the Arbitary attributes into attriutes manager.
  * Parameters: ArbitaryVariant - 
@@ -128,7 +126,6 @@
 +(void) initSession :(SessionManager*) attributes{
     [[AttributeManager init] setSession:attributes];
 }
-
 /*!
  * @discussion Set the Event Attributes into attriutes manager.
  * @param 
@@ -161,5 +158,15 @@
     return [ABSRecommendationEngine recommendationPopular];
 }
 
++(NSMutableArray*) readItemToItemRecommendation{
+    return [ABSRecommendationEngine recommendationItemToItem];
+}
 
++(NSMutableArray*) readUserToItemRecommendation{
+    return [ABSRecommendationEngine recommendationUserToItem];
+}
+
++(NSMutableArray*) readCommunityToItemRecommendation{
+    return [ABSRecommendationEngine recommendationCommunityToItem];
+}
 @end

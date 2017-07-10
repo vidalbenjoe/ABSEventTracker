@@ -2,7 +2,7 @@
 //  HTTPCallBack.h
 //  ABSEventTracker
 //
-//  Created by Flydubai on 10/07/2017.
+//  Created by Benjoe Vidal on 10/07/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 

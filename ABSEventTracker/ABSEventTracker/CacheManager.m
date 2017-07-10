@@ -65,6 +65,7 @@
     NSError *error;
     if(![[NSFileManager defaultManager] removeItemAtPath:[self cachePath] error:&error])
     {
+        
         //TODO: Handle/Log error
     }
 }
