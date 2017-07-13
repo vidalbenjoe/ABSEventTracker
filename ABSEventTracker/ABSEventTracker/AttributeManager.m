@@ -53,7 +53,6 @@
 #pragma mark Arbitary Attributes
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp{
     arbitaryinvariant = timestamp;
-    NSLog(@"dawgdqhk %@", [timestamp applicationLaunchTimeStamp]);
 }
 
 

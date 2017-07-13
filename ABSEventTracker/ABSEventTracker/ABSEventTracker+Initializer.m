@@ -21,7 +21,7 @@
 +(void) initializeProperty{
     // Initilize Session
     [[SessionManager init] establish];
-    
+
     // Get device information to be used on device fingerprinting and analytics.
     DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
                                (DeviceInvariantBuilder *builder) {
@@ -31,6 +31,7 @@
         [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
         [builder setDeviceType:[DeviceInfo deviceType]];
     }];
+    
     // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
     PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
     [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
@@ -42,6 +43,7 @@
                     [self initWithDevice:device];
                     [self initAppProperty:digitalProperty];
                     [self initSession:[SessionManager init]];
+        
                     // Request Token from initilization
                         [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                         // Store the response token by then block handler into NSUserDefault
@@ -52,6 +54,7 @@
                                 }];
                         // Write LOAD action to to server.
                         [ABSEventTracker initEventAttributes:attrib];
+                            NSLog(@"initAttrib: %ld", (long)attrib.actionTaken);
                     }];
     });
 }
@@ -61,6 +64,7 @@
  * Security hash is used to request a Token.
  */
 
+#pragma mark - Event source
 +(void) initEventSource{
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
@@ -79,6 +83,7 @@
 /**
  * Set the property attributes into Attributes Manager.
  */
+#pragma mark Property
 +(void) initAppProperty:(PropertyEventSource *) attributes{
     [[AttributeManager init] setPropertyAttributes:attributes];
 }
@@ -86,6 +91,7 @@
 /**
  * This method will trigger after the user successfully logged in to their account.
  */
+#pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
     [[AttributeManager init] setUserAttributes:attributes];
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
@@ -97,6 +103,8 @@
 /**
  * Set the Device information into attriutes manager.
  */
+
+#pragma mark - Device
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
@@ -111,6 +119,7 @@
  * searchTimeStamp
  */
 
+#pragma mark - Arbitary
 +(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
     [[AttributeManager init] setArbitaryAttributes:attributes];
 }
@@ -123,6 +132,7 @@
  * sessionEnd
  */
 
+#pragma mark - Session
 +(void) initSession :(SessionManager*) attributes{
     [[AttributeManager init] setSession:attributes];
 }
@@ -150,22 +160,27 @@
  * duration
  */
 
+#pragma mark - Event Attributes
 +(void) initEventAttributes: (EventAttributes *) attributes{
     [EventController writeEvent:attributes];
 }
 
+#pragma mark - Popular
 +(NSMutableArray*) readPopularRecommendation{
     return [ABSRecommendationEngine recommendationPopular];
 }
 
+#pragma mark - Item to item
 +(NSMutableArray*) readItemToItemRecommendation{
     return [ABSRecommendationEngine recommendationItemToItem];
 }
 
+#pragma mark - User to item
 +(NSMutableArray*) readUserToItemRecommendation{
     return [ABSRecommendationEngine recommendationUserToItem];
 }
 
+#pragma mark - Community to item
 +(NSMutableArray*) readCommunityToItemRecommendation{
     return [ABSRecommendationEngine recommendationCommunityToItem];
 }

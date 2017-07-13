@@ -15,8 +15,8 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [ABSEventTracker initializeTracker];
     // Override point for customization after application launch.
+    [ABSEventTracker initializeTracker];
     return YES;
 }
 

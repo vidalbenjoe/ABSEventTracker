@@ -12,6 +12,7 @@
 #import "AuthManager.h"
 #import "PropertyEventSource.h"
 #import "Popular.h"
+
 @implementation ABSRecommendationEngine
 @synthesize attributesManager;
 
@@ -33,6 +34,7 @@
 }
 
 +(NSMutableArray *) recommendationItemToItem{
+    PropertyEventSource *eventsource = [PropertyEventSource init];
     AttributeManager *attrib = [AttributeManager init];
     NSMutableArray *itemtoitemArr = [[NSMutableArray alloc] init];
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -40,7 +42,7 @@
                                            attrib.propertyinvariant.applicationName , @"SiteDomain",
                                            @"1" , @"RecoItemCount",
                                            attrib.userattributes.gigyaID ? @"" : attrib.userattributes.ssoID , @"GigyaID",
-                                           @"3" , @"RecoPropertyId",nil];
+                                           eventsource.property , @"RecoPropertyId",nil];
     NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
                                                        options:0
                                                          error:nil];
@@ -61,6 +63,7 @@
 }
 
 +(NSMutableArray *) recommendationUserToItem{
+    PropertyEventSource *eventsource = [PropertyEventSource init];
     AttributeManager *attrib = [AttributeManager init];
     NSMutableArray *userToItemArr = [[NSMutableArray alloc] init];
     NSMutableDictionary *usertoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -69,7 +72,7 @@
                                            @"1" , @"IsReco",
                                            @"2" , @"RecoType",
                                            attrib.userattributes.gigyaID  , @"GigyaID",
-                                           @"3" , @"RecoPropertyId",nil];
+                                           eventsource.property , @"RecoPropertyId",nil];
     NSData *body = [NSJSONSerialization dataWithJSONObject:usertoitemDict
                                                        options:0
                                                          error:nil];
@@ -89,21 +92,20 @@
     return userToItemArr;
 }
 
-
 +(NSMutableArray *) recommendationCommunityToItem{
-      AttributeManager *attrib = [AttributeManager init];
+    PropertyEventSource *eventsource = [PropertyEventSource init];
+    AttributeManager *attrib = [AttributeManager init];
     NSMutableArray *userToItemArr = [[NSMutableArray alloc] init];
     NSMutableDictionary *usertoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            attrib.deviceinvariant.deviceFingerprint , @"FingerPrintId",
-                                           @"jophet_test" , @"SiteDomain",
+                                           attrib.propertyinvariant.applicationName , @"SiteDomain",
                                            @"1" , @"IsReco",
-                                           @"2" , @"RecoType",
-                                           @"001cea84-00fc-466d-80c4-2f49794f6a2f"  , @"GigyaID",
-                                           @"3" , @"RecoPropertyId",nil];
+                                           @"4" , @"RecoType",
+                                           attrib.userattributes.gigyaID  , @"GigyaID",
+                                           eventsource.property , @"RecoPropertyId",nil];
     NSData *body = [NSJSONSerialization dataWithJSONObject:usertoitemDict
                                                        options:0
                                                          error:nil];
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{

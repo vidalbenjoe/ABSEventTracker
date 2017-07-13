@@ -38,6 +38,7 @@
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         dispatch_async(queue, ^{
             [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+            [[networking requestBody] setValue:@"Origin" forHTTPHeaderField:@"http://noink.abs-cbn.com"];
             // REQUEST TOKEN
             NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password",sechash];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
@@ -78,7 +79,7 @@
         [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"request response: %@", [responseObject description]);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            [CacheManager storeFailedAttributesToCacheManager:writerAttributes];
+//            [CacheManager storeFailedAttributesToCacheManager:writerAttributes];
             NSLog(@"failedRequestAttributes: %@", writerAttributes);
         }];
     });
@@ -114,6 +115,7 @@
                 //This is the completion block that will get called when the custom operation work is completed.
                 // Work completed
             }];
+            
             customOperation.completionBlock =^{
                 NSLog(@"Completed");
                 NSLog(@"CacheByIndex-complet: %lu",(unsigned long)[[CacheManager retrieveAllCacheArray] count]);

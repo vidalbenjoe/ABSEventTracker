@@ -14,8 +14,14 @@
 #define EVENTAPP_ID         @"com.ph.abscbn.ios.EventApp"
 #define INVALID_ID          @"com.invalid"
 
-#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR"
+#define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTES   1
+
+//{"host":"www.skyondemand.com.ph"},
+//{"host":"www.onemusic.ph"},
+//{"host":"www.iwantv.com.ph"},
+//{"host":"noink.abs-cbn.com"},
+
 
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com

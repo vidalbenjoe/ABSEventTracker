@@ -10,8 +10,8 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL        = @"http://indraeventsapi.azurewebsites.net";
-NSString* const eventTokenURL           = @"/token";
+NSString* const eventAppsBaseURL        = @"http://eventsapi.bigdata.abs-cbn.com";
+NSString* const eventTokenURL           = @"/oauth";
 NSString* const eventWriteURL           = @"/api/event/write";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 

@@ -57,7 +57,6 @@
         [self willChangeValueForKey:@"isExecuting"];
         executing = NO;
         [self didChangeValueForKey:@"isExecuting"];
-        
         [self willChangeValueForKey:@"isFinished"];
         finished = YES;
         [self didChangeValueForKey:@"isFinished"];
