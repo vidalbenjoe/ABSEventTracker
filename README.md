@@ -67,22 +67,27 @@ Type “-ObjC” (no quotes) and press enter.
 1.	Copy the generated framework into the root folder of your project
 2.	In the Project Navigator, select your project then select the target
 3.	Select “General” tab.
-4.	Open “Linked frameworks and libraries” expander.
+4.	Open “Linked Frameworks and libraries” expander.
 5.	Click the “+” button then “Add Other..”
 6.	Locate and Select the ABSEventTracker.framework
 
 ***********************************************************
 
 Adding a Bridging Header
-1.	In the Project Navigator, Select File>New>File..
-2.	Select Objective-C file on the list the click next
-3.	Name the Objective-C file as Empty and choose the file type to Empty file.
-4.	A prompt dialog will show and click “Create Bridging Header”. Xcode will generate a <Project Name>-Bridging-Header.h file then delete the Empty.m file.
-5.	Select the <Project-Name.-Bridging-Header.h file and add the following:
+1. 1.	In the Project Navigator, Select File>New>File..
+1. 2.	Select Objective-C file on the list the click next
+1. 3.	Name the Objective-C file as Empty and choose the file type to Empty file.
+1. 4.	A prompt dialog will show and click “Create Bridging Header”. Xcode will generate a <Project Name>-Bridging-Header.h file then delete the Empty.m file.
+1. 5.	Select the <Project-Name.-Bridging-Header.h file and add the following:
+
+```
+#!objective-c
+
 #import <ABSEventTracker/ABSEventTracker.h>
 #import <ABSEventTracker/ABSEventTracker+Initializer.h>
 #import <ABSEventTracker/EventAttributes.h>
 #import <ABSEventTracker/UserAttributes.h>
+```
 
 
 Make sure to locate Objective – C bridging header into project’s build settings
@@ -93,28 +98,50 @@ Make sure to locate Objective – C bridging header into project’s build setti
 6.	Integration
 6.1	Objective – C
 Initializing event tracker library
-1.	Go to AppDelegate.m and import the ABSEventTracker 
+* 1.	Go to AppDelegate.m and import the ABSEventTracker 
+
+```
+#!objective-c
+
 #import <ABSEventTracker/ABSEventTracker.h>
-2.	Initialize the ABSEventTracker inside the didFinishLaunchingWithOptions method by calling
+```
+
+* 2.	Initialize the ABSEventTracker inside the didFinishLaunchingWithOptions method by calling
+
+```
+#!objective-c
+
 [ABSEventTracker initializeTracker];
+```
+
 
 ***********************************************************
 
 Initializing the user
 Implement this builder function after the user’s successful login
-UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
+
+```
+#!objective-c
+
+[UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
         [builder setGigyaID:@"agw2-avs2-zdzs-25zv-zc"];
         [builder setFirstName:@"Juan"];
         [builder setMiddleName:@"Dela"];
         [builder setLastName:@"Cruz"];
    
     }];
-    [ABSEventTracker initWithUser:user];
+    [ABSEventTracker initWithUser:user];]
+```
+
 
 ***********************************************************
 
 **Tracking the Event**
 The sample code below will gather all of the event attributes and send to the data lake.
+
+```
+#!objective-c
+
 EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
         [builder setSearchQuery:@"Search..."];
@@ -135,6 +162,8 @@ EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *build
         [builder setRating:23];
     }];
     [ABSEventTracker initEventAttributes:attrib];
+```
+
 
 
 **6.2 Swift**
@@ -146,6 +175,10 @@ ABSEventTracker.initializeProperty()
 
 **Initializing the user**
 Implement user builder function after the user’s successful login.
+
+```
+#!Swift
+
 let users = UserAttributes.make { (buider) in
             buider?.gigyaID = "2fca-b507-1246-7eab";
             buider?.firstName = "Juan";
@@ -154,11 +187,17 @@ let users = UserAttributes.make { (buider) in
         }
 
         ABSEventTracker.initWithUser(users);
+```
+
 
 ***********************************************************
 
 **Tracking the Event**
 The sample code below will gather all of the event attributes and send to the data lake.
+
+
+```
+#!Swift
 
 let events = EventAttributes.make { (builder ) in
             builder?.clickedContent = "link";
@@ -180,3 +219,4 @@ let events = EventAttributes.make { (builder ) in
             builder?.rating = 8;
         }
         ABSEventTracker.initEventAttributes(events!)
+```
