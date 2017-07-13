@@ -10,9 +10,9 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL        = @"http://eventsapi.bigdata.abs-cbn.com";
+NSString* const eventAppsBaseURL        = @"eventsapi.bigdata.abs-cbn.com";
 NSString* const eventTokenURL           = @"/oauth";
-NSString* const eventWriteURL           = @"/api/event/write";
+NSString* const eventWriteURL           = @"/event";
 NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 
 NSString* const recommendationPopular           = @"/api/recommendation/popular";    //GET
