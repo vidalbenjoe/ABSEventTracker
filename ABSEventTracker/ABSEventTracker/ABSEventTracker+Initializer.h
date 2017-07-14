@@ -8,6 +8,7 @@
 #import <ABSEventTracker/ABSEventTracker.h>
 #import "UserAttributes.h"
 #import "EventAttributes.h"
+#import "VideoAttributes.h"
 @interface ABSEventTracker (Initializer)
 /*!
  * Underlying implentation for ABSEventTracker
@@ -48,6 +49,9 @@
 /*!
  * This method returns recommendation from API
  */
+
++(void) initVideoAttributes: (VideoAttributes *) attributes;
+
 +(NSMutableArray*) readPopularRecommendation;
 
 @end

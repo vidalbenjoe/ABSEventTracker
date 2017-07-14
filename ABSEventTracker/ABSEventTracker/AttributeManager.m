@@ -17,7 +17,7 @@
 @synthesize deviceinvariant;
 @synthesize session;
 @synthesize arbitaryinvariant;
-
+@synthesize videoattributes;
 +(AttributeManager*) init{
     static dispatch_once_t onceToken = 0;
     static id shared = nil;
@@ -45,17 +45,18 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{
     deviceinvariant = deviceInvariantAttributes;
 }
-#pragma mark - Sessiin Manager
+#pragma mark - Session Manager
 -(void) setSession:(SessionManager *)sessionAttributes{
     session = sessionAttributes;
-    NSLog(@"sessionSTarTest %@", [sessionAttributes sessionStart]);
 }
 #pragma mark Arbitary Attributes
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp{
     arbitaryinvariant = timestamp;
 }
-
-
-
+#pragma mark - Video Attributes
+-(void) setVideottributes:(VideoAttributes *)videoAttributes{
+    videoattributes = videoAttributes;
+    [AttributeWriter writer:self];
+}
 
 @end

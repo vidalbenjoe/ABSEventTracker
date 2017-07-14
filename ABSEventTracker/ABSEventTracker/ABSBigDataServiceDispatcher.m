@@ -56,7 +56,6 @@
             }];
         });
     }];
-    
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{

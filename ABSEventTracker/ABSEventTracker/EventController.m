@@ -54,4 +54,9 @@ BOOL hasInitialized = false;
     [[AttributeManager init] setEventAttributes:attributes];
 }
 
++(void) writeVideoAttributes:(VideoAttributes *)attributes{
+     [[AttributeManager init] setVideoattributes:attributes];
+}
+
+
 @end

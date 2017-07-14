@@ -13,6 +13,7 @@
 #import "DeviceInvariant.h"
 #import "SessionManager.h"
 #import "ArbitaryVariant.h"
+#import "VideoAttributes.h"
 @interface AttributeManager : NSObject
 
 +(AttributeManager*) init;
@@ -23,6 +24,7 @@
 @property(nonatomic) DeviceInvariant *deviceinvariant;
 @property(nonatomic) SessionManager *session;
 @property(nonatomic) ArbitaryVariant *arbitaryinvariant;
+@property(nonatomic) VideoAttributes *videoattributes;
 
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
 -(void) setUserAttributes:(UserAttributes *) userAttributes;
@@ -30,5 +32,6 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
 -(void) setSession:(SessionManager *)sessionAttributes;
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp;
+-(void) setVideottributes:(VideoAttributes *) videoAttributes;
 @end
 

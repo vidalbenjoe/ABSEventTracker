@@ -102,16 +102,24 @@
              @(SLIDER)              : @"Slider",
              @(READ_ARTICLES)       : @"ReadArticle",
              @(ABANDON)             : @"Abandon",
-             @(OTHERS)              : @"Other"
+             @(OTHERS)              : @"Other",
+             
+             @(VIDEO_PLAYED)        : @"VideoPlayed",
+             @(VIDEO_PAUSED)        : @"VideoPaused",
+             @(VIDEO_RESUMED)       : @"VideioResumed",
+             @(VIDEO_SEEK)          : @"VideoSeek",
+             @(VIDEO_STOPPED)       : @"VideoStopped",
+             @(VIDEO_BUFFER)        : @"VideoBuff",
+             @(VIDEO_COMPLETE)      : @"VideoCompleted"
+             
              };
 }
-    
+
 +(NSString *) convertActionTaken: (ActionTaken) action{
     return [[self class] actionTakenByName][@(action)];
 }
 
 @end
-
 
 @implementation EventBuilder
 

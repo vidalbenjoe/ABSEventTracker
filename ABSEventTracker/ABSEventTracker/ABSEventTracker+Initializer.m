@@ -80,6 +80,20 @@
         [[PropertyEventSource init] setDigitalProperty:INVALID];
     }
 }
+
+/**
+ * Set the SessionManager into attriutes manager.
+ * Parameters: SessionManager -
+ * sessionID
+ * sessionStart
+ * sessionEnd
+ */
+
+#pragma mark - Session
++(void) initSession :(SessionManager*) attributes{
+    [[AttributeManager init] setSession:attributes];
+}
+
 /**
  * Set the property attributes into Attributes Manager.
  */
@@ -100,6 +114,7 @@
     // Send LOGIN action into server
     [ABSEventTracker initEventAttributes:attrib];
 }
+
 /**
  * Set the Device information into attriutes manager.
  */
@@ -122,19 +137,6 @@
 #pragma mark - Arbitary
 +(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
     [[AttributeManager init] setArbitaryAttributes:attributes];
-}
-
-/**
- * Set the SessionManager into attriutes manager.
- * Parameters: SessionManager -
- * sessionID
- * sessionStart
- * sessionEnd
- */
-
-#pragma mark - Session
-+(void) initSession :(SessionManager*) attributes{
-    [[AttributeManager init] setSession:attributes];
 }
 /*!
  * @discussion Set the Event Attributes into attriutes manager.
@@ -164,6 +166,14 @@
 +(void) initEventAttributes: (EventAttributes *) attributes{
     [EventController writeEvent:attributes];
 }
+
++(void) initVideoAttributes:(VideoAttributes *)attributes{
+    [EventController writeVideoAttributes:attributes];
+}
+
+/*!
+ * @discussion This method will fetch recommendation by popular
+ */
 
 #pragma mark - Popular
 +(NSMutableArray*) readPopularRecommendation{

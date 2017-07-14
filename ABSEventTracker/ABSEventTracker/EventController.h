@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "EventAttributes.h"
-
+#import "VideoAttributes.h"
 @interface EventController : NSObject
 /** Method to initialize EventController class */
 +(id) init;
@@ -17,5 +17,5 @@
 * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
 */
 +(void) writeEvent:(EventAttributes *) attributes;
-
++(void) writeVideoAttributes:(VideoAttributes *) attributes;
 @end

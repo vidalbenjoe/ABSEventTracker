@@ -10,6 +10,7 @@
 #import <ABSEventTracker/EventAttributes.h>
 #import <ABSEventTracker/UserAttributes.h>
 #import <ABSEventTracker/ABSEventTracker+Initializer.h>
+#import <ABSEventTracker/VideoAttributes.h>
 @interface ViewController ()
 - (IBAction)trackEvent:(id)sender;
 @end
@@ -26,6 +27,17 @@
 }
 
 - (IBAction)trackEvent:(id)sender {
+    
+    VideoAttributes *video = [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+        [builder setState:PLAYING];
+        [builder setVideoURL:@"http://youtube.com"];
+        [builder setAction:VIDEO_COMPLETE];
+        [builder setVideoTitle:@"Ang probinsyano"];
+        
+    }];
+    
+    [ABSEventTracker initVideoAttributes:video];
+    
     UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
         [builder setGigyaID:@""];
         [builder setFirstName:@""];
@@ -54,7 +66,6 @@
         [builder setDuration:230];
         [builder setRating:23];
     }];
-    
     
     [ABSEventTracker initEventAttributes:attrib];
 }
