@@ -105,11 +105,11 @@ NSURLSessionConfiguration *sessionConfiguration;
     });
 }
 
+
 -(void) POST:(NSURL *) url HTTPBody:(NSData *) body headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     __block NSData *        result;
     result = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
     for (id key in headers){
         id token = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
@@ -121,15 +121,18 @@ NSURLSessionConfiguration *sessionConfiguration;
                    timeoutInterval:60.0
                    ];
     
-    [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:body];
+    [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
     dispatch_async(queue, ^{
         NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+        
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             successHandler(nil, dictionary);
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+            NSLog(@"respHttpLL %ld", (long)respHttp.statusCode);
             if (respHttp.statusCode != SUCCESS) {
                 [ABSNetworking HTTPerrorLogger:respHttp];
                 errorHandler(nil, error);
@@ -142,14 +145,15 @@ NSURLSessionConfiguration *sessionConfiguration;
 
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     for (id key in headers){
-        id mobileHeaderValue = [headers objectForKey:key];
-        [sessionConfiguration setHTTPAdditionalHeaders:@{key: mobileHeaderValue}];
+        id header = [headers objectForKey:key];
+        [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
     }
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+        NSLog(@"getHTTPSTATUS %ld", (long)respHttp.statusCode);
         if (respHttp.statusCode != SUCCESS) {
             [ABSNetworking HTTPerrorLogger:respHttp];
             errorHandler(datatask, error);

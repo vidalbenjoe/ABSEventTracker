@@ -33,6 +33,7 @@ extern NSString* const recommendationPopular;
 extern NSString* const recommendationUserToItem;
 extern NSString* const recommendationItemToItem;
 extern NSString* const recommendationCommunityToItem;
+extern NSString* const host;
 
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier

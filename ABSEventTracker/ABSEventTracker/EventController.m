@@ -47,9 +47,7 @@ BOOL hasInitialized = false;
         default:
             break;
     }
-    NSLog(@"attributeContent: %@", attributes.clickedContent);
-    NSLog(@"arbitaryTime: %@", arbitary.loginTimeStamp);
-    NSLog(@"eventAtction: %ld", (long)attributes.actionTaken);
+    
     [[AttributeManager init] setArbitaryAttributes:arbitary];
     [[AttributeManager init] setEventAttributes:attributes];
 }

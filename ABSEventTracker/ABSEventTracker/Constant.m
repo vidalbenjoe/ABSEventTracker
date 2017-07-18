@@ -10,15 +10,15 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL        = @"eventsapi.bigdata.abs-cbn.com";
+NSString* const eventAppsBaseURL        = @"https://eventsapi.bigdata.abs-cbn.com";
 NSString* const eventTokenURL           = @"/oauth";
 NSString* const eventWriteURL           = @"/event";
-NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
 
 NSString* const recommendationPopular           = @"/api/recommendation/popular";    //GET
 NSString* const recommendationUserToItem        = @"/api/recommendation/usertoitemtest"; //POST
 NSString* const recommendationItemToItem        = @"/api/recommendation/itemtoitemtest"; //POST
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
+NSString* const host   = @"http://indraeventsapi.azurewebsites.net"; //POST
 
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier

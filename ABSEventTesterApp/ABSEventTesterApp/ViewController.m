@@ -28,24 +28,24 @@
 
 - (IBAction)trackEvent:(id)sender {
     
-    VideoAttributes *video = [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-        [builder setState:PLAYING];
-        [builder setVideoURL:@"http://youtube.com"];
-        [builder setAction:VIDEO_COMPLETE];
-        [builder setVideoTitle:@"Ang probinsyano"];
-        
-    }];
+//    VideoAttributes *video = [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+//        [builder setState:PLAYING];
+//        [builder setVideoURL:@"http://youtube.com"];
+//        [builder setAction:VIDEO_COMPLETE];
+//        [builder setVideoTitle:@"Ang probinsyano"];
+//        
+//    }];
     
-    [ABSEventTracker initVideoAttributes:video];
+//    [ABSEventTracker initVideoAttributes:video];
     
-    UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
-        [builder setGigyaID:@""];
-        [builder setFirstName:@""];
-        [builder setMiddleName:@""];
-        [builder setLastName:@""];
-        
-    }];
-    [ABSEventTracker initWithUser:user];
+//    UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
+//        [builder setGigyaID:@""];
+//        [builder setFirstName:@""];
+//        [builder setMiddleName:@""];
+//        [builder setLastName:@""];
+//        
+//    }];
+//    [ABSEventTracker initWithUser:user];
     
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"Button"];
@@ -68,6 +68,7 @@
     }];
     
     [ABSEventTracker initEventAttributes:attrib];
+    NSLog(@"tracking");
 }
 
 

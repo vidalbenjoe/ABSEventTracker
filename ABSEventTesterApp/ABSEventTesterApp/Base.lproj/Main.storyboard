@@ -29,6 +29,7 @@
                                 <state key="normal" title="ItemtoItem"/>
                                 <connections>
                                     <action selector="readItem:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UzH-Jh-m2U"/>
+                                    <action selector="trackEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pNq-cT-deT"/>
                                 </connections>
                             </button>
                         </subviews>

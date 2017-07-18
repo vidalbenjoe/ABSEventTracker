@@ -20,7 +20,6 @@
     }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR) {
     }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR ||
               respHttp.statusCode== BAD_REQUEST) {
-        [self onSecurityCodeRefresh];
     }else if (respHttp.statusCode== NOT_FOUND) {}
 }
 
@@ -32,16 +31,6 @@
 +(void) onTokenRefresh{
     [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
         [AuthManager storeTokenToUserDefault:token];
-    }];
-}
-/*!
- *This method will refresh security hash once the server response 
- * received HTTP error code 400 or 500
- */
-#pragma mark - Security Hash
-+(void) onSecurityCodeRefresh{
-    [ABSBigDataServiceDispatcher requestSecurityHashViaHttp:^(NSString *sechash) {
-        [AuthManager storeSecurityHashTouserDefault:sechash];
     }];
 }
 

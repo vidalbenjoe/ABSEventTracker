@@ -39,7 +39,6 @@
 #pragma mark - Property Attributes
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes{
     propertyinvariant = propertyAttributes;
-    //    NSLog(@"successProperrty")
 }
 #pragma mark - Device Attributes
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes{

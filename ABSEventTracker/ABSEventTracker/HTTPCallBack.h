@@ -14,5 +14,4 @@
 @optional
 -(void) onFailure;
 +(void) onTokenRefresh;
-+(void) onSecurityCodeRefresh;
 @end

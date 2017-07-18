@@ -18,68 +18,40 @@
 #import "Popular.h"
 @implementation ABSBigDataServiceDispatcher
 
-+(void) requestSecurityHashViaHttp: (void (^)(NSString *sechash))handler{
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSString *sechash = responseObject[@"seccode"];
-            handler(sechash);
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(SECHASH_ERROR_REQUEST);
-        }];
-    });
-}
-
 +(void) requestToken: (void (^)(NSString *token))handler{
-    [self requestSecurityHashViaHttp:^(NSString *sechash) {
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         dispatch_async(queue, ^{
-            [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-            [[networking requestBody] setValue:@"Origin" forHTTPHeaderField:@"http://noink.abs-cbn.com"];
-            // REQUEST TOKEN
-            NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password",sechash];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
-            [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
-                // Store response token into AuthManager NSUserDefault
-                NSString *token = responseObject[@"access_token"];
+            NSDictionary *header = @{@"Origin":host};
+            [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                NSLog(@"tokenUpdate: %@", responseObject);
+                NSString *token = responseObject[@"token"];
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
-                NSLog(@"authSuccs: %@ ", token);
+                
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                [self requestSecurityHashViaHttp:^(NSString *sechash) {
-                    [AuthManager storeSecurityHashTouserDefault:sechash];
-                    NSLog(@"SECHASH: %@ ", sechash);
-                }];
+                NSLog(@"tokenError: %@", error);
             }];
         });
-    }];
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    NSMutableDictionary *writerAttributes = [self writerAttribute:attributes];
-    [[NSNotificationCenter defaultCenter] postNotificationName:
-     @"TestNotification" object:nil userInfo:writerAttributes];
-    NSLog(@"mytokne: %@", [AuthManager retrieveServerTokenFromUserDefault]);
+    NSData *writerAttributes = [self writerAttribute:attributes];
+
+    NSString* newStr = [[NSString alloc] initWithData:writerAttributes
+                                              encoding:NSUTF8StringEncoding];
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
+                             @"Origin":host};
+    NSLog(@"adrajsown %@", newStr);
     dispatch_async(queue, ^{
-        NSMutableString *resultString = [NSMutableString string];
-        for (NSString* key in [writerAttributes allKeys]){
-            if ([resultString length]>0)
-                [resultString appendString:@"&"];
-            [resultString appendFormat:@"%@=%@", key, [writerAttributes objectForKey:key]];
-        }
-        NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        
-        [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSLog(@"request response: %@", [responseObject description]);
+        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+             NSLog(@"writeSuccess %@", responseObject);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//            [CacheManager storeFailedAttributesToCacheManager:writerAttributes];
-            NSLog(@"failedRequestAttributes: %@", writerAttributes);
+             NSLog(@"writeError %@", error);
         }];
     });
 }
@@ -103,22 +75,25 @@
                     [resultString appendString:@"&"];
                 [resultString appendFormat:@"%@=%@", key, [attributes objectForKey:key]];
             }
-            NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+            NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
+                                     @"Origin":host};
             [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 [CacheManager removeCachedAttributeByFirstIndex];
                 NSLog(@"request response: %@", responseObject);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [CacheManager storeFailedAttributesToCacheManager:attributes];
             }];
+            
             NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
                 //This is the completion block that will get called when the custom operation work is completed.
                 // Work completed
+        
             }];
             
             customOperation.completionBlock =^{
-                NSLog(@"Completed");
                 NSLog(@"CacheByIndex-complet: %lu",(unsigned long)[[CacheManager retrieveAllCacheArray] count]);
                 NSLog(@"Operation Completion Block. Do something here. Probably alert the user that the work is complete");
+                
                 //This is another way of catching the Custom Operation completition.
                 //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
             };
@@ -140,7 +115,8 @@
             [resultString appendString:@"&"];
         [resultString appendFormat:@"%@=%@", key, [obj objectForKey:key]];
     }
-    NSDictionary *header = @{@"authorization" : [NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
+                             @"Origin":host};
     [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
         [CacheManager removeCachedAttributeByFirstIndex];
     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -148,11 +124,10 @@
     }];
 }
 
-+(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes{
++(NSData *) writerAttribute:(AttributeManager *) attributes {
+    NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
-    
     NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
-    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
             ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -167,8 +142,8 @@
             ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp) , @"LogoutTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp) , @"SearchTimeStamp",
             ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID])  , @"BigDataSessionID",
-            ObjectOrNull(attributes.session.sessionStart) , @"SessionStartTimestamp",
-            ObjectOrNull(attributes.session.sessionEnd), @"SessionEndTimestamp",
+            ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]) , @"SessionStartTimestamp",
+            ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
             ObjectOrNull(attributes.userattributes.firstName) , @"FirstName",
             ObjectOrNull(attributes.userattributes.middleName) , @"MiddleName",
             ObjectOrNull(attributes.userattributes.lastName) , @"LastName",
@@ -191,11 +166,15 @@
             ObjectOrNull(attributes.eventattributes.metaTags) , @"MobileApplicationMetaTags",
             ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousAppUniqueId",
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId", nil];
+    NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
+    NSData *body = [NSJSONSerialization dataWithJSONObject:aray
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:&error];
     
-    return attributesDictionary;
+    return body;
 }
 
-
+//
 static id ObjectOrNull(id object){
     return object ?: @"";
 }
