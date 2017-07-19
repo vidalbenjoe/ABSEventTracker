@@ -16,43 +16,39 @@
 #import "FormatUtils.h"
 #import "ABSCustomOperation.h"
 #import "Popular.h"
-@implementation ABSBigDataServiceDispatcher
+#import "ABSLogger.h"
 
+@implementation ABSBigDataServiceDispatcher
 +(void) requestToken: (void (^)(NSString *token))handler{
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         dispatch_async(queue, ^{
             NSDictionary *header = @{@"Origin":host};
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                NSLog(@"tokenUpdate: %@", responseObject);
                 NSString *token = responseObject[@"token"];
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
-                
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                NSLog(@"tokenError: %@", error);
+                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error]];
             }];
         });
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes];
-
-    NSString* newStr = [[NSString alloc] initWithData:writerAttributes
-                                              encoding:NSUTF8StringEncoding];
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
-                             @"Origin":host};
-    NSLog(@"adrajsown %@", newStr);
+    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-             NSLog(@"writeSuccess %@", responseObject);
+            NSLog(@"WRITINGSUCCESS");
+             [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-             NSLog(@"writeError %@", error);
+            NSLog(@"WRITINGERROR");
+               [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
         }];
+    
     });
 }
 
@@ -91,9 +87,6 @@
             }];
             
             customOperation.completionBlock =^{
-                NSLog(@"CacheByIndex-complet: %lu",(unsigned long)[[CacheManager retrieveAllCacheArray] count]);
-                NSLog(@"Operation Completion Block. Do something here. Probably alert the user that the work is complete");
-                
                 //This is another way of catching the Custom Operation completition.
                 //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
             };

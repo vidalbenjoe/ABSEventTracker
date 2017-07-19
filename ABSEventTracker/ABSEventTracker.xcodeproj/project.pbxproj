@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
 		8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* AuthManager.m */; };
 		8645B7B11F04F7F100F21735 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7B01F04F7F100F21735 /* DeviceInfo.m */; };
@@ -52,9 +53,7 @@
 		868B25E31F061669007E8CF0 /* ABSEventTracker+Initializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */; };
 		86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 86B6F3221F1740E3005B2B26 /* VideoAttributes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		86B6F3251F1740E3005B2B26 /* VideoAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6F3231F1740E3005B2B26 /* VideoAttributes.m */; };
-		86E2AA931F135BA300B64A4A /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; };
 		86E2AA941F135BA300B64A4A /* ABSRecommendationEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */; };
-		86E2AA961F135E6F00B64A4A /* HTTPCallBack.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA951F135E6F00B64A4A /* HTTPCallBack.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +80,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8628DB0E1F1F293200DCDB22 /* ABSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSLogger.h; sourceTree = "<group>"; };
+		8628DB0F1F1F293200DCDB22 /* ABSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSLogger.m; sourceTree = "<group>"; };
 		8645B77B1F04F51B00F21735 /* libABSEventTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libABSEventTracker.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8645B77E1F04F51B00F21735 /* ABSEventTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ABSEventTracker.h; sourceTree = "<group>"; };
 		8645B77F1F04F51B00F21735 /* ABSEventTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ABSEventTracker.m; sourceTree = "<group>"; };
@@ -191,6 +192,8 @@
 				8645B7B61F04F86500F21735 /* FormatUtils.m */,
 				8645B7B81F04F8AF00F21735 /* ABSCustomOperation.h */,
 				8645B7B91F04F8AF00F21735 /* ABSCustomOperation.m */,
+				8628DB0E1F1F293200DCDB22 /* ABSLogger.h */,
+				8628DB0F1F1F293200DCDB22 /* ABSLogger.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -353,11 +356,9 @@
 			files = (
 				8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */,
 				868B25E21F061669007E8CF0 /* ABSEventTracker+Initializer.h in Headers */,
-				86E2AA961F135E6F00B64A4A /* HTTPCallBack.h in Headers */,
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
-				86E2AA931F135BA300B64A4A /* ABSRecommendationEngine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +458,7 @@
 				868B25E31F061669007E8CF0 /* ABSEventTracker+Initializer.m in Sources */,
 				8645B7ED1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
 				8645B7D41F04FA8F00F21735 /* SessionManager+SessionRule.m in Sources */,
+				8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */,
 				8645B7C51F04F96B00F21735 /* AttributeWriter.m in Sources */,
 				8645B7DB1F04FBD800F21735 /* CacheManager.m in Sources */,
 				8645B7B71F04F86500F21735 /* FormatUtils.m in Sources */,

@@ -8,19 +8,22 @@
 
 #import "ABSNetworking+HTTPErrorHandler.h"
 #import "AuthManager.h"
-
+#import "ABSLogger.h"
 #pragma mark - HTTPerrorLogger
 
 @implementation ABSNetworking (HTTPErrorHandler)
 
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
     if (respHttp.statusCode == UNAUTHORIZE) {
+        [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];
     }else if (respHttp.statusCode== BAD_REQUEST) {
+        [[ABSLogger initialize] setMessage:@"BAD REQUEST"];
     }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR) {
-    }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR ||
-              respHttp.statusCode== BAD_REQUEST) {
-    }else if (respHttp.statusCode== NOT_FOUND) {}
+         [[ABSLogger initialize] setMessage:@"INTERNAL SERVER ERROR"];
+    }else if (respHttp.statusCode== NOT_FOUND) {
+        [[ABSLogger initialize] setMessage:@"SERVER NOT FOUND"];
+    }
 }
 
 /*************************HTTP CALLBACK*****************************/
