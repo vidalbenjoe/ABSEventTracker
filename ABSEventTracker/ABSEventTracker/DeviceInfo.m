@@ -239,13 +239,14 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
 /*
  * Return device width
  */
+
 + (NSInteger)screenWidth {
     // Get the screen width
     @try {
         // Screen bounds
         CGRect Rect = [[UIScreen mainScreen] bounds];
         // Find the width (X)
-        NSInteger Width = Rect.size.width;
+        NSInteger Width = (NSInteger) roundf(Rect.size.width);
         // Verify validity
         if (Width <= 0) {
             // Invalid Width
@@ -269,7 +270,7 @@ extern CFTypeRef MGCopyAnswer(CFStringRef);
         // Screen bounds
         CGRect Rect = [[UIScreen mainScreen] bounds];
         // Find the width (X)
-        NSInteger Height = Rect.size.height;
+        NSInteger Height = (NSInteger) roundf(Rect.size.height);
         // Verify validity
         if (Height <= 0) {
             // Invalid Height

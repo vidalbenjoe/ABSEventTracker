@@ -17,6 +17,7 @@
 #import "ABSCustomOperation.h"
 #import "Popular.h"
 #import "ABSLogger.h"
+#import "DeviceInfo.h"
 
 @implementation ABSBigDataServiceDispatcher
 +(void) requestToken: (void (^)(NSString *token))handler{
@@ -119,6 +120,7 @@
 
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
+    
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -129,6 +131,7 @@
             [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
             ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
             ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
+            ObjectOrNull([[DeviceInfo sharedInstance] deviceConnectivity]) , @"ConnectivityType",
             ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp) , @"ApplicationLoadTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp) , @"ApplicationAbandonTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp) , @"WritingEventTimestamp",
@@ -158,11 +161,43 @@
             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.rating]) , @"Rating",
             ObjectOrNull(attributes.eventattributes.metaTags) , @"MobileApplicationMetaTags",
             ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousAppUniqueId",
-            ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId", nil];
+            ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId",
+                                                 
+            ObjectOrNull(attributes.eventattributes.commentContent) , @"CommenteddArticle",
+            ObjectOrNull(attributes.eventattributes.followEntity) , @"CookiesEnabled",
+            ObjectOrNull(attributes.eventattributes.followEntity) , @"CurrentWebPage",
+            ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.duration]) , @"ViewPageDuration",
+            @"" , @"VideoPlay",
+            @"" , @"VideoPause",
+            @"" , @"VideoSeek",
+            @"" , @"VideoSeekStart"
+                                                 @"" , @"VideoSeekEnd"
+                                                 @"" , @"VideoResume"
+                                                 @"" , @"VideoStop",
+                                                 @"" , @"VideoAdClick",
+                                                 @"" , @"VideoAdComplete",
+                                                 @"" , @"VideoAdSkipped"
+                                                 @"" , @"VideoAdError"
+                                                 @"" , @"VideoAdPlay"
+                                                 @"" , @"VideoAdTime"
+                                                 @"" , @"VideoMeta"
+                                                 @"" , @"VideoBuffer"
+                                                 @"" , @"VideoTimeStamp"
+                                                 @"" , @"VideoDuration"
+                                                 @"" , @"VideoIsEnded"
+                                                 @"" , @"VideoIsPaused"
+                                                 @"" , @"VideoFullScreen"
+                                                 @"" , @"VideoPlayerState"
+                                                 @"" , @"VideoTitle"
+                                                 @"" , @"VideoURL"
+                                                 @"" , @"VideoVolume"
+                                                 @"" , @"VideoSize"
+                                                 ,nil];
     NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
     NSData *body = [NSJSONSerialization dataWithJSONObject:aray
                                                    options:NSJSONWritingPrettyPrinted
                                                      error:&error];
+    
     
     return body;
 }
