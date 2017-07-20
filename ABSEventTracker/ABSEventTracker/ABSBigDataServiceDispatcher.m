@@ -161,7 +161,7 @@
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId", nil];
     NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
     NSData *body = [NSJSONSerialization dataWithJSONObject:aray
-                                                   options:NSJSONWritingPrettyPrinted
+                                                   options:kNilOptions
                                                      error:&error];
     
     return body;

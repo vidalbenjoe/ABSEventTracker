@@ -25,10 +25,11 @@ NSURLSessionConfiguration *sessionConfiguration;
     return shared;
 }
 
--(void) POST:(NSURL *) url parameters:(NSDictionary *) params success:(void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorHandler{
+-(void) POST:(NSURL *) url parameters:(NSDictionary *) params
+     success:(void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
-                   cachePolicy: NSURLRequestUseProtocolCachePolicy
+                   cachePolicy: NSURLRequestReturnCacheDataElseLoad
                    timeoutInterval:60.0];
     [requestBody setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
@@ -103,7 +104,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     });
 }
 
-
 -(void) POST:(NSURL *) url HTTPBody:(NSData *) body headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     for (id key in headers){
         id value = [headers objectForKey:key];
@@ -134,7 +134,6 @@ NSURLSessionConfiguration *sessionConfiguration;
             }
         }] resume];
     });
-    
 }
 
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
@@ -159,6 +158,5 @@ NSURLSessionConfiguration *sessionConfiguration;
     [datatask resume];
     
 }
-
 
 @end
