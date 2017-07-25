@@ -27,10 +27,8 @@
                 NSString *token = responseObject[@"token"];
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
-                
                 NSDate *receivedTimestamp = [NSDate date];
                 [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
-                
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
                                                     
@@ -42,7 +40,7 @@
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     NSDate *timeNow = [NSDate date];
     // If less than 9 minutes, do something
-    if ([timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp]] > 9.0f*60){
+    if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
         NSLog(@"REQUEST A TOKEN: NEW - timenow is greater than expiration date");
         [self requestToken:^(NSString *token) {
             [AuthManager storeTokenToUserDefault:token];

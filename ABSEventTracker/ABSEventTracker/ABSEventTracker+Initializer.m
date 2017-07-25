@@ -38,17 +38,22 @@
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+        
                     [self initSession:[SessionManager init]];
                     [self initEventSource];
                     [self initWithDevice:device];
                     [self initAppProperty:digitalProperty];
         
-        EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-            // set Event action into LOAD
-            [builder setActionTaken:LOAD];
+        [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+            NSLog(@"requestTokent: %@", token);
+            EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                // set Event action into LOAD
+                [builder setActionTaken:LOAD];
+            }];
+            // Write LOAD action to to server.
+            [ABSEventTracker initEventAttributes:attrib];
         }];
-        // Write LOAD action to to server.
-        [ABSEventTracker initEventAttributes:attrib];
+        
     });
 }
 /**
