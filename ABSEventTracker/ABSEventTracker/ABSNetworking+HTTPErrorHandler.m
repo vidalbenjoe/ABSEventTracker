@@ -14,7 +14,7 @@
 @implementation ABSNetworking (HTTPErrorHandler)
 
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
-    NSLog(@"error : %ld", (long)respHttp.statusCode);
+    NSLog(@"HTTPerror : %ld", (long)respHttp.statusCode);
     if (respHttp.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];

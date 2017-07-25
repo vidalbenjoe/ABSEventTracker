@@ -21,36 +21,50 @@
 
 @implementation ABSBigDataServiceDispatcher
 +(void) requestToken: (void (^)(NSString *token))handler{
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        dispatch_async(queue, ^{
             NSDictionary *header = @{@"Origin":host};
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 NSString *token = responseObject[@"token"];
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
+                
+                NSDate *receivedTimestamp = [NSDate date];
+                [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error]];
+                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
+                                                    
+                ]];
             }];
-        });
+        
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    NSData *writerAttributes = [self writerAttribute:attributes];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSLog(@"WRITINGSUCCESS");
-             [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(@"WRITINGERROR");
-               [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+    NSDate *timeNow = [NSDate date];
+    // If less than 9 minutes, do something
+    if ([timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp]] > 9.0f*60){
+        NSLog(@"REQUEST A TOKEN: NEW - timenow is greater than expiration date");
+        [self requestToken:^(NSString *token) {
+            [AuthManager storeTokenToUserDefault:token];
         }];
+    }else{
+        NSLog(@"REQUEST A TOKEN: OLD - timenow is less than expiration date");
+        NSData *writerAttributes = [self writerAttribute:attributes];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                NSLog(@"WRITINGSUCCESS");
+                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                NSLog(@"WRITINGERROR");
+                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+            }];
+        });
+    }
     
-    });
 }
 
 +(void) performQueueForCachedAttributes{
@@ -120,7 +134,6 @@
 
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
-    
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -131,7 +144,7 @@
             [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
             ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
             ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
-            ObjectOrNull([[DeviceInfo sharedInstance] deviceConnectivity]) , @"ConnectivityType",
+            ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
             ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp) , @"ApplicationLoadTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp) , @"ApplicationAbandonTimeStamp",
             ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp) , @"WritingEventTimestamp",
@@ -162,43 +175,44 @@
             ObjectOrNull(attributes.eventattributes.metaTags) , @"MobileApplicationMetaTags",
             ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousAppUniqueId",
             ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId",
-                                                 
             ObjectOrNull(attributes.eventattributes.commentContent) , @"CommenteddArticle",
             ObjectOrNull(attributes.eventattributes.followEntity) , @"CookiesEnabled",
             ObjectOrNull(attributes.eventattributes.followEntity) , @"CurrentWebPage",
             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.duration]) , @"ViewPageDuration",
-            @"" , @"VideoPlay",
-            @"" , @"VideoPause",
-            @"" , @"VideoSeek",
-            @"" , @"VideoSeekStart"
-                                                 @"" , @"VideoSeekEnd"
-                                                 @"" , @"VideoResume"
-                                                 @"" , @"VideoStop",
-                                                 @"" , @"VideoAdClick",
-                                                 @"" , @"VideoAdComplete",
-                                                 @"" , @"VideoAdSkipped"
-                                                 @"" , @"VideoAdError"
-                                                 @"" , @"VideoAdPlay"
-                                                 @"" , @"VideoAdTime"
-                                                 @"" , @"VideoMeta"
-                                                 @"" , @"VideoBuffer"
-                                                 @"" , @"VideoTimeStamp"
-                                                 @"" , @"VideoDuration"
-                                                 @"" , @"VideoIsEnded"
-                                                 @"" , @"VideoIsPaused"
-                                                 @"" , @"VideoFullScreen"
-                                                 @"" , @"VideoPlayerState"
-                                                 @"" , @"VideoTitle"
-                                                 @"" , @"VideoURL"
-                                                 @"" , @"VideoVolume"
-                                                 @"" , @"VideoSize"
+            @" " , @"VideoPlay",
+            @" " , @"VideoPause",
+            @" " , @"VideoSeek",
+            @" " , @"VideoSeekStart"
+                                                 @" " , @"VideoSeekEnd"
+                                                 @" " , @"VideoResume"
+                                                 @" " , @"VideoStop",
+                                                 @" " , @"VideoAdClick",
+                                                 @" " , @"VideoAdComplete",
+                                                 @" " , @"VideoAdSkipped"
+                                                 @" " , @"VideoAdError"
+                                                 @" " , @"VideoAdPlay"
+                                                 @" " , @"VideoAdTime"
+                                                 @" " , @"VideoMeta"
+                                                 @" "  , @"VideoBuffer"
+                                                 @" " , @"VideoTimeStamp"
+                                                 @" " , @"VideoDuration"
+                                                 @" " , @"VideoIsEnded"
+                                                 @" " , @"VideoIsPaused"
+                                                 @" " , @"VideoFullScreen"
+                                                 @" " , @"VideoPlayerState"
+                                                 @" " , @"VideoTitle"
+                                                 @" " , @"VideoURL"
+                                                 @" " , @"VideoVolume"
+                                                 @" " , @"VideoSize"
                                                  ,nil];
+    
     NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
     NSData *body = [NSJSONSerialization dataWithJSONObject:aray
                                                    options:kNilOptions
                                                      error:&error];
-    
-    
+    if(body == nil){
+        return 0;
+    }
     return body;
 }
 

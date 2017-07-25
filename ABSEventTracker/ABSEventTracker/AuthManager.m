@@ -7,8 +7,36 @@
 //
 
 #import "AuthManager.h"
-
 @implementation AuthManager
+@synthesize tokenReceivedDate;
+@synthesize tokenExpirationDate;
+
++(void) storeTokenReceivedTimestamp: (NSDate *) received{
+    [[NSUserDefaults standardUserDefaults] setObject:received forKey:@"tokenreceivedTimestamp"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self storeTokenExpirationTimestamp:received];
+}
+
++(NSDate *) retrieveTokenReceivedTimestamp{
+    NSDate *token = (NSDate*) [[NSUserDefaults standardUserDefaults] stringForKey:@"tokenreceivedTimestamp"];
+    return token;
+}
+
++(void) storeTokenExpirationTimestamp:(NSDate *) expiration{
+    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(9*60)];
+    [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"tokenExpirationTimestamp"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+
+
+}
+
++(NSDate *) retrieveTokenExpirationTimestamp{
+    NSDate *expiration = (NSDate *)[[NSUserDefaults standardUserDefaults]
+                       stringForKey:@"tokenExpirationTimestamp"];
+    
+    return expiration;
+}
 
 +(void) storeTokenToUserDefault: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"responseToken"];
@@ -25,9 +53,12 @@
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"securityHash"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 +(NSString *) retrieveSecurityHashFromUserDefault{
     NSString *token = [[NSUserDefaults standardUserDefaults]
                        stringForKey:@"securityHash"];
     return token;
 }
+
+
 @end

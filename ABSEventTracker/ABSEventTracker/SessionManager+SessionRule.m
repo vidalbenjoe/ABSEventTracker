@@ -49,9 +49,11 @@
 -(void) updateSessionTime{
     NSDate *currentTime = [NSDate date];
     NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTES*60)];
+    
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     [dateFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    
     NSDate *a = [dateFormat dateFromString:[FormatUtils getCurrentTimeAndDate:currentTime]];
     NSDate *b = [dateFormat dateFromString:[FormatUtils getCurrentTimeAndDate:endtime]];
     [self setSessionStart: a];

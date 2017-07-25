@@ -36,9 +36,10 @@ NSURLSessionConfiguration *sessionConfiguration;
     NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+                                      [ABSNetworking HTTPerrorLogger:respHttp];
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(task, error);
-                                          [ABSNetworking HTTPerrorLogger:respHttp];
+                                          
                                           return;
                                       }
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -60,8 +61,9 @@ NSURLSessionConfiguration *sessionConfiguration;
     NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+                                      [ABSNetworking HTTPerrorLogger:respHttp];
                                       if (respHttp.statusCode != SUCCESS) {
-                                          [ABSNetworking HTTPerrorLogger:respHttp];
+                                          
                                           errorHandler(task, error);
                                           return;
                                       }
@@ -95,8 +97,9 @@ NSURLSessionConfiguration *sessionConfiguration;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             successHandler(nil, dictionary);
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+            [ABSNetworking HTTPerrorLogger:respHttp];
             if (respHttp.statusCode != SUCCESS) {
-                [ABSNetworking HTTPerrorLogger:respHttp];
+                
                 errorHandler(nil, error);
                 return;
             }

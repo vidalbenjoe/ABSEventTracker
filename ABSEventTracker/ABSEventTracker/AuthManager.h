@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface AuthManager : NSObject
+@property(nonatomic, retain) NSDate *tokenReceivedDate;
+@property(nonatomic, retain) NSDate *tokenExpirationDate;
+
++(void) storeTokenReceivedTimestamp: (NSDate *) received;
++(NSDate *) retrieveTokenReceivedTimestamp;
++(void) storeTokenExpirationTimestamp:(NSDate *) expiration;
++(NSDate *) retrieveTokenExpirationTimestamp;
+
 /*!
  * Method to store token to NSUserDefault
  */
