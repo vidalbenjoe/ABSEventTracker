@@ -25,16 +25,14 @@
             NSDictionary *header = @{@"Origin":host};
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 NSString *token = responseObject[@"token"];
-                [AuthManager storeTokenToUserDefault:token];
                 handler(token);
-                NSDate *receivedTimestamp = [NSDate date];
-                [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                [AuthManager storeTokenToUserDefault:token];
+                [AuthManager storeTokenReceivedTimestamp:[NSDate date]];
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
                                                     
                 ]];
             }];
-        
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
