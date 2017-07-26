@@ -38,33 +38,34 @@
     
 }
 
-
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    NSDate *timeNow = [NSDate date];
-    // If less than 9 minutes, do something
-    if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
-        NSLog(@"REQUEST A TOKEN: NEW - timenow is greater than expiration date");
-        [self requestToken:^(NSString *token) {
-            [AuthManager storeTokenToUserDefault:token];
-        }];
-    }else{
-        NSLog(@"REQUEST A TOKEN: OLD - timenow is less than expiration date");
-        NSData *writerAttributes = [self writerAttribute:attributes];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
-            [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                NSLog(@"WRITINGSUCCESS");
-                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                NSLog(@"WRITINGERROR");
-                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+    if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
+        NSDate *timeNow = [NSDate date];
+        if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
+            NSLog(@"REQUEST A TOKEN: NEW - timenow is greater than expiration date");
+            [self requestToken:^(NSString *token) {
+                [AuthManager storeTokenToUserDefault:token];
             }];
-        });
+        }else{
+            NSLog(@"REQUEST A TOKEN: OLD - timenow is less than expiration date");
+            NSData *writerAttributes = [self writerAttribute:attributes];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            dispatch_async(queue, ^{
+                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                    NSLog(@"WRITINGSUCCESS");
+                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    NSLog(@"WRITINGERROR");
+                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+                }];
+            });
+        }
+    }else{
+        //Server token is null
     }
-    
 }
 
 +(void) performQueueForCachedAttributes{

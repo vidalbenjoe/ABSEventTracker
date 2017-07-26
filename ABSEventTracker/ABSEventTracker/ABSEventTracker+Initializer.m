@@ -34,7 +34,6 @@
                                        [builder setDeviceType:[DeviceInfo deviceType]];
                                    }];
         
-        
         // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
