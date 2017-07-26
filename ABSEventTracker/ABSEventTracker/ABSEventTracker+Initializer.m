@@ -19,52 +19,43 @@
 
 @implementation ABSEventTracker (Initializer)
 +(void) initializeProperty{
-//    // Background queue upon which you can dispatch background tasks that are run asynchronously to avoid blocking of UIs
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    dispatch_async(queue, ^{
-//        // Initilize Session
-//        [[SessionManager init] establish];
-//        // Get device information to be used on device fingerprinting and analytics.
-//        DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
-//                                   (DeviceInvariantBuilder *builder) {
-//                                       [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
-//                                       [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
-//                                       [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
-//                                       [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
-//                                       [builder setDeviceType:[DeviceInfo deviceType]];
-//                                   }];
-//        
-//        
-//        // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
-//        PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
-//        [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
-//        [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-//        [self initSession:[SessionManager init]];
-//        [self initEventSource];
-//        [self initWithDevice:device];
-//        [self initAppProperty:digitalProperty];
-//        
-//        [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-//            NSLog(@"initTOken: %@", token);
-//            EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-//                // set Event action into LOAD
-//                [builder setActionTaken:LOAD];
-//            }];
-//            // Write LOAD action to to server.
-//            [ABSEventTracker initEventAttributes:attrib];
-//        }];
-//        
-//    });
-    
-    [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-        NSLog(@"initTOken: %@", token);
-        EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-            // set Event action into LOAD
-            [builder setActionTaken:LOAD];
+    // Background queue upon which you can dispatch background tasks that are run asynchronously to avoid blocking of UIs
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        // Initilize Session
+        [[SessionManager init] establish];
+        // Get device information to be used on device fingerprinting and analytics.
+        DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
+                                   (DeviceInvariantBuilder *builder) {
+                                       [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
+                                       [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
+                                       [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
+                                       [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
+                                       [builder setDeviceType:[DeviceInfo deviceType]];
+                                   }];
+        
+        
+        // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
+        PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
+        [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
+        [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+        [self initSession:[SessionManager init]];
+        [self initEventSource];
+        [self initWithDevice:device];
+        [self initAppProperty:digitalProperty];
+        
+        [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+            NSLog(@"initTOken: %@", token);
+            EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                // set Event action into LOAD
+                [builder setActionTaken:LOAD];
+            }];
+            // Write LOAD action to to server.
+            [ABSEventTracker initEventAttributes:attrib];
         }];
-        // Write LOAD action to to server.
-        [ABSEventTracker initEventAttributes:attrib];
-    }];
+        
+    });
+   
 }
 /**
  * Simple conditional statement to filter out ABS-CBN digital properties.

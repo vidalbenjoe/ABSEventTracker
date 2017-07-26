@@ -20,12 +20,10 @@
 #import "DeviceInfo.h"
 
 @implementation ABSBigDataServiceDispatcher
-
 +(void) requestToken: (void (^)(NSString *token))handler{
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-            NSDictionary *header = @{@"Origin":host};
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSDictionary *header = @{@"Origin":host};
+    NSLog(@"dumaansatoken");
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 NSLog(@"tokunresponse %@", responseObject);
                 NSString *token = responseObject[@"token"];
@@ -35,11 +33,11 @@
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"errurs %@", error);
                 [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
-                                                    
                 ]];
             }];
-    });
+    
 }
+
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     NSDate *timeNow = [NSDate date];

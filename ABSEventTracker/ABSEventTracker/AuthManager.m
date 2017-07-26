@@ -26,15 +26,11 @@
     NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(9*60)];
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"tokenExpirationTimestamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-
-
 }
 
 +(NSDate *) retrieveTokenExpirationTimestamp{
     NSDate *expiration = (NSDate *)[[NSUserDefaults standardUserDefaults]
                        stringForKey:@"tokenExpirationTimestamp"];
-    
     return expiration;
 }
 

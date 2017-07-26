@@ -10,7 +10,7 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL        = @"https://eventsapi.bigdata.abs-cbn.com";
+NSString* const eventAppsBaseURL        = @"http://52.179.191.208";
 NSString* const eventTokenURL           = @"/oauth";
 NSString* const eventWriteURL           = @"/event";
 
