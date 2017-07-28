@@ -13,14 +13,15 @@
         _clickedContent         = builder.clickedContent;
         _searchQuery            = builder.searchQuery;
         _actionTaken            = builder.actionTaken;
-        _readArticles           = builder.readArticles;
+        _readArticle            = builder.readArticle;
         _articleAuthor          = builder.articleAuthor;
         _articlePostDate        = builder.articlePostDate;
+        _commentedArticle       = builder.commentedArticle;
         _commentContent         = builder.commentContent;
         _loginTimeStamp         = builder.loginTimeStamp;
         _likedContent           = builder.likedContent;
         _shareRetweetContent    = builder.shareRetweetContent;
-        _followEntity           = builder.followEntity;
+        _followedEntity           = builder.followedEntity;
         
         _metaTags               = builder.metaTags;
         _previousScreen         = builder.previousScreen;
@@ -31,7 +32,7 @@
         
         _articleCharacterCount  = builder.articleCharacterCount;
         _rating                 = builder.rating;
-        _duration               = builder.duration;
+        _readingDuration        = builder.readingDuration;
     }
     
     return self;
@@ -41,14 +42,15 @@
     EventBuilder *builder = [EventBuilder new];
     builder.clickedContent          = _clickedContent;
     builder.searchQuery             = _searchQuery;
-    builder.readArticles            = _readArticles;
+    builder.readArticle             = _readArticle;
     builder.articleAuthor           = _articleAuthor;
     builder.articlePostDate         = _articlePostDate;
+    builder.commentedArticle        = _commentedArticle;
     builder.commentContent          = _commentContent;
     builder.loginTimeStamp          = _loginTimeStamp;
     builder.likedContent            = _likedContent;
     builder.shareRetweetContent     = _shareRetweetContent;
-    builder.followEntity            = _followEntity;
+    builder.followedEntity          = _followedEntity;
     builder.metaTags                = _metaTags;
     builder.previousScreen          = _previousScreen;
     builder.screenDestination       = _screenDestination;
@@ -56,7 +58,7 @@
     builder.longitude               = _longitude;
     builder.articleCharacterCount   = _articleCharacterCount;
     builder.rating                  = _rating;
-    builder.duration = _duration;
+    builder.readingDuration         = _readingDuration;
     
     return builder;
 }
@@ -128,14 +130,15 @@
         _clickedContent         = nil;
         _searchQuery            = nil;
         
-        _readArticles           = nil;
+        _readArticle            = nil;
         _articleAuthor          = nil;
         _articlePostDate        = nil;
+        _commentedArticle       = nil;
         _commentContent         = nil;
         _loginTimeStamp         = nil;
         _likedContent           = nil;
         _shareRetweetContent    = nil;
-        _followEntity           = nil;
+        _followedEntity         = nil;
         
         _metaTags               = nil;
         _previousScreen         = nil;
@@ -148,7 +151,7 @@
         
         _articleCharacterCount  = 0;
         _rating                 = 0;
-        _duration               = 0;
+        _readingDuration        = 0;
         
     }
     return self;

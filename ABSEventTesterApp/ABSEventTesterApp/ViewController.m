@@ -44,41 +44,40 @@
         [builder setMiddleName:@""];
         [builder setLastName:@""];
         
-        
     }];
     [ABSEventTracker initWithUser:user];
     
+    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+        [builder setClickedContent:@"Button"];
+        [builder setSearchQuery:@"Search..."];
+        [builder setReadArticles:@"Philstar"];
+        [builder setArticleAuthor:@"Bob Ong"];
+        [builder setArticlePostDate:@"June 15, 2017"];
+        [builder setCommentContent:@"comment content"];
+        [builder setFollowEntity:@"entity"];
+        [builder setLikedContent:@"Liked"];
+        [builder setMetaTags:@"TAGS"];
+        [builder setPreviousScreen:@"previous screen"];
+        [builder setScreenDestination:@"screenDestination"];
+        [builder setActionTaken:SEARCH];
+        [builder setArticleCharacterCount:4];
+        [builder setLatitute:120.421412];
+        [builder setLongitude:14.2323];
+        [builder setDuration:230];
+        [builder setRating:23];
+    }];
+    
 //    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-//        [builder setClickedContent:@"Button"];
-//        [builder setSearchQuery:@"Search..."];
-//        [builder setReadArticles:@"Philstar"];
-//        [builder setArticleAuthor:@"Bob Ong"];
-//        [builder setArticlePostDate:@"June 15, 2017"];
-//        [builder setCommentContent:@"comment content"];
-//        [builder setFollowEntity:@"entity"];
-//        [builder setLikedContent:@"Liked"];
-//        [builder setMetaTags:@"TAGS"];
-//        [builder setPreviousScreen:@"previous screen"];
-//        [builder setScreenDestination:@"screenDestination"];
-//        [builder setActionTaken:SEARCH];
-//        [builder setArticleCharacterCount:4];
-//        [builder setLatitute:120.421412];
-//        [builder setLongitude:14.2323];
-//        [builder setDuration:230];
-//        [builder setRating:23];
+//        [builder setActionTaken:VIDEO_BUFFER];
+//        [builder setDuration:210];
 //    }];
     
-    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-        [builder setActionTaken:VIDEO_BUFFER];
-        [builder setDuration:210];
-    }];
     
-    
-    VideoAttributes *video = [VideoAttributes makeWithBuilder:^(VideoBuilder * builder) {
-        [builder setAction:VIDEO_RESUMED];
-        [builder setVideoHeight:<#(NSInteger *)#>:<#(int)#>:<#(NSString *)#>:<#(Boolean)#>:<#(double)#>:<#(double)#>
-    }];
-    [ABSEventTracker initVideoAttributes:video];
+//    VideoAttributes *video = [VideoAttributes makeWithBuilder:^(VideoBuilder * builder) {
+//        [builder setAction:VIDEO_RESUMED];
+//        [builder setVideoHeight:<#(NSInteger *)#>:<#(int)#>:<#(NSString *)#>:<#(Boolean)#>:<#(double)#>:<#(double)#>
+//    }];
+//    [ABSEventTracker initVideoAttributes:video];
 
     
 }
