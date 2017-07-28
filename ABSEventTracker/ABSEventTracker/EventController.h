@@ -12,10 +12,16 @@
 @interface EventController : NSObject
 /** Method to initialize EventController class */
 +(id) init;
+
 /**
 * Wrapper function to write event attributes -> EventAttributes.
 * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
 */
+
 +(void) writeEvent:(EventAttributes *) attributes;
 +(void) writeVideoAttributes:(VideoAttributes *) attributes;
++(NSMutableArray*) readPopularRecommendation;
++(NSMutableArray*) readItemToItemRecommendation;
++(NSMutableArray*) readUserToItemRecommendation;
++(NSMutableArray*) readCommunityToItemRecommendation;
 @end

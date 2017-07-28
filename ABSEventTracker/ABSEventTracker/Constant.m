@@ -27,6 +27,7 @@ NSString* const host   = @"http://www.iwantv.com.ph"; //POST
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
     NSLog(@"mobileHeader: %@", base64Encoded);
+    
     return base64Encoded;
 }
 @end

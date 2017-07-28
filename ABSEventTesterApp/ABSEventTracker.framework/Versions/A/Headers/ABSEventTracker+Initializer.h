@@ -52,12 +52,8 @@
 /*!
  * This method returns recommendation from API
  */
-
 +(void) initVideoAttributes: (VideoAttributes *) attributes;
 
-+(NSMutableArray*) readPopularRecommendation;
-+(NSMutableArray*) readItemToItemRecommendation;
-+(NSMutableArray*) readUserToItemRecommendation;
-+(NSMutableArray*) readCommunityToItemRecommendation;
+
 
 @end

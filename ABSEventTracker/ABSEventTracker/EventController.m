@@ -10,6 +10,7 @@
 #import "ArbitaryVariant.h"
 #import "FormatUtils.h"
 #import "AttributeManager.h"
+#import "ABSRecommendationEngine.h"
 @implementation EventController
 BOOL hasInitialized = false;
 
@@ -54,6 +55,30 @@ BOOL hasInitialized = false;
 
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
      [[AttributeManager init] setVideoattributes:attributes];
+}
+
+/*!
+ * @discussion This method will fetch recommendation by popular
+ */
+
+#pragma mark - Popular
++(NSMutableArray*) readPopularRecommendation{
+    return [ABSRecommendationEngine recommendationPopular];
+}
+
+#pragma mark - Item to item
++(NSMutableArray*) readItemToItemRecommendation{
+    return [ABSRecommendationEngine recommendationItemToItem];
+}
+
+#pragma mark - User to item
++(NSMutableArray*) readUserToItemRecommendation{
+    return [ABSRecommendationEngine recommendationUserToItem];
+}
+
+#pragma mark - Community to item
++(NSMutableArray*) readCommunityToItemRecommendation{
+    return [ABSRecommendationEngine recommendationCommunityToItem];
 }
 
 
