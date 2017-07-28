@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UserAttributes.h"
+#import "EventAttributes.h"
+#import "VideoAttributes.h"
 @interface ABSEventTracker : NSObject
 
 /** 
@@ -15,5 +18,40 @@
  * This method will also trigger SessionManager.
  */
 +(ABSEventTracker *) initializeTracker;
+
++(void) initWithUser:(UserAttributes *) attributes;
+
+/*!
+ * @discussion Initilize Event attributes by calling this method on the controller
+ * @params
+ * attributes -
+ * clickedContent
+ * searchQuery
+ * actionTaken
+ * readArticles
+ * articleAuthor
+ * articlePostDate
+ * commentContent
+ * loginTimeStamp
+ * likedContent
+ * shareRetweetContent
+ * followEntity
+ * metaTags
+ * previousScreen
+ * screenDestionation
+ * latitude
+ * logitude
+ * articleCharacterCount
+ * rating
+ * duration
+ */
+
++(void) initEventAttributes: (EventAttributes *) attributes;
+/*!
+ * This method returns recommendation from API
+ */
++(void) initVideoAttributes: (VideoAttributes *) attributes;
+
+
 @end
 

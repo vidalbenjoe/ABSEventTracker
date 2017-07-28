@@ -52,7 +52,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy, readonly) NSString *articleAuthor;
 @property(nonatomic, copy, readonly) NSString *articlePostDate;
 @property(nonatomic, copy, readonly) NSString *commentContent;
-@property(nonatomic, copy, readonly) NSString *commentedArticle;
 @property(nonatomic, copy, readonly) NSString *loginTimeStamp;
 @property(nonatomic, copy, readonly) NSString *likedContent;
 @property(nonatomic, copy, readonly) NSString *shareRetweetContent;
@@ -85,7 +84,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy) NSString *articleAuthor;
 @property(nonatomic, copy) NSString *articlePostDate;
 @property(nonatomic, copy) NSString *commentContent;
-@property(nonatomic, copy) NSString *commentedArticle;
 @property(nonatomic, copy) NSString *loginTimeStamp;
 @property(nonatomic, copy) NSString *likedContent;
 @property(nonatomic, copy) NSString *shareRetweetContent;

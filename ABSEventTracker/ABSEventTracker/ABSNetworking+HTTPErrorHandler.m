@@ -10,9 +10,7 @@
 #import "AuthManager.h"
 #import "ABSLogger.h"
 #pragma mark - HTTPerrorLogger
-
 @implementation ABSNetworking (HTTPErrorHandler)
-
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp{
     NSLog(@"HTTPerror : %ld", (long)respHttp.statusCode);
     if (respHttp.statusCode == UNAUTHORIZE) {
@@ -39,5 +37,4 @@
         [AuthManager storeTokenToUserDefault:token];
     }];
 }
-
 @end

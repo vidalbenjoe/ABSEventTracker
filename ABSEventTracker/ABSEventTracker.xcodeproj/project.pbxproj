@@ -49,8 +49,6 @@
 		8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B77E1F04F51B00F21735 /* ABSEventTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8645B7FB1F05042900F21735 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B77F1F04F51B00F21735 /* ABSEventTracker.m */; };
 		8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661CC581F0E3A4A006D7A1D /* Popular.m */; };
-		868B25E21F061669007E8CF0 /* ABSEventTracker+Initializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 868B25E01F061669007E8CF0 /* ABSEventTracker+Initializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		868B25E31F061669007E8CF0 /* ABSEventTracker+Initializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */; };
 		86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 86B6F3221F1740E3005B2B26 /* VideoAttributes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		86B6F3251F1740E3005B2B26 /* VideoAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6F3231F1740E3005B2B26 /* VideoAttributes.m */; };
 		86E2AA941F135BA300B64A4A /* ABSRecommendationEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */; };
@@ -129,8 +127,6 @@
 		8645B7F21F05001B00F21735 /* PropertyEventSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyEventSource.m; sourceTree = "<group>"; };
 		8661CC571F0E3A4A006D7A1D /* Popular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Popular.h; sourceTree = "<group>"; };
 		8661CC581F0E3A4A006D7A1D /* Popular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Popular.m; sourceTree = "<group>"; };
-		868B25E01F061669007E8CF0 /* ABSEventTracker+Initializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABSEventTracker+Initializer.h"; sourceTree = "<group>"; };
-		868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABSEventTracker+Initializer.m"; sourceTree = "<group>"; };
 		86B6F3221F1740E3005B2B26 /* VideoAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoAttributes.h; sourceTree = "<group>"; };
 		86B6F3231F1740E3005B2B26 /* VideoAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoAttributes.m; sourceTree = "<group>"; };
 		86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSRecommendationEngine.h; sourceTree = "<group>"; };
@@ -175,8 +171,6 @@
 				8645B7871F04F56E00F21735 /* Utils */,
 				8645B77E1F04F51B00F21735 /* ABSEventTracker.h */,
 				8645B77F1F04F51B00F21735 /* ABSEventTracker.m */,
-				868B25E01F061669007E8CF0 /* ABSEventTracker+Initializer.h */,
-				868B25E11F061669007E8CF0 /* ABSEventTracker+Initializer.m */,
 			);
 			path = ABSEventTracker;
 			sourceTree = "<group>";
@@ -355,7 +349,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */,
-				868B25E21F061669007E8CF0 /* ABSEventTracker+Initializer.h in Headers */,
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
@@ -455,7 +448,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				868B25E31F061669007E8CF0 /* ABSEventTracker+Initializer.m in Sources */,
 				8645B7ED1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
 				8645B7D41F04FA8F00F21735 /* SessionManager+SessionRule.m in Sources */,
 				8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */,

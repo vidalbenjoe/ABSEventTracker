@@ -54,6 +54,7 @@
     return [self initUserWithBuilder:builder];
 }
 
+
 @end
 
 @implementation UserBuilder

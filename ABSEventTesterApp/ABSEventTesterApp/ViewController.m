@@ -39,49 +39,34 @@
 //    [ABSEventTracker initVideoAttributes:video];
     
     UserAttributes *user = [UserAttributes makeWithBuilder:^(UserBuilder *builder) {
-        [builder setGigyaID:@""];
-        [builder setFirstName:@""];
-        [builder setMiddleName:@""];
-        [builder setLastName:@""];
-        
+        [builder setGigyaID:@"a0fp-b3es-a2ge-n3fv-a2bc-v9gw"];
+        [builder setFirstName:@"Juan"];
+        [builder setMiddleName:@"De la"];
+        [builder setLastName:@"Cruz"];
     }];
     [ABSEventTracker initWithUser:user];
     
-    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-        [builder setClickedContent:@"Button"];
-        [builder setSearchQuery:@"Search..."];
-        [builder setReadArticles:@"Philstar"];
-        [builder setArticleAuthor:@"Bob Ong"];
+    
+    EventAttributes *events = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+        [builder setClickedContent:@"News"];
+        [builder setReadArticles:@"DZMM News"];
+        [builder setArticleAuthor:@"Ted Failon"];
         [builder setArticlePostDate:@"June 15, 2017"];
-        [builder setCommentContent:@"comment content"];
-        [builder setFollowEntity:@"entity"];
-        [builder setLikedContent:@"Liked"];
-        [builder setMetaTags:@"TAGS"];
-        [builder setPreviousScreen:@"previous screen"];
-        [builder setScreenDestination:@"screenDestination"];
-        [builder setActionTaken:SEARCH];
-        [builder setArticleCharacterCount:4];
-        [builder setLatitute:120.421412];
-        [builder setLongitude:14.2323];
-        [builder setDuration:230];
-        [builder setRating:23];
     }];
+    [ABSEventTracker initEventAttributes:events];
     
 //    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
 //        [builder setActionTaken:VIDEO_BUFFER];
 //        [builder setDuration:210];
 //    }];
     
-    
-//    VideoAttributes *video = [VideoAttributes makeWithBuilder:^(VideoBuilder * builder) {
-//        [builder setAction:VIDEO_RESUMED];
-//        [builder setVideoHeight:<#(NSInteger *)#>:<#(int)#>:<#(NSString *)#>:<#(Boolean)#>:<#(double)#>:<#(double)#>
-//    }];
-//    [ABSEventTracker initVideoAttributes:video];
-
+    VideoAttributes *video = [VideoAttributes makeWithBuilder:^(VideoBuilder * builder) {
+        [builder setAction:VIDEO_PLAYED];
+        [builder setVideoPlayPosition:234];
+        }];
+    [ABSEventTracker initVideoAttributes:video];
     
 }
-
 
 - (IBAction)readItem:(id)sender {
 //    [ABSEventTracker readPopularRecommendation];
