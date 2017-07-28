@@ -17,17 +17,24 @@
         _firstName      =   builder.firstName;
         _middleName     =   builder.middleName;
         _lastName       =   builder.lastName;
+        _address        =   builder.address;
+        _birthday       =   builder.birthday;
+        _mobilenumber   =   builder.mobilenumber;
+        
     }
     return self;
 }
 
 -(UserBuilder *) makeBuilder{
     UserBuilder *builder = [UserBuilder new];
-    builder.ssoID       =   _ssoID;
-    builder.gigyaID     =   _gigyaID;
-    builder.firstName   =   _firstName;
-    builder.middleName  =   _middleName;
-    builder.lastName    =   _lastName;
+    builder.ssoID           =   _ssoID;
+    builder.gigyaID         =   _gigyaID;
+    builder.firstName       =   _firstName;
+    builder.middleName      =   _middleName;
+    builder.lastName        =   _lastName;
+    builder.address         =   _address;
+    builder.birthday        =   _birthday;
+    builder.mobilenumber    =   _mobilenumber;
     return builder;
 }
 
@@ -58,6 +65,9 @@
         _firstName                  =   nil;
         _middleName                 =   nil;
         _lastName                   =   nil;
+        _address                    =   nil;
+        _birthday                   =   nil;
+        _mobilenumber               =   0;
     }
     return self;
 }
