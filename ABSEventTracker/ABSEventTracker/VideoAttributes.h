@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic) Boolean isVideoEnded;
 @property(nonatomic) Boolean isVideoPaused;
 @property(nonatomic) Boolean isVideoFullScreen;
-@property(nonatomic, copy, readonly) NSString *currentTimeStamp;
+@property(nonatomic, copy, readonly) NSString *videoTimeStamp;
 @property(nonatomic, copy, readonly) NSString *videoTitle;
 @property(nonatomic, copy, readonly) NSString *videoURL;
 @property(nonatomic, copy, readonly) NSString *videoVolume;
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @end
 
 @interface VideoBuilder : NSObject
-@property(nonatomic, copy) NSString *currentTimeStamp;
+@property(nonatomic, copy) NSString *videoTimeStamp;
 @property(nonatomic, copy) NSString *videoTitle;
 @property(nonatomic, copy) NSString *videoURL;
 @property(nonatomic, copy) NSString *videoVolume;

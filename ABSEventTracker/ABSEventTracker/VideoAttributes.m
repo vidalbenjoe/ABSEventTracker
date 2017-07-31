@@ -10,7 +10,7 @@
 @implementation VideoAttributes
 -(instancetype) initWithBuilder:(VideoBuilder *)builder{
     if (self = [super init]) {
-        _currentTimeStamp         = builder.currentTimeStamp;
+        _videoTimeStamp           = builder.videoTimeStamp;
         _videoTitle               = builder.videoTitle;
         _videoURL                 = builder.videoURL;
         _videoVolume              = builder.videoVolume;
@@ -39,7 +39,7 @@
 
 -(VideoBuilder *) makeBuilder{
     VideoBuilder *builder = [VideoBuilder new];
-    builder.currentTimeStamp        = _currentTimeStamp;
+    builder.videoTimeStamp          = _videoTimeStamp;
     builder.videoTitle              = _videoTitle;
     builder.videoURL                = _videoURL;
     builder.videoVolume             = _videoVolume;
@@ -84,7 +84,7 @@
 
 -(instancetype) init{
     if (self = [super init]) {
-        _currentTimeStamp       = nil;
+        _videoTimeStamp         = nil;
         _videoTitle             = nil;
         _videoURL               = nil;
         
