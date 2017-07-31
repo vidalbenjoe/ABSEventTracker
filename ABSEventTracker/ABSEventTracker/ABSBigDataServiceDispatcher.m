@@ -180,31 +180,31 @@
             ObjectOrNull(attributes.eventattributes.clickedContent) , @"CookiesEnabled",
             ObjectOrNull(attributes.eventattributes.clickedContent) , @"CurrentWebPage",
             ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"ViewPageDuration",
-            @" " , @"VideoPlay",
-            @" " , @"VideoPause",
-            @" " , @"VideoSeek",
-            @" " , @"VideoSeekStart"
-                                                 @" " , @"VideoSeekEnd"
-                                                 @" " , @"VideoResume"
-                                                 @" " , @"VideoStop",
-                                                 @" " , @"VideoAdClick",
-                                                 @" " , @"VideoAdComplete",
-                                                 @" " , @"VideoAdSkipped"
-                                                 @" " , @"VideoAdError"
-                                                 @" " , @"VideoAdPlay"
-                                                 @" " , @"VideoAdTime"
-                                                 @" " , @"VideoMeta"
-                                                 @" "  , @"VideoBuffer"
-                                                 @" " , @"VideoTimeStamp"
-                                                 @" " , @"VideoDuration"
-                                                 @" " , @"VideoIsEnded"
-                                                 @" " , @"VideoIsPaused"
-                                                 @" " , @"VideoFullScreen"
-                                                 @" " , @"VideoPlayerState"
-                                                 @" " , @"VideoTitle"
-                                                 @" " , @"VideoURL"
-                                                 @" " , @"VideoVolume"
-                                                 @" " , @"VideoSize"
+            attributes.videoattributes.videoPlayPosition, @"VideoPlay",
+            attributes.videoattributes.videoPausePosition , @"VideoPause",
+            attributes.videoattributes.videoPlayPosition , @"VideoSeek",
+            attributes.videoattributes.videoSeekStart , @"VideoSeekStart",
+            attributes.videoattributes.videoSeekEnd , @"VideoSeekEnd",
+            attributes.videoattributes.videoResumePosition , @"VideoResume",
+            attributes.videoattributes.videoStopPosition , @"VideoStop",
+            attributes.videoattributes.videoAdTime , @"VideoAdClick",
+            attributes.videoattributes.videoAdTime , @"VideoAdComplete",
+            @" " , @"VideoAdSkipped",
+            @" " , @"VideoAdError",
+            @" " , @"VideoAdPlay",
+            attributes.videoattributes.videoAdTime , @"VideoAdTime",
+            @" " , @"VideoMeta",
+            @" "  , @"VideoBuffer",
+            attributes.videoattributes.videoTimeStamp , @"VideoTimeStamp",
+            @" " , @"VideoDuration",
+            attributes.videoattributes.isVideoEnded , @"VideoIsEnded",
+            attributes.videoattributes.isVideoPaused , @"VideoIsPaused",
+            attributes.videoattributes.isVideoFullScreen, @"VideoFullScreen",
+            @" " , @"VideoPlayerState",
+            attributes.videoattributes.videoTitle , @"VideoTitle",
+            attributes.videoattributes.videoURL , @"VideoURL",
+            attributes.videoattributes.videoVolume , @"VideoVolume",
+            @" " , @"VideoSize"
                                                  ,nil];
     
     NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
