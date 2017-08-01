@@ -21,7 +21,7 @@
         _loginTimeStamp         = builder.loginTimeStamp;
         _likedContent           = builder.likedContent;
         _shareRetweetContent    = builder.shareRetweetContent;
-        _followedEntity           = builder.followedEntity;
+        _followedEntity         = builder.followedEntity;
         
         _metaTags               = builder.metaTags;
         _previousScreen         = builder.previousScreen;

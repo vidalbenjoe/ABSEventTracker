@@ -18,7 +18,7 @@ NSString* const recommendationPopular           = @"/api/recommendation/popular"
 NSString* const recommendationUserToItem        = @"/api/recommendation/usertoitemtest"; //POST
 NSString* const recommendationItemToItem        = @"/api/recommendation/itemtoitemtest"; //POST
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
-NSString* const host   = @"http://www.iwantv.com.ph"; //POST
+NSString* const host = @"http://www.iwantv.com.ph"; //POST
 
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier

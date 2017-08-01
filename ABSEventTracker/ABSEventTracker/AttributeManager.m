@@ -18,6 +18,7 @@
 @synthesize session;
 @synthesize arbitaryinvariant;
 @synthesize videoattributes;
+
 +(AttributeManager*) init{
     static dispatch_once_t onceToken = 0;
     static id shared = nil;
@@ -55,7 +56,7 @@
 #pragma mark - Video Attributes
 -(void) setVideottributes:(VideoAttributes *)videoAttributes{
     videoattributes = videoAttributes;
-    [AttributeWriter writer:self];
+//    [AttributeWriter writer:self];
 }
 
 @end
