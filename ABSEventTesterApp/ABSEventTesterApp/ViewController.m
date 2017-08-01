@@ -11,6 +11,7 @@
 #import <ABSEventTracker/UserAttributes.h>
 #import <ABSEventTracker/ABSEventTracker.h>
 #import <ABSEventTracker/VideoAttributes.h>
+
 @interface ViewController ()
 - (IBAction)trackEvent:(id)sender;
 @end
@@ -43,6 +44,7 @@
         [builder setFirstName:@"Juan"];
         [builder setMiddleName:@"De la"];
         [builder setLastName:@"Cruz"];
+        [builder setSsoID:@""];
     }];
     [ABSEventTracker initWithUser:user];
     
