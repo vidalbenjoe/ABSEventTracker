@@ -13,7 +13,11 @@
 		8645B8131F05049600F21735 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8645B8111F05049600F21735 /* Main.storyboard */; };
 		8645B8151F05049600F21735 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8645B8141F05049600F21735 /* Assets.xcassets */; };
 		8645B8181F05049600F21735 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8645B8161F05049600F21735 /* LaunchScreen.storyboard */; };
+<<<<<<< HEAD
 		86D38C281F307CEF00422D1D /* ABSEventTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D38C271F307CEF00422D1D /* ABSEventTracker.framework */; };
+=======
+		86D38C2A1F30857700422D1D /* ABSEventTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D38C291F30857700422D1D /* ABSEventTracker.framework */; };
+>>>>>>> videoAttributes
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +33,11 @@
 		8645B8191F05049600F21735 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86B5644C1F0B9269001626D5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		86B5644E1F0B9272001626D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+<<<<<<< HEAD
 		86D38C271F307CEF00422D1D /* ABSEventTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ABSEventTracker.framework; sourceTree = "<group>"; };
+=======
+		86D38C291F30857700422D1D /* ABSEventTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ABSEventTracker.framework; sourceTree = "<group>"; };
+>>>>>>> videoAttributes
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +45,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				86D38C281F307CEF00422D1D /* ABSEventTracker.framework in Frameworks */,
+=======
+				86D38C2A1F30857700422D1D /* ABSEventTracker.framework in Frameworks */,
+>>>>>>> videoAttributes
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +100,11 @@
 		8645B9DA1F050B9900F21735 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				86D38C271F307CEF00422D1D /* ABSEventTracker.framework */,
+=======
+				86D38C291F30857700422D1D /* ABSEventTracker.framework */,
+>>>>>>> videoAttributes
 				86B5644E1F0B9272001626D5 /* Foundation.framework */,
 				86B5644C1F0B9269001626D5 /* UIKit.framework */,
 			);

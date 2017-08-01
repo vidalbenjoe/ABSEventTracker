@@ -15,6 +15,14 @@
         _videoURL                 = builder.videoURL;
         _videoVolume              = builder.videoVolume;
         
+        _videoAdClick             = builder.videoAdClick;
+        _videoAdComplete          = builder.videoAdComplete;
+        _videoAdSkipped           = builder.videoAdSkipped;
+        _videoAdError             = builder.videoAdError;
+        _videoAdPlay              = builder.videoAdPlay;
+        _videoMeta                = builder.videoMeta;
+        _videoBuffer              = builder.videoBuffer;
+        
         _action                   = builder.action;
         _state                    = builder.state;
         _videoWidth               = builder.videoWidth;
@@ -43,6 +51,15 @@
     builder.videoTitle              = _videoTitle;
     builder.videoURL                = _videoURL;
     builder.videoVolume             = _videoVolume;
+    
+    builder.videoAdClick            = _videoAdClick;
+    builder.videoAdComplete         = _videoAdComplete;
+    builder.videoAdSkipped          = _videoAdSkipped;
+    builder.videoAdError            = _videoAdError;
+    builder.videoAdPlay             = _videoAdPlay;
+    builder.videoMeta               = _videoMeta;
+    builder.videoBuffer             = _videoBuffer;
+    
     builder.action                  = _action;
     builder.state                   = _state;
     builder.videoWidth              = _videoWidth;
@@ -78,6 +95,21 @@
     return [self initWithBuilder:builder];
 }
 
++(NSDictionary *) videoStateByName{
+    return @{@(PLAYING)       : @"Playing",
+             @(PAUSED)      : @"Paused",
+             @(SEEKING)     : @"Seeking",
+             @(ON_IDLE)     : @"On Idle",
+             @(BUFFERING)     : @"Buffering",
+             @(COMPLETED)     : @"Completed",
+             
+             };
+}
+
++(NSString *) convertVideoStateToString: (VideoState) state{
+    return [[self class] videoStateByName][@(state)];
+}
+
 @end
 
 @implementation VideoBuilder
@@ -88,9 +120,17 @@
         _videoTitle             = nil;
         _videoURL               = nil;
         
-        _videoVolume            = nil;
-        _videoWidth             = nil;
-        _videoHeight            = nil;
+        _videoVolume            = 0;
+        _videoAdClick           = nil;
+        _videoAdComplete        = nil;
+        _videoAdSkipped         = nil;
+        _videoAdError           = nil;
+        _videoAdPlay            = nil;
+        _videoMeta              = nil;
+        _videoBuffer            = nil;
+        
+        _videoWidth             = 0;
+        _videoHeight            = 0;
         _action                 = 0;
         _state                  = 0;
         _isVideoEnded           = 0;

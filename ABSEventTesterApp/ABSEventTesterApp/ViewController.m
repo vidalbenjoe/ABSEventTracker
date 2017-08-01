@@ -50,7 +50,6 @@
     EventAttributes *events = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"News"];
         [builder setReadArticle:@"DZMM News"];
-        [builder setActionTaken:READ_ARTICLES];
         [builder setArticleAuthor:@"Ted Failon"];
         [builder setArticlePostDate:@"June 15, 2017"];
     }];
