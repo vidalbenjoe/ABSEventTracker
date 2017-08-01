@@ -14,6 +14,10 @@
 @property(nonatomic, weak) NSString *firstName;
 @property(nonatomic, weak) NSString *middleName;
 @property(nonatomic, weak) NSString *lastName;
+@property(nonatomic, weak) NSString *address;
+@property(nonatomic, weak) NSDate *birthday;
+@property(nonatomic) int mobilenumber;
+
 
 +(instancetype) makeWithBuilder:(void (^) (UserBuilder *)) updateBlock;
 -(instancetype) initUserWithBuilder:(UserBuilder *) builder;
@@ -27,6 +31,9 @@
 @property(nonatomic, strong) NSString *firstName;
 @property(nonatomic, strong) NSString *middleName;
 @property(nonatomic, strong) NSString *lastName;
+@property(nonatomic, strong) NSString *address;
+@property(nonatomic, strong) NSDate *birthday;
+@property(nonatomic) int mobilenumber;
 -(instancetype) init;
 
 @end

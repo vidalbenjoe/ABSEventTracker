@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import <ABSEventTracker/EventAttributes.h>
 #import <ABSEventTracker/UserAttributes.h>
-#import <ABSEventTracker/ABSEventTracker+Initializer.h>
+#import <ABSEventTracker/ABSEventTracker.h>
 #import <ABSEventTracker/VideoAttributes.h>
 @interface ViewController ()
 - (IBAction)trackEvent:(id)sender;
@@ -49,7 +49,7 @@
     
     EventAttributes *events = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setClickedContent:@"News"];
-        [builder setReadArticles:@"DZMM News"];
+        [builder setReadArticle:@"DZMM News"];
         [builder setArticleAuthor:@"Ted Failon"];
         [builder setArticlePostDate:@"June 15, 2017"];
     }];

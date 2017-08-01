@@ -20,15 +20,25 @@ typedef NS_ENUM(NSInteger, VideoState){
 @interface VideoAttributes : NSObject
 @property(nonatomic) ActionTaken action;
 @property(nonatomic) VideoState state;
-@property(nonatomic) NSInteger *videoWidth;
-@property(nonatomic) NSInteger *videoHeight;
-@property(nonatomic) Boolean isVideoEnded;
-@property(nonatomic) Boolean isVideoPaused;
-@property(nonatomic) Boolean isVideoFullScreen;
+@property(nonatomic) int videoWidth;
+@property(nonatomic) int videoHeight;
+@property(nonatomic) BOOL isVideoEnded;
+@property(nonatomic) BOOL isVideoPaused;
+@property(nonatomic) BOOL isVideoFullScreen;
 @property(nonatomic, copy, readonly) NSString *videoTimeStamp;
 @property(nonatomic, copy, readonly) NSString *videoTitle;
 @property(nonatomic, copy, readonly) NSString *videoURL;
-@property(nonatomic, copy, readonly) NSString *videoVolume;
+@property(nonatomic) double videoVolume;
+
+@property(nonatomic, copy, readonly) NSString *videoAdClick;
+@property(nonatomic, copy, readonly) NSString *videoAdComplete;
+@property(nonatomic, copy, readonly) NSString *videoAdSkipped;
+@property(nonatomic, copy, readonly) NSString *videoAdError;
+@property(nonatomic, copy, readonly) NSString *videoAdPlay;
+@property(nonatomic, copy, readonly) NSString *videoMeta;
+@property(nonatomic, copy, readonly) NSString *videoBuffer;
+
+
 @property(nonatomic) double videoDuration;
 @property(nonatomic) double videoSeekStart;
 @property(nonatomic) double videoSeekEnd;
@@ -43,22 +53,31 @@ typedef NS_ENUM(NSInteger, VideoState){
 -(instancetype) initWithBuilder:(VideoBuilder *) builder;
 -(instancetype) update:(void(^)(VideoBuilder *)) updateBlock;
 -(instancetype) build;
++(NSString *) convertVideoStateToString: (VideoState) state;
 @end
 
 @interface VideoBuilder : NSObject
 @property(nonatomic, copy) NSString *videoTimeStamp;
 @property(nonatomic, copy) NSString *videoTitle;
 @property(nonatomic, copy) NSString *videoURL;
-@property(nonatomic, copy) NSString *videoVolume;
+@property(nonatomic) double videoVolume;
+
+@property(nonatomic, copy) NSString *videoAdClick;
+@property(nonatomic, copy) NSString *videoAdComplete;
+@property(nonatomic, copy) NSString *videoAdSkipped;
+@property(nonatomic, copy) NSString *videoAdError;
+@property(nonatomic, copy) NSString *videoAdPlay;
+@property(nonatomic, copy) NSString *videoMeta;
+@property(nonatomic, copy) NSString *videoBuffer;
 
 @property(nonatomic) ActionTaken action;
 @property(nonatomic) VideoState state;
-@property(nonatomic) NSInteger *videoWidth;
-@property(nonatomic) NSInteger *videoHeight;
+@property(nonatomic) int videoWidth;
+@property(nonatomic) int videoHeight;
 
-@property(nonatomic) Boolean isVideoEnded;
-@property(nonatomic) Boolean isVideoPause;
-@property(nonatomic) Boolean isVideoFullScreen;
+@property(nonatomic) BOOL isVideoEnded;
+@property(nonatomic) BOOL isVideoPause;
+@property(nonatomic) BOOL isVideoFullScreen;
 
 @property(nonatomic) double videoDuration;
 @property(nonatomic) double videoSeekStart;

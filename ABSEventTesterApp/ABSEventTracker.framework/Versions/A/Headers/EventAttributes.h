@@ -48,14 +48,15 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 
 @property(nonatomic) ActionTaken actionTaken;
 
-@property(nonatomic, copy, readonly) NSString *readArticles;
+@property(nonatomic, copy, readonly) NSString *readArticle;
 @property(nonatomic, copy, readonly) NSString *articleAuthor;
 @property(nonatomic, copy, readonly) NSString *articlePostDate;
+@property(nonatomic, copy, readonly) NSString *commentedArticle;
 @property(nonatomic, copy, readonly) NSString *commentContent;
 @property(nonatomic, copy, readonly) NSString *loginTimeStamp;
 @property(nonatomic, copy, readonly) NSString *likedContent;
 @property(nonatomic, copy, readonly) NSString *shareRetweetContent;
-@property(nonatomic, copy, readonly) NSString *followEntity;
+@property(nonatomic, copy, readonly) NSString *followedEntity;
 
 @property(nonatomic, copy, readonly) NSString *metaTags;
 @property(nonatomic, copy, readonly) NSString *previousScreen;
@@ -65,7 +66,7 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic) float longitude;
 @property(nonatomic) int articleCharacterCount;
 @property(nonatomic) int rating;
-@property(nonatomic) int duration;
+@property(nonatomic) int readingDuration;
 
 +(instancetype) makeWithBuilder:(void (^) (EventBuilder *)) updateBlock;
 -(instancetype) initWithBuilder:(EventBuilder *) builder;
@@ -80,14 +81,15 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 
 @property(nonatomic) ActionTaken actionTaken;
 
-@property(nonatomic, copy) NSString *readArticles;
+@property(nonatomic, copy) NSString *readArticle;
 @property(nonatomic, copy) NSString *articleAuthor;
 @property(nonatomic, copy) NSString *articlePostDate;
+@property(nonatomic, copy) NSString *commentedArticle;
 @property(nonatomic, copy) NSString *commentContent;
 @property(nonatomic, copy) NSString *loginTimeStamp;
 @property(nonatomic, copy) NSString *likedContent;
 @property(nonatomic, copy) NSString *shareRetweetContent;
-@property(nonatomic, copy) NSString *followEntity;
+@property(nonatomic, copy) NSString *followedEntity;
 
 @property(nonatomic, copy) NSString *metaTags;
 @property(nonatomic, copy) NSString *previousScreen;
@@ -97,7 +99,7 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic) float longitude;
 @property(nonatomic) int articleCharacterCount;
 @property(nonatomic) int rating;
-@property(nonatomic) int duration;
+@property(nonatomic) int readingDuration;
 
 -(instancetype) init;
 

@@ -44,12 +44,12 @@
 		8645B7EA1F04FDDA00F21735 /* ABSNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7E91F04FDDA00F21735 /* ABSNetworking.m */; };
 		8645B7ED1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7EC1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m */; };
 		8645B7F31F05001B00F21735 /* PropertyEventSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7F21F05001B00F21735 /* PropertyEventSource.m */; };
-		8645B7F71F05029900F21735 /* UserAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B7CB1F04FA0500F21735 /* UserAttributes.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B7C71F04F99F00F21735 /* EventAttributes.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		8645B7F71F05029900F21735 /* UserAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B7CB1F04FA0500F21735 /* UserAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B7C71F04F99F00F21735 /* EventAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B77E1F04F51B00F21735 /* ABSEventTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8645B7FB1F05042900F21735 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B77F1F04F51B00F21735 /* ABSEventTracker.m */; };
 		8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661CC581F0E3A4A006D7A1D /* Popular.m */; };
-		86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 86B6F3221F1740E3005B2B26 /* VideoAttributes.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 86B6F3221F1740E3005B2B26 /* VideoAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86B6F3251F1740E3005B2B26 /* VideoAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6F3231F1740E3005B2B26 /* VideoAttributes.m */; };
 		86E2AA941F135BA300B64A4A /* ABSRecommendationEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */; };
 /* End PBXBuildFile section */
@@ -349,8 +349,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */,
-				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
+				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
