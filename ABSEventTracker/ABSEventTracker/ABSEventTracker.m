@@ -116,6 +116,7 @@
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
     [[AttributeManager init] setUserAttributes:attributes];
+    
     EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];
     }];

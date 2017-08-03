@@ -30,7 +30,10 @@
 
 +(NSDate *) retrieveTokenExpirationTimestamp{
     NSDate *expiration = (NSDate *)[[NSUserDefaults standardUserDefaults]
-                       stringForKey:@"tokenExpirationTimestamp"];
+                       objectForKey:@"tokenExpirationTimestamp"];
+    
+    
+    NSLog(@"Timeintervalsince originalEnd: %@",expiration);
     return expiration;
 }
 

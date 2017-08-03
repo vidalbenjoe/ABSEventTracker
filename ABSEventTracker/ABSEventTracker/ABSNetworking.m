@@ -99,7 +99,6 @@ NSURLSessionConfiguration *sessionConfiguration;
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             [ABSNetworking HTTPerrorLogger:respHttp];
             if (respHttp.statusCode != SUCCESS) {
-                
                 errorHandler(nil, error);
                 return;
             }

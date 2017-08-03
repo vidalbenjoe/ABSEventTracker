@@ -4,6 +4,8 @@
 //
 //  Created by Benjoe Vidal on 07/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
+
+
 //
 
 #import "ABSBigDataServiceDispatcher.h"
@@ -41,6 +43,13 @@
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
         NSDate *timeNow = [NSDate date];
+        
+        NSLog(@"dispatceTIme1: %f",[[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow]);
+        NSLog(@"dispatceTIme2: %f",[timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp]]);
+        
+        NSLog(@"Timeintervalsince start: %@", timeNow);
+        NSLog(@"Timeintervalsince end: %@", [AuthManager retrieveTokenExpirationTimestamp]);
+        
         if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
             NSLog(@"REQUEST A TOKEN: NEW - timenow is greater than expiration date");
             [self requestToken:^(NSString *token) {
@@ -64,7 +73,9 @@
             });
         }
     }else{
-        //Server token is null
+        [self requestToken:^(NSString *token) {
+            [AuthManager storeTokenToUserDefault:token];
+        }];
     }
 }
 

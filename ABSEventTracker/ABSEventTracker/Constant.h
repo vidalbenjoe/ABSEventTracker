@@ -15,7 +15,7 @@
 #define INVALID_ID          @"com.invalid"
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
-#define DEFAULT_SESSION_EXPIRATION_IN_MINUTES   1
+#define DEFAULT_SESSION_EXPIRATION_IN_MINUTES   2
 
 //{"host":"www.skyondemand.com.ph"},
 //{"host":"www.onemusic.ph"},
