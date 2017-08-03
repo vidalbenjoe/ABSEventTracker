@@ -7,6 +7,7 @@
 //
 
 #import "AuthManager.h"
+#import "Constant.h"
 @implementation AuthManager
 @synthesize tokenReceivedDate;
 @synthesize tokenExpirationDate;
@@ -23,7 +24,7 @@
 }
 
 +(void) storeTokenExpirationTimestamp:(NSDate *) expiration{
-    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(9*60)];
+    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"tokenExpirationTimestamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -31,8 +32,6 @@
 +(NSDate *) retrieveTokenExpirationTimestamp{
     NSDate *expiration = (NSDate *)[[NSUserDefaults standardUserDefaults]
                        objectForKey:@"tokenExpirationTimestamp"];
-    
-    
     NSLog(@"Timeintervalsince originalEnd: %@",expiration);
     return expiration;
 }

@@ -18,7 +18,7 @@
 
 -(void) updateSessionTime{
     NSDate *currentTime = [NSDate date];
-    NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTES*60)];
+    NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
     [self setSessionStart: currentTime];
     [self setSessionEnd:endtime];
 }

@@ -43,20 +43,11 @@
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
         NSDate *timeNow = [NSDate date];
-        
-        NSLog(@"dispatceTIme1: %f",[[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow]);
-        NSLog(@"dispatceTIme2: %f",[timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp]]);
-        
-        NSLog(@"Timeintervalsince start: %@", timeNow);
-        NSLog(@"Timeintervalsince end: %@", [AuthManager retrieveTokenExpirationTimestamp]);
-        
         if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
-            NSLog(@"REQUEST A TOKEN: NEW - timenow is greater than expiration date");
             [self requestToken:^(NSString *token) {
                 [AuthManager storeTokenToUserDefault:token];
             }];
         }else{
-            NSLog(@"REQUEST A TOKEN: OLD - timenow is less than expiration date");
             NSData *writerAttributes = [self writerAttribute:attributes];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -64,10 +55,8 @@
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
             dispatch_async(queue, ^{
                 [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    NSLog(@"WRITINGSUCCESS");
                     [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    NSLog(@"WRITINGERROR");
                     [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
                 }];
             });
@@ -110,14 +99,11 @@
             NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
                 //This is the completion block that will get called when the custom operation work is completed.
                 // Work completed
-        
             }];
-            
             customOperation.completionBlock =^{
                 //This is another way of catching the Custom Operation completition.
                 //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
             };
-            
             [blockCompletionOperation addDependency:customOperation];
             [operationQueue addOperation:customOperation];
 //            [customOperation start];

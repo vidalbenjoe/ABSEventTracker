@@ -18,7 +18,27 @@ NSString* const recommendationPopular           = @"/api/recommendation/popular"
 NSString* const recommendationUserToItem        = @"/api/recommendation/usertoitemtest"; //POST
 NSString* const recommendationItemToItem        = @"/api/recommendation/itemtoitemtest"; //POST
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
-NSString* const host = @"http://www.iwantv.com.ph"; //POST
+NSString* const host                            = @"http://www.iwantv.com.ph"; //POST
+
+
+//{"host":"indraeventsapi.azurewebsites.net"},
+//{"host":"www.skyondemand.com.ph"},
+//{"host":"www.onemusic.ph"},
+//{"host":"www.iwantv.com.ph"},
+//{"host":"noink.abs-cbn.com"},
+//{"host":"starcinema.abs-cbn.com"},
+//{"host":"news.abs-cbn.com"},
+//{"host":"testportal.skyondemand.com.ph"},
+//{"host":"test-sinehub.abs-cbn.com"},
+//{"host":"gwt.tfc.tv"},
+//{"host":"uatgnsok.tfc.tv"},
+//{"host":"test-starcinema.abs-cbn.com"},
+//{"host":"staging.entertainment.abs-cbn.com"},
+//{"host":"bigdata.iwantv.com.ph"},
+//{"host":"test-starcinema.abs-cbn.com"},
+//{"host":"stagingnews.abs-cbn.com"},
+//{"host":"bigdata.onemusic.ph"},
+//{"host":"staging-dev2.abs-cbn.com"}
 
 +(NSString *) generateNewMobileHeader{
     // GET bundleIdentifier
