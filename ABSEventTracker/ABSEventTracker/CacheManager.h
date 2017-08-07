@@ -11,6 +11,9 @@
 @interface CacheManager : NSObject
 @property(nonatomic) NSNumber *_id;
 @property(nonatomic) NSDictionary *cacheDictionary;
+/*
+ * Method for storing failed attributes 
+ */
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes;
 +(void) removeCachedAttributeByFirstIndex;
 +(void) removeAllCachedAttributes;

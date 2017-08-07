@@ -41,6 +41,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                       [[ABSLogger initialize] setMessage:response.description];
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(task, error);
+                                          
                                           return;
                                       }
                                       NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
