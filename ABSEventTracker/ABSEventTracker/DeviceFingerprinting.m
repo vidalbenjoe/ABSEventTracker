@@ -29,10 +29,8 @@
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo screenHeight]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo physicalMemory]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo processorNumber]]];
-    
     [rawComponents addObject:[DeviceInfo deviceUUID]];
     [rawComponents addObject:[DeviceInfo deviceConnectivity]];
-//        [rawComponents addObject:[DeviceInfo ICCID]];
     return [rawComponents componentsJoinedByString:@","];
     
 }
@@ -50,4 +48,5 @@
         [output appendFormat:@"%02x", digest[i]];
     return  output;
 }
+
 @end

@@ -1,11 +1,16 @@
 //
-//  nt.m
-//  EventAnalytics
-//
-//  Created by Benjoe Vidal on 29/06/2017.
-//  Copyright © 2017 ABS-CBN. All rights reserved.
-//
-
+// ArbitaryVarian.h
+/**********************************************************************
+ **                                                                  **
+ **                                                                  **
+ **                        ABSEventTracker                           **
+ **                   Created by Benjoe Vidal                        **
+ **          Copyright © 2017 ABS-CBN. All rights reserved.          **
+ **                                                                  **
+ **                                                                  **
+ **                                                                  **
+ **********************************************************************
+ */
 #import "ArbitaryVariant.h"
 
 

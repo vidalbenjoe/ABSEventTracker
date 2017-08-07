@@ -10,6 +10,7 @@
 #import "ABSBigDataServiceDispatcher.h"
 #import "ABSNetworking+HTTPErrorHandler.h"
 #import "Constant.h"
+#import "ABSLogger.h"
 
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
@@ -37,6 +38,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       [ABSNetworking HTTPerrorLogger:respHttp];
+                                      [[ABSLogger initialize] setMessage:response.description];
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(task, error);
                                           return;

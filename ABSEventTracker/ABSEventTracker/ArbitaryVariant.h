@@ -1,10 +1,16 @@
 //
 //  TimeVariant.h
-//  EventAnalytics
-//
-//  Created by Benjoe Vidal on 29/06/2017.
-//  Copyright © 2017 ABS-CBN. All rights reserved.
-//
+/**********************************************************************
+ **                                                                  **
+ **                                                                  **
+ **                        ABSEventTracker                           **
+ **                   Created by Benjoe Vidal                        **
+ **          Copyright © 2017 ABS-CBN. All rights reserved.          **
+ **                                                                  **
+ **                                                                  **
+ **                                                                  **
+ **********************************************************************
+ */
 #import <Foundation/Foundation.h>
 
 @class ArbitaryBuilder;

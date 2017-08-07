@@ -8,8 +8,10 @@
 
 #import "EventAttributes.h"
 @implementation EventAttributes
+
 -(instancetype) initWithBuilder:(EventBuilder *)builder{
     if (self = [super init]) {
+        
         _clickedContent         = builder.clickedContent;
         _searchQuery            = builder.searchQuery;
         _actionTaken            = builder.actionTaken;
@@ -76,9 +78,7 @@
     return [[EventAttributes alloc] initWithBuilder:builder];
 }
 -(instancetype) build{
-    
     EventBuilder *builder = [EventBuilder new];
-    
     return [self initWithBuilder:builder];
 }
 

@@ -1,4 +1,4 @@
-//
+
 //  ABSBigDataServiceDispatcher.m
 //  EventApp
 //
@@ -24,16 +24,28 @@
 @implementation ABSBigDataServiceDispatcher
 +(void) requestToken: (void (^)(NSString *token))handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    /*
+     * Getting Digital property host url to be used in request header - @host
+     */
     NSDictionary *header = @{@"Origin":host};
-    NSLog(@"dumaansatoken");
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                NSLog(@"tokunresponse %@", responseObject);
+                /*
+                 * Getting server token from the response
+                 */
                 NSString *token = responseObject[@"token"];
                 handler(token);
+                /*
+                 * Store server token into NSUserDefault
+                 */
                 [AuthManager storeTokenToUserDefault:token];
+                /*
+                 * Store token expiration time into NSUserDefault
+                 */
                 [AuthManager storeTokenReceivedTimestamp:[NSDate date]];
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                NSLog(@"errurs %@", error);
+                /*
+                 * Request token failed
+                 */
                 [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
                 ]];
             }];
@@ -41,28 +53,62 @@
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
+    /*
+     * Check if server token is stored in NSUserDefault and not null
+     */
     if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
         NSDate *timeNow = [NSDate date];
+        /*
+         * Checking the current time if not exceed in the server token expiration date
+         * The server token will only last for 9 minutes
+         */
         if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
+            /*
+             * Request a new server token if the current time exceed the server token expiration timestamp
+             */
             [self requestToken:^(NSString *token) {
+                /*
+                 * Storing server token in NSUserDefault
+                 */
                 [AuthManager storeTokenToUserDefault:token];
             }];
         }else{
-            NSData *writerAttributes = [self writerAttribute:attributes];
+            /*
+             * If current time is less than than the 9 minutes expiration time allowance, dispatch attributes into the data lake
+             */
+            NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
+            /*
+             * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
+             */
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+            /*
+             * Retrieving server token to be used in request header.
+             */
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
             dispatch_async(queue, ^{
                 [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                    /*
+                     * Events successfully sent to server
+                     */
                     [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    /*
+                     * Events sending failed
+                     */
                     [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
                 }];
             });
         }
     }else{
+        /*
+         * If server token is null in NSUserdefault, request a new token
+         */
         [self requestToken:^(NSString *token) {
+            /*
+             * Storing server token in NSUserDefault
+             */
             [AuthManager storeTokenToUserDefault:token];
         }];
     }
@@ -117,7 +163,7 @@
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSMutableString *resultString = [NSMutableString string];
     for (NSString* key in [obj allKeys]){
-        if ([resultString length]>0)
+        if ([resultString length] > 0)
             [resultString appendString:@"&"];
         [resultString appendFormat:@"%@=%@", key, [obj objectForKey:key]];
     }

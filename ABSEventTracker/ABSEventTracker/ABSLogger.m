@@ -19,6 +19,7 @@
     return shared;
 }
 
+
 -(NSString*) Message{
     return [NSString stringWithFormat:@"ABSEventLibrary: %@", message];
 }
