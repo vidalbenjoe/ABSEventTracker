@@ -22,7 +22,7 @@
 #import "DeviceInfo.h"
 
 @implementation ABSBigDataServiceDispatcher
-+(void) requestToken: (void (^)(NSString *token))handler{
++(void) requestToken: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     /*
      * Getting Digital property host url to be used in request header - @host
@@ -74,7 +74,7 @@
             }];
         }else{
             /*
-             * If current time is less than than the 9 minutes expiration time allowance, dispatch attributes into the data lake
+             * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
              */
             NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
             /*
@@ -137,7 +137,6 @@
                                      @"Origin":host};
             [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 [CacheManager removeCachedAttributeByFirstIndex];
-                NSLog(@"request response: %@", responseObject);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [CacheManager storeFailedAttributesToCacheManager:attributes];
             }];
@@ -176,13 +175,17 @@
     }];
 }
 
+/*!
+ * This method returns a consolidated attributes that will be used for sending event data into the datalake.
+ * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
+ */
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
     
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.state];
-    NSString *videoSize = @"size";
+    NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                  userID , @"GigyaID",
                                                  ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -251,8 +254,7 @@
                                                  ObjectOrNull(attributes.videoattributes.videoURL) , @"VideoURL",
                                                  ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoVolume]) , @"VideoVolume",
                                                  ObjectOrNull(videoSize) , @"VideoSize", nil];
-    
-    
+
     NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
     NSData *body = [NSJSONSerialization dataWithJSONObject:aray
                                                    options:kNilOptions

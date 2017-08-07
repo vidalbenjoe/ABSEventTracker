@@ -11,7 +11,13 @@
 #import "ArbitaryVariant.h"
 @interface ABSBigDataServiceDispatcher : NSObject
 
+/*!
+ * Method for requesting server token. This method will return the server token via block(handler)
+ */
 +(void) requestToken: (void (^)(NSString *token))handler;
+/*!
+ * Method for event attributes dispatcher. This method is responsible for sending events attributes into the data lake.
+ */
 +(void) dispatchAttribute:(AttributeManager *) attributes;
 
 @end
