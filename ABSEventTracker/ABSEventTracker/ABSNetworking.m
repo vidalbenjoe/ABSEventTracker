@@ -53,6 +53,8 @@ NSURLSessionConfiguration *sessionConfiguration;
     [task resume];
 }
 
+
+
 /*
  * Method: POST
  * This post method is used for sending a string objects into server through NSURLSession
