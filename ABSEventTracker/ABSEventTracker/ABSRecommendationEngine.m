@@ -71,20 +71,19 @@
     AttributeManager *attrib = [AttributeManager init];
     NSMutableArray *userToItemArr = [[NSMutableArray alloc] init];
     NSMutableDictionary *usertoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           attrib.deviceinvariant.deviceFingerprint , @"FingerPrintId",
-                                           attrib.propertyinvariant.applicationName , @"SiteDomain",
-                                           @"1" , @"IsReco",
-                                           @"2" , @"RecoType",
-                                           attrib.userattributes.gigyaID  , @"GigyaID",
+                                           attrib.userattributes.gigyaID , @"userID",
                                            eventsource.property , @"RecoPropertyId",nil];
+    
     NSData *body = [NSJSONSerialization dataWithJSONObject:usertoitemDict
                                                        options:0
                                                          error:nil];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     dispatch_async(queue, ^{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,recommendationUserToItem]];
-        NSDictionary *header = @{@"Content-Type" : @"application/json"};
+        NSDictionary *header = @{@"Content-Type" : @"application/json", @"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        
         [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSLog(@"requestUserToItem: %@", [responseObject description]);
             [userToItemArr addObject:responseObject];
