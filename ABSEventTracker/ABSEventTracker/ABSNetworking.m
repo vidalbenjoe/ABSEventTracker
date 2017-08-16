@@ -34,7 +34,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                    timeoutInterval:60.0];
     [requestBody setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
+    __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       [ABSNetworking HTTPerrorLogger:respHttp];
@@ -60,7 +60,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
+    __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       [ABSNetworking HTTPerrorLogger:respHttp];
@@ -145,7 +145,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
-    NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         if (respHttp.statusCode != SUCCESS) {
             [ABSNetworking HTTPerrorLogger:respHttp];

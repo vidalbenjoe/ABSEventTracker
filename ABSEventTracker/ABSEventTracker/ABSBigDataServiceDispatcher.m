@@ -60,7 +60,7 @@
         NSDate *timeNow = [NSDate date];
         /*
          * Checking the current time if not exceed in the server token expiration date
-         * The server token will only last for 9 minutes
+         * The server token will last for 9 minutes
          */
         if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
             /*

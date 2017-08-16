@@ -15,7 +15,7 @@
 #define INVALID_ID          @"com.invalid"
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
-#define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   2
+#define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   10
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)   9
 
 //{"host":"www.skyondemand.com.ph"},

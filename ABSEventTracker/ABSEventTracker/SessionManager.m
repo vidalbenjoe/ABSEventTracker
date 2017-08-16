@@ -21,12 +21,13 @@
     });
     return shared;
 }
-
+// Establish a session
 -(void) establish{
     [self updateSessionID];
     [self updateSessionTime];
 }
 
+// Update the session
 -(void) update{
     [self updateSession];
 }
