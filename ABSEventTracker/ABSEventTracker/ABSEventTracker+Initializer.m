@@ -44,7 +44,7 @@
                     [self initAppProperty:digitalProperty];
         [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
             
-            EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+            __block EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                 NSLog(@"initAttrib: %ld", (long)attrib.actionTaken);
                 // set Event action into LOAD
                 [builder setActionTaken:LOAD];
