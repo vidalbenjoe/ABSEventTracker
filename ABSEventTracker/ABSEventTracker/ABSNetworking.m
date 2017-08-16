@@ -25,7 +25,10 @@ NSURLSessionConfiguration *sessionConfiguration;
     });
     return shared;
 }
-
+/*
+ * Method: POST
+ * This post method is used for sending a dictionary into server through NSURLSession
+ */
 -(void) POST:(NSURL *) url parameters:(NSDictionary *) params
      success:(void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
@@ -50,6 +53,10 @@ NSURLSessionConfiguration *sessionConfiguration;
     [task resume];
 }
 
+/*
+ * Method: POST
+ * This post method is used for sending a string objects into server through NSURLSession
+ */
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
@@ -74,6 +81,10 @@ NSURLSessionConfiguration *sessionConfiguration;
     [task resume];
 }
 
+/*
+ * Method: POST
+ * This post method is used for sending a string objects with multiple header into server through NSURLSession
+ */
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     for (id key in headers){
@@ -105,6 +116,10 @@ NSURLSessionConfiguration *sessionConfiguration;
     });
 }
 
+/*
+ * Method: POST
+ * This post method is used for sending json object with multiple header into server through NSURLSession
+ */
 -(void) POST:(NSURL *) url HTTPBody:(NSData *) body headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     for (id key in headers){
         id value = [headers objectForKey:key];
@@ -136,7 +151,10 @@ NSURLSessionConfiguration *sessionConfiguration;
         }] resume];
     });
 }
-
+/*
+ * Method: GET
+ * This post method is used for retrieving a data with headers from server through NSURLSession
+ */
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     for (id key in headers){
         id header = [headers objectForKey:key];

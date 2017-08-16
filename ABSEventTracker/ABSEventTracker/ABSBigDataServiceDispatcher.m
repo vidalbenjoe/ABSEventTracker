@@ -49,7 +49,6 @@
                 [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
                 ]];
             }];
-    
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
