@@ -102,7 +102,6 @@
              @(ON_IDLE)     : @"On Idle",
              @(BUFFERING)     : @"Buffering",
              @(COMPLETED)     : @"Completed",
-             
              };
 }
 

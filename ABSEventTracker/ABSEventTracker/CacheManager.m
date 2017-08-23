@@ -41,7 +41,6 @@
 
 +(NSMutableArray *) retrieveAllCacheArray{
     NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
-    
     return cache;
 }
 

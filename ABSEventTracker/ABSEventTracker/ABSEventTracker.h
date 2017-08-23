@@ -51,6 +51,5 @@
  */
 +(void) initVideoAttributes: (VideoAttributes *) attributes;
 
-
 @end
 

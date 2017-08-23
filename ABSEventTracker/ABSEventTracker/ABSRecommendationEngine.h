@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AttributeManager.h"
 @interface ABSRecommendationEngine : NSObject
-@property(nonatomic) AttributeManager *attributesManager;
 
 +(NSMutableArray *) recommendationPopular;
 +(NSMutableArray *) recommendationItemToItem;

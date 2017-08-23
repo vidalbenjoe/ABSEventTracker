@@ -10,7 +10,8 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL        = @"http://52.179.191.208";
+NSString* const eventAppsBaseURL        = @"http://10.180.10.52:8085"; // Event
+NSString* const recoURL        = @"http://10.180.10.52:8088";
 NSString* const eventTokenURL           = @"/oauth";
 NSString* const eventWriteURL           = @"/event";
 

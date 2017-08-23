@@ -5,9 +5,6 @@
 //  Created by Benjoe Vidal on 07/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 
-
-//
-
 #import "ABSBigDataServiceDispatcher.h"
 #import "Constant.h"
 #import "HTTPCallBack.h"
@@ -28,12 +25,14 @@
      * Getting Digital property host url to be used in request header - @host
      */
     NSDictionary *header = @{@"Origin":host};
-            [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+    
+            [networking GET:eventAppsBaseURL path:@"" headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Getting server token from the response
                  */
                 NSString *token = responseObject[@"token"];
                 handler(token);
+                NSLog(@"tuks: %@", token);
                 /*
                  * Store server token into NSUserDefault
                  */
@@ -46,6 +45,7 @@
                 /*
                  * Request token failed
                  */
+                NSLog(@"error getting token");
                 [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
                 ]];
             }];
@@ -58,47 +58,25 @@
     if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
         NSDate *timeNow = [NSDate date];
         /*
-         * Checking the current time if not exceed in the server token expiration date
+         * Checking the current time if not exceed the server token expiration date
          * The server token will last for 9 minutes
          */
         if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
             /*
-             * Request a new server token if the current time exceed the server token expiration timestamp
+             * Request a new server token if the current time exceeded the server token expiration timestamp
              */
             [self requestToken:^(NSString *token) {
                 /*
                  * Storing server token in NSUserDefault
                  */
                 [AuthManager storeTokenToUserDefault:token];
+                [self dispatcher:attributes];
             }];
         }else{
             /*
              * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
              */
-            NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
-            /*
-             * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
-             */
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-            /*
-             * Retrieving server token to be used in request header.
-             */
-            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-            dispatch_async(queue, ^{
-                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    /*
-                     * Events successfully sent to server
-                     */
-                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    /*
-                     * Events sending failed
-                     */
-                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
-                }];
-            });
+            [self dispatcher:attributes];
         }
     }else{
         /*
@@ -111,6 +89,34 @@
             [AuthManager storeTokenToUserDefault:token];
         }];
     }
+}
+
+
++(void) dispatcher:(AttributeManager *) attributes{
+    NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
+    /*
+     * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
+     */
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    /*
+     * Retrieving server token to be used in request header.
+     */
+    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            /*
+             * Events successfully sent to server
+             */
+            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            /*
+             * Events sending failed
+             */
+            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+        }];
+    });
 }
 
 +(void) performQueueForCachedAttributes{
@@ -126,12 +132,15 @@
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+            
             NSMutableString *resultString = [NSMutableString string];
+            
             for (NSString* key in [attributes allKeys]){
                 if ([resultString length]>0)
                     [resultString appendString:@"&"];
                 [resultString appendFormat:@"%@=%@", key, [attributes objectForKey:key]];
             }
+            
             NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
                                      @"Origin":host};
             [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
