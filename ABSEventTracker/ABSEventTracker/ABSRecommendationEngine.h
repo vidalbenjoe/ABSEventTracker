@@ -10,7 +10,8 @@
 @interface ABSRecommendationEngine : NSObject
 
 +(NSMutableArray *) recommendationPopular;
-+(NSMutableArray *) recommendationItemToItem;
++(NSArray *) recommendationItemToItem;
++(void) recommendation:(void (^)(id itemToItem)) itemToitem;
 +(NSMutableArray *) recommendationUserToItem;
 +(NSMutableArray *) recommendationCommunityToItem;
 

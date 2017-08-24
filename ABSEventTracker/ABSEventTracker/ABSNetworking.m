@@ -47,7 +47,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_async(queue, ^{
         __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-                            [ABSNetworking HTTPerrorLogger:respHttp];
+                            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
                             [[ABSLogger initialize] setMessage:response.description];
                                 if (respHttp.statusCode != SUCCESS) {
                                  errorHandler(task, error);
@@ -89,7 +89,7 @@ NSURLSessionConfiguration *sessionConfiguration;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             successHandler(nil, dictionary);
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            [ABSNetworking HTTPerrorLogger:respHttp];
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -122,15 +122,15 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            [ABSNetworking HTTPerrorLogger:respHttp];
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
             }
-                if ([NSJSONSerialization isValidJSONObject:data]) {
+            NSLog(@"datanil %@", data);
+                if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
                     NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     successHandler(nil, dictionary);
-                    NSLog(@"valid data");
                 }else{
                     NSString* returnedString = [[[[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                         stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
@@ -149,10 +149,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                     if (!error) {
                         successHandler(nil, dictionary);
                     }
-                    
-                    NSLog(@"returnedString: %@", returnedString);
-//                    successHandler(nil, dictionary);
-                    NSLog(@"JSONString: %@", dictionary);
                 }
         }] resume];
     });
@@ -174,7 +170,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-         [ABSNetworking HTTPerrorLogger:respHttp];
+        [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);
             return;

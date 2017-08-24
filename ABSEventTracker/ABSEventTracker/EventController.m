@@ -67,7 +67,7 @@ BOOL hasInitialized = false;
 }
 
 #pragma mark - Item to item
-+(NSMutableArray*) readItemToItemRecommendation{
++(NSArray*) readItemToItemRecommendation{
     return [ABSRecommendationEngine recommendationItemToItem];
 }
 

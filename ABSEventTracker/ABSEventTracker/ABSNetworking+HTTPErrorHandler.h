@@ -10,5 +10,5 @@
 #import "HTTPCallBack.h"
 #import "ABSBigDataServiceDispatcher.h"
 @interface ABSNetworking (HTTPErrorHandler)<HTTPCallBack>
-+(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp;
++(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp service:(NSString *) request;
 @end

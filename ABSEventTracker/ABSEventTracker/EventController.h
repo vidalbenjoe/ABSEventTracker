@@ -21,7 +21,7 @@
 +(void) writeEvent:(EventAttributes *) attributes;
 +(void) writeVideoAttributes:(VideoAttributes *) attributes;
 +(NSMutableArray*) readPopularRecommendation;
-+(NSMutableArray*) readItemToItemRecommendation;
++(NSArray*) readItemToItemRecommendation;
 +(NSMutableArray*) readUserToItemRecommendation;
 +(NSMutableArray*) readCommunityToItemRecommendation;
 @end

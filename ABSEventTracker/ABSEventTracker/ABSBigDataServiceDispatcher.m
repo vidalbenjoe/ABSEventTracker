@@ -97,7 +97,7 @@
     /*
      * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
      */
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://52.179.191.208%@",eventWriteURL]];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     /*
      * Retrieving server token to be used in request header.
