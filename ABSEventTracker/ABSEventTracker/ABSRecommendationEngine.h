@@ -9,10 +9,8 @@
 #import <Foundation/Foundation.h>
 @interface ABSRecommendationEngine : NSObject
 
-+(NSMutableArray *) recommendationPopular;
-+(NSArray *) recommendationItemToItem;
-+(void) recommendation:(void (^)(id itemToItem)) itemToitem;
-+(NSMutableArray *) recommendationUserToItem;
-+(NSMutableArray *) recommendationCommunityToItem;
++(void) recommendationItem:(void (^)(id itemToItem)) itemToitem;
++(void) recommendationUser:(void (^)(id userToItem)) userToitem;
+
 
 @end

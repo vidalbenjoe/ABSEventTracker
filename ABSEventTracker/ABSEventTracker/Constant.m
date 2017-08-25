@@ -11,16 +11,14 @@
 @implementation Constant
 
 NSString* const eventAppsBaseURL        = @"http://10.180.10.52:8085"; // Event
-NSString* const recoURL        = @"http://10.180.10.52:8088";
 NSString* const eventTokenURL           = @"/oauth";
 NSString* const eventWriteURL           = @"/event";
 
 NSString* const recommendationPopular           = @"/api/recommendation/popular";    //GET
-NSString* const recommendationUserToItem        = @"/api/recommendation/usertoitemtest"; //POST
-NSString* const recommendationItemToItem        = @"/api/recommendation/itemtoitemtest"; //POST
+NSString* const UserToItemURL        = @"http://10.180.10.52:8089"; //POST
+NSString* const ItemToItemURL       = @"http://10.180.10.52:8088"; //POST
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
 NSString* const host                            = @"http://www.iwantv.com.ph"; //POST
-
 
 //{"host":"indraeventsapi.azurewebsites.net"},
 //{"host":"www.skyondemand.com.ph"},

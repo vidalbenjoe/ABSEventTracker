@@ -15,58 +15,8 @@
 #import "AttributeManager.h"
 @implementation ABSRecommendationEngine
 
-+(NSMutableArray *) recommendationPopular {
-    PropertyEventSource *eventsource = [PropertyEventSource init];
-    NSMutableArray *popularRecomendation = [[NSMutableArray alloc] init];
-    NSString *proprty = [PropertyEventSource convertPropertyTaken:eventsource.property];
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSDictionary *header = @{@"Authorization":[AuthManager retrieveServerTokenFromUserDefault]};
-    
-    dispatch_async(queue, ^{
-        [networking GET:eventAppsBaseURL path:[NSString stringWithFormat:@"%@?propertyID=%@",recommendationPopular, proprty] headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            [popularRecomendation addObject:responseObject];
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
-        }];
-    });
-    return popularRecomendation;
-}
 
-+(NSArray *) recommendationItemToItem{
-     NSError *error;
-     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
-//    PropertyEventSource *eventsource = [PropertyEventSource init];
-//    AttributeManager *attrib = [AttributeManager init];
-    NSMutableArray *itemtoitemArray = [NSMutableArray array];
-    NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"1" , @"recoPropertyID",
-                                           @"97743" , @"contentID",nil];
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", recoURL]];
-    
-    NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    
-    NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
-                                                   options:kNilOptions
-                                                     error:&error];
-    if (!error) {
-        dispatch_async(queue, ^{
-            [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                [itemtoitemArray addObject:responseObject];
-                NSLog(@"respoderItem: success %@", itemtoitemArray);
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                NSLog(@"respoderItem: falied");
-            }];
-        });
-    }
-    return itemtoitemArray;
-}
-
-+(void) recommendation:(void (^)(id itemToItem)) itemToitem{
++(void) recommendationItem:(void (^)(id itemToItem)) itemToitem{
     NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
@@ -75,7 +25,7 @@
                                            @"97743" , @"contentID",nil];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", recoURL]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", ItemToItemURL]];
     
     NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
     
@@ -93,63 +43,35 @@
     }
 }
 
-+(NSMutableArray *) recommendationUserToItem{
-//    PropertyEventSource *eventsource = [PropertyEventSource init];
-    AttributeManager *attrib = [AttributeManager init];
-    NSMutableArray *userToItemArr = [[NSMutableArray alloc] init];
-    NSMutableDictionary *usertoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           attrib.userattributes.gigyaID , @"userID",
-                                           @"1", @"RecoPropertyId",nil];
-    
-    NSData *body = [NSJSONSerialization dataWithJSONObject:usertoitemDict
-                                                       options:0
-                                                         error:nil];
-    
++(void) recommendationUser:(void (^)(id userToItem)) userToitem{
+    NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    dispatch_async(queue, ^{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,recommendationUserToItem]];
-        NSDictionary *header = @{@"Content-Type" : @"application/json", @"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        
-        [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSLog(@"requestUserToItem: %@", [responseObject description]);
-            [userToItemArr addObject:responseObject];
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
-        }];
-    });
     
-    return userToItemArr;
+    NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           @"ff9ef55f-3286-48fd-8b03-c09d91ab8b57" , @"userID",
+                                           @"1" , @"recoPropertyID",nil];
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", UserToItemURL]];
+    
+    NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    
+    NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
+                                                   options:kNilOptions
+                                                     error:&error];
+    if (!error) {
+        dispatch_async(queue, ^{
+            [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                userToitem(responseObject);
+                NSLog(@"handleuser:%@", error);
+            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                NSLog(@"errorUser:%@", error);
+            }];
+        });
+    }
 }
 
-+(NSMutableArray *) recommendationCommunityToItem{
-    PropertyEventSource *eventsource = [PropertyEventSource init];
-    AttributeManager *attrib = [AttributeManager init];
-    NSMutableArray *userToItemArr = [[NSMutableArray alloc] init];
-    NSMutableDictionary *usertoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           attrib.deviceinvariant.deviceFingerprint , @"FingerPrintId",
-                                           attrib.propertyinvariant.applicationName , @"SiteDomain",
-                                           @"1" , @"IsReco",
-                                           @"4" , @"RecoType",
-                                           attrib.userattributes.gigyaID  , @"GigyaID",
-                                           eventsource.property , @"RecoPropertyId",nil];
-    NSData *body = [NSJSONSerialization dataWithJSONObject:usertoitemDict
-                                                       options:0
-                                                         error:nil];
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    dispatch_async(queue, ^{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,recommendationCommunityToItem]];
-        NSDictionary *header = @{@"Content-Type" : @"application/json"};
-        [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSLog(@"requestUserToItem: %@", [responseObject description]);
-            [userToItemArr addObject:responseObject];
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
-        }];
-    });
-    
-    return userToItemArr;
-}
+
+
 
 @end

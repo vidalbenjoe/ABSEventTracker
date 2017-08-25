@@ -123,19 +123,17 @@ NSURLSessionConfiguration *sessionConfiguration;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
+            
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
             }
-            NSLog(@"datanil %@", data);
                 if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
                     NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     successHandler(nil, dictionary);
                 }else{
-                    NSString* returnedString = [[[[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
+                    NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                         stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
-                        stringByReplacingOccurrencesOfString:@"\t" withString:@""]
-                        stringByReplacingOccurrencesOfString:@"\0" withString:@""]
                         stringByReplacingOccurrencesOfString:@" " withString:@""];
                     
                     NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
@@ -145,7 +143,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                     NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
         
                     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-            
                     if (!error) {
                         successHandler(nil, dictionary);
                     }

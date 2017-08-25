@@ -17,12 +17,10 @@
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   10
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)   9
-
 //{"host":"www.skyondemand.com.ph"},
 //{"host":"www.onemusic.ph"},
 //{"host":"www.iwantv.com.ph"},
 //{"host":"noink.abs-cbn.com"},
-
 
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
@@ -30,11 +28,9 @@ extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
 
-extern NSString* const recoURL;
-
 extern NSString* const recommendationPopular;
-extern NSString* const recommendationUserToItem;
-extern NSString* const recommendationItemToItem;
+extern NSString* const UserToItemURL;
+extern NSString* const ItemToItemURL;
 extern NSString* const recommendationCommunityToItem;
 extern NSString* const host;
 

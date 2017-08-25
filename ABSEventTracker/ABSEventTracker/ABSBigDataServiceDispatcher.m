@@ -91,13 +91,12 @@
     }
 }
 
-
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
     /*
      * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
      */
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://52.179.191.208%@",eventWriteURL]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://52.179.191.2082%@",eventWriteURL]];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     /*
      * Retrieving server token to be used in request header.
@@ -114,6 +113,10 @@
             /*
              * Events sending failed
              */
+            NSMutableDictionary *cache = [NSJSONSerialization JSONObjectWithData:writerAttributes options:0 error:&error];
+            NSLog(@"nagerror ulit");
+            NSLog(@"cachedAtri: %@", cache);
+            [CacheManager storeFailedAttributesToCacheManager:cache];
             [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
         }];
     });
@@ -165,7 +168,7 @@
     }
 }
 
-+(void)dispatchCachedAttributes:(id)obj{
++(void)dispatchCachedAttributes:(id) obj {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSMutableString *resultString = [NSMutableString string];
@@ -191,7 +194,6 @@
     NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
-    
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.state];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:

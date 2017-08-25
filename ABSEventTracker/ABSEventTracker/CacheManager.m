@@ -13,7 +13,7 @@
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes{
     NSError *error;
     if (![[NSFileManager defaultManager] fileExistsAtPath: [self cachePath]]){
-        NSString *bundle = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"plist"];
+        NSString *bundle = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
         [[NSFileManager defaultManager] copyItemAtPath:bundle toPath:[self cachePath] error:&error];
     }
     NSMutableArray *cachedList = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
@@ -72,7 +72,7 @@
 +(NSString*) cachePath{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"info.plist"];
+    NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"Info.plist"];
     return plistPath;
 }
 
