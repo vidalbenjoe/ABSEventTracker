@@ -63,7 +63,7 @@
             }];
             // Write LOAD action to to server.
             [ABSEventTracker initEventAttributes:attrib];
-            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+//            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
         }];
         
     });

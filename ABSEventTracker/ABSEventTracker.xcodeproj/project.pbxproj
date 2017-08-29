@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		1B1E40D11F46A377002A8410 /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B6D805D1F553B0A00AC02BD /* ItemToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B6D805B1F553B0A00AC02BD /* ItemToItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B6D805E1F553B0A00AC02BD /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6D805C1F553B0A00AC02BD /* ItemToItem.m */; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
 		8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* AuthManager.m */; };
@@ -79,6 +81,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B6D805B1F553B0A00AC02BD /* ItemToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemToItem.h; sourceTree = "<group>"; };
+		1B6D805C1F553B0A00AC02BD /* ItemToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemToItem.m; sourceTree = "<group>"; };
 		8628DB0E1F1F293200DCDB22 /* ABSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSLogger.h; sourceTree = "<group>"; };
 		8628DB0F1F1F293200DCDB22 /* ABSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSLogger.m; sourceTree = "<group>"; };
 		8645B77B1F04F51B00F21735 /* libABSEventTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libABSEventTracker.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +333,8 @@
 			children = (
 				8661CC571F0E3A4A006D7A1D /* Popular.h */,
 				8661CC581F0E3A4A006D7A1D /* Popular.m */,
+				1B6D805B1F553B0A00AC02BD /* ItemToItem.h */,
+				1B6D805C1F553B0A00AC02BD /* ItemToItem.m */,
 			);
 			name = Recommendation;
 			sourceTree = "<group>";
@@ -353,6 +359,7 @@
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
+				1B6D805D1F553B0A00AC02BD /* ItemToItem.h in Headers */,
 				1B1E40D11F46A377002A8410 /* ABSRecommendationEngine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,6 +462,7 @@
 				8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */,
 				8645B7C51F04F96B00F21735 /* AttributeWriter.m in Sources */,
 				8645B7DB1F04FBD800F21735 /* CacheManager.m in Sources */,
+				1B6D805E1F553B0A00AC02BD /* ItemToItem.m in Sources */,
 				8645B7B71F04F86500F21735 /* FormatUtils.m in Sources */,
 				8645B7F31F05001B00F21735 /* PropertyEventSource.m in Sources */,
 				8645B7BD1F04F8FF00F21735 /* DeviceFingerprinting.m in Sources */,

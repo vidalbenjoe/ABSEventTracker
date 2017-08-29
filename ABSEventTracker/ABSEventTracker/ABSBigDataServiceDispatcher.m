@@ -114,11 +114,7 @@
              * Events sending failed
              */
             NSMutableDictionary *cache = [NSJSONSerialization JSONObjectWithData:writerAttributes options:0 error:&error];
-            NSLog(@"cachingerro : %@", cache);
             [CacheManager storeFailedAttributesToCacheManager:cache];
-            NSLog(@"retrieveerror : %@", [CacheManager retrieveAllFailedAttributesFromCache]);
-            NSLog(@"retrieveerrorindex : %@", [CacheManager retrieveFailedAttributesFromCacheByIndex]);
-            NSLog(@"retrieveerrorArray : %@", [CacheManager retrieveAllCacheArray]);
             [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
         }];
     });
@@ -164,7 +160,6 @@
         }
     }
 }
-
 
 /*!
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.

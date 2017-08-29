@@ -11,12 +11,10 @@
 #import "ABSNetworking.h"
 #import "AuthManager.h"
 #import "PropertyEventSource.h"
-#import "Popular.h"
 #import "AttributeManager.h"
 @implementation ABSRecommendationEngine
 
-
-+(void) recommendationItem:(void (^)(id itemToItem)) itemToitem{
++(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem{
     NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
@@ -32,10 +30,12 @@
     NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
                                                    options:kNilOptions
                                                      error:&error];
+    NSLog(@"error: %@", error);
     if (!error) {
         dispatch_async(queue, ^{
             [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                itemToitem(responseObject);
+                ItemToItem *item = [[ItemToItem alloc] initWithDictionary:responseObject];
+                    itemToitem(item);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
               
             }];
@@ -43,7 +43,7 @@
     }
 }
 
-+(void) recommendationUser:(void (^)(id userToItem)) userToitem{
++(void) recommendationUser:(void (^)(ItemToItem *userToItem)) userToitem{
     NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
@@ -63,12 +63,14 @@
         dispatch_async(queue, ^{
             [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 userToitem(responseObject);
+                
                 NSLog(@"handleuser:%@", error);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"errorUser:%@", error);
             }];
         });
     }
+//    https://stackoverflow.com/questions/21329793/how-to-convert-nsdictionary-to-custom-object
 }
 
 

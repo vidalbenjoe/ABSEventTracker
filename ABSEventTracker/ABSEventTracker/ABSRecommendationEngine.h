@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ItemToItem.h"
 @interface ABSRecommendationEngine : NSObject
 
-+(void) recommendationItem:(void (^)(id itemToItem)) itemToitem;
-+(void) recommendationUser:(void (^)(id userToItem)) userToitem;
++(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem;
++(void) recommendationUser:(void (^)(ItemToItem *userToItem)) userToitem;
 
 
 @end
