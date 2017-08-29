@@ -19,5 +19,5 @@
  * Method for event attributes dispatcher. This method is responsible for sending events attributes into the data lake.
  */
 +(void) dispatchAttribute:(AttributeManager *) attributes;
-
++(void) dispatchCachedAttributes;
 @end

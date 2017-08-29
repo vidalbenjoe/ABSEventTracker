@@ -23,9 +23,9 @@
     [cachedList addObject:attributes];
     BOOL success = [cachedList writeToFile:[self cachePath] atomically: YES];
     if (success) {
-        NSLog(@"Failed server response cached!");
+        NSLog(@"The failed attributes has been cached!");
     }else{
-        NSLog(@"Failed to save cache");
+        NSLog(@"Failed to cache attributes");
     }
 }
 
@@ -37,7 +37,6 @@
     }
     return attributes;
 }
-
 
 +(NSMutableArray *) retrieveAllCacheArray{
     NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
@@ -64,7 +63,6 @@
     NSError *error;
     if(![[NSFileManager defaultManager] removeItemAtPath:[self cachePath] error:&error])
     {
-        
         //TODO: Handle/Log error
     }
 }
@@ -73,6 +71,8 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"Info.plist"];
+    
+    NSLog(@"documentsDirectory %@",documentsDirectory);
     return plistPath;
 }
 

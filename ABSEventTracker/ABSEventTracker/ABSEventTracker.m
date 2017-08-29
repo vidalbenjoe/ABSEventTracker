@@ -15,7 +15,7 @@
 #import "Constant.h"
 #import "EventController.h"
 #import "DeviceInfo.h"
-
+#import "CacheManager.h"
 @implementation ABSEventTracker
 
 +(ABSEventTracker *) initializeTracker{
@@ -54,6 +54,7 @@
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
         
+        
         [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
             NSLog(@"initTOken: %@", token);
             EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
@@ -62,6 +63,7 @@
             }];
             // Write LOAD action to to server.
             [ABSEventTracker initEventAttributes:attrib];
+            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
         }];
         
     });

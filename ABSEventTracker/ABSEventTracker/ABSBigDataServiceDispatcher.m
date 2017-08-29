@@ -59,7 +59,7 @@
         NSDate *timeNow = [NSDate date];
         /*
          * Checking the current time if not exceed the server token expiration date
-         * The server token will last for 9 minutes
+         * The server token will last for 9 minutes.
          */
         if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
             /*
@@ -114,15 +114,17 @@
              * Events sending failed
              */
             NSMutableDictionary *cache = [NSJSONSerialization JSONObjectWithData:writerAttributes options:0 error:&error];
-            NSLog(@"nagerror ulit");
-            NSLog(@"cachedAtri: %@", cache);
+            NSLog(@"cachingerro : %@", cache);
             [CacheManager storeFailedAttributesToCacheManager:cache];
+            NSLog(@"retrieveerror : %@", [CacheManager retrieveAllFailedAttributesFromCache]);
+            NSLog(@"retrieveerrorindex : %@", [CacheManager retrieveFailedAttributesFromCacheByIndex]);
+            NSLog(@"retrieveerrorArray : %@", [CacheManager retrieveAllCacheArray]);
             [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
         }];
     });
 }
 
-+(void) performQueueForCachedAttributes{
++(void) dispatchCachedAttributes{
     if ([[CacheManager retrieveAllCacheArray] count] > 0) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
         // Loop cached array and add to queue
@@ -133,20 +135,15 @@
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://eventsapi.bigdata.abs-cbn.com/%@",eventWriteURL]];
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-            
-            NSMutableString *resultString = [NSMutableString string];
-            
-            for (NSString* key in [attributes allKeys]){
-                if ([resultString length]>0)
-                    [resultString appendString:@"&"];
-                [resultString appendFormat:@"%@=%@", key, [attributes objectForKey:key]];
-            }
             
             NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
                                      @"Origin":host};
-            [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            
+            NSData *data = [NSJSONSerialization dataWithJSONObject:attributes options:0 error:0];
+            
+            [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 [CacheManager removeCachedAttributeByFirstIndex];
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 [CacheManager storeFailedAttributesToCacheManager:attributes];
@@ -168,23 +165,6 @@
     }
 }
 
-+(void)dispatchCachedAttributes:(id) obj {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventWriteURL]];
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSMutableString *resultString = [NSMutableString string];
-    for (NSString* key in [obj allKeys]){
-        if ([resultString length] > 0)
-            [resultString appendString:@"&"];
-        [resultString appendFormat:@"%@=%@", key, [obj objectForKey:key]];
-    }
-    NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
-                             @"Origin":host};
-    [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-        [CacheManager removeCachedAttributeByFirstIndex];
-    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-        [CacheManager storeFailedAttributesToCacheManager:obj];
-    }];
-}
 
 /*!
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
