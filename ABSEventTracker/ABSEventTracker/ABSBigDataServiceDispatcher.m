@@ -153,6 +153,7 @@
                 //This is another way of catching the Custom Operation completition.
                 //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
             };
+            
             [blockCompletionOperation addDependency:customOperation];
             [operationQueue addOperation:customOperation];
 //            [customOperation start];

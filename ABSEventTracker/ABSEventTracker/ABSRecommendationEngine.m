@@ -70,7 +70,6 @@
             }];
         });
     }
-//    https://stackoverflow.com/questions/21329793/how-to-convert-nsdictionary-to-custom-object
 }
 
 
