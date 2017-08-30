@@ -59,8 +59,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                             }];
         [task resume];
     });
-    
-    
 }
 
 /*
@@ -163,7 +161,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", url]]];
     request.HTTPMethod = @"GET";
-    
     
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;

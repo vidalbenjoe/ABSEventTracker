@@ -11,11 +11,10 @@
 @interface Popular : NSObject
 
 @property (nonatomic, strong) NSString *contentSubID;
-@property (nonatomic) double rating;
+@property (nonatomic) double ratings;
 @property (nonatomic, strong) NSString *contentName;
 @property (nonatomic, strong) NSString *contentCategorySubID;
 @property (nonatomic, strong) NSString *contentCategoryName;
 
-
-
+-(instancetype) initWithDictionary:(NSDictionary *) item;
 @end

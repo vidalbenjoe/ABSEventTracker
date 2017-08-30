@@ -43,7 +43,7 @@
     }
 }
 
-+(void) recommendationUser:(void (^)(ItemToItem *userToItem)) userToitem{
++(void) recommendationUser:(void (^)(UserToItem *userToItem)) userToitem{
     NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
@@ -62,8 +62,8 @@
     if (!error) {
         dispatch_async(queue, ^{
             [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                userToitem(responseObject);
-                
+                UserToItem *item = [[UserToItem alloc] initWithDictionary:responseObject];
+                userToitem(item);
                 NSLog(@"handleuser:%@", error);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"errorUser:%@", error);

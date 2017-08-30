@@ -23,8 +23,10 @@
 
 /* Begin PBXBuildFile section */
 		1B1E40D11F46A377002A8410 /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B6D805D1F553B0A00AC02BD /* ItemToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B6D805B1F553B0A00AC02BD /* ItemToItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B6D805E1F553B0A00AC02BD /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6D805C1F553B0A00AC02BD /* ItemToItem.m */; };
+		1BF8CDF81F56669C00B0C70F /* ItemToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF8CDF61F56669C00B0C70F /* ItemToItem.h */; };
+		1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDF71F56669C00B0C70F /* ItemToItem.m */; };
+		1BF8CDFC1F5679AE00B0C70F /* UserToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */; };
+		1BF8CDFD1F5679AE00B0C70F /* UserToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
 		8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* AuthManager.m */; };
@@ -81,8 +83,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1B6D805B1F553B0A00AC02BD /* ItemToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemToItem.h; sourceTree = "<group>"; };
-		1B6D805C1F553B0A00AC02BD /* ItemToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemToItem.m; sourceTree = "<group>"; };
+		1BF8CDF61F56669C00B0C70F /* ItemToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemToItem.h; sourceTree = "<group>"; };
+		1BF8CDF71F56669C00B0C70F /* ItemToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemToItem.m; sourceTree = "<group>"; };
+		1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserToItem.h; sourceTree = "<group>"; };
+		1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserToItem.m; sourceTree = "<group>"; };
 		8628DB0E1F1F293200DCDB22 /* ABSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSLogger.h; sourceTree = "<group>"; };
 		8628DB0F1F1F293200DCDB22 /* ABSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSLogger.m; sourceTree = "<group>"; };
 		8645B77B1F04F51B00F21735 /* libABSEventTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libABSEventTracker.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,10 +335,12 @@
 		8661CC561F0E3A29006D7A1D /* Recommendation */ = {
 			isa = PBXGroup;
 			children = (
+				1BF8CDF61F56669C00B0C70F /* ItemToItem.h */,
+				1BF8CDF71F56669C00B0C70F /* ItemToItem.m */,
 				8661CC571F0E3A4A006D7A1D /* Popular.h */,
 				8661CC581F0E3A4A006D7A1D /* Popular.m */,
-				1B6D805B1F553B0A00AC02BD /* ItemToItem.h */,
-				1B6D805C1F553B0A00AC02BD /* ItemToItem.m */,
+				1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */,
+				1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */,
 			);
 			name = Recommendation;
 			sourceTree = "<group>";
@@ -359,8 +365,9 @@
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
-				1B6D805D1F553B0A00AC02BD /* ItemToItem.h in Headers */,
+				1BF8CDF81F56669C00B0C70F /* ItemToItem.h in Headers */,
 				1B1E40D11F46A377002A8410 /* ABSRecommendationEngine.h in Headers */,
+				1BF8CDFC1F5679AE00B0C70F /* UserToItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +399,7 @@
 		8645B7731F04F51B00F21735 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "ABS-CBN";
 				TargetAttributes = {
 					8645B77A1F04F51B00F21735 = {
@@ -457,12 +464,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */,
 				8645B7ED1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
 				8645B7D41F04FA8F00F21735 /* SessionManager+SessionRule.m in Sources */,
 				8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */,
 				8645B7C51F04F96B00F21735 /* AttributeWriter.m in Sources */,
 				8645B7DB1F04FBD800F21735 /* CacheManager.m in Sources */,
-				1B6D805E1F553B0A00AC02BD /* ItemToItem.m in Sources */,
 				8645B7B71F04F86500F21735 /* FormatUtils.m in Sources */,
 				8645B7F31F05001B00F21735 /* PropertyEventSource.m in Sources */,
 				8645B7BD1F04F8FF00F21735 /* DeviceFingerprinting.m in Sources */,
@@ -473,6 +480,7 @@
 				8645B7C11F04F94000F21735 /* EventController.m in Sources */,
 				8645B7EA1F04FDDA00F21735 /* ABSNetworking.m in Sources */,
 				86E2AA941F135BA300B64A4A /* ABSRecommendationEngine.m in Sources */,
+				1BF8CDFD1F5679AE00B0C70F /* UserToItem.m in Sources */,
 				8645B7AA1F04F72100F21735 /* Constant.m in Sources */,
 				8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */,
 				8645B7C91F04F99F00F21735 /* EventAttributes.m in Sources */,
@@ -516,6 +524,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -563,6 +572,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
