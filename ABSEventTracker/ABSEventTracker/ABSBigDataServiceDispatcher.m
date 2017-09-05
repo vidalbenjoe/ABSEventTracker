@@ -32,7 +32,6 @@
                  */
                 NSString *token = responseObject[@"token"];
                 handler(token);
-                NSLog(@"tuks: %@", token);
                 /*
                  * Store server token into NSUserDefault
                  */

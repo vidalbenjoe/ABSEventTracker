@@ -24,8 +24,9 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         // This line will initilize all of the required attributes and entropy to be able to gather event and device related properties.
-        // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventLibrary
+        // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
+        //Checking the list of valid identifier if matched on the current BI
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
             [self initializeProperty];
@@ -183,6 +184,9 @@
 }
 
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
+    if (PLAYING) {
+        
+    }
     [EventController writeVideoAttributes:attributes];
 }
 

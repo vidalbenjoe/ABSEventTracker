@@ -11,19 +11,19 @@
 #import "ABSLogger.h"
 #pragma mark - HTTPerrorLogger
 @implementation ABSNetworking (HTTPErrorHandler)
-+(void) HTTPerrorLogger: (NSHTTPURLResponse *) respHttp service:(NSString *) request{
++(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request{
     
-    NSLog(@"HTTP-STATUS : %ld - SERVICE: %@", (long)respHttp.statusCode, request);
-    if (respHttp.statusCode == UNAUTHORIZE) {
+    NSLog(@"HTTP-STATUS : %ld - SERVICE: %@", (long)http.statusCode, request);
+    if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];
-    }else if (respHttp.statusCode== BAD_REQUEST) {
+    }else if (http.statusCode== BAD_REQUEST) {
         [[ABSLogger initialize] setMessage:@"BAD REQUEST"];
-    }else if (respHttp.statusCode == INTERNAL_SERVER_ERROR) {
+    }else if (http.statusCode == INTERNAL_SERVER_ERROR) {
          [[ABSLogger initialize] setMessage:@"INTERNAL SERVER ERROR"];
-    }else if (respHttp.statusCode == NOT_FOUND) {
+    }else if (http.statusCode == NOT_FOUND) {
         [[ABSLogger initialize] setMessage:@"SERVER NOT FOUND"];
-    }else if(respHttp.statusCode == PERMISSION_DENIED){
+    }else if(http.statusCode == PERMISSION_DENIED){
         [self onTokenRefresh];
     }
 }

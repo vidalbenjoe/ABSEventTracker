@@ -1,6 +1,5 @@
 //
 //  SessionManager+SessionRule.m
-//  EventApp
 //
 //  Created by Benjoe Vidal on 15/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
@@ -14,7 +13,6 @@
 // Updating the session id by generation a random UUID.
 -(void) updateSessionID{
     NSString *uuid = [FormatUtils randomUUID];
-    
     [self setSessionID:uuid];
 }
 // Update the session time based on the last event

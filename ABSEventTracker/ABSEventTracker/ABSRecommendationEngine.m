@@ -26,11 +26,9 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", ItemToItemURL]];
     
     NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    
     NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
                                                    options:kNilOptions
                                                      error:&error];
-    NSLog(@"error: %@", error);
     if (!error) {
         dispatch_async(queue, ^{
             [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
