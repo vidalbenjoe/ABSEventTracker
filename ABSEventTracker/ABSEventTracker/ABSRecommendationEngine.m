@@ -64,7 +64,6 @@
             [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 UserToItem *item = [[UserToItem alloc] initWithDictionary:responseObject];
                 userToitem(item);
-                NSLog(@"handleuser:%@", error);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"errorUser:%@", error);
             }];

@@ -16,16 +16,22 @@
 #import "EventController.h"
 #import "DeviceInfo.h"
 #import "CacheManager.h"
-@implementation ABSEventTracker
 
+@implementation ABSEventTracker
 +(ABSEventTracker *) initializeTracker{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         // This line will initilize all of the required attributes and entropy to be able to gather event and device related properties.
-        [self initializeProperty];
+        // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventLibrary
+        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
+        BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
+        if (isValid) {
+            [self initializeProperty];
+        }
     });
+    
     return shared;
 }
 
@@ -54,7 +60,6 @@
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
         
-        
         [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
             NSLog(@"initTOken: %@", token);
             EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
@@ -65,7 +70,6 @@
             [ABSEventTracker initEventAttributes:attrib];
 //            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
         }];
-        
     });
 }
 /**
@@ -181,6 +185,7 @@
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
     [EventController writeVideoAttributes:attributes];
 }
+
 
 
 @end

@@ -14,7 +14,7 @@
 
 @implementation DeviceInfo
 // Mobile Gestalt EquipmentInfo
-extern CFTypeRef MGCopyAnswer(CFStringRef);
+//extern CFTypeRef MGCopyAnswer(CFStringRef);
 
 +(id)sharedInstance{
     static DeviceInfo *shared = nil;

@@ -50,7 +50,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
                             [[ABSLogger initialize] setMessage:response.description];
                                 if (respHttp.statusCode != SUCCESS) {
-                                 errorHandler(task, error);
+                                    errorHandler(task, error);
                                     return;
                                 }
             
@@ -121,7 +121,6 @@ NSURLSessionConfiguration *sessionConfiguration;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
-            
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
