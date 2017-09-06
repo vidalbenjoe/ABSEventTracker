@@ -28,9 +28,11 @@
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
         //Checking the list of valid identifier if matched on the current BI
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
-        if (isValid) {
-            [self initializeProperty];
-        }
+        NSLog(@"Prop: %@",[PropertyEventSource getBundleIdentifier]);
+        [self initializeProperty];
+//        if (isValid) {
+//            [self initializeProperty];
+//        }
     });
     
     return shared;
@@ -62,7 +64,6 @@
         [self initAppProperty:digitalProperty];
         
         [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-            NSLog(@"initTOken: %@", token);
             EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                 // set Event action into LOAD
                 [builder setActionTaken:LOAD];

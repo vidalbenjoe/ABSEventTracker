@@ -24,14 +24,15 @@
     /*
      * Getting Digital property host url to be used in request header - @host
      */
-    NSDictionary *header = @{@"Origin":host};
+    NSDictionary *header = @{@"SiteDomain":@"http://ottdevapi.portal.azure-api.net"};
     
-            [networking GET:eventAppsBaseURL path:@"" headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Getting server token from the response
                  */
                 NSString *token = responseObject[@"token"];
                 handler(token);
+                NSLog(@"myToken: %@",token);
                 /*
                  * Store server token into NSUserDefault
                  */
@@ -95,7 +96,7 @@
     /*
      * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
      */
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://52.179.191.2082%@",eventWriteURL]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:eventAppsBaseURL,eventWriteURL]];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     /*
      * Retrieving server token to be used in request header.
@@ -134,7 +135,7 @@
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
             
             NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
-                                     @"Origin":host};
+                                     @"SiteDomain":@"http://ottdevapi.portal.azure-api.net"};
             
             NSData *data = [NSJSONSerialization dataWithJSONObject:attributes options:0 error:0];
             

@@ -19,7 +19,7 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"1" , @"recoPropertyID",
+                                           @"2" , @"recoPropertyID",
                                            @"97743" , @"contentID",nil];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
@@ -35,7 +35,7 @@
                 ItemToItem *item = [[ItemToItem alloc] initWithDictionary:responseObject];
                     itemToitem(item);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-              
+                 NSLog(@"errorUser:%@", error);
             }];
         });
     }

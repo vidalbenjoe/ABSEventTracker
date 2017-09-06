@@ -14,7 +14,7 @@
     if (self = [super init]) {
         self.categoryID = [item valueForKey:@"categoryID"];
         self.contentID = [item valueForKey:@"contentID"];
-        self.distance = [[item valueForKey:@"distance"] doubleValue];
+//        self.distance = [[item valueForKeyPath:@"distance"] doubleValue];
     }
     return self;
 }

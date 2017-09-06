@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #define I_WANT_TV_ID        @"com.abscbn.iwantv"
-#define TFC_ID              @"com.ph.abscbn.tfc"
+#define TFC_ID              @"com.abscbni.tfctv"
 #define SKY_ON_DEMAND_ID    @"com.abs.cbn.sky.on.demand"
 #define NEWS_ID             @"com.abs.cbn.news"
 #define EVENTAPP_ID         @"com.ph.abscbn.ios.EventApp"
@@ -17,10 +17,6 @@
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   10
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)   9
-//{"host":"www.skyondemand.com.ph"},
-//{"host":"www.onemusic.ph"},
-//{"host":"www.iwantv.com.ph"},
-//{"host":"noink.abs-cbn.com"},
 
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com

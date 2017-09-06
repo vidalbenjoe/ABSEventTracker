@@ -10,16 +10,14 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL        = @"http://10.180.10.52:8085"; // Event
+NSString* const eventAppsBaseURL        = @"http://recoengapi.bigdata.abs-cbn.com"; // Event
 NSString* const eventTokenURL           = @"/oauth";
 NSString* const eventWriteURL           = @"/event";
-
 NSString* const recommendationPopular           = @"/api/recommendation/popular";    //GET
-NSString* const UserToItemURL        = @"recoengapi.bigdata.abs-cbn.com/usertoitem"; //POST
-NSString* const ItemToItemURL       = @"ecoengapi.bigdata.abs-cbn.com/itemtoitem"; //POST
+NSString* const UserToItemURL        = @"http://recoengapi.bigdata.abs-cbn.com/usertoitem"; //POST
+NSString* const ItemToItemURL       = @"http://recoengapi.bigdata.abs-cbn.com/itemtoitem"; //POST
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
 NSString* const host                            = @"http://www.iwantv.com.ph"; //POST
-
 
 //{"host":"indraeventsapi.azurewebsites.net"},
 //{"host":"www.skyondemand.com.ph"},
