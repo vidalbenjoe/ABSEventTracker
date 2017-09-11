@@ -10,9 +10,14 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL        = @"http://recoengapi.bigdata.abs-cbn.com"; // Event
+NSString* const eventAppsBaseURL      = @"https://indraeventsapi.azurewebsites.net"; // Event
+
+NSString* const tokenURL           = @"/token";
 NSString* const eventTokenURL           = @"/oauth";
-NSString* const eventWriteURL           = @"/event";
+
+NSString* const eventWriteURL           = @"/api/event/write";
+NSString* const eventMobileResourceURL  = @"/api/event/mobiledatasource";
+
 NSString* const recommendationPopular           = @"/api/recommendation/popular";    //GET
 NSString* const UserToItemURL        = @"http://recoengapi.bigdata.abs-cbn.com/usertoitem"; //POST
 NSString* const ItemToItemURL       = @"http://recoengapi.bigdata.abs-cbn.com/itemtoitem"; //POST
@@ -38,9 +43,13 @@ NSString* const host                            = @"http://www.iwantv.com.ph"; /
 //{"host":"bigdata.onemusic.ph"},
 //{"host":"staging-dev2.abs-cbn.com"}
 
-+(NSString *) generateNewMobileHeader{
++(NSString *) generateNewMobileHeader
+{
+    
+    
     // GET bundleIdentifier
-    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\" : \"%@\"}", I_WANT_TV_ID];
+    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\":\"%@\"}", TESTER_ID];
+    
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];

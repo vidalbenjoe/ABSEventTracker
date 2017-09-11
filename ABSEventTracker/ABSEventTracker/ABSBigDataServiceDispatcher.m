@@ -19,7 +19,60 @@
 #import "DeviceInfo.h"
 
 @implementation ABSBigDataServiceDispatcher
-+(void) requestToken: (void (^)(NSString *token)) handler{
+
++(void) requestSecurityHash: (void (^)(NSString *sechash))handler{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
+        
+        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSString *sechash = responseObject[@"seccode"];
+            handler(sechash);
+            
+//            NSLog(@"MYSECTHASH %@", sechash);
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            NSLog(SECHASH_ERROR_REQUEST);
+            NSLog(@"MYSECTHASH eror");
+        }];
+    });
+}
+
++(void) requestToken: (void (^)(NSString *token))handler{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        [self requestSecurityHash:^(NSString *sechash) {
+            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+            [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+            // REQUEST TOKEN
+            NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password",sechash];
+            
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
+            
+            [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                // store the token somewhere
+                NSString *token = responseObject[@"access_token"];
+                [AuthManager storeTokenToUserDefault:token];
+                handler(token);
+                
+//                NSLog(@"MYCURTOKEN: %@", token);
+                NSDate *receivedTimestamp = [NSDate date];
+                [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                
+            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                NSLog(@"TOKEN_ERROR");
+            }];
+            
+        }];
+    });
+}
+
+
+
+/* Request token for Recommedation
+ *
+ */
++(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     /*
      * Getting Digital property host url to be used in request header - @host
@@ -50,6 +103,9 @@
                 ]];
             }];
 }
+
+
+
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     /*
@@ -92,29 +148,32 @@
 }
 
 +(void) dispatcher:(AttributeManager *) attributes{
-    NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    NSMutableDictionary *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
     /*
      * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
      */
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:eventAppsBaseURL,eventWriteURL]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     /*
      * Retrieving server token to be used in request header.
      */
-    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    
+    NSMutableString *resultString = [NSMutableString string];
+    for (NSString* key in [writerAttributes allKeys]){
+        if ([resultString length]>0)
+            [resultString appendString:@"&"];
+        [resultString appendFormat:@"%@=%@", key, [writerAttributes objectForKey:key]];
+    }
     dispatch_async(queue, ^{
-        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             /*
              * Events successfully sent to server
              */
             [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            /*
-             * Events sending failed
-             */
-            NSMutableDictionary *cache = [NSJSONSerialization JSONObjectWithData:writerAttributes options:0 error:&error];
-            [CacheManager storeFailedAttributesToCacheManager:cache];
+            [CacheManager storeFailedAttributesToCacheManager:writerAttributes];
             [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
         }];
     });
@@ -166,8 +225,8 @@
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
  * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
  */
-+(NSData *) writerAttribute:(AttributeManager *) attributes {
-    NSError *error;
++(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes {
+//    NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
@@ -244,14 +303,14 @@
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoVolume]) , @"VideoVolume",
          ObjectOrNull(videoSize) , @"VideoSize", nil];
 
-    NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
-    NSData *body = [NSJSONSerialization dataWithJSONObject:aray
-                                                   options:kNilOptions
-                                                     error:&error];
-    if(body == nil){
-        return 0;
-    }
-    return body;
+//    NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
+//    NSData *body = [NSJSONSerialization dataWithJSONObject:aray
+//                                                   options:kNilOptions
+//                                                     error:&error];
+//    if(body == nil){
+//        return 0;
+//    }
+    return attributesDictionary;
 }
 
 //

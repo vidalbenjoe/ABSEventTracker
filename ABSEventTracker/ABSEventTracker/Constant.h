@@ -13,6 +13,7 @@
 #define NEWS_ID             @"com.abs.cbn.news"
 #define EVENTAPP_ID         @"com.ph.abscbn.ios.EventApp"
 #define INVALID_ID          @"com.invalid"
+#define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   10
@@ -20,6 +21,7 @@
 
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
+extern NSString* const tokenURL;
 extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;

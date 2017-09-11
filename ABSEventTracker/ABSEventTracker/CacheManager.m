@@ -72,7 +72,7 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"Info.plist"];
     
-    NSLog(@"documentsDirectory %@",documentsDirectory);
+//    NSLog(@"documentsDirectory %@",documentsDirectory);
     return plistPath;
 }
 

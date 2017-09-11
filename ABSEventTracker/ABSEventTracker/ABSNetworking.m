@@ -61,6 +61,33 @@ NSURLSessionConfiguration *sessionConfiguration;
     });
 }
 
+
+-(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    requestBody = [[NSMutableURLRequest alloc]
+                   initWithURL:url
+                   cachePolicy: NSURLRequestReturnCacheDataElseLoad
+                   timeoutInterval:60.0];
+    [requestBody setHTTPMethod:@"POST"];
+    [requestBody setHTTPBody:[NSData dataWithBytes:
+                              [parameters UTF8String]length:strlen([parameters UTF8String])]];
+    
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
+    __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
+                                  ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                      NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+                                      NSLog(@"GETSTUKS:%@", response);
+                                      if (respHttp.statusCode != SUCCESS) {
+                                          
+                                          errorHandler(task, error);
+                                          return;
+                                      }
+                                      NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                                      successHandler(task, dictionary);
+                                  }];
+    [task resume];
+}
+
 /*
  * Method: POST
  * This post method is used for sending a string objects with multiple header into server through NSURLSession
@@ -72,6 +99,7 @@ NSURLSessionConfiguration *sessionConfiguration;
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
+    
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
                    cachePolicy: NSURLRequestReturnCacheDataElseLoad
@@ -84,6 +112,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_async(queue, ^{
+        NSLog(@"EORASF: %@", url);
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             successHandler(nil, dictionary);
@@ -114,7 +143,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                    ];
     [requestBody setHTTPBody:body];
     [requestBody setHTTPMethod:@"POST"];
-    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -129,6 +157,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                 if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
                     NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     successHandler(nil, dictionary);
+                    
                 }else{
                     NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                         stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
@@ -159,10 +188,8 @@ NSURLSessionConfiguration *sessionConfiguration;
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
     }
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", url]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
-    
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
@@ -170,8 +197,15 @@ NSURLSessionConfiguration *sessionConfiguration;
             errorHandler(datatask, error);
             return;
         }
+        
+//        NSLog(@"GETSEwCw:%@", response);
+
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+
         successHandler(datatask, dictionary);
+//        NSLog(@"GETSECw:%@", dictionary);
+
+       
     }];
     [datatask resume];
     
