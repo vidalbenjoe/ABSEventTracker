@@ -32,6 +32,6 @@
 -(void) setDeviceInvariantAttributes:(DeviceInvariant *) deviceInvariantAttributes;
 -(void) setSession:(SessionManager *)sessionAttributes;
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp;
--(void) setVideottributes:(VideoAttributes *) videoAttributes;
+-(void) setVideoAttributes:(VideoAttributes *) videoAttribute;
 @end
 

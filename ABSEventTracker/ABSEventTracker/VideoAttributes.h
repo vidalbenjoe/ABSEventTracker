@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "EventAttributes.h"
 typedef NS_ENUM(NSInteger, VideoState){
-    PLAYING    =   0,
-    PAUSED     =   1,
+    PAUSED     =   0,
+    PLAYING    =   1,
     SEEKING    =   2,
     ON_IDLE    =   3,
     BUFFERING  =   4,
@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @class VideoBuilder;
 @interface VideoAttributes : NSObject
 @property(nonatomic) ActionTaken action;
-@property(nonatomic) VideoState state;
+@property(nonatomic) VideoState videostate;
 @property(nonatomic) int videoWidth;
 @property(nonatomic) int videoHeight;
 @property(nonatomic) BOOL isVideoEnded;
@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic, copy) NSString *videoBuffer;
 
 @property(nonatomic) ActionTaken action;
-@property(nonatomic) VideoState state;
+@property(nonatomic) VideoState videostate;
 @property(nonatomic) int videoWidth;
 @property(nonatomic) int videoHeight;
 

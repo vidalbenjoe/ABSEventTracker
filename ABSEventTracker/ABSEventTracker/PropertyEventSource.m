@@ -33,7 +33,6 @@
 
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty{
     property = digitalProperty;
-    
 }
 
 +(NSDictionary *) properyTakenByName{

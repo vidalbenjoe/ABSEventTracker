@@ -11,7 +11,8 @@
 @property(nonatomic, copy) NSString *sessionID;
 @property(nonatomic, retain) NSDate *sessionStart;
 @property(nonatomic, retain) NSDate *sessionEnd;
-+(SessionManager*) init;
++(instancetype) init;
 -(void) establish;
 -(void) update;
+-(void) updateOnlySessionTime;
 @end

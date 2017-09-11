@@ -8,6 +8,7 @@
 #import "VideoAttributes.h"
 
 @implementation VideoAttributes
+
 -(instancetype) initWithBuilder:(VideoBuilder *)builder{
     if (self = [super init]) {
         _videoTimeStamp           = builder.videoTimeStamp;
@@ -24,7 +25,7 @@
         _videoBuffer              = builder.videoBuffer;
         
         _action                   = builder.action;
-        _state                    = builder.state;
+        _videostate               = builder.videostate;
         _videoWidth               = builder.videoWidth;
         _videoHeight              = builder.videoHeight;
         _isVideoEnded             = builder.isVideoEnded;
@@ -61,7 +62,7 @@
     builder.videoBuffer             = _videoBuffer;
     
     builder.action                  = _action;
-    builder.state                   = _state;
+    builder.videostate              = _videostate;
     builder.videoWidth              = _videoWidth;
     builder.videoHeight             = _videoHeight;
     builder.isVideoEnded            = _isVideoEnded;
@@ -96,17 +97,22 @@
 }
 
 +(NSDictionary *) videoStateByName{
-    return @{@(PLAYING)       : @"Playing",
-             @(PAUSED)      : @"Paused",
-             @(SEEKING)     : @"Seeking",
-             @(ON_IDLE)     : @"On Idle",
-             @(BUFFERING)     : @"Buffering",
-             @(COMPLETED)     : @"Completed",
+    return @{@(PAUSED)          : @"PAUSED",
+             @(PLAYING)         : @"PLAYING",
+             @(SEEKING)         : @"SEEKING",
+             @(ON_IDLE)         : @"ON_IDLE",
+             @(BUFFERING)       : @"BUFFERING",
+             @(COMPLETED)       : @"COMPLETED",
              };
 }
 
 +(NSString *) convertVideoStateToString: (VideoState) state{
     return [[self class] videoStateByName][@(state)];
+}
+
++(NSString *) getVideoState{
+    
+    return @"";
 }
 
 @end
@@ -131,7 +137,7 @@
         _videoWidth             = 0;
         _videoHeight            = 0;
         _action                 = 0;
-        _state                  = 0;
+        _videostate             = 0;
         _isVideoEnded           = 0;
         _isVideoPause           = 0;
         _isVideoFullScreen      = 0;

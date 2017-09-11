@@ -17,9 +17,9 @@
 +(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem{
     NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
+    NSLog(@"recomProp: %lu", (unsigned long)[[PropertyEventSource init] property]);
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"2" , @"recoPropertyID",
+                                            [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource init] property]], @"recoPropertyID",
                                            @"97743" , @"contentID",nil];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
@@ -32,8 +32,9 @@
     if (!error) {
         dispatch_async(queue, ^{
             [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                
                 ItemToItem *item = [[ItemToItem alloc] initWithDictionary:responseObject];
-                    itemToitem(item);
+                itemToitem(item);
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                  NSLog(@"errorUser:%@", error);
             }];
@@ -47,13 +48,11 @@
     
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            @"ff9ef55f-3286-48fd-8b03-c09d91ab8b57" , @"userID",
-                                           @"1" , @"recoPropertyID",nil];
+                                           [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource init] property]] , @"recoPropertyID",nil];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", UserToItemURL]];
-    
     NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    
     NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
                                                    options:kNilOptions
                                                      error:&error];

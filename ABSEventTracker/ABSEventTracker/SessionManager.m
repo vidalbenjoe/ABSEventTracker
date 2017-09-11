@@ -13,11 +13,11 @@
 @synthesize sessionStart;
 @synthesize sessionEnd;
 
-+(SessionManager*) init{
-    static dispatch_once_t onceToken = 0;
-    static id shared = nil;
++(instancetype) init{
+    static SessionManager *shared = nil;
+    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        shared = [[self alloc] init];
+        shared = [[super alloc] init];
     });
     return shared;
 }
@@ -31,6 +31,14 @@
 -(void) update{
     [self updateSession];
 }
+
+-(void) updateOnlySessionTime{
+    [self updateSessionTime];
+}
+
+
+
+
 
 
 @end

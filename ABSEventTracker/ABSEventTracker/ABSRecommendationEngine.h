@@ -14,5 +14,4 @@
 +(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem;
 +(void) recommendationUser:(void (^)(UserToItem *userToItem)) userToitem;
 
-
 @end

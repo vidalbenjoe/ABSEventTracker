@@ -54,9 +54,9 @@
     arbitaryinvariant = timestamp;
 }
 #pragma mark - Video Attributes
--(void) setVideottributes:(VideoAttributes *)videoAttributes{
-    videoattributes = videoAttributes;
-//    [AttributeWriter writer:self];
+-(void) setVideoAttributes:(VideoAttributes *)videoAttribute{
+    videoattributes = videoAttribute;
+    [AttributeWriter writer:self];
 }
 
 @end

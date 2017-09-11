@@ -25,10 +25,9 @@
         shared = [[super alloc] init];
         // This line will initilize all of the required attributes and entropy to be able to gather event and device related properties.
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
-        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
+//        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
         //Checking the list of valid identifier if matched on the current BI
-        BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
-        NSLog(@"Prop: %@",[PropertyEventSource getBundleIdentifier]);
+//        BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         [self initializeProperty];
 //        if (isValid) {
 //            [self initializeProperty];
@@ -41,7 +40,7 @@
 +(void) initializeProperty{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        // Initilize Session
+        // Initialize Session
         [[SessionManager init] establish];
         // Get device information to be used on device fingerprinting and analytics.
         DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
@@ -59,7 +58,7 @@
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
         
         [self initSession:[SessionManager init]];
-        [self initEventSource];
+        [self checkEventSource];
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
         
@@ -76,12 +75,12 @@
 }
 /**
  * Simple conditional statement to filter out ABS-CBN digital properties.
- * IMPORTANT: if the bundleIdentifier of the current app don't meet the pre-defined identifier, the server will not return any valid security hash.
- * Security hash is used to request a Token.
+ * IMPORTANT: if the bundleIdentifier of the current app doesn't meet the pre-defined identifier, the server will not return any valid security hash.
+ * Security hash is used to request a Token. - (ASP Connection only) Deprecated in NodeJS
  */
 
 #pragma mark - Event source
-+(void) initEventSource{
++(void) checkEventSource{
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -125,11 +124,11 @@
 +(void) initWithUser:(UserAttributes *) attributes {
     [[AttributeManager init] setUserAttributes:attributes];
     
-    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-        [builder setActionTaken:LOGIN];
-    }];
     // Send LOGIN action into server
-    [ABSEventTracker initEventAttributes:attrib];
+    [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+        [builder setActionTaken:LOGIN];
+    }]];
+    
 }
 
 /**
@@ -185,9 +184,7 @@
 }
 
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
-    if (PLAYING) {
-        
-    }
+//    NSLog(@"Video State to:%@", [VideoAttributes convertVideoStateToString:PLAYING]);
     [EventController writeVideoAttributes:attributes];
 }
 
