@@ -14,7 +14,6 @@
 #import "DeviceFingerprinting.h"
 #import "FormatUtils.h"
 #import "ABSCustomOperation.h"
-#import "Popular.h"
 #import "ABSLogger.h"
 #import "DeviceInfo.h"
 
@@ -54,20 +53,16 @@
                 NSString *token = responseObject[@"access_token"];
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
-                
-//                NSLog(@"MYCURTOKEN: %@", token);
+//               NSLog(@"MYCURTOKEN: %@", token);
                 NSDate *receivedTimestamp = [NSDate date];
                 [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"TOKEN_ERROR");
             }];
-            
         }];
     });
 }
-
-
 
 /* Request token for Recommedation
  *

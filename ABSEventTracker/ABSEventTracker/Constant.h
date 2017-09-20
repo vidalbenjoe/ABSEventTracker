@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#define I_WANT_TV_ID        @"com.abscbn.iwantv"
+#define I_WANT_TV_ID        @"com.abs-cbn.iwanttv"
 #define TFC_ID              @"com.abscbni.tfctv"
-#define SKY_ON_DEMAND_ID    @"com.abs.cbn.sky.on.demand"
-#define NEWS_ID             @"com.abs.cbn.news"
-#define EVENTAPP_ID         @"com.ph.abscbn.ios.EventApp"
+#define SKY_ON_DEMAND_ID    @""
+#define NEWS_ID             @""
 #define INVALID_ID          @"com.invalid"
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
 

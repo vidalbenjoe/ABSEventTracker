@@ -16,6 +16,7 @@
 #import "EventController.h"
 #import "DeviceInfo.h"
 #import "CacheManager.h"
+#import "ABSLogger.h"
 
 @implementation ABSEventTracker
 +(ABSEventTracker *) initializeTracker{
@@ -25,15 +26,15 @@
         shared = [[super alloc] init];
         // This line will initilize all of the required attributes and entropy to be able to gather event and device related properties.
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
-//        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
-        //Checking the list of valid identifier if matched on the current BI
-//        BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
-        [self initializeProperty];
-//        if (isValid) {
-//            [self initializeProperty];
-//        }
+        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
+//        Checking the list of valid identifier if matched on the current BI
+        BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
+        if (isValid) {
+            [self initializeProperty];
+        }else{
+            [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered"];
+        }
     });
-    
     return shared;
 }
 
@@ -75,7 +76,7 @@
 }
 /**
  * Simple conditional statement to filter out ABS-CBN digital properties.
- * IMPORTANT: if the bundleIdentifier of the current app doesn't meet the pre-defined identifier, the server will not return any valid security hash.
+ * IMPORTANT: if the bundle Identifier doesn't meet the pre-defined identifier, the server will not return any valid security hash.
  * Security hash is used to request a Token. - (ASP Connection only) Deprecated in NodeJS
  */
 
@@ -89,7 +90,7 @@
         [[PropertyEventSource init] setDigitalProperty:SKY_ON_DEMAND];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]) {
         [[PropertyEventSource init] setDigitalProperty:NEWS];
-    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: EVENTAPP_ID]) {
+    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TESTER_ID]) {
         [[PropertyEventSource init] setDigitalProperty:TEST];
     }else{
         [[PropertyEventSource init] setDigitalProperty:INVALID];
@@ -139,6 +140,7 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
+
 /**
  * Set the Arbitary attributes into attriutes manager.
  * Parameters: ArbitaryVariant -
