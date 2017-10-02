@@ -11,6 +11,7 @@
 @synthesize property;
 @synthesize applicationName;
 @synthesize bundleIdentifier;
+@synthesize siteDomain;
 
 +(instancetype)init{
     static PropertyEventSource *shared = nil;

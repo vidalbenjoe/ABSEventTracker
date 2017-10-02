@@ -19,7 +19,8 @@
 #import "ABSLogger.h"
 
 @implementation ABSEventTracker
-+(ABSEventTracker *) initializeTracker{
+
++(ABSEventTracker *) initializeTracker :(BOOL) isProd{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -31,6 +32,30 @@
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
             [self initializeProperty];
+            if (isProd) {
+                //use production site domain URL
+                NSLog(@"MY BUNDLE ID %@", [PropertyEventSource getBundleIdentifier]);
+                if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+                    [[PropertyEventSource init] setSiteDomain:TFCHostProdURL];
+                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+                   [[PropertyEventSource init] setSiteDomain:NEWSHostProdURL];
+                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+                    [[PropertyEventSource init] setSiteDomain:IWANTVHostProdURL];
+                }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+                    [[PropertyEventSource init] setSiteDomain:SODHostProdURL];
+                }
+                
+            }else{
+                if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+                    [[PropertyEventSource init] setSiteDomain:TFCHostStagingURL];
+                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+                    [[PropertyEventSource init] setSiteDomain:NEWSHostStagingURL];
+                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+                    [[PropertyEventSource init] setSiteDomain:IWANTVHostStagingURL];
+                }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+                    [[PropertyEventSource init] setSiteDomain:SODHostStagingURL];
+                }
+            }
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered"];
         }

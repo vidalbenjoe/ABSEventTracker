@@ -28,11 +28,8 @@
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
-            
-//            NSLog(@"MYSECTHASH %@", sechash);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST);
-            NSLog(@"MYSECTHASH eror");
         }];
     });
 }
@@ -231,7 +228,7 @@
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
-        ObjectOrNull(attributes.propertyinvariant.applicationName) , @"SiteDomain",
+        ObjectOrNull(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationUniqueId",
         ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
             [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
