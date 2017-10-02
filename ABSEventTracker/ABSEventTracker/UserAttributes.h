@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EventAttributes.h"
 @class UserBuilder;
 @interface UserAttributes : NSObject
+@property(nonatomic) ActionTaken actionTaken;
 @property(nonatomic, weak) NSString *ssoID;
 @property(nonatomic, weak) NSString *gigyaID;
 @property(nonatomic, weak) NSString *firstName;
@@ -26,6 +28,7 @@
 @end
 
 @interface UserBuilder : NSObject
+@property(nonatomic) ActionTaken actionTaken;
 @property(nonatomic, assign) NSString *ssoID;
 @property(nonatomic, assign) NSString *gigyaID;
 @property(nonatomic, strong) NSString *firstName;
