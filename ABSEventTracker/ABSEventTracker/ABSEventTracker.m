@@ -35,6 +35,7 @@
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered"];
         }
     });
+    
     return shared;
 }
 
@@ -131,7 +132,6 @@
     }]];
     
 }
-
 /**
  * Set the Device information into attriutes manager.
  */

@@ -31,6 +31,19 @@ extern NSString* const ItemToItemURL;
 extern NSString* const recommendationCommunityToItem;
 extern NSString* const host;
 
+// Staging host URL
+extern NSString* const TFCHostStagingURL;
+extern NSString* const NEWSHostStagingURL;
+extern NSString* const IWANTVHostStagingURL;
+extern NSString* const SODHostStagingURL;
+
+// Production host URL
+extern NSString* const TFCHostProdURL;
+extern NSString* const NEWSHostProdURL;
+extern NSString* const IWANTVHostProdURL;
+extern NSString* const SODHostProdURL;
+
+
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier
  */
