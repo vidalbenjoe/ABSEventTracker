@@ -8,10 +8,6 @@
 
 #import <Foundation/Foundation.h>
 /// The Digital Properties
-/// - SKY ON DEMAND:   SkyOnDemand
-/// - NEW          :   News
-/// - NOINK        :   NOINK
-
 typedef NS_ENUM(NSUInteger, DigitalProperty){
     GIGYA               =   1,
     I_WANT_TV           =   2,
@@ -36,7 +32,6 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 
 +(NSString *) getAppName;
 +(NSString *) getBundleIdentifier;
-
 
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty;
 

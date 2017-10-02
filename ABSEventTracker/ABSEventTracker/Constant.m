@@ -31,7 +31,7 @@ NSString* const SODHostStagingURL               = @"ppportal.skyondemand.com.ph"
 // Production host URL
 NSString* const TFCHostProdURL                  = @"tfc.tv";
 NSString* const NEWSHostProdURL                 = @"news.abs-cbn.com";
-NSString* const IWANTVHostProdURL               = @"bigdata.iwantv.com.ph";
+NSString* const IWANTVHostProdURL               = @"iwantv.com.ph";
 NSString* const SODHostProdURL                  = @"skyondemand.com.ph";
 
 +(NSString *) generateNewMobileHeader

@@ -12,7 +12,6 @@
 
 -(instancetype) initUserWithBuilder:(UserBuilder *)builder{
     if (self = [super init]) {
-        _actionTaken    =   builder.actionTaken;
         _ssoID          =   builder.ssoID;
         _gigyaID        =   builder.gigyaID;
         _firstName      =   builder.firstName;
@@ -27,7 +26,6 @@
 
 -(UserBuilder *) makeBuilder{
     UserBuilder *builder = [UserBuilder new];
-    builder.actionTaken     =   _actionTaken;
     builder.ssoID           =   _ssoID;
     builder.gigyaID         =   _gigyaID;
     builder.firstName       =   _firstName;
@@ -70,7 +68,6 @@
         _address                    =   nil;
         _birthday                   =   nil;
         _mobilenumber               =   0;
-        _actionTaken                = 0;
     }
     return self;
 }

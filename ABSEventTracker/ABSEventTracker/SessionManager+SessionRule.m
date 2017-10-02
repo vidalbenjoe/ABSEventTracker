@@ -22,6 +22,7 @@
     NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
     [self setSessionStart: currentTime];
     [self setSessionEnd:endtime];
+    
 }
 
 -(void) updateSession{
@@ -30,7 +31,7 @@
     /* Check if the current time is less than 10 minutes
      *
      */
-    if ([end timeIntervalSinceDate:start] >= 0){
+    if ([start timeIntervalSinceDate:end] >= 0){
         // Update the session ID if the current time is greater than 10 minutes since the last triggered event
         [self updateSessionID];
     }else{

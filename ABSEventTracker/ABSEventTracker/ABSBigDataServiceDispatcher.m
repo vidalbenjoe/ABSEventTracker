@@ -24,7 +24,6 @@
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
@@ -42,18 +41,15 @@
             [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
             // REQUEST TOKEN
             NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password",sechash];
-            
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
-            
             [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                 // store the token somewhere
                 NSString *token = responseObject[@"access_token"];
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
-//               NSLog(@"MYCURTOKEN: %@", token);
+                NSLog(@"MYCURTOKEN: %@", token);
                 NSDate *receivedTimestamp = [NSDate date];
                 [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
-                
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"TOKEN_ERROR");
             }];
@@ -96,9 +92,6 @@
             }];
 }
 
-
-
-
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     /*
      * Check if server token is stored in NSUserDefault and not null
@@ -106,10 +99,10 @@
     if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
         NSDate *timeNow = [NSDate date];
         /*
-         * Checking the current time if not exceed the server token expiration date
-         * The server token will last for 9 minutes.
+         * Checking the current time if not exceed the server token expiration date.
+         * Note: The server token will last for only 9 minutes.
          */
-        if ([[AuthManager retrieveTokenExpirationTimestamp] timeIntervalSinceDate:timeNow] > 0){
+        if ([timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp] ] > 0){
             /*
              * Request a new server token if the current time exceeded the server token expiration timestamp
              */
@@ -150,7 +143,7 @@
     /*
      * Retrieving server token to be used in request header.
      */
-    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
     
     NSMutableString *resultString = [NSMutableString string];
     for (NSString* key in [writerAttributes allKeys]){
@@ -222,7 +215,6 @@
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
-    NSLog(@"nslogappanme: %@", attributes.propertyinvariant.applicationName);
     
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -302,6 +294,8 @@
 //    if(body == nil){
 //        return 0;
 //    }
+    
+    NSLog(@"asattributesDictionary %@", attributesDictionary);
     return attributesDictionary;
 }
 

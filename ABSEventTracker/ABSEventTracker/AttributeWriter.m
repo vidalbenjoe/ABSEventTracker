@@ -11,16 +11,12 @@
 @implementation AttributeWriter
 
 +(void) writer:(AttributeManager *) manager{
-    NSLog(@"VIDEOSw: %ld",(long) manager.videoattributes.videostate);
     if (manager.videoattributes.videostate != PLAYING) {
         [[SessionManager init] update];
     }
     // Dispatch the consolidated attributes into server
     [ABSBigDataServiceDispatcher dispatchAttribute:manager];
     
-    /*
-     *
-     **/
 }
 
 @end

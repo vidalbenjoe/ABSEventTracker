@@ -31,31 +31,7 @@
 //        Checking the list of valid identifier if matched on the current BI
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
-            [self initializeProperty];
-            if (isProd) {
-                //use production site domain URL
-                NSLog(@"MY BUNDLE ID %@", [PropertyEventSource getBundleIdentifier]);
-                if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                    [[PropertyEventSource init] setSiteDomain:TFCHostProdURL];
-                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                   [[PropertyEventSource init] setSiteDomain:NEWSHostProdURL];
-                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                    [[PropertyEventSource init] setSiteDomain:IWANTVHostProdURL];
-                }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                    [[PropertyEventSource init] setSiteDomain:SODHostProdURL];
-                }
-                
-            }else{
-                if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                    [[PropertyEventSource init] setSiteDomain:TFCHostStagingURL];
-                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                    [[PropertyEventSource init] setSiteDomain:NEWSHostStagingURL];
-                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                    [[PropertyEventSource init] setSiteDomain:IWANTVHostStagingURL];
-                }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                    [[PropertyEventSource init] setSiteDomain:SODHostStagingURL];
-                }
-            }
+            [self initializeProperty:isProd];
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered"];
         }
@@ -64,7 +40,7 @@
     return shared;
 }
 
-+(void) initializeProperty{
++(void) initializeProperty: (BOOL) isProd{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         // Initialize Session
@@ -83,6 +59,28 @@
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
         [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+        if (isProd) {
+            //use production site domain URL
+            if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+                  [digitalProperty setSiteDomain:TFCHostProdURL];
+            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+                  [digitalProperty setSiteDomain:NEWSHostProdURL];
+            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+                  [digitalProperty setSiteDomain:IWANTVHostProdURL];
+            }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+                  [digitalProperty setSiteDomain:SODHostProdURL];
+            }
+        }else{
+            if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+                  [digitalProperty setSiteDomain:TFCHostStagingURL];
+            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+                  [digitalProperty setSiteDomain:NEWSHostStagingURL];
+            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+                  [digitalProperty setSiteDomain:IWANTVHostStagingURL];
+            }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+                  [digitalProperty setSiteDomain:SODHostStagingURL];
+            }
+        }
         
         [self initSession:[SessionManager init]];
         [self checkEventSource];
@@ -165,7 +163,6 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
-
 /**
  * Set the Arbitary attributes into attriutes manager.
  * Parameters: ArbitaryVariant -
@@ -211,12 +208,8 @@
 }
 
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
-//    NSLog(@"Video State to:%@", [VideoAttributes convertVideoStateToString:PLAYING]);
     [EventController writeVideoAttributes:attributes];
 }
-
-
-
 @end
 
 

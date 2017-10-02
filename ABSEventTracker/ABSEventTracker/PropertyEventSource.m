@@ -7,6 +7,7 @@
 //
 
 #import "PropertyEventSource.h"
+
 @implementation PropertyEventSource
 @synthesize property;
 @synthesize applicationName;
@@ -53,7 +54,4 @@
 +(NSString *) convertPropertyTaken: (DigitalProperty) property{
     return [[self class] properyTakenByName][@(property)];
 }
-
-
-
 @end
