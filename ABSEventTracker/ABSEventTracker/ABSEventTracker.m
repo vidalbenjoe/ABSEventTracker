@@ -20,7 +20,7 @@
 
 @implementation ABSEventTracker
 
-+(ABSEventTracker *) initializeTracker :(BOOL) isProd{
++(ABSEventTracker *) initializeTrackerForProd :(BOOL) isProd{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

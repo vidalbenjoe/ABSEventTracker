@@ -17,15 +17,12 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self storeTokenExpirationTimestamp:received];
 }
-
 +(NSDate *) retrieveTokenReceivedTimestamp{
     NSDate *token = (NSDate*) [[NSUserDefaults standardUserDefaults] stringForKey:@"tokenreceivedTimestamp"];
     return token;
 }
-
 +(void) storeTokenExpirationTimestamp:(NSDate *) expiration{
     NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
-    NSLog(@"storedTimeA: %@", tokenExpirationTime);
     
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"tokenExpirationTimestamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -34,7 +31,6 @@
 +(NSDate *) retrieveTokenExpirationTimestamp{
     NSDate *expiration = (NSDate *)[[NSUserDefaults standardUserDefaults]
                        objectForKey:@"tokenExpirationTimestamp"];
-    NSLog(@"expirationTimeA: %@", expiration);
     return expiration;
 }
 
@@ -48,17 +44,14 @@
                        stringForKey:@"responseToken"];
     return token;
 }
-
 +(void) storeSecurityHashTouserDefault: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"securityHash"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-
 +(NSString *) retrieveSecurityHashFromUserDefault{
     NSString *token = [[NSUserDefaults standardUserDefaults]
                        stringForKey:@"securityHash"];
     return token;
 }
-
 
 @end
