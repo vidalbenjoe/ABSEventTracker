@@ -16,7 +16,6 @@
 #import "ABSCustomOperation.h"
 #import "ABSLogger.h"
 #import "DeviceInfo.h"
-
 @implementation ABSBigDataServiceDispatcher
 
 +(void) requestSecurityHash: (void (^)(NSString *sechash))handler{
@@ -66,6 +65,7 @@
      * Getting Digital property host url to be used in request header - @host
      */
     NSDictionary *header = @{@"SiteDomain":@"http://ottdevapi.portal.azure-api.net"};
+    
     
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
@@ -175,12 +175,12 @@
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://eventsapi.bigdata.abs-cbn.com/%@",eventWriteURL]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
+            
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
             
-            NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]],
-                                     @"SiteDomain":@"http://ottdevapi.portal.azure-api.net"};
-            
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+           
             NSData *data = [NSJSONSerialization dataWithJSONObject:attributes options:0 error:0];
             
             [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -213,9 +213,11 @@
 +(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes {
 //    NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
-    NSString *userID = ObjectOrNull(attributes.userattributes.gigyaID) ? ObjectOrNull(attributes.userattributes.ssoID) : attributes.userattributes.gigyaID;
-    NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
+    NSString *userID = ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] gigyaID]) ? ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] ssoID]) : [[UserAttributes retrieveUserInfoFromCache] gigyaID];
     
+    
+    NSLog(@"userChageRe:%@", [UserAttributes retrieveUserInfoFromCache]);
+    NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
@@ -235,9 +237,9 @@
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID])  , @"BigDataSessionID",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]) , @"SessionStartTimestamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
-        ObjectOrNull(attributes.userattributes.firstName) , @"FirstName",
-        ObjectOrNull(attributes.userattributes.middleName) , @"MiddleName",
-        ObjectOrNull(attributes.userattributes.lastName) , @"LastName",
+        ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] firstName]) , @"FirstName",
+        ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] middleName]) , @"MiddleName",
+        ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] lastName]) , @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",

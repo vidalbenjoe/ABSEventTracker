@@ -7,7 +7,7 @@
 //
 
 #import "FormatUtils.h"
-
+#import <objc/runtime.h>
 @implementation FormatUtils
 
 +(NSString*) getCurrentTimeAndDate: (NSDate *) date{
@@ -36,4 +36,6 @@
     NSString *randomUUID = [[NSUUID alloc] initWithUUIDBytes:bytes].UUIDString;
     return randomUUID;
 }
+
+
 @end

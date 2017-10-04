@@ -27,6 +27,7 @@
 		1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDF71F56669C00B0C70F /* ItemToItem.m */; };
 		1BF8CDFC1F5679AE00B0C70F /* UserToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BF8CDFD1F5679AE00B0C70F /* UserToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */; };
+		2DF3A4B71F835ECD0068007A /* ABSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 8628DB0E1F1F293200DCDB22 /* ABSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
 		8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* AuthManager.m */; };
@@ -366,6 +367,7 @@
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 				1BF8CDFC1F5679AE00B0C70F /* UserToItem.h in Headers */,
+				2DF3A4B71F835ECD0068007A /* ABSLogger.h in Headers */,
 				1BF8CDF81F56669C00B0C70F /* ItemToItem.h in Headers */,
 				1B1E40D11F46A377002A8410 /* ABSRecommendationEngine.h in Headers */,
 			);

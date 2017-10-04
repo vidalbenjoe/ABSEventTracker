@@ -17,7 +17,6 @@
 +(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem{
     NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    NSLog(@"recomProp: %lu", (unsigned long)[[PropertyEventSource init] property]);
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                             [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource init] property]], @"recoPropertyID",
                                            @"97743" , @"contentID",nil];

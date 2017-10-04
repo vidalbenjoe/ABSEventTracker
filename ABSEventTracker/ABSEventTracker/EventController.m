@@ -38,6 +38,7 @@ BOOL hasInitialized = false;
             break;
         case LOGOUT:
             [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [UserAttributes clearUserData];
             break;
         case SEARCH:
             [arbitary setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];

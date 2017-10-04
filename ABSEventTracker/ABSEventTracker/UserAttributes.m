@@ -20,6 +20,7 @@
         _address        =   builder.address;
         _birthday       =   builder.birthday;
         _mobilenumber   =   builder.mobilenumber;
+   
     }
     return self;
 }
@@ -50,10 +51,45 @@
 }
 -(instancetype) build{
     UserBuilder *builder = [UserBuilder new];
+    
     return [self initUserWithBuilder:builder];
 }
 
+-(void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.ssoID forKey:@"ssoID"];
+    [encoder encodeObject:self.gigyaID forKey:@"gigyaID"];
+    [encoder encodeObject:self.firstName forKey:@"firstName"];
+    [encoder encodeObject:self.middleName forKey:@"middleName"];
+    [encoder encodeObject:self.lastName forKey:@"lastName"];
+    [encoder encodeObject:self.address forKey:@"address"];
+    [encoder encodeObject:self.birthday forKey:@"birthday"];
+}
 
+-(id)initWithCoder:(NSCoder *)decoder {
+    self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
+    self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
+    self.firstName = [decoder decodeObjectForKey:@"firstName"];
+    self.middleName = [decoder decodeObjectForKey:@"middleName"];
+    self.lastName = [decoder decodeObjectForKey:@"lastName"];
+    self.address = [decoder decodeObjectForKey:@"address"];
+    self.birthday = [decoder decodeObjectForKey:@"birthday"];
+    return self;
+}
+
++(void) cacheUserData: (UserAttributes *) userinfo{
+    NSData *encodedPerson = [NSKeyedArchiver archivedDataWithRootObject:userinfo];
+    [[NSUserDefaults standardUserDefaults] setObject:encodedPerson forKey:@"encodedPersonKey"];
+}
++(UserAttributes *) retrieveUserInfoFromCache{
+    //retrieving
+    NSData *encodedPerson = [[NSUserDefaults standardUserDefaults] objectForKey:@"encodedPersonKey"];
+    UserAttributes *person = (UserAttributes *)[NSKeyedUnarchiver unarchiveObjectWithData:encodedPerson];
+    return person;
+}
++(void) clearUserData{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"encodedPersonKey"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end
 
 @implementation UserBuilder
@@ -68,6 +104,7 @@
         _address                    =   nil;
         _birthday                   =   nil;
         _mobilenumber               =   0;
+        
     }
     return self;
 }

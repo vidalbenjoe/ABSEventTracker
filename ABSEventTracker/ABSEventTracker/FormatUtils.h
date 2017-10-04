@@ -21,4 +21,5 @@
  * Generate randomUUID
  */
 +(NSString *) randomUUID;
+
 @end

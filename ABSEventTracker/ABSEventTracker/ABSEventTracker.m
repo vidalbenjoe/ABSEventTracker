@@ -17,7 +17,6 @@
 #import "DeviceInfo.h"
 #import "CacheManager.h"
 #import "ABSLogger.h"
-
 @implementation ABSEventTracker
 
 +(ABSEventTracker *) initializeTrackerForProd :(BOOL) isProd{
@@ -147,13 +146,13 @@
  */
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
-    [[AttributeManager init] setUserAttributes:attributes];
     
+    [[AttributeManager init] setUserAttributes:attributes];
+    [UserAttributes cacheUserData:attributes];
     // Send LOGIN action into server
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];
     }]];
-    
 }
 /**
  * Set the Device information into attriutes manager.

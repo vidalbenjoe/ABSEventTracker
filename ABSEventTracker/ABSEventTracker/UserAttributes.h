@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "EventAttributes.h"
 @class UserBuilder;
-@interface UserAttributes : NSObject
+@interface UserAttributes : NSObject<NSCoding>
 @property(nonatomic, weak) NSString *ssoID;
 @property(nonatomic, weak) NSString *gigyaID;
 @property(nonatomic, weak) NSString *firstName;
@@ -24,6 +24,9 @@
 -(instancetype) initUserWithBuilder:(UserBuilder *) builder;
 -(instancetype) update:(void(^)(UserBuilder *)) updateBlock;
 -(instancetype) build;
++(void) cacheUserData: (UserAttributes *) userinfo;
++(UserAttributes *) retrieveUserInfoFromCache;
++(void) clearUserData;
 @end
 
 @interface UserBuilder : NSObject
