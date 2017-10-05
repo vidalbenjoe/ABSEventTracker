@@ -9,7 +9,7 @@
 // The SessionRule is a category of SessionManager
 #import "SessionManager.h"
 @interface SessionManager (SessionRule)
+-(void) startSession;
 -(void) updateSession;
--(void) updateSessionTime;
 -(void) updateSessionID;
 @end

@@ -11,6 +11,7 @@
 @implementation SessionManager
 @synthesize sessionID;
 @synthesize sessionStart;
+@synthesize eventTriggeredTime;
 @synthesize sessionEnd;
 
 +(instancetype) init{
@@ -24,7 +25,7 @@
 // Establish a session
 -(void) establish{
     [self updateSessionID];
-    [self updateSessionTime];
+    [self startSession];
 }
 
 // Update the session
@@ -32,9 +33,6 @@
     [self updateSession];
 }
 
--(void) updateOnlySessionTime{
-    [self updateSessionTime];
-}
 
 
 

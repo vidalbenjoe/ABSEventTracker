@@ -215,7 +215,6 @@
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] gigyaID]) ? ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] ssoID]) : [[UserAttributes retrieveUserInfoFromCache] gigyaID];
     
-    
     NSLog(@"userChageRe:%@", [UserAttributes retrieveUserInfoFromCache]);
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];

@@ -10,9 +10,9 @@
 @interface SessionManager : NSObject
 @property(nonatomic, copy) NSString *sessionID;
 @property(nonatomic, retain) NSDate *sessionStart;
+@property(nonatomic, retain) NSDate *eventTriggeredTime;
 @property(nonatomic, retain) NSDate *sessionEnd;
 +(instancetype) init;
 -(void) establish;
 -(void) update;
--(void) updateOnlySessionTime;
 @end
