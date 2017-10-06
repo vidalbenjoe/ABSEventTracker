@@ -34,4 +34,5 @@
  * Method to retrieve security hash to NSUserDefault
  */
 +(NSString *) retrieveSecurityHashFromUserDefault;
++(void) removeToken;
 @end

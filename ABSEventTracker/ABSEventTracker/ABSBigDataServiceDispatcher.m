@@ -44,9 +44,9 @@
             [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                 // store the token somewhere
                 NSString *token = responseObject[@"access_token"];
+                NSLog(@"MYCURTOKEN: %@", token);
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
-                NSLog(@"MYCURTOKEN: %@", token);
                 NSDate *receivedTimestamp = [NSDate date];
                 [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -65,7 +65,6 @@
      * Getting Digital property host url to be used in request header - @host
      */
     NSDictionary *header = @{@"SiteDomain":@"http://ottdevapi.portal.azure-api.net"};
-    
     
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
@@ -123,6 +122,7 @@
         /*
          * If server token is null in NSUserdefault, request a new token
          */
+        [AuthManager removeToken];
         [self requestToken:^(NSString *token) {
             /*
              * Storing server token in NSUserDefault
@@ -133,8 +133,7 @@
 }
 
 +(void) dispatcher:(AttributeManager *) attributes{
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    NSMutableDictionary *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
+    NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
     /*
      * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
      */
@@ -144,24 +143,35 @@
      * Retrieving server token to be used in request header.
      */
     NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+
+//    NSLog(@"writerAttributes2:%@", );
     
-    NSMutableString *resultString = [NSMutableString string];
-    for (NSString* key in [writerAttributes allKeys]){
-        if ([resultString length]>0)
-            [resultString appendString:@"&"];
-        [resultString appendFormat:@"%@=%@", key, [writerAttributes objectForKey:key]];
-    }
-    dispatch_async(queue, ^{
-        [networking POST:url URLparameters:resultString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            /*
-             * Events successfully sent to server
-             */
-            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            [CacheManager storeFailedAttributesToCacheManager:writerAttributes];
-            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
-        }];
-    });
+    [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+        NSLog(@"success ba:YES");
+    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"success ba:NO %@", error);
+    }];
+    
+    
+    
+    
+//        [networking POST:url URLparameters:[[NSString alloc] initWithData:writerAttributes encoding:NSUTF8StringEncoding] headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//             NSLog(@"asdwfvv Succes:%@", responseObject);
+//        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+//                   NSLog(@"asdwfvv error:%@", error);
+//        }];
+        
+        
+//        [networking POST:url parameters:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//            NSLog(@"success ba:YES");
+//        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+////            [CacheManager storeFailedAttributesToCacheManager:writerAttributes];
+//            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+//            NSLog(@"success ba:NO");
+//        }];
+        
+    
 }
 
 +(void) dispatchCachedAttributes{
@@ -210,14 +220,14 @@
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
  * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
  */
-+(NSMutableDictionary *) writerAttribute:(AttributeManager *) attributes {
-//    NSError *error;
++(NSData *) writerAttribute:(AttributeManager *) attributes {
+    NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] gigyaID]) ? ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] ssoID]) : [[UserAttributes retrieveUserInfoFromCache] gigyaID];
     
-    NSLog(@"userChageRe:%@", [UserAttributes retrieveUserInfoFromCache]);
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -288,16 +298,14 @@
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoVolume]) , @"VideoVolume",
          ObjectOrNull(videoSize) , @"VideoSize", nil];
 
-//    NSMutableArray *aray = [NSMutableArray arrayWithObject:attributesDictionary];
-//    NSData *body = [NSJSONSerialization dataWithJSONObject:aray
-//                                                   options:kNilOptions
-//                                                     error:&error];
-//    if(body == nil){
-//        return 0;
-//    }
+    if ([NSJSONSerialization isValidJSONObject:attributesDictionary] && attributesDictionary != nil) {
+        NSLog(@"validJSON:YES");
+    }else{
+        NSLog(@"validJSON:NO");
+    }
     
-    NSLog(@"asattributesDictionary %@", attributesDictionary);
-    return attributesDictionary;
+    NSData *jsondata = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
+    return jsondata;
 }
 
 //

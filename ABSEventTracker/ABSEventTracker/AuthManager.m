@@ -54,4 +54,9 @@
     return token;
 }
 
++(void) removeToken{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"responseToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end

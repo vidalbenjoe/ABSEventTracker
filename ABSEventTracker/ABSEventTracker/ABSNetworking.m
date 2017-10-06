@@ -41,6 +41,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                    cachePolicy: NSURLRequestReturnCacheDataElseLoad
                    timeoutInterval:60.0];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestBody setHTTPMethod:@"POST"];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
@@ -107,12 +108,12 @@ NSURLSessionConfiguration *sessionConfiguration;
                    ];
     
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_async(queue, ^{
-        NSLog(@"EORASF: %@", url);
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             successHandler(nil, dictionary);
@@ -138,12 +139,17 @@ NSURLSessionConfiguration *sessionConfiguration;
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
-                   cachePolicy: NSURLRequestReturnCacheDataElseLoad
+                   cachePolicy: NSURLRequestUseProtocolCachePolicy
                    timeoutInterval:60.0
                    ];
-    [requestBody setHTTPBody:body];
     [requestBody setHTTPMethod:@"POST"];
+    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [requestBody setHTTPBody:body];
+    
+    NSLog(@"asattributesaraybody %@", requestBody);
+ 
+    
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -154,28 +160,29 @@ NSURLSessionConfiguration *sessionConfiguration;
                 errorHandler(nil, error);
                 return;
             }
+            NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            successHandler(nil, dictionary);
+            NSLog(@"valid JSON");
+
                 if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
-                    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-                    successHandler(nil, dictionary);
-                    
+
                 }else{
+                    NSLog(@"valid JSON: NOT");
                     NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                         stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
                         stringByReplacingOccurrencesOfString:@" " withString:@""];
-                    
                     NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-                    
                     NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
-                    
+
                     NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
-        
                     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-                    
+
                     if (!error) {
                         successHandler(nil, dictionary);
                     }
                 }
         }] resume];
+
     });
 }
 /*
@@ -197,15 +204,10 @@ NSURLSessionConfiguration *sessionConfiguration;
             errorHandler(datatask, error);
             return;
         }
-        
-//        NSLog(@"GETSEwCw:%@", response);
 
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
 
         successHandler(datatask, dictionary);
-//        NSLog(@"GETSECw:%@", dictionary);
-
-       
     }];
     [datatask resume];
     

@@ -53,7 +53,6 @@
                                        [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
                                        [builder setDeviceType:[DeviceInfo deviceType]];
                                    }];
-        
         // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
         PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
         [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
@@ -80,12 +79,10 @@
                   [digitalProperty setSiteDomain:SODHostStagingURL];
             }
         }
-        
         [self initSession:[SessionManager init]];
         [self checkEventSource];
         [self initWithDevice:device];
         [self initAppProperty:digitalProperty];
-        
         [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
             EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                 // set Event action into LOAD

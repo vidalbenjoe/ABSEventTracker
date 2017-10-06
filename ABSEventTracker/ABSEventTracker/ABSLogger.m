@@ -21,4 +21,7 @@
 -(NSString*) Message{
     return [NSString stringWithFormat:@"ABSEventLibrary: %@", message];
 }
+-(NSString*) getLogMessage{
+    return message;
+}
 @end

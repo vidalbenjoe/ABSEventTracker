@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ABSNetworking+HTTPErrorHandler.h"
 typedef NS_ENUM(NSInteger, LogLevel){
     LOG_SUCCESS     =   0,
     LOG_FINE        =   1,
@@ -22,4 +21,5 @@ typedef NS_ENUM(NSInteger, LogLevel){
 
 +(instancetype) initialize;
 -(NSString*) Message;
+-(NSString*) getLogMessage;
 @end
