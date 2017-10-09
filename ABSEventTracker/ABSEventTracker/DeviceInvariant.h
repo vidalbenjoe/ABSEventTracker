@@ -13,8 +13,8 @@
 @property(nonatomic, copy, readonly) NSString *deviceFingerprint;
 @property(nonatomic, copy, readonly) NSString *deviceOS;
 @property(nonatomic, copy, readonly) NSString *deviceType;
-@property(nonatomic, readonly) float deviceScreenWidth;
-@property(nonatomic, readonly) float deviceScreenHeight;
+@property(nonatomic, readonly) NSInteger deviceScreenWidth;
+@property(nonatomic, readonly) NSInteger deviceScreenHeight;
 
 +(instancetype) makeWithBuilder:(void (^) (DeviceInvariantBuilder *)) updateBlock;
 -(instancetype) initWithBuilder:(DeviceInvariantBuilder *) builder;
@@ -27,8 +27,8 @@
 @property(nonatomic, assign) NSString *deviceFingerprint;
 @property(nonatomic, assign) NSString *deviceOS;
 @property(nonatomic, strong) NSString *deviceType;
-@property(nonatomic) float deviceScreenWidth;
-@property(nonatomic) float deviceScreenHeight;
+@property(nonatomic) NSInteger deviceScreenWidth;
+@property(nonatomic) NSInteger deviceScreenHeight;
 
 -(instancetype) init;
 

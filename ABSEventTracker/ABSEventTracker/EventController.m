@@ -11,6 +11,7 @@
 #import "FormatUtils.h"
 #import "AttributeManager.h"
 #import "ABSRecommendationEngine.h"
+#import "ABSEventTracker.h"
 @implementation EventController
 BOOL hasInitialized = false;
 
@@ -46,6 +47,7 @@ BOOL hasInitialized = false;
         case POST_COMMENT:
             [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
+      
         default:
             break;
     }
@@ -55,7 +57,19 @@ BOOL hasInitialized = false;
 }
 
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
-     [[AttributeManager init] setVideoAttributes:attributes];
+     switch (attributes.action) {
+         case VIDEO_PAUSED:
+             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                 [builder setIsVideoPause:YES];
+             }]];
+             break;
+         case VIDEO_COMPLETE:
+             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                 [builder setIsVideoEnded:YES];
+              }]];
+             break;
+     }
+         [[AttributeManager init] setVideoAttributes:attributes];
 }
 
 /*!

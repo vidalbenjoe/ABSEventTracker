@@ -17,6 +17,7 @@
 #import "DeviceInfo.h"
 #import "CacheManager.h"
 #import "ABSLogger.h"
+
 @implementation ABSEventTracker
 
 +(ABSEventTracker *) initializeTrackerForProd :(BOOL) isProd{
@@ -32,7 +33,7 @@
         if (isValid) {
             [self initializeProperty:isProd];
         }else{
-            [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered"];
+            [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
         }
     });
     
@@ -90,7 +91,7 @@
             }];
             // Write LOAD action to to server.
             [ABSEventTracker initEventAttributes:attrib];
-//            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
         }];
     });
 }
@@ -205,6 +206,7 @@
 
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
     [EventController writeVideoAttributes:attributes];
+    
 }
 @end
 

@@ -31,13 +31,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     LOAD                =   20,
     OTHERS              =   21,
     
-    VIDEO_PLAYED        =   22,
-    VIDEO_PAUSED        =   23,
-    VIDEO_RESUMED       =   24,
-    VIDEO_SEEK          =   25,
-    VIDEO_STOPPED       =   26,
-    VIDEO_BUFFER        =   27,
-    VIDEO_COMPLETE      =   28
 };
 
 

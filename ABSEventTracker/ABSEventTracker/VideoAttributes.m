@@ -110,9 +110,19 @@
     return [[self class] videoStateByName][@(state)];
 }
 
-+(NSString *) getVideoState{
-    
-    return @"";
++(NSDictionary *) actionVideoTakenByName{
+    return @{@(VIDEO_PLAYED)        : @"VideoPlayed",
+             @(VIDEO_PAUSED)        : @"VideoPaused",
+             @(VIDEO_RESUMED)       : @"VideioResumed",
+             @(VIDEO_SEEK)          : @"VideoSeek",
+             @(VIDEO_STOPPED)       : @"VideoStopped",
+             @(VIDEO_BUFFER)        : @"VideoBuff",
+             @(VIDEO_COMPLETE)      : @"VideoCompleted"
+             };
+}
+
++(NSString *) convertVideoActionTaken: (VideoActionTaken) action{
+    return [[self class] actionVideoTakenByName][@(action)];
 }
 
 @end

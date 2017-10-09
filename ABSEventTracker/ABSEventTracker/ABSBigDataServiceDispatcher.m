@@ -44,7 +44,6 @@
             [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                 // store the token somewhere
                 NSString *token = responseObject[@"access_token"];
-                NSLog(@"MYCURTOKEN: %@", token);
                 [AuthManager storeTokenToUserDefault:token];
                 handler(token);
                 NSDate *receivedTimestamp = [NSDate date];
@@ -72,7 +71,6 @@
                  */
                 NSString *token = responseObject[@"token"];
                 handler(token);
-                NSLog(@"myToken: %@",token);
                 /*
                  * Store server token into NSUserDefault
                  */
@@ -85,7 +83,7 @@
                 /*
                  * Request token failed
                  */
-                NSLog(@"error getting token");
+                NSLog(@"Error getting token");
                 [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
                 ]];
             }];
@@ -122,7 +120,7 @@
         /*
          * If server token is null in NSUserdefault, request a new token
          */
-        [AuthManager removeToken];
+     
         [self requestToken:^(NSString *token) {
             /*
              * Storing server token in NSUserDefault
@@ -143,35 +141,16 @@
      * Retrieving server token to be used in request header.
      */
     NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-
-//    NSLog(@"writerAttributes2:%@", );
     
     [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
         [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-        NSLog(@"success ba:YES");
     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"success ba:NO %@", error);
+        NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes
+                                                             options:kNilOptions
+                                                               error:&error];
+        [CacheManager storeFailedAttributesToCacheManager:data];
+        [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
     }];
-    
-    
-    
-    
-//        [networking POST:url URLparameters:[[NSString alloc] initWithData:writerAttributes encoding:NSUTF8StringEncoding] headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-//             NSLog(@"asdwfvv Succes:%@", responseObject);
-//        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//                   NSLog(@"asdwfvv error:%@", error);
-//        }];
-        
-        
-//        [networking POST:url parameters:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-//            NSLog(@"success ba:YES");
-//        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-////            [CacheManager storeFailedAttributesToCacheManager:writerAttributes];
-//            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
-//            NSLog(@"success ba:NO");
-//        }];
-        
-    
 }
 
 +(void) dispatchCachedAttributes{
@@ -225,6 +204,9 @@
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     NSString *userID = ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] gigyaID]) ? ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] ssoID]) : [[UserAttributes retrieveUserInfoFromCache] gigyaID];
     
+    NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
+    NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
+    
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
@@ -234,7 +216,7 @@
         ObjectOrNull(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationUniqueId",
         ObjectOrNull(attributes.deviceinvariant.deviceOS) , @"DeviceOS",
-            [NSString stringWithFormat:@"%fx%f", attributes.deviceinvariant.deviceScreenWidth, attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
+                                                 [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
         ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
         ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
@@ -274,7 +256,6 @@
         ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"ViewPageDuration",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]), @"VideoPause",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]) , @"VideoSeek",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]) , @"VideoSeekStart",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoSeekEnd]) , @"VideoSeekEnd",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoResumePosition]) , @"VideoResume",
@@ -289,8 +270,8 @@
         attributes.videoattributes.videoBuffer  , @"VideoBuffer",
         attributes.videoattributes.videoTimeStamp , @"VideoTimeStamp",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoDuration]) , @"VideoDuration",
-        ObjectOrNull([NSNumber numberWithBool:attributes.videoattributes.isVideoEnded]) , @"VideoIsEnded",
-        ObjectOrNull([NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ]), @"VideoIsPaused",
+        ObjectOrNull(isvideoPaused), @"VideoIsPaused",
+        ObjectOrNull(isvideoEnded), @"VideoIsEnded",
         ObjectOrNull([NSNumber numberWithBool:attributes.videoattributes.isVideoFullScreen]), @"VideoFullScreen",
         ObjectOrNull(videoState), @"VideoPlayerState",
         ObjectOrNull(attributes.videoattributes.videoTitle) , @"VideoTitle",
@@ -298,13 +279,7 @@
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoVolume]) , @"VideoVolume",
          ObjectOrNull(videoSize) , @"VideoSize", nil];
 
-    if ([NSJSONSerialization isValidJSONObject:attributesDictionary] && attributesDictionary != nil) {
-        NSLog(@"validJSON:YES");
-    }else{
-        NSLog(@"validJSON:NO");
-    }
-    
-    NSData *jsondata = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
+    NSData *jsondata = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:0 error:&error];
     return jsondata;
 }
 
