@@ -15,9 +15,9 @@
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
-#define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   1
+#define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)   9
-
+#define DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)   59
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
 extern NSString* const tokenURL;

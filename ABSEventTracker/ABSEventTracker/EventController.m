@@ -57,18 +57,7 @@ BOOL hasInitialized = false;
 }
 
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
-     switch (attributes.action) {
-         case VIDEO_PAUSED:
-             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-                 [builder setIsVideoPause:YES];
-             }]];
-             break;
-         case VIDEO_COMPLETE:
-             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-                 [builder setIsVideoEnded:YES];
-              }]];
-             break;
-     }
+    
          [[AttributeManager init] setVideoAttributes:attributes];
 }
 

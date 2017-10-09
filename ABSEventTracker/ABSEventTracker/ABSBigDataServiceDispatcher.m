@@ -26,21 +26,47 @@
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
+            [AuthManager storeSecurityHashTouserDefault:sechash];
+            NSDate *receivedTimestamp = [NSDate date];
+            [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST);
         }];
+        
     });
 }
 
 +(void) requestToken: (void (^)(NSString *token))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        [self requestSecurityHash:^(NSString *sechash) {
-            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-            [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-            // REQUEST TOKEN
-            NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password",sechash];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
+         NSDate *timeNow = [NSDate date];
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        // REQUEST TOKEN
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
+        /*
+         * Checking the current time if not exceed the server sechash expiration date.
+         * Note: The sechash will last for 60 minutes.
+         */
+        if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
+            /*
+             * Request a new Sechash if the current time exceeded the Sechash expiration timestamp
+             */
+            [self requestSecurityHash:^(NSString *sechash) {
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0 ? sechash : [AuthManager retrieveSecurityHashFromUserDefault]];
+                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                    // store the token somewhere
+                    NSString *token = responseObject[@"access_token"];
+                    [AuthManager storeTokenToUserDefault:token];
+                    handler(token);
+                    NSDate *receivedTimestamp = [NSDate date];
+                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    NSLog(@"TOKEN_ERROR");
+                }];
+            }];
+        }else{
+            NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
             [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                 // store the token somewhere
                 NSString *token = responseObject[@"access_token"];
@@ -51,7 +77,7 @@
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"TOKEN_ERROR");
             }];
-        }];
+        }
     });
 }
 

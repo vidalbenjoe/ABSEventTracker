@@ -22,6 +22,11 @@
  */
 +(void) storeTokenToUserDefault: (NSString *) value;
 
+
++(void) storeSechashReceivedTimestamp: (NSDate *) received;
++(NSDate *) retrieveSecHashReceivedTimestamp;
++(void) storeSecHashExpirationTimestamp:(NSDate *) expiration;
+
 /*!
  * Method to store securit hash to NSUserDefault
  */
@@ -35,4 +40,6 @@
  */
 +(NSString *) retrieveSecurityHashFromUserDefault;
 +(void) removeToken;
+
+
 @end

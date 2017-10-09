@@ -205,6 +205,33 @@
 }
 
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
+    switch (attributes.action) {
+        case VIDEO_PLAYED:
+            
+            break;
+        case VIDEO_PAUSED:
+            [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                [builder setIsVideoPause:YES];
+            }];
+            break;
+        case VIDEO_RESUMED:
+            
+            break;
+        case VIDEO_SEEK:
+            
+            break;
+        case VIDEO_STOPPED:
+            
+            break;
+        case VIDEO_BUFFER:
+            
+            break;
+        case VIDEO_COMPLETE:
+            [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                [builder setIsVideoEnded:YES];
+            }];
+            break;
+    }
     [EventController writeVideoAttributes:attributes];
     
 }
