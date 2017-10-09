@@ -43,8 +43,7 @@ NSString* const SODHostProdURL                  = @"skyondemand.com.ph";
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
-    NSLog(@"mobileHeader: %@", base64Encoded);
-    
+
     return base64Encoded;
 }
 @end

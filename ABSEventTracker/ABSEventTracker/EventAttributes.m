@@ -93,7 +93,7 @@
              @(LOGIN)               : @"Login",
              @(LOGOUT)              : @"Logout",
              @(POST_COMMENT)        : @"PostComment",
-             @(SEARCH)              : @"Searh",
+             @(SEARCH)              : @"Search",
              @(SOCIAL_SHARE)        : @"SocialShare",
              @(SOCIAL_FOLLOW)       : @"SocialFollow",
              @(SOCIAL_LIKE)         : @"SocialLike",

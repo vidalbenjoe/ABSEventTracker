@@ -40,6 +40,6 @@
  */
 +(NSString *) retrieveSecurityHashFromUserDefault;
 +(void) removeToken;
-
++(void) removeSechHash;
 
 @end

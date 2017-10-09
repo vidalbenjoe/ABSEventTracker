@@ -37,6 +37,7 @@
 +(void) storeTokenToUserDefault: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"responseToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 +(NSString *) retrieveServerTokenFromUserDefault{
@@ -74,6 +75,11 @@
 
 +(void) removeToken{
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"responseToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(void) removeSechHash{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"securityHash"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

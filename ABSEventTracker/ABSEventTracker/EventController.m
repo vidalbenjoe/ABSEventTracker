@@ -57,7 +57,36 @@ BOOL hasInitialized = false;
 }
 
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
-    
+    switch (attributes.action) {
+        case VIDEO_PLAYED:
+            
+            break;
+        case VIDEO_PAUSED:
+            [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                [builder setIsVideoPause:YES];
+            }]];
+            
+            
+            break;
+        case VIDEO_RESUMED:
+            
+            break;
+        case VIDEO_SEEK:
+            
+            break;
+        case VIDEO_STOPPED:
+            
+            break;
+        case VIDEO_BUFFER:
+            
+            break;
+        case VIDEO_COMPLETE:
+            [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+               [builder setIsVideoEnded:YES];
+            }]];
+         
+            break;
+    }
          [[AttributeManager init] setVideoAttributes:attributes];
 }
 

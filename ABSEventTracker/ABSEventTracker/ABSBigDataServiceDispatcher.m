@@ -44,16 +44,32 @@
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
-        /*
-         * Checking the current time if not exceed the server sechash expiration date.
-         * Note: The sechash will last for 60 minutes.
-         */
-        if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
+        
+        if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
-             * Request a new Sechash if the current time exceeded the Sechash expiration timestamp
+             * Checking the current time if not exceed the server sechash expiration date.
+             * Note: The sechash will last for 60 minutes.
              */
-            [self requestSecurityHash:^(NSString *sechash) {
-                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0 ? sechash : [AuthManager retrieveSecurityHashFromUserDefault]];
+            if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
+                /*
+                 * Request a new Sechash if the current time exceeded the Sechash expiration timestamp
+                 */
+                [self requestSecurityHash:^(NSString *sechash) {
+                    NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+                    [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                        // store the token somewhere
+                        NSString *token = responseObject[@"access_token"];
+                        [AuthManager storeTokenToUserDefault:token];
+                        handler(token);
+                        NSDate *receivedTimestamp = [NSDate date];
+                        [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                        NSLog(@"BIG-DATA: Token is not available");
+                        [AuthManager removeSechHash];
+                    }];
+                }];
+            }else{
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     // store the token somewhere
                     NSString *token = responseObject[@"access_token"];
@@ -62,20 +78,24 @@
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    NSLog(@"TOKEN_ERROR");
+                    NSLog(@"BIG-DATA: Token is not available");
+                    [AuthManager removeSechHash];
                 }];
-            }];
+            }
         }else{
-            NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
-            [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
-                // store the token somewhere
-                NSString *token = responseObject[@"access_token"];
-                [AuthManager storeTokenToUserDefault:token];
-                handler(token);
-                NSDate *receivedTimestamp = [NSDate date];
-                [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                NSLog(@"TOKEN_ERROR");
+            [self requestSecurityHash:^(NSString *sechash) {
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                    // store the token somewhere
+                    NSString *token = responseObject[@"access_token"];
+                    [AuthManager storeTokenToUserDefault:token];
+                    handler(token);
+                    NSDate *receivedTimestamp = [NSDate date];
+                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    NSLog(@"BIG-DATA: Token is not available");
+                    [AuthManager removeSechHash];
+                }];
             }];
         }
     });
@@ -133,6 +153,7 @@
                 /*
                  * Storing server token in NSUserDefault
                  */
+                 
                 [AuthManager storeTokenToUserDefault:token];
                 [self dispatcher:attributes];
             }];
@@ -151,6 +172,7 @@
             /*
              * Storing server token in NSUserDefault
              */
+            
             [AuthManager storeTokenToUserDefault:token];
         }];
     }
@@ -220,7 +242,6 @@
         }
     }
 }
-
 /*!
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
  * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
@@ -233,6 +254,7 @@
     NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
     NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
     
+ 
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
