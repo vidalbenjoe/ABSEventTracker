@@ -25,6 +25,10 @@ BOOL hasInitialized = false;
 }
 
 #pragma mark - EventAttributes
+/**
+ * Wrapper function to write event attributes -> EventAttributes.
+ * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
+ */
 +(void) writeEvent:(EventAttributes *) attributes{
     ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     switch (attributes.actionTaken) {
@@ -51,11 +55,12 @@ BOOL hasInitialized = false;
         default:
             break;
     }
-    
     [[AttributeManager init] setArbitaryAttributes:arbitary];
     [[AttributeManager init] setEventAttributes:attributes];
 }
-
+/**
+ * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
+ */
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
     switch (attributes.action) {
         case VIDEO_PLAYED:
@@ -65,8 +70,6 @@ BOOL hasInitialized = false;
             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
                 [builder setIsVideoPause:YES];
             }]];
-            
-            
             break;
         case VIDEO_RESUMED:
             

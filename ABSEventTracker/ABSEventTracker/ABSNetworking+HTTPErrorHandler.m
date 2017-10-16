@@ -12,7 +12,7 @@
 #pragma mark - HTTPerrorLogger
 @implementation ABSNetworking (HTTPErrorHandler)
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request{
-    NSLog(@"HTTP-STATUS : %ld - SERVICE: %@", (long)http.statusCode, request);
+    NSLog(@"Big data response : %ld - SERVICE: %@", (long)http.statusCode, request);
     if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];
@@ -27,14 +27,13 @@
     }
 }
 
-/*************************HTTP CALLBACK*****************************/
+/************************* HTTP CALLBACK *****************************/
 #pragma mark - Token
 /*! 
  *This method will refresh token once the server response received HTTP error code 401
  */
 +(void) onTokenRefresh{
     [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-        NSLog(@"requestedTOken: %@", token);
         [AuthManager storeTokenToUserDefault:token];
     }];
 }

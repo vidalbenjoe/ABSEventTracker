@@ -32,9 +32,7 @@
     [rawComponents addObject:[DeviceInfo deviceUUID]];
     [rawComponents addObject:[DeviceInfo deviceConnectivity]];
     return [rawComponents componentsJoinedByString:@","];
-    
 }
-
 /*!
  * Generate MD5 format device fingerprint based on the device info.
  */

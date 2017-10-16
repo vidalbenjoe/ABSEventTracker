@@ -1,11 +1,16 @@
 //
 //  ABSNetworking.h
 //  EventApp
-//
-//  Created by Benjoe Vidal on 01/06/2017.
-//  Copyright © 2017 ABS-CBN. All rights reserved.
-//
-
+/**********************************************************************
+ **                                                                  **
+ **                                                                  **
+ **                        ABSEventTracker                           **
+ **            Created by Benjoe Vidal on 01/06/2017.                **
+ **          Copyright © 2017 ABS-CBN. All rights reserved.          **
+ **                                                                  **
+ **                                                                  **
+ **                                                                  **
+ **********************************************************************/
 #import <Foundation/Foundation.h>
 #import "AttributeManager.h"
 #import "Constant.h"
@@ -46,8 +51,6 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
  * 500 - INTERNL SERVER ERROR
  */
 -(void) POST:(NSURL *) url parameters:(NSDictionary *) params headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask * task, id  responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError * error)) errorHandler;
-
-
 /*!
  * This method will send string parameters into server and will return server response into blocks handler
  * @params

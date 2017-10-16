@@ -17,7 +17,9 @@
 #import "ABSLogger.h"
 #import "DeviceInfo.h"
 @implementation ABSBigDataServiceDispatcher
-
+/*!
+ * Method for requesting security hash. This method will return a security hash via block(handler)
+ */
 +(void) requestSecurityHash: (void (^)(NSString *sechash))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -32,10 +34,11 @@
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST);
         }];
-        
     });
 }
-
+/*!
+ * Method for requesting server token. This method will return the server token via block(handler)
+ */
 +(void) requestToken: (void (^)(NSString *token))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -44,7 +47,6 @@
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
-        
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if not exceed the server sechash expiration date.
@@ -64,7 +66,7 @@
                         NSDate *receivedTimestamp = [NSDate date];
                         [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                        NSLog(@"BIG-DATA: Token is not available");
+                        NSLog(@"BIG-DATA: Can't retrieve token from server");
                         [AuthManager removeSechHash];
                     }];
                 }];
@@ -78,7 +80,7 @@
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    NSLog(@"BIG-DATA: Token is not available");
+                    NSLog(@"BIG-DATA: Can't retrieve token from server");
                     [AuthManager removeSechHash];
                 }];
             }
@@ -93,7 +95,7 @@
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    NSLog(@"BIG-DATA: Token is not available");
+                    NSLog(@"BIG-DATA: Can't retrieve token from server");
                     [AuthManager removeSechHash];
                 }];
             }];
@@ -110,7 +112,6 @@
      * Getting Digital property host url to be used in request header - @host
      */
     NSDictionary *header = @{@"SiteDomain":@"http://ottdevapi.portal.azure-api.net"};
-    
             [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Getting server token from the response
@@ -172,7 +173,6 @@
             /*
              * Storing server token in NSUserDefault
              */
-            
             [AuthManager storeTokenToUserDefault:token];
         }];
     }
@@ -191,17 +191,29 @@
     NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
     
     [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        /*
+         * Success: Sending server response to ABSLogger.
+         */
         [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+        /*
+         * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+         */
         NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes
                                                              options:kNilOptions
                                                                error:&error];
+        /*
+         * Storing attributes dictionary into CacheManager.
+         */
         [CacheManager storeFailedAttributesToCacheManager:data];
         [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
     }];
 }
 
 +(void) dispatchCachedAttributes{
+    /*
+     * Retriving all failed array of attributes from the CacheManager.
+     */
     if ([[CacheManager retrieveAllCacheArray] count] > 0) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
         // Loop cached array and add to queue
@@ -217,12 +229,17 @@
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
             
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-           
+            /*
+             * Converting Dictionary attributes to NSData and send to server through HTTPBody
+             */
             NSData *data = [NSJSONSerialization dataWithJSONObject:attributes options:0 error:0];
-            
             [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                // Remove the first index in the array of attributes from CacheManager if successfull
                 [CacheManager removeCachedAttributeByFirstIndex];
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                /*
+                 * Storing attributes dictionary again into CacheManager.
+                 */
                 [CacheManager storeFailedAttributesToCacheManager:attributes];
             }];
             
@@ -253,7 +270,6 @@
     
     NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
     NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
-    
  
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
@@ -331,7 +347,7 @@
     return jsondata;
 }
 
-//
+// This method will return empty string if the attributes is nil or empty
 static id ObjectOrNull(id object){
     return object ?: @"";
 }
