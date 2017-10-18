@@ -32,6 +32,7 @@
         _isVideoPaused            = builder.isVideoPause;
         _isVideoFullScreen        = builder.isVideoFullScreen;
         
+        _videoTotalBufferTime     = builder.videoTotalBufferTime;
         _videoDuration            = builder.videoDuration;
         _videoSeekStart           = builder.videoSeekStart;
         _videoSeekEnd             = builder.videoSeekEnd;
@@ -41,6 +42,7 @@
         _videoResumePosition      = builder.videoResumePosition;
         _videoStopPosition        = builder.videoStopPosition;
         _videoBufferPosition      = builder.videoBufferPosition;
+        _videoConsolidatedBufferTime = builder.videoConsolidatedBufferTime;
     }
     
     return self;
@@ -68,6 +70,7 @@
     builder.isVideoEnded            = _isVideoEnded;
     builder.isVideoPause            = _isVideoPaused;
     builder.isVideoFullScreen       = _isVideoFullScreen;
+    builder.videoTotalBufferTime    = _videoTotalBufferTime;
     builder.videoDuration           = _videoDuration;
     builder.videoSeekStart          = _videoSeekStart;
     builder.videoSeekEnd            = _videoSeekEnd;
@@ -77,6 +80,7 @@
     builder.videoResumePosition     = _videoResumePosition;
     builder.videoStopPosition       = _videoStopPosition;
     builder.videoBufferPosition     = _videoBufferPosition;
+    builder.videoConsolidatedBufferTime = _videoConsolidatedBufferTime;
     return builder;
 }
 
@@ -143,6 +147,7 @@
         _videoAdPlay            = nil;
         _videoMeta              = nil;
         _videoBuffer            = nil;
+        _videoConsolidatedBufferTime = nil;
         
         _videoWidth             = 0;
         _videoHeight            = 0;
@@ -152,6 +157,7 @@
         _isVideoPause           = 0;
         _isVideoFullScreen      = 0;
         
+        _videoTotalBufferTime   = 0;
         _videoDuration          = 0;
         _videoSeekStart         = 0;
         _videoSeekEnd           = 0;

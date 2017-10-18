@@ -39,7 +39,8 @@
     
     return shared;
 }
-
+/* Initializing event, session, application and digital properties
+ */
 +(void) initializeProperty: (BOOL) isProd{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -117,7 +118,6 @@
         [[PropertyEventSource init] setDigitalProperty:INVALID];
     }
 }
-
 /**
  * Set the SessionManager into attriutes manager.
  * Parameters: SessionManager -
@@ -130,7 +130,6 @@
 +(void) initSession :(SessionManager*) attributes{
     [[AttributeManager init] setSession:attributes];
 }
-
 /**
  * Set the property attributes into Attributes Manager.
  */
@@ -138,7 +137,6 @@
 +(void) initAppProperty:(PropertyEventSource *) attributes{
     [[AttributeManager init] setPropertyAttributes:attributes];
 }
-
 /**
  * This method will trigger after the user successfully logged in to their account.
  */
@@ -207,6 +205,7 @@
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
     [EventController writeVideoAttributes:attributes];
     
+   
 }
 @end
 

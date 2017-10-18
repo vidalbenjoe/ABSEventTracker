@@ -254,7 +254,9 @@
     NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
     NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
     
- 
+    NSLog(@"videoBuffTimeCos %@", attributes.videoattributes.videoConsolidatedBufferTime);
+    
+    
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
@@ -325,7 +327,10 @@
         ObjectOrNull(attributes.videoattributes.videoTitle) , @"VideoTitle",
         ObjectOrNull(attributes.videoattributes.videoURL) , @"VideoURL",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoVolume]) , @"VideoVolume",
-         ObjectOrNull(videoSize) , @"VideoSize", nil];
+         ObjectOrNull(videoSize) , @"VideoSize",
+         ObjectOrNull(videoSize) , @"videoConsolidatedBufferTime",
+         ObjectOrNull(videoSize) , @"videoTotalBufferTime",
+                                                 nil];
 
     NSData *jsondata = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:0 error:&error];
     return jsondata;

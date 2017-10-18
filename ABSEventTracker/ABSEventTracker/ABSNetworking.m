@@ -61,7 +61,8 @@ NSURLSessionConfiguration *sessionConfiguration;
     });
 }
 
-
+/* This method will send string parameters into server and will return server response into blocks handler
+ */
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url

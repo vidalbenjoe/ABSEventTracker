@@ -100,7 +100,7 @@
              @(CLICK_HYPERLINK)     : @"ClickHyperlink",
              @(RATE)                : @"Rate",
              @(LOAD)                : @"Load",
-             @(CLICK_IMAGE)         : @"ClikImage",
+             @(CLICK_IMAGE)         : @"ClickImage",
              @(SLIDER)              : @"Slider",
              @(READ_ARTICLES)       : @"ReadArticle",
              @(ABANDON)             : @"Abandon",

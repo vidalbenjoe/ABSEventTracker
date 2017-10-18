@@ -26,7 +26,6 @@
         [self onTokenRefresh];
     }
 }
-
 /*************************HTTP CALLBACK*****************************/
 #pragma mark - Token
 /*! 
