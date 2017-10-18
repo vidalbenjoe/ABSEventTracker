@@ -1,10 +1,17 @@
 //
 //  ABSLogger.h
 //  ABSEventTracker
-//
-//  Created by Benjoe Vidal on 19/07/2017.
-//  Copyright © 2017 ABS-CBN. All rights reserved.
-//
+
+/**********************************************************************
+ **                                                                  **
+ **                                                                  **
+ **                        ABSEventTracker                           **
+ **            Created by Benjoe Vidal on 19/07/2017.                **
+ **          Copyright © 2017 ABS-CBN. All rights reserved.          **
+ **                                                                  **
+ **                                                                  **
+ **                                                                  **
+ **********************************************************************/
 
 #import <Foundation/Foundation.h>
 typedef NS_ENUM(NSInteger, LogLevel){

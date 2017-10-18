@@ -25,6 +25,10 @@ BOOL hasInitialized = false;
 }
 
 #pragma mark - EventAttributes
+/**
+ * Wrapper function to write event attributes -> EventAttributes.
+ * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
+ */
 +(void) writeEvent:(EventAttributes *) attributes{
     ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     switch (attributes.actionTaken) {
@@ -51,25 +55,21 @@ BOOL hasInitialized = false;
         default:
             break;
     }
-    
     [[AttributeManager init] setArbitaryAttributes:arbitary];
     [[AttributeManager init] setEventAttributes:attributes];
 }
-
+/**
+ * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
+ */
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
     double sd = 3.5 - attributes.videoBufferPosition;
     NSMutableArray *arrayBuff = [NSMutableArray array];
-    
 //     NSNumber *num = [NSNumber numberWithFloat:sd];
     for(int i = 0; i < 10; i++) {
         [arrayBuff addObject:[NSNumber numberWithInt:i]];
     }
-    
-   
 //    [arrayBuff addObject:num];
-//
-    
-    
+
     NSMutableString *resultString = [NSMutableString string];
     for (NSString* key in arrayBuff){
         if ([resultString length]>0)
@@ -85,6 +85,7 @@ BOOL hasInitialized = false;
 //    }];
     
     switch (attributes.action) {
+
         case VIDEO_RESUMED:
             break;
         case VIDEO_SEEK:

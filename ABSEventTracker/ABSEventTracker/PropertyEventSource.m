@@ -22,12 +22,16 @@
     });
     return shared;
 }
-
+/*
+ * This method will return application name. Ex. iwantv
+ */
 +(NSString *) getAppName{
     NSString *appname = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
     return appname;
 }
-
+/*
+ * This method will return application bundle identifier. Ex. com.ph.abs-cbn.iwantv
+ */
 +(NSString *) getBundleIdentifier{
     NSString * bundleidentifier = [[NSBundle mainBundle] bundleIdentifier];
     return bundleidentifier;

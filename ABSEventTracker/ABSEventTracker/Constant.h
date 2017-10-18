@@ -1,11 +1,15 @@
 //
 //  Constants.h
-//  EventApp
-//
-//  Created by Benjoe Vidal on 01/06/2017.
-//  Copyright © 2017 ABS-CBN. All rights reserved.
-//
-
+/**********************************************************************
+ **                                                                  **
+ **                                                                  **
+ **                        ABSEventTracker                           **
+ **            Created by Benjoe Vidal on 01/06/2017.                **
+ **          Copyright © 2017 ABS-CBN. All rights reserved.          **
+ **                                                                  **
+ **                                                                  **
+ **                                                                  **
+ **********************************************************************/
 #import <Foundation/Foundation.h>
 #define I_WANT_TV_ID        @"com.abs-cbn.iwanttv"
 #define TFC_ID              @"com.abscbni.tfctv"
@@ -42,7 +46,6 @@ extern NSString* const TFCHostProdURL;
 extern NSString* const NEWSHostProdURL;
 extern NSString* const IWANTVHostProdURL;
 extern NSString* const SODHostProdURL;
-
 
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier
