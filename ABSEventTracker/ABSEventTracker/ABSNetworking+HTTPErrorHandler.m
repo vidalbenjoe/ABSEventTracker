@@ -12,7 +12,7 @@
 #pragma mark - HTTPerrorLogger
 @implementation ABSNetworking (HTTPErrorHandler)
 +(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request{
-    NSLog(@"Big data response : %ld - SERVICE: %@", (long)http.statusCode, request);
+    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@",(long)http.statusCode,request]];
     if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];

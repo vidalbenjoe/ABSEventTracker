@@ -21,9 +21,8 @@
 #import "ArbitaryVariant.h"
 #import "VideoAttributes.h"
 @interface AttributeManager : NSObject
-
+// AttributeManager is responsible for consolidating all of the attributes to be used from the event dispatcher - @ABSBigDataServiceDispatcher
 +(AttributeManager*) init;
-
 @property(nonatomic) EventAttributes *eventattributes;
 @property(nonatomic) UserAttributes *userattributes;
 @property(nonatomic) PropertyEventSource *propertyinvariant;

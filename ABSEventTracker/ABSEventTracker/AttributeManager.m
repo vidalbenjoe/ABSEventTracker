@@ -27,7 +27,6 @@
     });
     return shared;
 }
-
 #pragma mark - Event Attributes
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     eventattributes = eventAttributes;
@@ -56,7 +55,7 @@
 #pragma mark - Video Attributes
 -(void) setVideoAttributes:(VideoAttributes *)videoAttribute{
     videoattributes = videoAttribute;
+    // Trigger AttributeWriter every time video event happened
     [AttributeWriter writer:self];
 }
-
 @end
