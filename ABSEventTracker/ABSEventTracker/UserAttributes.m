@@ -20,6 +20,7 @@
         _address        =   builder.address;
         _birthday       =   builder.birthday;
         _mobilenumber   =   builder.mobilenumber;
+        _loginTimeStamp =   builder.loginTimeStamp;
    
     }
     return self;
@@ -35,6 +36,7 @@
     builder.address         =   _address;
     builder.birthday        =   _birthday;
     builder.mobilenumber    =   _mobilenumber;
+    builder.loginTimeStamp  =   _loginTimeStamp;
     return builder;
 }
 
@@ -63,6 +65,7 @@
     [encoder encodeObject:self.lastName forKey:@"lastName"];
     [encoder encodeObject:self.address forKey:@"address"];
     [encoder encodeObject:self.birthday forKey:@"birthday"];
+    [encoder encodeObject:self.loginTimeStamp forKey:@"logintimestamp"];
 }
 
 -(id)initWithCoder:(NSCoder *)decoder {
@@ -73,6 +76,7 @@
     self.lastName = [decoder decodeObjectForKey:@"lastName"];
     self.address = [decoder decodeObjectForKey:@"address"];
     self.birthday = [decoder decodeObjectForKey:@"birthday"];
+    self.loginTimeStamp = [decoder decodeObjectForKey:@"logintimestamp"];
     return self;
 }
 
@@ -103,8 +107,8 @@
         _lastName                   =   nil;
         _address                    =   nil;
         _birthday                   =   nil;
+        _loginTimeStamp             =   nil;
         _mobilenumber               =   0;
-        
     }
     return self;
 }

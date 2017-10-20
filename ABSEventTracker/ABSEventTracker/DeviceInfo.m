@@ -220,8 +220,8 @@
 
 +(NSString*) userInterfaceIdiom: (DeviceIdiom) idiom{
     return @{
-             @(PHONE)               : @"Phone",
-             @(PAD)                 : @"Pad",
+             @(PHONE)               : @"iPhone",
+             @(PAD)                 : @"iPad",
              @(TV)                  : @"TV",
              @(CARPLAY)             : @"CarPlay",
              @(UNSPECIFIED)         : @"Unknown Device"
@@ -235,11 +235,9 @@
 +(NSString*) identifierForVendor{
     return [[UIDevice currentDevice] identifierForVendor].UUIDString;
 }
-
 /*
  * Return device width
  */
-
 + (NSInteger)screenWidth {
     // Get the screen width
     @try {
@@ -260,7 +258,6 @@
         return -1;
     }
 }
-
 /*
  * Return device height
  */
@@ -290,7 +287,6 @@
 +(NSInteger) physicalMemory{
     return [[NSProcessInfo processInfo] physicalMemory] / 1073741824.;      //gibi
 }
-
 /*
  * Return device processor count
  */
@@ -313,7 +309,6 @@
     NSString *uniqueIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     return uniqueIdentifier;
 }
-
 /*
  * Return device total Space
  */
@@ -335,7 +330,6 @@
     }
     return [NSNumber numberWithUnsignedLongLong:((totalSpace/1024ll)/1024ll)];
 }
-
 /*
  * Detect device connectivity
  * Ex: Wifi, 2G, 3G, 4G

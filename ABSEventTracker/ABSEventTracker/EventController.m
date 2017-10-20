@@ -35,9 +35,6 @@ BOOL hasInitialized = false;
         case LOAD:
             [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
-        case LOGIN:
-            [arbitary setLoginTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-            break;
         case ABANDON:
             [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
