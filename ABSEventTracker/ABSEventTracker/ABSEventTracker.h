@@ -52,8 +52,37 @@
 
 +(void) initEventAttributes: (EventAttributes *) attributes;
 /*!
- * This method returns recommendation from API
+ * @discussion Initilize Video attributes by calling this method on the controller
+ * @params
+ * attributes -
+ * videoTimeStamp
+ * videoTitle
+ * videoURL
+ * videoVolume
+ * videoAdClick
+ * videoAdComplete
+ * videoAdSkipped
+ * videoAdError
+ * videoAdPlay
+ * videoMeta
+ * videoBuffer
+ * videoWidth
+ * videoHeight
+ * action
+ * videostate
+ * isVideoEnded
+ * isVideoPause
+ * isVideoFullScreen
+ * videoDuration
+ * videoSeekStart
+ * videoSeekEnd
+ * videoAdTime
+ * videoPlayPosition
+ * videoResumePosition
+ * videoStopPosition
+ * videoBufferPosition
  */
+
 +(void) initVideoAttributes: (VideoAttributes *) attributes;
 
 @end

@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 #define I_WANT_TV_ID        @"com.abs-cbn.iwanttv"
 #define TFC_ID              @"com.abscbni.tfctv"
-#define SKY_ON_DEMAND_ID    @""
+#define SKY_ON_DEMAND_ID    @"abs.app.devicehardware.ABSEventTester"
 #define NEWS_ID             @""
 #define INVALID_ID          @"com.invalid"
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
@@ -21,7 +21,7 @@
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)   9
-#define DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)   59
+#define DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)   45
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
 extern NSString* const tokenURL;

@@ -62,32 +62,49 @@ BOOL hasInitialized = false;
  * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
  */
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
+    double sd = 3.5 - attributes.videoBufferPosition;
+    NSMutableArray *arrayBuff = [NSMutableArray array];
+//     NSNumber *num = [NSNumber numberWithFloat:sd];
+    for(int i = 0; i < 10; i++) {
+        [arrayBuff addObject:[NSNumber numberWithInt:i]];
+    }
+//    [arrayBuff addObject:num];
+
+    NSMutableString *resultString = [NSMutableString string];
+    for (NSString* key in arrayBuff){
+        if ([resultString length]>0)
+            [resultString appendString:@"|"];
+        [resultString appendFormat:@"%@", key];
+    }
+    NSLog(@"resutltBug %@", resultString);
+    NSLog(@"arrayBuff %@", arrayBuff);
+    [attributes setVideoConsolidatedBufferTime:resultString];
+   
+//    [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+//        [builder setVideoConsolidatedBufferTime:resultString];
+//    }];
+    
     switch (attributes.action) {
+
+        case VIDEO_RESUMED:
+            break;
+        case VIDEO_SEEK:
+            break;
+        case VIDEO_STOPPED:
+            break;
+        case VIDEO_BUFFER:
+            break;
         case VIDEO_PLAYED:
-            
             break;
         case VIDEO_PAUSED:
             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
                 [builder setIsVideoPause:YES];
             }]];
             break;
-        case VIDEO_RESUMED:
-            
-            break;
-        case VIDEO_SEEK:
-            
-            break;
-        case VIDEO_STOPPED:
-            
-            break;
-        case VIDEO_BUFFER:
-            
-            break;
         case VIDEO_COMPLETE:
             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
                [builder setIsVideoEnded:YES];
             }]];
-         
             break;
     }
          [[AttributeManager init] setVideoAttributes:attributes];
@@ -96,7 +113,5 @@ BOOL hasInitialized = false;
 /*!
  * @discussion This method will fetch recommendation by popular
  */
-
-
 
 @end

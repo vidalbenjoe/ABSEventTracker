@@ -26,8 +26,8 @@
         [self onTokenRefresh];
     }
 }
+/*************************HTTP CALLBACK*****************************/
 
-/************************* HTTP CALLBACK *****************************/
 #pragma mark - Token
 /*! 
  *This method will refresh token once the server response received HTTP error code 401
