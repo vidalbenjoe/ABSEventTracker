@@ -20,25 +20,81 @@
 
 @implementation ABSEventTracker
 
+// initilize event tracker
 +(ABSEventTracker *) initializeTrackerForProd :(BOOL) isProd{
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
-        // This line will initilize all of the required attributes and entropy to be able to gather event and device related properties.
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
-//        Checking the list of valid identifier if matched on the current BI
+//        Checking the list of valid identifier if matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
-            [self initializeProperty:isProd];
+              // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
+                NSLog(@"FINGERPRINT: %@", [DeviceFingerprinting generateDeviceFingerprint]);
+                NSLog(@"DEVICEUUID: %@", [DeviceInfo deviceUUID]);
+
+                // Initialize Session
+                [[SessionManager init] establish];
+                // Get device information to be used on device fingerprinting and analytics.
+                DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
+                                           (DeviceInvariantBuilder *builder) {
+                                               [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
+                                               [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
+                                               [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
+                                               [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
+                                               [builder setDeviceType:[DeviceInfo deviceType]];
+                                           }];
+            
+                // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
+                PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
+                [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
+                [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+                if (isProd) {
+                    //use production site domain URL
+                    if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+                        [digitalProperty setSiteDomain:TFCHostProdURL];
+                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+                        [digitalProperty setSiteDomain:NEWSHostProdURL];
+                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+                        [digitalProperty setSiteDomain:IWANTVHostProdURL];
+                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+                        [digitalProperty setSiteDomain:SODHostProdURL];
+                    }
+                }else{
+                    if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+                        [digitalProperty setSiteDomain:TFCHostStagingURL];
+                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+                        [digitalProperty setSiteDomain:NEWSHostStagingURL];
+                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+                        [digitalProperty setSiteDomain:IWANTVHostStagingURL];
+                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+                        [digitalProperty setSiteDomain:SODHostStagingURL];
+                    }
+                }
+            
+                [self initSession:[SessionManager init]];
+                [self checkEventSource];
+                [self initWithDevice:device];
+                [self initAppProperty:digitalProperty];
+                [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+                    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                        // set Event action into LOAD
+                        [builder setActionTaken:LOAD];
+                    }];
+                    // Write LOAD action to to server.
+                    [ABSEventTracker initEventAttributes:attrib];
+                    [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+                }];
+            
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
         }
     });
-    
     return shared;
 }
+
 /* Initializing event, session, application and digital properties
  */
 +(void) initializeProperty: (BOOL) isProd{
@@ -101,7 +157,6 @@
  * IMPORTANT: if the bundle Identifier doesn't meet the pre-defined identifier, the server will not return any valid security hash.
  * Security hash is used to request a Token. - (ASP Connection only) Deprecated in NodeJS
  */
-
 #pragma mark - Event source
 +(void) checkEventSource{
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
@@ -142,7 +197,6 @@
  */
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
-    
     [[AttributeManager init] setUserAttributes:attributes];
     [UserAttributes cacheUserData:attributes];
     // Send LOGIN action into server
@@ -202,6 +256,40 @@
     [EventController writeEvent:attributes];
 }
 
+/*!
+ * @discussion Set the Video Attributes into attriutes manager.
+ * @param
+ * attributes -
+ * videoactionTaken
+ * videoState
+ * videoHeight
+ * videoWidth
+ * isVideoEnded
+ * isVideoPaused
+ * isVideoFullScreen
+ * videoTimeStamp
+ * videoTitle
+ * videoURL
+ * videoVolume
+ * videoClick
+ * videoAdComplete
+ * videoAdSkipped
+ * videoAdError
+ * videoAdPlay
+ * videoMeta
+ * videoBuffer
+ * videoDuration
+ * videoSeekStart
+ * videoSeekEnd
+ * videoAdTime
+ * videoPlayPosition
+ * videoPausePosition
+ * videoResumePosition
+ * videoStopPosition
+ * videoBufferPosition
+ */
+
+#pragma mark - Video Attributes
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
     [EventController writeVideoAttributes:attributes];
     

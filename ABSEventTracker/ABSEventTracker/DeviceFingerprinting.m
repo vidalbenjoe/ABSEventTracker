@@ -11,7 +11,6 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "DeviceInfo.h"
 @implementation DeviceFingerprinting
-
 /*!
  * Consolidating device entropy for device fingerprinting
  */
