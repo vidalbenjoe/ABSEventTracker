@@ -22,7 +22,8 @@
 @property(nonatomic, weak) NSString *loginTimeStamp;
 @property(nonatomic, weak) NSString *logoutTimeStamp;
 @property(nonatomic, weak) NSString *searchTimeStamp;
-
+@property(nonatomic, weak) NSDate *viewAccessTimeStamp;
+@property(nonatomic, weak) NSDate *viewAbandonTimeStamp;
 +(ArbitaryVariant*) init;
 +(instancetype) makeWithBuilder:(void (^) (ArbitaryBuilder *)) updateBlock;
 -(instancetype) initTimeStampWithBuilder:(ArbitaryBuilder *) builder;
@@ -38,6 +39,8 @@
 @property(nonatomic, strong) NSString *loginTimeStamp;
 @property(nonatomic, strong) NSString *logoutTimeStamp;
 @property(nonatomic, strong) NSString *searchTimeStamp;
+@property(nonatomic, strong) NSDate *viewAccessTimeStamp;
+@property(nonatomic, strong) NSDate *viewAbandonTimeStamp;
 -(instancetype) init;
 
 @end

@@ -32,6 +32,8 @@
         _loginTimeStamp                   =   builder.loginTimeStamp;
         _logoutTimeStamp                  =   builder.logoutTimeStamp;
         _searchTimeStamp                  =   builder.searchTimeStamp;
+        _viewAccessTimeStamp              =   builder.viewAccessTimeStamp;
+        _viewAbandonTimeStamp             =   builder.viewAbandonTimeStamp;
     }
     return self;
 }
@@ -44,6 +46,8 @@
     builder.loginTimeStamp                  =   _loginTimeStamp;
     builder.logoutTimeStamp                 =   _logoutTimeStamp;
     builder.searchTimeStamp                 =   _searchTimeStamp;
+    builder.viewAccessTimeStamp             =   _viewAccessTimeStamp;
+    builder.viewAbandonTimeStamp            =   _viewAbandonTimeStamp;
     
     return builder;
 }
@@ -76,6 +80,8 @@
         _loginTimeStamp                         =   nil;
         _logoutTimeStamp                        =   nil;
         _searchTimeStamp                        =   nil;
+        _viewAccessTimeStamp                    =   nil;
+        _viewAbandonTimeStamp                   =   nil;
     }
     return self;
 }
