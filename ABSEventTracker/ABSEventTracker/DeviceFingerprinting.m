@@ -16,21 +16,18 @@
  */
 
 +(NSString*) buildRawEntropy{
-    //
     NSMutableArray *rawComponents = [NSMutableArray array];
     //Getting data from the device info
     [rawComponents addObject:[DeviceInfo systemName]];
     [rawComponents addObject:[DeviceInfo systemVersion]];
     [rawComponents addObject:[DeviceInfo deviceType]];
-    [rawComponents addObject:[DeviceInfo localizeModel]];
-    [rawComponents addObject:[DeviceInfo getUserInterfaceIdiom]];
     [rawComponents addObject:[DeviceInfo totalSpace]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo screenWidth]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo screenHeight]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo physicalMemory]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo processorNumber]]];
     [rawComponents addObject:[DeviceInfo deviceUUID]];
-    [rawComponents addObject:[DeviceInfo deviceConnectivity]];
+    NSLog(@"DEVTUUID %@", [DeviceInfo deviceUUID]);
     return [rawComponents componentsJoinedByString:@","];
 }
 /*!
