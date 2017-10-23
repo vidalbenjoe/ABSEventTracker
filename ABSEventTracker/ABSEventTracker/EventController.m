@@ -35,7 +35,7 @@ BOOL hasInitialized = false;
         case LOAD:
             [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
-        case ABANDON:
+        case ABANDON_APP:
             [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case LOGOUT:
@@ -48,7 +48,11 @@ BOOL hasInitialized = false;
         case POST_COMMENT:
             [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
-      
+        case ACCESS_VIEW:
+            [arbitary setViewAccessTimeStamp:[NSDate date]];
+        case ABANDON_VIEW:
+            [arbitary setViewAbandonTimeStamp:[NSDate date]];
+            break;
         default:
             break;
     }

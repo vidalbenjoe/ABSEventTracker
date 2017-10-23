@@ -32,9 +32,11 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     LOGIN               =   16,
     LOGOUT              =   17,
     READ_ARTICLES       =   18,
-    ABANDON             =   19,
+    ABANDON_APP         =   19,
     LOAD                =   20,
     OTHERS              =   21,
+    ACCESS_VIEW         =   22,
+    ABANDON_VIEW        =   23,
     
 };
 
@@ -59,6 +61,8 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy, readonly) NSString *metaTags;
 @property(nonatomic, copy, readonly) NSString *previousScreen;
 @property(nonatomic, copy, readonly) NSString *screenDestination;
+@property(nonatomic, copy, readonly) NSString *currentView;
+
 
 @property(nonatomic) float latitute;
 @property(nonatomic) float longitude;
@@ -92,6 +96,7 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy) NSString *metaTags;
 @property(nonatomic, copy) NSString *previousScreen;
 @property(nonatomic, copy) NSString *screenDestination;
+@property(nonatomic, copy) NSString *currentView;
 
 @property(nonatomic) float latitute;
 @property(nonatomic) float longitude;

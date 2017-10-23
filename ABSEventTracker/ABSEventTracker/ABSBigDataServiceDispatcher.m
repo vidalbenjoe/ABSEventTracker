@@ -259,10 +259,12 @@
         }
     }
 }
+
 /*!
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
  * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
  */
+
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
@@ -274,6 +276,10 @@
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
+    NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
+    
+    NSLog(@"ViewPageDuration %f",[attributes.arbitaryinvariant.viewAccessTimeStamp timeIntervalSinceDate:attributes.arbitaryinvariant.viewAbandonTimeStamp]);
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -282,7 +288,7 @@
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"ApplicationUniqueId",
         @"iOS" , @"DeviceOS",
         ObjectOrNull(attributes.deviceinvariant.deviceType) , @"MobileDevice",
-                                                 [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight]  , @"ScreenSize",
+        ObjectOrNull(screenSize)  , @"ScreenSize",
         ObjectOrNull([DeviceInfo getUserInterfaceIdiom]) , @"DeviceType",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
         ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
@@ -314,11 +320,12 @@
         ObjectOrNull(attributes.eventattributes.followedEntity) , @"FollowedEntity",
         ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.rating]) , @"Rating",
         ObjectOrNull(attributes.eventattributes.metaTags) , @"MobileApplicationMetaTags",
-        ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousAppUniqueId",
-        ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationAppUniqueId",
-        ObjectOrNull(attributes.eventattributes.commentContent) , @"CommenteddArticle",
-        ObjectOrNull(attributes.eventattributes.clickedContent) , @"CookiesEnabled",
-        ObjectOrNull(attributes.eventattributes.clickedContent) , @"CurrentWebPage",
+        ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
+        ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
+        ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
+        ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"PageViewDuration",
+        ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
+        ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"ViewPageDuration",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]), @"VideoPause",

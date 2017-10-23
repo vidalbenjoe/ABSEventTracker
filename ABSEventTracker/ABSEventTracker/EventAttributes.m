@@ -28,6 +28,7 @@
         _metaTags               = builder.metaTags;
         _previousScreen         = builder.previousScreen;
         _screenDestination      = builder.screenDestination;
+        _currentView            = builder.currentView;
         
         _latitute               = builder.latitute;
         _longitude              = builder.longitude;
@@ -56,12 +57,12 @@
     builder.metaTags                = _metaTags;
     builder.previousScreen          = _previousScreen;
     builder.screenDestination       = _screenDestination;
+    builder.currentView             = _currentView;
     builder.latitute                = _latitute;
     builder.longitude               = _longitude;
     builder.articleCharacterCount   = _articleCharacterCount;
     builder.rating                  = _rating;
     builder.readingDuration         = _readingDuration;
-    
     return builder;
 }
 
@@ -103,9 +104,10 @@
              @(CLICK_IMAGE)         : @"ClickImage",
              @(SLIDER)              : @"Slider",
              @(READ_ARTICLES)       : @"ReadArticle",
-             @(ABANDON)             : @"Abandon",
+             @(ABANDON_APP)         : @"Abandon",
              @(OTHERS)              : @"Other",
-             
+             @(ACCESS_VIEW)         : @"AccessView",
+             @(ABANDON_VIEW)        : @"AbandonView"
              };
 }
 
@@ -135,9 +137,9 @@
         _metaTags               = nil;
         _previousScreen         = nil;
         _screenDestination      = nil;
+        _currentView            = nil;
         
         _actionTaken            = 0;
-        
         _latitute               = 0;
         _longitude              = 0;
         
