@@ -16,6 +16,7 @@
 #import "ABSCustomOperation.h"
 #import "ABSLogger.h"
 #import "DeviceInfo.h"
+
 @implementation ABSBigDataServiceDispatcher
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
@@ -102,9 +103,7 @@
         }
     });
 }
-
 /* Request token for Recommedation
- *
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -177,7 +176,6 @@
         }];
     }
 }
-
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
     /*
@@ -189,7 +187,6 @@
      * Retrieving server token to be used in request header.
      */
     NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    
     [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
         /*
          * Success: Sending server response to ABSLogger.
@@ -251,7 +248,6 @@
                 //This is another way of catching the Custom Operation completition.
                 //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
             };
-            
             [blockCompletionOperation addDependency:customOperation];
             [operationQueue addOperation:customOperation];
 //            [customOperation start];
@@ -259,12 +255,10 @@
         }
     }
 }
-
 /*!
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
  * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
  */
-
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
@@ -278,7 +272,45 @@
     
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
-    NSLog(@"ViewPageDuration %f",[attributes.arbitaryinvariant.viewAccessTimeStamp timeIntervalSinceDate:attributes.arbitaryinvariant.viewAbandonTimeStamp]);
+//    NSLog(@"viewAccessTimeStamp: %@", attributes.arbitaryinvariant.viewAccessTimeStamp);
+//    NSLog(@"viewAbandonTimeStamp: %@", attributes.arbitaryinvariant.viewAbandonTimeStamp);
+    NSLog(@"loadTime: %@", attributes.arbitaryinvariant.applicationLaunchTimeStamp);
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    
+    NSDate *accessViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
+    
+    NSDate *abandonViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
+    
+    NSTimeInterval secondsBetween = [abandonViewTimeStamp timeIntervalSinceDate:accessViewTimeStamp];
+//
+//   int numberOfDays = secondsBetween / 86400;
+    
+//    NSLog(@"pageDurattion: %d", numberOfDays);
+//
+    
+    NSLog(@"launchTimesStamp: %@", attributes.arbitaryinvariant.applicationLaunchTimeStamp);
+    NSLog(@"accessViewsTimesStamp: %@", attributes.arbitaryinvariant.viewAccessTimeStamp);
+    NSLog(@"abandonViewTimeStamp: %@", attributes.arbitaryinvariant.viewAbandonTimeStamp);
+//
+//     NSLog(@"interfavel: %f", [abandonViewTimeStamp timeIntervalSinceDate:accessViewTimeStamp]);
+    NSLog(@"secondsBeftween: %f", secondsBetween);
+//
+    
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSUInteger unitFlags = NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitSecond;
+    
+    NSDateComponents *components = [gregorian components:unitFlags
+                                                fromDate:accessViewTimeStamp
+                                                  toDate:abandonViewTimeStamp options:0];
+    
+    NSInteger secons = [components second];
+    NSLog(@"secondsBetween: %ld %@", (long)secons, @"dasd");
+    
+//    NSLog(@"ViewPageDuration %f",[attributes.arbitaryinvariant.viewAccessTimeStamp timeIntervalSinceDate:attributes.arbitaryinvariant.viewAbandonTimeStamp]);
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
@@ -354,8 +386,8 @@
          ObjectOrNull(videoSize) , @"videoConsolidatedBufferTime",
          ObjectOrNull(videoSize) , @"videoTotalBufferTime",
                                                  nil];
-
     NSData *jsondata = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:0 error:&error];
+    
     return jsondata;
 }
 

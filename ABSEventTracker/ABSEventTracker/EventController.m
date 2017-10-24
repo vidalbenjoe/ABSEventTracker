@@ -30,33 +30,36 @@ BOOL hasInitialized = false;
  * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
  */
 +(void) writeEvent:(EventAttributes *) attributes{
-    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
+//    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     switch (attributes.actionTaken) {
         case LOAD:
-            [arbitary setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case ABANDON_APP:
-            [arbitary setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [[ArbitaryVariant init] setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case LOGOUT:
-            [arbitary setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [[ArbitaryVariant init] setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             [UserAttributes clearUserData];
             break;
         case SEARCH:
-            [arbitary setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [[ArbitaryVariant init] setSearchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case POST_COMMENT:
-            [arbitary setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [[ArbitaryVariant init] setPostCommentTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case ACCESS_VIEW:
-            [arbitary setViewAccessTimeStamp:[NSDate date]];
+            [[ArbitaryVariant init] setViewAccessTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            break;
         case ABANDON_VIEW:
-            [arbitary setViewAbandonTimeStamp:[NSDate date]];
+            NSLog(@"arvitartAccs: %@", [[ArbitaryVariant init] viewAccessTimeStamp]);
+             NSLog(@"arvitartlaunch: %@", [[ArbitaryVariant init] applicationLaunchTimeStamp]);
+            [[ArbitaryVariant init] setViewAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         default:
             break;
     }
-    [[AttributeManager init] setArbitaryAttributes:arbitary];
+    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     [[AttributeManager init] setEventAttributes:attributes];
 }
 /**

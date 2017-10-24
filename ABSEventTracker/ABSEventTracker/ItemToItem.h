@@ -11,7 +11,6 @@
 @interface ItemToItem : NSObject
 @property(nonatomic, strong) NSString *categoryID;
 @property(nonatomic, strong) NSString *contentID;
-@property(nonatomic) double distance;
 
 -(instancetype) initWithDictionary:(NSDictionary *) item;
 @end

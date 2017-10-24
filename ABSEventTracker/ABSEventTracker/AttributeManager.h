@@ -20,8 +20,9 @@
 #import "SessionManager.h"
 #import "ArbitaryVariant.h"
 #import "VideoAttributes.h"
+
+// AttributeManager is the responsible for consolidating all of the attributes to be used in the event dispatcher - @ABSBigDataServiceDispatcher.h
 @interface AttributeManager : NSObject
-// AttributeManager is responsible for consolidating all of the attributes to be used from the event dispatcher - @ABSBigDataServiceDispatcher
 +(AttributeManager*) init;
 @property(nonatomic) EventAttributes *eventattributes;
 @property(nonatomic) UserAttributes *userattributes;
