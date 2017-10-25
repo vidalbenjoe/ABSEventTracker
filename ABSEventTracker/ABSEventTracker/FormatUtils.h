@@ -21,5 +21,5 @@
  * Generate randomUUID
  */
 +(NSString *) randomUUID;
-
++(NSInteger) timeDifferenceInSeconds: (NSDate *) start endTime: (NSDate *) end;
 @end

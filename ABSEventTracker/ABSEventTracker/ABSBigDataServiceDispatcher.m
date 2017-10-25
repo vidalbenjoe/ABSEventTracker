@@ -272,27 +272,12 @@
     
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
-//    NSLog(@"viewAccessTimeStamp: %@", attributes.arbitaryinvariant.viewAccessTimeStamp);
-//    NSLog(@"viewAbandonTimeStamp: %@", attributes.arbitaryinvariant.viewAbandonTimeStamp);
-    NSLog(@"loadTime: %@", attributes.arbitaryinvariant.applicationLaunchTimeStamp);
-
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     
     NSDate *accessViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     
     NSDate *abandonViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
-    
-    NSCalendar *gregorian = [[NSCalendar alloc]
-                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    
-    NSUInteger unitFlags = NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitSecond;
-    
-    NSDateComponents *components = [gregorian components:unitFlags
-                                                fromDate:accessViewTimeStamp
-                                                  toDate:abandonViewTimeStamp options:0];
-    NSInteger pageViewDuration = [components second];
-    NSLog(@"secondsBetween: %ld %@", (long)pageViewDuration, @"dasd");
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
@@ -337,7 +322,7 @@
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        ObjectOrNull([NSNumber numberWithLong: pageViewDuration]) , @"PageViewDuration",
+        ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]) , @"PageViewDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"ViewPageDuration",
