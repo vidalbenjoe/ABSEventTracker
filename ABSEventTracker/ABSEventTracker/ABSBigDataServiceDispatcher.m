@@ -43,7 +43,7 @@
 +(void) requestToken: (void (^)(NSString *token))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-         NSDate *timeNow = [NSDate date];
+        NSDate *timeNow = [NSDate date];
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
@@ -283,21 +283,6 @@
     
     NSDate *abandonViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
     
-    NSTimeInterval secondsBetween = [abandonViewTimeStamp timeIntervalSinceDate:accessViewTimeStamp];
-//
-//   int numberOfDays = secondsBetween / 86400;
-    
-//    NSLog(@"pageDurattion: %d", numberOfDays);
-//
-    
-    NSLog(@"launchTimesStamp: %@", attributes.arbitaryinvariant.applicationLaunchTimeStamp);
-    NSLog(@"accessViewsTimesStamp: %@", attributes.arbitaryinvariant.viewAccessTimeStamp);
-    NSLog(@"abandonViewTimeStamp: %@", attributes.arbitaryinvariant.viewAbandonTimeStamp);
-//
-//     NSLog(@"interfavel: %f", [abandonViewTimeStamp timeIntervalSinceDate:accessViewTimeStamp]);
-    NSLog(@"secondsBeftween: %f", secondsBetween);
-//
-    
     NSCalendar *gregorian = [[NSCalendar alloc]
                              initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
@@ -306,11 +291,8 @@
     NSDateComponents *components = [gregorian components:unitFlags
                                                 fromDate:accessViewTimeStamp
                                                   toDate:abandonViewTimeStamp options:0];
-    
-    NSInteger secons = [components second];
-    NSLog(@"secondsBetween: %ld %@", (long)secons, @"dasd");
-    
-//    NSLog(@"ViewPageDuration %f",[attributes.arbitaryinvariant.viewAccessTimeStamp timeIntervalSinceDate:attributes.arbitaryinvariant.viewAbandonTimeStamp]);
+    NSInteger pageViewDuration = [components second];
+    NSLog(@"secondsBetween: %ld %@", (long)pageViewDuration, @"dasd");
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
@@ -355,7 +337,7 @@
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"PageViewDuration",
+        ObjectOrNull([NSNumber numberWithLong: pageViewDuration]) , @"PageViewDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"ViewPageDuration",

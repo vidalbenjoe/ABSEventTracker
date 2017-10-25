@@ -50,11 +50,11 @@ BOOL hasInitialized = false;
             break;
         case ACCESS_VIEW:
             [[ArbitaryVariant init] setViewAccessTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+             NSLog(@"arvitartAccs: %@", [[ArbitaryVariant init] viewAccessTimeStamp]);
             break;
         case ABANDON_VIEW:
-            NSLog(@"arvitartAccs: %@", [[ArbitaryVariant init] viewAccessTimeStamp]);
-             NSLog(@"arvitartlaunch: %@", [[ArbitaryVariant init] applicationLaunchTimeStamp]);
             [[ArbitaryVariant init] setViewAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            NSLog(@"viewAbsndwon: %@", [[ArbitaryVariant init] viewAbandonTimeStamp]);
             break;
         default:
             break;
