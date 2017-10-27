@@ -25,8 +25,11 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *header = @{
+                                 @"x-mobile-header" : [Constant generateNewMobileHeader]
+                                 };
+        
+        [networking GET:eventPreProd path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
             [AuthManager storeSecurityHashTouserDefault:sechash];
@@ -34,6 +37,7 @@
             [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST);
+            [AuthManager removeSechHash];
         }];
     });
 }
@@ -48,6 +52,7 @@
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
+        
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if not exceed the server sechash expiration date.
@@ -153,7 +158,6 @@
                 /*
                  * Storing server token in NSUserDefault
                  */
-                 
                 [AuthManager storeTokenToUserDefault:token];
                 [self dispatcher:attributes];
             }];
@@ -229,7 +233,7 @@
             /*
              * Converting Dictionary attributes to NSData and send to server through HTTPBody
              */
-            NSData *data = [NSJSONSerialization dataWithJSONObject:attributes options:0 error:0];
+            NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:0 error:0];
             [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 // Remove the first index in the array of attributes from CacheManager if successfull
                 [CacheManager removeCachedAttributeByFirstIndex];
@@ -322,10 +326,9 @@
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]) , @"PageViewDuration",
+        ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]) , @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
-        ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"ViewPageDuration",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]), @"VideoPause",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]) , @"VideoSeekStart",
@@ -339,7 +342,6 @@
         ObjectOrNull(attributes.videoattributes.videoAdPlay) , @"VideoAdPlay",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoAdTime]) , @"VideoAdTime",
         attributes.videoattributes.videoMeta , @"VideoMeta",
-        attributes.videoattributes.videoBuffer  , @"VideoBuffer",
         attributes.videoattributes.videoTimeStamp , @"VideoTimeStamp",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoDuration]) , @"VideoDuration",
         ObjectOrNull(isvideoPaused), @"VideoIsPaused",

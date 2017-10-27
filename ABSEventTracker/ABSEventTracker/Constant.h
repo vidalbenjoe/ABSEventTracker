@@ -24,6 +24,7 @@
 #define DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)   45
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
+extern NSString* const eventPreProd;
 extern NSString* const tokenURL;
 extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;

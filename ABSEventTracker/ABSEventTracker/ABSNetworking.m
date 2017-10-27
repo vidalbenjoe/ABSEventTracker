@@ -34,7 +34,6 @@ NSURLSessionConfiguration *sessionConfiguration;
         id token = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
-    
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
                    cachePolicy: NSURLRequestReturnCacheDataElseLoad
@@ -53,7 +52,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                                     errorHandler(task, error);
                                     return;
                                 }
-            
                             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                     successHandler(task, dictionary);
                             }];
@@ -181,15 +179,22 @@ NSURLSessionConfiguration *sessionConfiguration;
  * This post method is used for retrieving a data with headers from server through NSURLSession
  */
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+
     for (id key in headers){
         id header = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
     }
-    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
+    
+     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
+    [request setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+        
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);

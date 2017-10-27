@@ -50,11 +50,9 @@ BOOL hasInitialized = false;
             break;
         case ACCESS_VIEW:
             [[ArbitaryVariant init] setViewAccessTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-             NSLog(@"arvitartAccs: %@", [[ArbitaryVariant init] viewAccessTimeStamp]);
             break;
         case ABANDON_VIEW:
             [[ArbitaryVariant init] setViewAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-            NSLog(@"viewAbsndwon: %@", [[ArbitaryVariant init] viewAbandonTimeStamp]);
             break;
         default:
             break;
@@ -66,14 +64,25 @@ BOOL hasInitialized = false;
  * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
  */
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
-    double sd = 3.5 - attributes.videoBufferPosition;
+    
+    int counter;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    NSDate *videoBufferedTime = [dateFormatter dateFromString:attributes.videoBufferTime];
+    counter = 0;
+    
+    counter = counter+1;
+    NSLog(@"ccou3nter: %i", ++counter);
     NSMutableArray *arrayBuff = [NSMutableArray array];
-//     NSNumber *num = [NSNumber numberWithFloat:sd];
-    for(int i = 0; i < 10; i++) {
-        [arrayBuff addObject:[NSNumber numberWithInt:i]];
+    for(int i = 0; i < counter; i++) {
+        
+        NSLog(@"ccounter: %i", counter);
+//        [arrayBuff addObject:[NSNumber numberWithInt:i]];
     }
-//    [arrayBuff addObject:num];
-
+    
+//[arrayBuff addObject:[FormatUtils timeDifferenceInSeconds:videoBufferedTime endTime:[NSDate date]]];
+    
+    
     NSMutableString *resultString = [NSMutableString string];
     for (NSString* key in arrayBuff){
         if ([resultString length]>0)
@@ -82,11 +91,43 @@ BOOL hasInitialized = false;
     }
     NSLog(@"resutltBug %@", resultString);
     NSLog(@"arrayBuff %@", arrayBuff);
+    
     [attributes setVideoConsolidatedBufferTime:resultString];
    
 //    [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
 //        [builder setVideoConsolidatedBufferTime:resultString];
 //    }];
+    
+    switch (attributes.videostate) {
+        case PAUSED:
+            
+            break;
+            
+        case PLAYING:
+            
+            break;
+            
+        case SEEKING:
+            
+            break;
+            
+        case ON_IDLE:
+            
+            break;
+            
+        case BUFFERING:
+            [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                [builder setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            }];
+            break;
+            
+        case COMPLETED:
+            
+            break;
+        default:
+            break;
+    }
+    
     
     switch (attributes.action) {
 
@@ -97,6 +138,7 @@ BOOL hasInitialized = false;
         case VIDEO_STOPPED:
             break;
         case VIDEO_BUFFER:
+            
             break;
         case VIDEO_PLAYED:
             break;

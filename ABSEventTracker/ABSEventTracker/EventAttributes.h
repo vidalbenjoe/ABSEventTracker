@@ -40,7 +40,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     
 };
 
-
 @class EventBuilder;
 @interface EventAttributes : NSObject
 @property(nonatomic, copy, readonly) NSString *clickedContent;
