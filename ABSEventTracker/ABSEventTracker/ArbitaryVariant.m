@@ -34,6 +34,7 @@
         _searchTimeStamp                  =   builder.searchTimeStamp;
         _viewAccessTimeStamp              =   builder.viewAccessTimeStamp;
         _viewAbandonTimeStamp             =   builder.viewAbandonTimeStamp;
+        _videoBufferTime                  =   builder.videoBufferTime;
     }
     return self;
 }
@@ -48,6 +49,7 @@
     builder.searchTimeStamp                 =   _searchTimeStamp;
     builder.viewAccessTimeStamp             =   _viewAccessTimeStamp;
     builder.viewAbandonTimeStamp            =   _viewAbandonTimeStamp;
+    builder.videoBufferTime                 =   _videoBufferTime;
     
     return builder;
 }
@@ -82,6 +84,7 @@
         _searchTimeStamp                        =   nil;
         _viewAccessTimeStamp                    =   nil;
         _viewAbandonTimeStamp                   =   nil;
+        _videoBufferTime                        =   nil;
     }
     return self;
 }

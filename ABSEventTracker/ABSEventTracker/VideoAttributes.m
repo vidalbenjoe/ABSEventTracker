@@ -22,7 +22,6 @@
         _videoAdError             = builder.videoAdError;
         _videoAdPlay              = builder.videoAdPlay;
         _videoMeta                = builder.videoMeta;
-        _videoBufferTime          = builder.videoBufferTime;
         
         _action                   = builder.action;
         _videostate               = builder.videostate;
@@ -61,7 +60,6 @@
     builder.videoAdError            = _videoAdError;
     builder.videoAdPlay             = _videoAdPlay;
     builder.videoMeta               = _videoMeta;
-    builder.videoBufferTime         = _videoBufferTime;
     
     builder.action                  = _action;
     builder.videostate              = _videostate;
@@ -83,6 +81,8 @@
     builder.videoConsolidatedBufferTime = _videoConsolidatedBufferTime;
     return builder;
 }
+
+
 
 +(instancetype) makeWithBuilder:(void (^)(VideoBuilder *))updateBlock{
     VideoBuilder *builder = [VideoBuilder new];
@@ -146,7 +146,6 @@
         _videoAdError           = nil;
         _videoAdPlay            = nil;
         _videoMeta              = nil;
-        _videoBufferTime        = nil;
         _videoConsolidatedBufferTime = nil;
         
         _videoWidth             = 0;

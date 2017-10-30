@@ -24,6 +24,7 @@
 @property(nonatomic, retain) NSString *searchTimeStamp;
 @property(nonatomic, retain) NSString *viewAccessTimeStamp;
 @property(nonatomic, retain) NSString *viewAbandonTimeStamp;
+@property(nonatomic, retain) NSString *videoBufferTime;
 +(ArbitaryVariant*) init;
 +(instancetype) makeWithBuilder:(void (^) (ArbitaryBuilder *)) updateBlock;
 -(instancetype) initTimeStampWithBuilder:(ArbitaryBuilder *) builder;
@@ -41,6 +42,7 @@
 @property(nonatomic, strong) NSString *searchTimeStamp;
 @property(nonatomic, strong) NSString *viewAccessTimeStamp;
 @property(nonatomic, strong) NSString *viewAbandonTimeStamp;
+@property(nonatomic, strong) NSString *videoBufferTime;
 -(instancetype) init;
 
 @end

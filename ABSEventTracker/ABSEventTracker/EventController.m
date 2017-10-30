@@ -14,7 +14,7 @@
 #import "ABSEventTracker.h"
 @implementation EventController
 BOOL hasInitialized = false;
-
+int counter = 0;
 +(id) init{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -65,39 +65,6 @@ BOOL hasInitialized = false;
  */
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
     
-    int counter;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSDate *videoBufferedTime = [dateFormatter dateFromString:attributes.videoBufferTime];
-    counter = 0;
-    
-    counter = counter+1;
-    NSLog(@"ccou3nter: %i", ++counter);
-    NSMutableArray *arrayBuff = [NSMutableArray array];
-    for(int i = 0; i < counter; i++) {
-        
-        NSLog(@"ccounter: %i", counter);
-//        [arrayBuff addObject:[NSNumber numberWithInt:i]];
-    }
-    
-//[arrayBuff addObject:[FormatUtils timeDifferenceInSeconds:videoBufferedTime endTime:[NSDate date]]];
-    
-    
-    NSMutableString *resultString = [NSMutableString string];
-    for (NSString* key in arrayBuff){
-        if ([resultString length]>0)
-            [resultString appendString:@"|"];
-        [resultString appendFormat:@"%@", key];
-    }
-    NSLog(@"resutltBug %@", resultString);
-    NSLog(@"arrayBuff %@", arrayBuff);
-    
-    [attributes setVideoConsolidatedBufferTime:resultString];
-   
-//    [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-//        [builder setVideoConsolidatedBufferTime:resultString];
-//    }];
-    
     switch (attributes.videostate) {
         case PAUSED:
             
@@ -116,9 +83,7 @@ BOOL hasInitialized = false;
             break;
             
         case BUFFERING:
-            [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-                [builder setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-            }];
+           [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
             
         case COMPLETED:
@@ -127,7 +92,7 @@ BOOL hasInitialized = false;
         default:
             break;
     }
-    
+
     
     switch (attributes.action) {
 
@@ -153,7 +118,43 @@ BOOL hasInitialized = false;
             }]];
             break;
     }
+     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
+    
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    NSDate *bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
+    NSLog(@"buffTImes: %@",[[ArbitaryVariant init] videoBufferTime]);
+    //    [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:[NSDate date]]];
+    counter = counter+1;
+    NSMutableArray *arrayBuff = [NSMutableArray array];
+    for(int i = 0; i < counter; i++) {
+        NSLog(@"westeros: %i", i);
+        //[arrayBuff addObject:[[NSDate date] dateByAddingTimeInterval:60*60*24*i]];
+        [arrayBuff addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:[NSDate date]]*i]];
+    }
+    
+    NSLog(@"buffTimeDiff: %@", [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:[NSDate date]]]);
+
+    NSMutableString *resultString = [NSMutableString string];
+    for (NSString* key in arrayBuff){
+        if ([resultString length]>0)
+            [resultString appendString:@"|"];
+        [resultString appendFormat:@"%@", key];
+    }
+    NSLog(@"resutltBug %@", resultString);
+    NSLog(@"arrayBuff %@", arrayBuff);
+    [attributes setVideoConsolidatedBufferTime:resultString];
+    
+    //        [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+    //            [builder setVideoConsolidatedBufferTime:resultString];
+    //        }];
+    
+
+    
+    
          [[AttributeManager init] setVideoAttributes:attributes];
+    
 }
 
 /*!
