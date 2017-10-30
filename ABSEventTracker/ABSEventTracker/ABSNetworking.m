@@ -40,6 +40,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                    timeoutInterval:60.0];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+     [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     [requestBody setHTTPMethod:@"POST"];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
@@ -105,6 +106,8 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
@@ -141,6 +144,8 @@ NSURLSessionConfiguration *sessionConfiguration;
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    
     [requestBody setHTTPBody:body];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
@@ -156,7 +161,9 @@ NSURLSessionConfiguration *sessionConfiguration;
                 if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
                     NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     successHandler(nil, dictionary);
+                    NSLog(@"VALID JSON-=");
                 }else{
+                       NSLog(@"VALID JSON-=NOT");
                     NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                         stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
                         stringByReplacingOccurrencesOfString:@" " withString:@""];
