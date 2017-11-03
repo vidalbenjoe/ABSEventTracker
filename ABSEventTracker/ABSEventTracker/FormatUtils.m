@@ -36,14 +36,16 @@
     NSString *randomUUID = [[NSUUID alloc] initWithUUIDBytes:bytes].UUIDString;
     return randomUUID;
 }
+
 +(NSInteger) timeDifferenceInSeconds: (NSDate *) start endTime: (NSDate *) end{
     NSCalendar *gregorian = [[NSCalendar alloc]
                              initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSUInteger unitFlags = NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitSecond;
+    NSUInteger unitFlags = NSCalendarUnitSecond;
     NSDateComponents *components = [gregorian components:unitFlags
                                                 fromDate:start
                                                   toDate:end options:0];
     NSInteger elapse = [components second];
+    NSLog(@"elapseTime: %ld", (long)elapse);
     return elapse;
 }
 

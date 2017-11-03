@@ -15,6 +15,9 @@
 @implementation EventController
 BOOL hasInitialized = false;
 int counter = 0;
+NSString *currentTimeStamp;
+NSDate *videoEventTimeStamp;
+NSDate *bufferTime;
 +(id) init{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -64,18 +67,20 @@ int counter = 0;
  * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
  */
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
-    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+  
     switch (attributes.videostate) {
         case PAUSED:
             
             break;
             
         case PLAYING:
-            
+//            currentTime = [NSDate date];
             break;
             
         case SEEKING:
-            
+//            currentTime = [NSDate date];
             break;
             
         case ON_IDLE:
@@ -92,20 +97,23 @@ int counter = 0;
         default:
             break;
     }
-
     
     switch (attributes.action) {
 
         case VIDEO_RESUMED:
+//            currentTime = [NSDate date];
             break;
         case VIDEO_SEEK:
             break;
         case VIDEO_STOPPED:
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            
             break;
         case VIDEO_BUFFER:
             
             break;
         case VIDEO_PLAYED:
+//            currentTime = [NSDate date];
             break;
         case VIDEO_PAUSED:
             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
@@ -118,47 +126,51 @@ int counter = 0;
             }]];
             break;
     }
-     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSDate *bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
-    NSLog(@"buffTImes: %@",[[ArbitaryVariant init] videoBufferTime]);
-    //    [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:[NSDate date]]];
-    counter = counter+1;
-    NSMutableArray *arrayBuff = [NSMutableArray array];
-    for(int i = 0; i < counter; i++) {
-        NSLog(@"westeros: %i", i);
-        //[arrayBuff addObject:[[NSDate date] dateByAddingTimeInterval:60*60*24*i]];
-        [arrayBuff addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:[NSDate date]]*i]];
+    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
+    
+    bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
+    videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
+    
+    NSLog(@"currentTimeStampVideo: %@",videoEventTimeStamp);
+    NSLog(@"BufferTimeStampVideo: %@",bufferTime);
+    if (videoEventTimeStamp != nil || bufferTime < videoEventTimeStamp) {
+        NSLog(@"buffTImes: %@",[[ArbitaryVariant init] videoBufferTime]);
+        
+        NSLog(@"currentTimeStampTotal: %@",videoEventTimeStamp);
+        NSLog(@"BufferTimeStampTotal: %@",bufferTime);
+        NSLog(@"buffTimeDiff: %ld", (long)[FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]);
+        
+        counter = counter + 1;
+        NSMutableArray *arrayBuff = [NSMutableArray array];
+        for(int i = 0; i < counter; i++) {
+            
+            NSLog(@"increment %@",[NSString stringWithFormat:@"counter: %d and inc:%d ",counter,i]);
+            //[arrayBuff addObject:[[NSDate date] dateByAddingTimeInterval:60*60*24*i]];
+            [arrayBuff addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]*i]];
+            
+              NSLog(@"arrayBuffTime: %ld", (long)[FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]);
+        }
+        
+        NSMutableString *resultString = [NSMutableString string];
+        for (NSString* key in arrayBuff){
+            if ([resultString length]>0)
+                [resultString appendString:@"|"];
+                [resultString appendFormat:@"%@", key];
+        }
+        
+        NSLog(@"resutltBug %@", resultString);
+        NSLog(@"arrayBuff %@", arrayBuff);
+        
+        videoEventTimeStamp = nil;
+        [attributes setVideoConsolidatedBufferTime:resultString];
+        
+        [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+            [builder setVideoConsolidatedBufferTime:resultString];
+        }];
     }
-    
-    NSLog(@"buffTimeDiff: %@", [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:[NSDate date]]]);
-
-    NSMutableString *resultString = [NSMutableString string];
-    for (NSString* key in arrayBuff){
-        if ([resultString length]>0)
-            [resultString appendString:@"|"];
-        [resultString appendFormat:@"%@", key];
-    }
-    NSLog(@"resutltBug %@", resultString);
-    NSLog(@"arrayBuff %@", arrayBuff);
-    [attributes setVideoConsolidatedBufferTime:resultString];
-    
-    //        [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-    //            [builder setVideoConsolidatedBufferTime:resultString];
-    //        }];
-    
-
-    
-    
-         [[AttributeManager init] setVideoAttributes:attributes];
-    
+    [[AttributeManager init] setVideoAttributes:attributes];
 }
 
-/*!
- * @discussion This method will fetch recommendation by popular
- */
 
 @end
