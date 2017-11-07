@@ -43,6 +43,7 @@
 
 -(EventBuilder *) makeBuilder{
     EventBuilder *builder = [EventBuilder new];
+    builder.actionTaken             = _actionTaken;
     builder.clickedContent          = _clickedContent;
     builder.searchQuery             = _searchQuery;
     builder.readArticle             = _readArticle;
@@ -107,7 +108,14 @@
              @(ABANDON_APP)         : @"Abandon",
              @(OTHERS)              : @"Other",
              @(ACCESS_VIEW)         : @"AccessView",
-             @(ABANDON_VIEW)        : @"AbandonView"
+             @(ABANDON_VIEW)        : @"AbandonView",
+             @(VIDEO_PLAYED)        : @"VideoPlayed",
+             @(VIDEO_PAUSED)        : @"VideoPaused",
+             @(VIDEO_RESUMED)       : @"VideioResumed",
+             @(VIDEO_SEEK)          : @"VideoSeek",
+             @(VIDEO_STOPPED)       : @"VideoStopped",
+             @(VIDEO_BUFFER)        : @"VideoBuff",
+             @(VIDEO_COMPLETE)      : @"VideoCompleted"
              };
 }
 

@@ -38,6 +38,14 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     ACCESS_VIEW         =   22,
     ABANDON_VIEW        =   23,
     
+    VIDEO_PLAYED        =   24,
+    VIDEO_PAUSED        =   25,
+    VIDEO_RESUMED       =   26,
+    VIDEO_SEEK          =   27,
+    VIDEO_STOPPED       =   28,
+    VIDEO_BUFFER        =   29,
+    VIDEO_COMPLETE      =   30
+    
 };
 
 @class EventBuilder;
@@ -61,7 +69,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy, readonly) NSString *previousScreen;
 @property(nonatomic, copy, readonly) NSString *screenDestination;
 @property(nonatomic, copy, readonly) NSString *currentView;
-
 
 @property(nonatomic) float latitute;
 @property(nonatomic) float longitude;
@@ -104,7 +111,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic) int readingDuration;
 
 -(instancetype) init;
-
 
 @end
 
