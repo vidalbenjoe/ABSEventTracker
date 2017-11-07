@@ -67,7 +67,7 @@
     [encoder encodeObject:self.birthday forKey:@"birthday"];
     [encoder encodeObject:self.loginTimeStamp forKey:@"logintimestamp"];
 }
-
+//
 -(id)initWithCoder:(NSCoder *)decoder {
     self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
     self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
@@ -90,10 +90,12 @@
     UserAttributes *person = (UserAttributes *)[NSKeyedUnarchiver unarchiveObjectWithData:encodedPerson];
     return person;
 }
+
 +(void) clearUserData{
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"encodedPersonKey"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 @end
 
 @implementation UserBuilder

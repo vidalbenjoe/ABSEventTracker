@@ -24,19 +24,10 @@ typedef NS_ENUM(NSInteger, VideoState){
     BUFFERING  =   4,
     COMPLETED  =   5
 };
-// Video Action Taken
-typedef NS_ENUM(NSInteger, VideoActionTaken){
-    VIDEO_PLAYED        =   0,
-    VIDEO_PAUSED        =   1,
-    VIDEO_RESUMED       =   2,
-    VIDEO_SEEK          =   3,
-    VIDEO_STOPPED       =   4,
-    VIDEO_BUFFER        =   5,
-    VIDEO_COMPLETE      =   6
-};
+
 @class VideoBuilder;
 @interface VideoAttributes : NSObject
-@property(nonatomic, readonly) VideoActionTaken action;
+@property(nonatomic, readonly) ActionTaken action;
 @property(nonatomic, readonly) VideoState videostate;
 @property(nonatomic, readonly) int videoWidth;
 @property(nonatomic, readonly) int videoHeight;
@@ -88,7 +79,7 @@ typedef NS_ENUM(NSInteger, VideoActionTaken){
 @property(nonatomic, copy) NSString *videoMeta;
 @property(nonatomic, copy) NSString *videoConsolidatedBufferTime;
 
-@property(nonatomic) VideoActionTaken action;
+@property(nonatomic) ActionTaken action;
 @property(nonatomic) VideoState videostate;
 @property(nonatomic) int videoWidth;
 @property(nonatomic) int videoHeight;

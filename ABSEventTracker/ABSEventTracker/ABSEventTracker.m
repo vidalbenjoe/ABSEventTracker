@@ -28,12 +28,12 @@
         shared = [[super alloc] init];
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
-//        Checking the list of valid identifier if matched on the current app bundle identifier
+//Checking the list of valid identifier if matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
               // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
-                NSLog(@"FINGERPRINT: %@", [DeviceFingerprinting generateDeviceFingerprint]);
-                NSLog(@"DEVICEUUID: %@", [DeviceInfo deviceUUID]);
+//                NSLog(@"FINGERPRINT: %@", [DeviceFingerprinting generateDeviceFingerprint]);
+//                NSLog(@"DEVICEUUID: %@", [DeviceInfo deviceUUID]);
 
                 // Initialize Session
                 [[SessionManager init] establish];
@@ -95,63 +95,6 @@
     return shared;
 }
 
-/* Initializing event, session, application and digital properties
- */
-+(void) initializeProperty: (BOOL) isProd{
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        // Initialize Session
-        [[SessionManager init] establish];
-        // Get device information to be used on device fingerprinting and analytics.
-        DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
-                                   (DeviceInvariantBuilder *builder) {
-                                       [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
-                                       [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
-                                       [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
-                                       [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
-                                       [builder setDeviceType:[DeviceInfo deviceType]];
-                                   }];
-        // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
-        PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
-        [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
-        [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-        if (isProd) {
-            //use production site domain URL
-            if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                  [digitalProperty setSiteDomain:TFCHostProdURL];
-            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                  [digitalProperty setSiteDomain:NEWSHostProdURL];
-            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                  [digitalProperty setSiteDomain:IWANTVHostProdURL];
-            }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                  [digitalProperty setSiteDomain:SODHostProdURL];
-            }
-        }else{
-            if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                  [digitalProperty setSiteDomain:TFCHostStagingURL];
-            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                  [digitalProperty setSiteDomain:NEWSHostStagingURL];
-            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                  [digitalProperty setSiteDomain:IWANTVHostStagingURL];
-            }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                  [digitalProperty setSiteDomain:SODHostStagingURL];
-            }
-        }
-        [self initSession:[SessionManager init]];
-        [self checkEventSource];
-        [self initWithDevice:device];
-        [self initAppProperty:digitalProperty];
-        [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-            EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                // set Event action into LOAD
-                [builder setActionTaken:LOAD];
-            }];
-            // Write LOAD action to to server.
-            [ABSEventTracker initEventAttributes:attrib];
-            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
-        }];
-    });
-}
 /**
  * Simple conditional statement to filter out ABS-CBN digital properties.
  * IMPORTANT: if the bundle Identifier doesn't meet the pre-defined identifier, the server will not return any valid security hash.

@@ -48,6 +48,7 @@
 }
 
 -(VideoBuilder *) makeBuilder{
+    
     VideoBuilder *builder = [VideoBuilder new];
     builder.videoTimeStamp          = _videoTimeStamp;
     builder.videoTitle              = _videoTitle;
@@ -82,8 +83,6 @@
     return builder;
 }
 
-
-
 +(instancetype) makeWithBuilder:(void (^)(VideoBuilder *))updateBlock{
     VideoBuilder *builder = [VideoBuilder new];
     updateBlock(builder);
@@ -112,21 +111,6 @@
 
 +(NSString *) convertVideoStateToString: (VideoState) state{
     return [[self class] videoStateByName][@(state)];
-}
-
-+(NSDictionary *) actionVideoTakenByName{
-    return @{@(VIDEO_PLAYED)        : @"VideoPlayed",
-             @(VIDEO_PAUSED)        : @"VideoPaused",
-             @(VIDEO_RESUMED)       : @"VideioResumed",
-             @(VIDEO_SEEK)          : @"VideoSeek",
-             @(VIDEO_STOPPED)       : @"VideoStopped",
-             @(VIDEO_BUFFER)        : @"VideoBuff",
-             @(VIDEO_COMPLETE)      : @"VideoCompleted"
-             };
-}
-
-+(NSString *) convertVideoActionTaken: (VideoActionTaken) action{
-    return [[self class] actionVideoTakenByName][@(action)];
 }
 
 @end
