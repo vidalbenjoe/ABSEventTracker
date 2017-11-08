@@ -79,19 +79,19 @@
                 [self initWithDevice:device];
                 [self initAppProperty:digitalProperty];
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-                    EventAttributes *attrib = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                    EventAttributes *loadEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                         // set Event action into LOAD
                         [builder setActionTaken:LOAD];
                     }];
                     // Write LOAD action to to server.
-                    [ABSEventTracker initEventAttributes:attrib];
+                    [ABSEventTracker initEventAttributes:loadEvent];
                     [ABSBigDataServiceDispatcher dispatchCachedAttributes];
                 }];
-            
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
         }
     });
+    
     return shared;
 }
 
@@ -237,7 +237,6 @@
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
     [EventController writeVideoAttributes:attributes];
     
-   
 }
 @end
 

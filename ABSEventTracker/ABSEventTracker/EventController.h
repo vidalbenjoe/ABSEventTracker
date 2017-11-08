@@ -15,8 +15,9 @@
 #import "EventAttributes.h"
 #import "VideoAttributes.h"
 @interface EventController : NSObject
+
 /** Method to initialize EventController class */
-+(id) init;
++(id) initialize;
 
 /**
 * Wrapper function to write event attributes -> EventAttributes.

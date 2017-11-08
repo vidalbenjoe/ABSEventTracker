@@ -25,6 +25,7 @@
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        
         NSDictionary *header = @{
                                  @"x-mobile-header" : [Constant generateNewMobileHeader]
                                  };
@@ -328,7 +329,7 @@
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        accessViewTimeStamp > abandonViewTimeStamp ? ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]) : ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]) , @"ViewPageDuration",
+        abandonViewTimeStamp == nil ? @"" : accessViewTimeStamp > abandonViewTimeStamp ? ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]) : ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",

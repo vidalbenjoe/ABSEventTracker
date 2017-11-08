@@ -14,12 +14,12 @@
 #import "ABSEventTracker.h"
 @implementation EventController
 BOOL hasInitialized = false;
-int counter = 0;
 NSMutableArray *buffDurationArray;
 NSString *currentTimeStamp;
 NSDate *videoEventTimeStamp;
 NSDate *bufferTime;
-+(id) init{
+NSMutableArray *buffDurationArray;
++(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -69,6 +69,7 @@ NSDate *bufferTime;
  * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
  */
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
+    
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:attributes.action];
     }]];
@@ -127,41 +128,43 @@ NSDate *bufferTime;
     }
     
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
-
+    if (buffDurationArray == nil) {
+        buffDurationArray = [NSMutableArray array];
+    }
     bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
     videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
-    counter = counter + 1;
     
     NSMutableString *consolidatedBufferDuration = [NSMutableString string];
-    buffDurationArray = [NSMutableArray array];
-    if (videoEventTimeStamp < bufferTime) {
-         [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:videoEventTimeStamp endTime:bufferTime]]];
-    }else{
-          [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
-        //        for(int i = 0; i < counter; i++) {
-        //             [arrayBuff addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]*i]];
-        //        }
-    }
+    NSLog(@"bufferTime23: %@",bufferTime);
     
-    NSLog(@"buffTImes: %@",[[ArbitaryVariant init] videoBufferTime]);
-
-    NSLog(@"currentTimeStampTotal: %@",videoEventTimeStamp);
-    NSLog(@"BufferTimeStampTotal: %@",bufferTime);
-    for (NSString* key in buffDurationArray){
-        if ([consolidatedBufferDuration length]>0)
-            [consolidatedBufferDuration appendString:@"|"];
-        [consolidatedBufferDuration appendFormat:@"%@", key];
+    if (bufferTime != nil) {
+        if (videoEventTimeStamp < bufferTime) {
+            [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:videoEventTimeStamp endTime:bufferTime]]];
+        }else{
+            [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
+        }
+        
+        NSLog(@"buffTImes: %@",[[ArbitaryVariant init] videoBufferTime]);
+        
+        NSLog(@"currentTimeStampTotal: %@",videoEventTimeStamp);
+        NSLog(@"BufferTimeStampTotal: %@",bufferTime);
+        for (NSString* key in buffDurationArray){
+            if ([consolidatedBufferDuration length]>0)
+                [consolidatedBufferDuration appendString:@"|"];
+            [consolidatedBufferDuration appendFormat:@"%@", key];
+        }
+        NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
+        NSLog(@"buffDurationArray %@", buffDurationArray);
+        [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];
+        
+        [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+            [builder setVideoConsolidatedBufferTime:consolidatedBufferDuration];
+        }];
     }
-    NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
-    NSLog(@"buffDurationArray %@", buffDurationArray);
-    [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];
-
-    [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-        [builder setVideoConsolidatedBufferTime:consolidatedBufferDuration];
-    }];
     
     [[AttributeManager init] setVideoAttributes:attributes];
 }
+
 
 
 @end
