@@ -156,7 +156,7 @@
              * Request a new server token if the current time exceeded the server token expiration timestamp
              */
             [self requestToken:^(NSString *token) {
-                /*
+                /*Capture the current view inside the mobile app
                  * Storing server token in NSUserDefault
                  */
                 [AuthManager storeTokenToUserDefault:token];
@@ -329,7 +329,7 @@
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        abandonViewTimeStamp == nil ? @"" : accessViewTimeStamp > abandonViewTimeStamp ? ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]) : ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]), @"ViewPageDuration",
+        abandonViewTimeStamp == nil ? @"" : accessViewTimeStamp > abandonViewTimeStamp ? ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]) : @"", @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",
@@ -355,7 +355,7 @@
         ObjectOrNull(attributes.videoattributes.videoURL) , @"VideoURL",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoVolume]) , @"VideoVolume",
          ObjectOrNull(videoSize) , @"VideoSize",
-         ObjectOrNull(videoSize) , @"videoConsolidatedBufferTime",
+         ObjectOrNull(attributes.videoattributes.videoConsolidatedBufferTime) , @"videoConsolidatedBufferTime",
          ObjectOrNull(videoSize) , @"videoTotalBufferTime",
                                                  nil];
     NSData *jsondata = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:0 error:&error];

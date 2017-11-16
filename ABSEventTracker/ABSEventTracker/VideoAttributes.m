@@ -130,6 +130,7 @@
         _videoAdError           = nil;
         _videoAdPlay            = nil;
         _videoMeta              = nil;
+        
         _videoConsolidatedBufferTime = nil;
         
         _videoWidth             = 0;

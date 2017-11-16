@@ -22,9 +22,11 @@
     });
     return shared;
 }
+
 /*
  * This method will return application name. Ex. iwantv
  */
+
 +(NSString *) getAppName{
     NSString *appname = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
     return appname;
