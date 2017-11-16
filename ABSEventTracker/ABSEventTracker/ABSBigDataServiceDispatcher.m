@@ -30,7 +30,7 @@
                                  @"x-mobile-header" : [Constant generateNewMobileHeader]
                                  };
         
-        [networking GET:eventPreProd path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
             [AuthManager storeSecurityHashTouserDefault:sechash];
