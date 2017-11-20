@@ -31,6 +31,12 @@
 -(instancetype) update:(void(^)(UserBuilder *)) updateBlock;
 -(instancetype) build;
 +(void) cacheUserData: (UserAttributes *) userinfo;
++(void) cachedUserInfoWithID: (NSString *) userID firstName:(NSString *)firstName middleName:(NSString *)middleName lastName:(NSString*) lastName;
++(NSString *) retrieveUserID;
++(NSString *) retrieveFirstName;
++(NSString *) retrieveMiddleName;
++(NSString *) retrieveLastName;
+
 +(UserAttributes *) retrieveUserInfoFromCache;
 +(void) clearUserData;
 @end

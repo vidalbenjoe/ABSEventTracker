@@ -18,6 +18,7 @@
 #import "DeviceInfo.h"
 
 @implementation ABSBigDataServiceDispatcher
+
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
@@ -266,12 +267,11 @@
  */
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
+
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     
-    NSLog(@"actionTaken: %@", action);
-    
-    NSString *userID = ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] gigyaID]) ? ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] ssoID]) : [[UserAttributes retrieveUserInfoFromCache] gigyaID];
-    
+    NSString *userID = attributes.userattributes.ssoID ?: attributes.userattributes.gigyaID;
+    NSLog(@"cachedMiddleNdwame: %@", [UserAttributes retrieveLastName]);
     NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
     NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
 
@@ -306,9 +306,9 @@
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID])  , @"BigDataSessionID",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]) , @"SessionStartTimestamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
-        ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] firstName]) , @"FirstName",
-        ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] middleName]) , @"MiddleName",
-        ObjectOrNull([[UserAttributes retrieveUserInfoFromCache] lastName]) , @"LastName",
+                                                 attributes.userattributes.firstName ?: ObjectOrNull([UserAttributes retrieveFirstName]) , @"FirstName",
+                                                 attributes.userattributes.middleName ?: [UserAttributes retrieveMiddleName] , @"MiddleName",
+                                                 attributes.userattributes.lastName ?: ObjectOrNull([UserAttributes retrieveLastName]) , @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",

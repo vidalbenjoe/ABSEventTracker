@@ -140,8 +140,9 @@
  */
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
+   
     [[AttributeManager init] setUserAttributes:attributes];
-    [UserAttributes cacheUserData:attributes];
+        [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
     // Send LOGIN action into server
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];

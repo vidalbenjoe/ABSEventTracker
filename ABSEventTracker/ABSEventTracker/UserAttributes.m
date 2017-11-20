@@ -69,6 +69,7 @@
 }
 //
 -(id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super init])) {
     self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
     self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
     self.firstName = [decoder decodeObjectForKey:@"firstName"];
@@ -77,25 +78,68 @@
     self.address = [decoder decodeObjectForKey:@"address"];
     self.birthday = [decoder decodeObjectForKey:@"birthday"];
     self.loginTimeStamp = [decoder decodeObjectForKey:@"logintimestamp"];
+    }
     return self;
 }
 
 +(void) cacheUserData: (UserAttributes *) userinfo{
     NSData *encodedPerson = [NSKeyedArchiver archivedDataWithRootObject:userinfo];
     [[NSUserDefaults standardUserDefaults] setObject:encodedPerson forKey:@"encodedPersonKey"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
++(void) cachedUserInfoWithID: (NSString *) userID firstName:(NSString *)firstName middleName:(NSString *)middleName lastName:(NSString*) lastName{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    [prefs setValue:userID forKey:@"cachedUserID"];
+    [prefs setValue:firstName forKey:@"cachedFirstName"];
+    [prefs setValue:middleName forKey:@"cachedMiddleName"];
+    [prefs setValue:lastName forKey:@"cachedLastName"];
+    [prefs synchronize];
+}
+
++(NSString *) retrieveUserID{
+    NSString *userID = [[NSUserDefaults standardUserDefaults]
+                       stringForKey:@"cachedUserID"];
+    return userID;
+}
+
++(NSString *) retrieveFirstName{
+    NSString *firstName = [[NSUserDefaults standardUserDefaults]
+                        stringForKey:@"cachedFirstName"];
+    
+    return firstName;
+}
+
++(NSString *) retrieveMiddleName{
+    NSString *middleName = [[NSUserDefaults standardUserDefaults]
+                          stringForKey:@"cachedMiddleName"];
+    
+    return middleName;
+}
+
++(NSString *) retrieveLastName{
+    NSString *lastName = [[NSUserDefaults standardUserDefaults]
+                        stringForKey:@"cachedLastName"];
+    
+    return lastName;
+}
+
 +(UserAttributes *) retrieveUserInfoFromCache{
     //retrieving
     NSData *encodedPerson = [[NSUserDefaults standardUserDefaults] objectForKey:@"encodedPersonKey"];
     UserAttributes *person = (UserAttributes *)[NSKeyedUnarchiver unarchiveObjectWithData:encodedPerson];
+    NSLog(@"personSdw: %@", person.firstName);
     return person;
 }
 
 +(void) clearUserData{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"encodedPersonKey"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cachedUserID"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cachedFirstName"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cachedMiddleName"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cachedLastName"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-
 @end
 
 @implementation UserBuilder

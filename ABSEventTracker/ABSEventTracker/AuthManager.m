@@ -67,6 +67,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"securityHash"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 +(NSString *) retrieveSecurityHashFromUserDefault{
     NSString *token = [[NSUserDefaults standardUserDefaults]
                        stringForKey:@"securityHash"];

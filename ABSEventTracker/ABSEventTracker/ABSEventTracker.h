@@ -21,6 +21,7 @@
  * IMPORTANT : This method should be called on the AppDelegate didFinishLaunchingWithOptions:
  * This method will initialize multiple attribute such as SessionManager, DeviceInvariant and PropertyEventSource.
  */
+
 +(ABSEventTracker *) initializeTrackerForProd :(BOOL) isProd;
 
 +(void) initWithUser:(UserAttributes *) attributes;
