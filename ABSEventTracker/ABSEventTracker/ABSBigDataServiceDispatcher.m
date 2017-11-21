@@ -185,6 +185,7 @@ NSInteger duration;
 
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
+    
         /*
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
@@ -215,52 +216,51 @@ NSInteger duration;
 }
 
 +(void) dispatchCachedAttributes{
-    /*
-     * Retriving all failed array of attributes from the CacheManager.
-     */
-    if ([[CacheManager retrieveAllCacheArray] count] > 0) {
-        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-        // Loop cached array and add to queue
-        for (int i = 0; i < [CacheManager retrieveAllCacheArray].count; i++) {
-            // Add cached Array to attributes dictionary
-            [attributes setObject:[[CacheManager retrieveAllCacheArray] objectAtIndex:i] forKey:@"attributes"];
-            NSOperationQueue *operationQueue = [NSOperationQueue new];
-            [operationQueue setMaxConcurrentOperationCount:5];
-            ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
-            //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
-            
-            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-            
-            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-            /*
-             * Converting Dictionary attributes to NSData and send to server through HTTPBody
-             */
-            NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:0 error:0];
-            [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                // Remove the first index in the array of attributes from CacheManager if successfull
-                [CacheManager removeCachedAttributeByFirstIndex];
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                /*
-                 * Storing attributes dictionary again into CacheManager.
-                 */
-                [CacheManager storeFailedAttributesToCacheManager:attributes];
-            }];
-            
-            NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
-                //This is the completion block that will get called when the custom operation work is completed.
-                // Work completed
-            }];
-            customOperation.completionBlock =^{
-                //This is another way of catching the Custom Operation completition.
-                //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
-            };
-            [blockCompletionOperation addDependency:customOperation];
-            [operationQueue addOperation:customOperation];
-//            [customOperation start];
-            //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method
-        }
-    }
+//    /*
+//     * Retriving all failed array of attributes from the CacheManager.
+//     */
+//    if ([[CacheManager retrieveAllCacheArray] count] > 0) {
+//        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+//        // Loop cached array and add to queue
+//        for (int i = 0; i < [CacheManager retrieveAllCacheArray].count; i++) {
+//            // Add cached Array to attributes dictionary
+//            [attributes setObject:[[CacheManager retrieveAllCacheArray] objectAtIndex:i] forKey:@"attributes"];
+//            NSOperationQueue *operationQueue = [NSOperationQueue new];
+//            [operationQueue setMaxConcurrentOperationCount:5];
+//            ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
+//            //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
+//
+//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
+//            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+//            /*
+//             * Converting Dictionary attributes to NSData and send to server through HTTPBody
+//             */
+//            NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:NSJSONWritingPrettyPrinted error:0];
+//
+//            [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//                // Remove the first index in the array of attributes from CacheManager if successfull
+//                [CacheManager removeCachedAttributeByFirstIndex];
+//            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+//                /*
+//                 * Storing attributes dictionary again into CacheManager.
+//                 */
+//                [CacheManager storeFailedAttributesToCacheManager:attributes];
+//            }];
+//            NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
+//                //This is the completion block that will get called when the custom operation work is completed.
+//                // Work completed
+//            }];
+//            customOperation.completionBlock =^{
+//                //This is another way of catching the Custom Operation completition.
+//                //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
+//            };
+//            [blockCompletionOperation addDependency:customOperation];
+//            [operationQueue addOperation:customOperation];
+////            [customOperation start];
+//            //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method
+//        }
+//    }
 }
 /*!
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
@@ -272,7 +272,7 @@ NSInteger duration;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
-    
+
     NSString *userID = attributes.userattributes.ssoID ?: attributes.userattributes.gigyaID;
     NSLog(@"cachedMiddleNdwame: %@", [UserAttributes retrieveLastName]);
     
@@ -292,7 +292,6 @@ NSInteger duration;
             duration = [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime : accessViewTimeStamp];
         }
     }
-    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -313,16 +312,16 @@ NSInteger duration;
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigDataSessionID",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimestamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
-                                                 attributes.userattributes.firstName ?: ObjectOrNull([UserAttributes retrieveFirstName]) , @"FirstName",
-                                                 attributes.userattributes.middleName ?: [UserAttributes retrieveMiddleName] , @"MiddleName",
-                                                 attributes.userattributes.lastName ?: ObjectOrNull([UserAttributes retrieveLastName]) , @"LastName",
+                                                 "Benjoe" , @"FirstName",
+                                                 @"Rivera", @"MiddleName",
+                                                 @"Vidal", @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
         ObjectOrNull(attributes.eventattributes.searchQuery) , @"QueryString",
         ObjectOrNull(action), @"ActionTaken",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"ReadArticle",
-        ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.readingDuration]) , @"ReadingDuration",
+        @"0", @"ReadingDuration",
         ObjectOrNull(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
         ObjectOrNull(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentContent",
@@ -336,7 +335,7 @@ NSInteger duration;
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        duration == 0 ? 0 : duration, @"ViewPageDuration",
+        @"duration", @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",
@@ -365,8 +364,11 @@ NSInteger duration;
          ObjectOrNull(attributes.videoattributes.videoConsolidatedBufferTime) , @"videoConsolidatedBufferTime",
          ObjectOrNull(videoSize) , @"videoTotalBufferTime",
                                                  nil];
+    
+    NSLog(@"failedAttributes %@", attributesDictionary);
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
     
+  
     return attributesData;
 }
 

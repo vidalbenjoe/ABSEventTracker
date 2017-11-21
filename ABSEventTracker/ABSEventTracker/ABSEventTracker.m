@@ -140,13 +140,13 @@
  */
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
-   
-    [[AttributeManager init] setUserAttributes:attributes];
-        [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
     // Send LOGIN action into server
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];
     }]];
+    [[AttributeManager init] setUserAttributes:attributes];
+    [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
+    
 }
 /**
  * Set the Device information into attriutes manager.
