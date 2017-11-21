@@ -18,7 +18,7 @@
 #import "DeviceInfo.h"
 
 @implementation ABSBigDataServiceDispatcher
-
+NSInteger duration;
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
@@ -182,35 +182,36 @@
         }];
     }
 }
+
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
-    /*
-     * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
-     */
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    /*
-     * Retrieving server token to be used in request header.
-     */
-    NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
         /*
-         * Success: Sending server response to ABSLogger.
+         * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
-        [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         /*
-         * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+         * Retrieving server token to be used in request header.
          */
-        NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes
-                                                             options:kNilOptions
-                                                               error:&error];
-        /*
-         * Storing attributes dictionary into CacheManager.
-         */
-        [CacheManager storeFailedAttributesToCacheManager:data];
-        [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
-    }];
+        NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            /*
+             * Success: Sending server response to ABSLogger.
+             */
+            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            /*
+             * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+             */
+            NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes
+                                                                        options:kNilOptions
+                                                                          error:&error];
+            /*
+             * Storing attributes dictionary into CacheManager.
+             */
+            [CacheManager storeFailedAttributesToCacheManager:data];
+            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+        }];
 }
 
 +(void) dispatchCachedAttributes{
@@ -220,7 +221,7 @@
     if ([[CacheManager retrieveAllCacheArray] count] > 0) {
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
         // Loop cached array and add to queue
-        for (int i = 0; i < [CacheManager retrieveAllCacheArray].count ; i++) {
+        for (int i = 0; i < [CacheManager retrieveAllCacheArray].count; i++) {
             // Add cached Array to attributes dictionary
             [attributes setObject:[[CacheManager retrieveAllCacheArray] objectAtIndex:i] forKey:@"attributes"];
             NSOperationQueue *operationQueue = [NSOperationQueue new];
@@ -267,11 +268,14 @@
  */
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
-
+    duration = 0;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     
     NSString *userID = attributes.userattributes.ssoID ?: attributes.userattributes.gigyaID;
     NSLog(@"cachedMiddleNdwame: %@", [UserAttributes retrieveLastName]);
+    
     NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
     NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
 
@@ -280,11 +284,14 @@
     
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-
     NSDate *accessViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     NSDate *abandonViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
+    
+    if (abandonViewTimeStamp != nil) {
+        if (accessViewTimeStamp > abandonViewTimeStamp) {
+            duration = [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime : accessViewTimeStamp];
+        }
+    }
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
@@ -303,8 +310,8 @@
         ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp), @"WritingEventTimestamp",
         ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp), @"LogoutTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp), @"SearchTimeStamp",
-        ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID])  , @"BigDataSessionID",
-        ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]) , @"SessionStartTimestamp",
+        ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigDataSessionID",
+        ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimestamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
                                                  attributes.userattributes.firstName ?: ObjectOrNull([UserAttributes retrieveFirstName]) , @"FirstName",
                                                  attributes.userattributes.middleName ?: [UserAttributes retrieveMiddleName] , @"MiddleName",
@@ -329,7 +336,7 @@
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        abandonViewTimeStamp == nil ? @"" : accessViewTimeStamp > abandonViewTimeStamp ? ObjectOrNull([NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]) : @"", @"ViewPageDuration",
+        duration == 0 ? 0 : duration, @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",
@@ -358,9 +365,9 @@
          ObjectOrNull(attributes.videoattributes.videoConsolidatedBufferTime) , @"videoConsolidatedBufferTime",
          ObjectOrNull(videoSize) , @"videoTotalBufferTime",
                                                  nil];
-    NSData *jsondata = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:0 error:&error];
+         NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
     
-    return jsondata;
+    return attributesData;
 }
 
 // This method will return empty string if the attributes is nil or empty

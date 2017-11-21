@@ -107,21 +107,18 @@
 +(NSString *) retrieveFirstName{
     NSString *firstName = [[NSUserDefaults standardUserDefaults]
                         stringForKey:@"cachedFirstName"];
-    
     return firstName;
 }
 
 +(NSString *) retrieveMiddleName{
     NSString *middleName = [[NSUserDefaults standardUserDefaults]
                           stringForKey:@"cachedMiddleName"];
-    
     return middleName;
 }
 
 +(NSString *) retrieveLastName{
     NSString *lastName = [[NSUserDefaults standardUserDefaults]
                         stringForKey:@"cachedLastName"];
-    
     return lastName;
 }
 

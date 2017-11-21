@@ -158,12 +158,15 @@ NSURLSessionConfiguration *sessionConfiguration;
                 errorHandler(nil, error);
                 return;
             }
+                /**
+                 * Check the API if responding JSON data
+                 */
                 if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
                     NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     successHandler(nil, dictionary);
-                    NSLog(@"VALID JSON-=");
+                    NSLog(@"BIG-DATA EVENT: JSON is not valid");
                 }else{
-                       NSLog(@"VALID JSON-=NOT");
+                    // Trim the string format JSON data to replace special character and convert to dictionary.
                     NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                         stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
                         stringByReplacingOccurrencesOfString:@" " withString:@""];

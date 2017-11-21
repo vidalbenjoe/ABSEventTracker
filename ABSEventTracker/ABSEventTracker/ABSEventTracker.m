@@ -147,7 +147,6 @@
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];
     }]];
-    
 }
 /**
  * Set the Device information into attriutes manager.
