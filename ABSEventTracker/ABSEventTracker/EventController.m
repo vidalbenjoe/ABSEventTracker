@@ -20,6 +20,7 @@ NSDate *videoEventTimeStamp;
 NSDate *bufferTime;
 NSDateFormatter *dateFormatter;
 NSMutableArray *buffDurationArray;
+NSMutableString *consolidatedBufferDuration;
 +(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -35,13 +36,16 @@ NSMutableArray *buffDurationArray;
  * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
  */
 +(void) writeEvent:(EventAttributes *) attributes{
-//    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
+    //    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case ABANDON_APP:
             [[ArbitaryVariant init] setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            break;
+        case LOGIN:
+            [[ArbitaryVariant init] setLoginTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case LOGOUT:
             [[ArbitaryVariant init] setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -56,7 +60,6 @@ NSMutableArray *buffDurationArray;
         case ACCESS_VIEW:
             [[ArbitaryVariant init] setViewAccessTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
-            
         case ABANDON_VIEW:
             [[ArbitaryVariant init] setViewAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
@@ -75,34 +78,36 @@ NSMutableArray *buffDurationArray;
         buffDurationArray = [NSMutableArray array];
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        consolidatedBufferDuration = [NSMutableString string];
     }
-    
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:attributes.action];
     }]];
-   
+    
     switch (attributes.videostate) {
         case PAUSED:
-            
+            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:VIDEO_PLAYED];
+            }]];
             break;
             
         case PLAYING:
+            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:VIDEO_PLAYED];
+            }]];
             break;
             
         case SEEKING:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-            break;
-            
-        case ON_IDLE:
-            
-            break;
-            
-        case BUFFERING:
-           [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:VIDEO_SEEKED];
+            }]];
             break;
             
         case COMPLETED:
-            
+            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:VIDEO_COMPLETE];
+            }]];
             break;
         default:
             break;
@@ -112,8 +117,10 @@ NSMutableArray *buffDurationArray;
         NSLog(@"Please specify video action");
     }
     
-    
     switch (attributes.action) {
+        case VIDEO_BUFFERED:
+            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            break;
         case VIDEO_RESUMED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
             break;
@@ -130,43 +137,34 @@ NSMutableArray *buffDurationArray;
             break;
         case VIDEO_COMPLETE:
             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-               [builder setIsVideoEnded:YES];
+                [builder setIsVideoEnded:YES];
             }]];
-            
             break;
         default:
             break;
     }
     
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
-   
     bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
     videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
     
-    NSMutableString *consolidatedBufferDuration = [NSMutableString string];
-
     if (bufferTime != nil) {
         if (videoEventTimeStamp > bufferTime) {
             //Formula:  videoEventTimeStamp - bufferTime
-             [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
+            [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
             
             for (NSString* key in buffDurationArray){
                 if ([consolidatedBufferDuration length]>0)
                     [consolidatedBufferDuration appendString:@"|"];
                 [consolidatedBufferDuration appendFormat:@"%@", key];
             }
-            
             NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
             NSLog(@"buffDurationArray %@", buffDurationArray);
-            [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];
-            
             [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
                 [builder setVideoConsolidatedBufferTime:consolidatedBufferDuration];
+                [builder setVideoTotalBufferTime:23];
             }];
         }
-        
-        
-        
     }
     
     [[AttributeManager init] setVideoAttributes:attributes];
@@ -177,3 +175,4 @@ NSMutableArray *buffDurationArray;
 
 
 @end
+

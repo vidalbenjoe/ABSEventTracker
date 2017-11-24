@@ -23,7 +23,7 @@
     [cachedList addObject:attributes];
     BOOL success = [cachedList writeToFile:[self cachePath] atomically: YES];
     if (success) {
-        NSLog(@"The failed attributes has been cached!");
+        NSLog(@"The failed attributes has been cached! %@", attributes);
     }else{
         NSLog(@"Failed to cache attributes");
     }

@@ -20,7 +20,6 @@
         _articlePostDate        = builder.articlePostDate;
         _commentedArticle       = builder.commentedArticle;
         _commentContent         = builder.commentContent;
-        _loginTimeStamp         = builder.loginTimeStamp;
         _likedContent           = builder.likedContent;
         _shareRetweetContent    = builder.shareRetweetContent;
         _followedEntity         = builder.followedEntity;
@@ -51,7 +50,6 @@
     builder.articlePostDate         = _articlePostDate;
     builder.commentedArticle        = _commentedArticle;
     builder.commentContent          = _commentContent;
-    builder.loginTimeStamp          = _loginTimeStamp;
     builder.likedContent            = _likedContent;
     builder.shareRetweetContent     = _shareRetweetContent;
     builder.followedEntity          = _followedEntity;
@@ -112,9 +110,9 @@
              @(VIDEO_PLAYED)        : @"VideoPlayed",
              @(VIDEO_PAUSED)        : @"VideoPaused",
              @(VIDEO_RESUMED)       : @"VideioResumed",
-             @(VIDEO_SEEK)          : @"VideoSeek",
+             @(VIDEO_SEEKED)        : @"VideoSeek",
              @(VIDEO_STOPPED)       : @"VideoStopped",
-             @(VIDEO_BUFFER)        : @"VideoBuff",
+             @(VIDEO_BUFFERED)      : @"VideoBuff",
              @(VIDEO_COMPLETE)      : @"VideoCompleted"
              };
 }
@@ -137,7 +135,6 @@
         _articlePostDate        = nil;
         _commentedArticle       = nil;
         _commentContent         = nil;
-        _loginTimeStamp         = nil;
         _likedContent           = nil;
         _shareRetweetContent    = nil;
         _followedEntity         = nil;

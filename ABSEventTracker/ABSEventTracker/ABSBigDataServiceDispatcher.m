@@ -18,10 +18,12 @@
 #import "DeviceInfo.h"
 
 @implementation ABSBigDataServiceDispatcher
-NSInteger duration;
+NSNumber *duration;
+NSString *userID;
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
+
 +(void) requestSecurityHash: (void (^)(NSString *sechash))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -185,10 +187,10 @@ NSInteger duration;
 
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
-    
         /*
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
+    
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         /*
@@ -204,9 +206,9 @@ NSInteger duration;
             /*
              * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
              */
-            NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes
-                                                                        options:kNilOptions
-                                                                          error:&error];
+            NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
+        
+            NSLog(@"jsonStoreFasilesd:%@", data);
             /*
              * Storing attributes dictionary into CacheManager.
              */
@@ -216,26 +218,29 @@ NSInteger duration;
 }
 
 +(void) dispatchCachedAttributes{
-//    /*
-//     * Retriving all failed array of attributes from the CacheManager.
-//     */
-//    if ([[CacheManager retrieveAllCacheArray] count] > 0) {
-//        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-//        // Loop cached array and add to queue
-//        for (int i = 0; i < [CacheManager retrieveAllCacheArray].count; i++) {
-//            // Add cached Array to attributes dictionary
-//            [attributes setObject:[[CacheManager retrieveAllCacheArray] objectAtIndex:i] forKey:@"attributes"];
-//            NSOperationQueue *operationQueue = [NSOperationQueue new];
-//            [operationQueue setMaxConcurrentOperationCount:5];
-//            ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
-//            //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-//
-//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
-//            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-//            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+    /*
+     * Retriving all failed array of attributes from the CacheManager.
+     */
+    if ([[CacheManager retrieveAllCacheArray] count] > 0) {
+        NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+        // Loop cached array and add to queue
+        for (int i = 0; i < [CacheManager retrieveAllCacheArray].count; i++) {
+            // Add cached Array to attributes dictionary
+            [attributes setObject:[[CacheManager retrieveAllCacheArray] objectAtIndex:i] forKey:@"attributes"];
+            NSOperationQueue *operationQueue = [NSOperationQueue new];
+            [operationQueue setMaxConcurrentOperationCount:5];
+            ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
+            //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
+
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
+            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
 //            /*
 //             * Converting Dictionary attributes to NSData and send to server through HTTPBody
 //             */
+        
+            NSLog(@"customOperationLog: %@", attributes);
+            
 //            NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:NSJSONWritingPrettyPrinted error:0];
 //
 //            [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -257,10 +262,10 @@ NSInteger duration;
 //            };
 //            [blockCompletionOperation addDependency:customOperation];
 //            [operationQueue addOperation:customOperation];
-////            [customOperation start];
-//            //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method
-//        }
-//    }
+//            [customOperation start];
+            //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method
+        }
+    }
 }
 /*!
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
@@ -272,14 +277,17 @@ NSInteger duration;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
-
-    NSString *userID = attributes.userattributes.ssoID ?: attributes.userattributes.gigyaID;
-    NSLog(@"cachedMiddleNdwame: %@", [UserAttributes retrieveLastName]);
     
+    if (attributes.userattributes.gigyaID == nil) {
+        userID = attributes.userattributes.ssoID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.ssoID;
+    }else{
+        userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
+    }
     NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
     NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
 
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
+    
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
@@ -289,9 +297,13 @@ NSInteger duration;
     
     if (abandonViewTimeStamp != nil) {
         if (accessViewTimeStamp > abandonViewTimeStamp) {
-            duration = [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime : accessViewTimeStamp];
+            duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
+            NSLog(@"dwationtion: %@",duration);
         }
     }
+   
+    NSLog(@"consolebud: %@", attributes.videoattributes.videoConsolidatedBufferTime);
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
             userID , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
@@ -312,69 +324,70 @@ NSInteger duration;
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigDataSessionID",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimestamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
-                                                 "Benjoe" , @"FirstName",
-                                                 @"Rivera", @"MiddleName",
-                                                 @"Vidal", @"LastName",
+        ObjectOrNull(attributes.userattributes.firstName == nil ? [UserAttributes retrieveFirstName] : attributes.userattributes.firstName) , @"FirstName",
+        ObjectOrNull(attributes.userattributes.middleName == nil ? [UserAttributes retrieveMiddleName] : attributes.userattributes.middleName)  , @"MiddleName",
+        ObjectOrNull(attributes.userattributes.lastName == nil ? [UserAttributes retrieveLastName] : attributes.userattributes.lastName), @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
         ObjectOrNull(attributes.eventattributes.searchQuery) , @"QueryString",
         ObjectOrNull(action), @"ActionTaken",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"ReadArticle",
-        @"0", @"ReadingDuration",
+        ObjectOrNull([NSString stringWithFormat:@"%@", duration]), @"ReadingDuration",
         ObjectOrNull(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
         ObjectOrNull(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentContent",
-        ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]), @"ArticleContentAmount",
+        ObjectOrNull(attributes.videoattributes.videoConsolidatedBufferTime) , @"VideoConsolidatedBufferTime",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoTotalBufferTime]]) , @"VideoTotalBufferTime",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]]), @"ArticleContentAmount",
         ObjectOrNull(attributes.userattributes.loginTimeStamp) , @"LoginTimeStamp",
         ObjectOrNull(attributes.eventattributes.likedContent) , @"LikedContent",
         ObjectOrNull(attributes.eventattributes.shareRetweetContent) , @"ShareRetweetContent",
         ObjectOrNull(attributes.eventattributes.followedEntity) , @"FollowedEntity",
-        ObjectOrNull([NSNumber numberWithInt:attributes.eventattributes.rating]) , @"Rating",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithInt:attributes.eventattributes.rating]]) , @"Rating",
         ObjectOrNull(attributes.eventattributes.metaTags) , @"MobileApplicationMetaTags",
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-        @"duration", @"ViewPageDuration",
+         ObjectOrNull([NSString stringWithFormat:@"%@",duration]), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]), @"VideoPlay",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]), @"VideoPause",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]) , @"VideoSeekStart",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoSeekEnd]) , @"VideoSeekEnd",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoResumePosition]) , @"VideoResume",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoStopPosition]) , @"VideoStop",
-        attributes.videoattributes.videoAdClick , @"VideoAdClick",
-        attributes.videoattributes.videoAdComplete , @"VideoAdComplete",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]), @"VideoPause",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]]) , @"VideoSeekStart",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekEnd]]) , @"VideoSeekEnd",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoResumePosition]]) , @"VideoResume",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoStopPosition]]) , @"VideoStop",
+        ObjectOrNull(attributes.videoattributes.videoAdClick) , @"VideoAdClick",
+        ObjectOrNull(attributes.videoattributes.videoAdComplete) , @"VideoAdComplete",
         ObjectOrNull(attributes.videoattributes.videoAdSkipped) , @"VideoAdSkipped",
         ObjectOrNull(attributes.videoattributes.videoAdError) , @"VideoAdError",
         ObjectOrNull(attributes.videoattributes.videoAdPlay) , @"VideoAdPlay",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoAdTime]) , @"VideoAdTime",
-        attributes.videoattributes.videoMeta , @"VideoMeta",
-        attributes.videoattributes.videoTimeStamp , @"VideoTimeStamp",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoDuration]) , @"VideoDuration",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoAdTime]]) , @"VideoAdTime",
+        ObjectOrNull(attributes.videoattributes.videoMeta) , @"VideoMeta",
+        ObjectOrNull(attributes.videoattributes.videoTimeStamp) , @"VideoTimeStamp",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoDuration]]) , @"VideoDuration",
         ObjectOrNull(isvideoPaused), @"VideoIsPaused",
         ObjectOrNull(isvideoEnded), @"VideoIsEnded",
-        ObjectOrNull([NSNumber numberWithBool:attributes.videoattributes.isVideoFullScreen]), @"VideoFullScreen",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithBool:attributes.videoattributes.isVideoFullScreen]]), @"VideoFullScreen",
         ObjectOrNull(videoState), @"VideoPlayerState",
         ObjectOrNull(attributes.videoattributes.videoTitle) , @"VideoTitle",
         ObjectOrNull(attributes.videoattributes.videoURL) , @"VideoURL",
-        ObjectOrNull([NSNumber numberWithDouble:attributes.videoattributes.videoVolume]) , @"VideoVolume",
-         ObjectOrNull(videoSize) , @"VideoSize",
-         ObjectOrNull(attributes.videoattributes.videoConsolidatedBufferTime) , @"videoConsolidatedBufferTime",
-         ObjectOrNull(videoSize) , @"videoTotalBufferTime",
-                                                 nil];
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoVolume]]) , @"VideoVolume",
+         ObjectOrNull(videoSize) , @"VideoSize",nil];
     
-    NSLog(@"failedAttributes %@", attributesDictionary);
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
-    
+    if (!error) {
+        NSMutableDictionary* dataTo = [NSJSONSerialization JSONObjectWithData:attributesData options:kNilOptions error:&error];
+        NSLog(@"attributesDatasdataTo:%@", dataTo);
+    }
   
     return attributesData;
 }
 
 // This method will return empty string if the attributes is nil or empty
 static id ObjectOrNull(id object){
-    return object ?: @"";
+    return object ?: @"null";
 }
 
 @end

@@ -48,12 +48,14 @@
         NSLog(@"Custom Operation - Main Method [NSThread currentThread] %@",[NSThread currentThread]);
         NSLog(@"Custom Operation - Main Method Try Block - Do Some work here");
         NSLog(@"Custom Operation - Main Method The data that was passed is %@",_mainDataDictionary.allKeys);
-        for (int i = 0; i<5; i++)
-        {
-            NSLog(@"sleepsLog i%d",i);
-            //            sleep(1);
-            //Never put sleep in production code until and unless the situation demands. A sleep is induced here to demonstrate a scenario that takes some time to complete
-        }
+//        for (int i = 0; i<5; i++)
+//        {
+//            NSLog(@"sleepsLog i%d",i);
+//            //            sleep(1);
+//            //Never put sleep in production code until and unless the situation demands. A sleep is induced here to demonstrate a scenario that takes some time to complete
+//        }
+        
+        
         [self willChangeValueForKey:@"isExecuting"];
         executing = NO;
         [self didChangeValueForKey:@"isExecuting"];

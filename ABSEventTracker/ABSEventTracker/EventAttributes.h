@@ -42,9 +42,9 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     VIDEO_PLAYED        =   25,
     VIDEO_PAUSED        =   26,
     VIDEO_RESUMED       =   27,
-    VIDEO_SEEK          =   28,
+    VIDEO_SEEKED        =   28,
     VIDEO_STOPPED       =   29,
-    VIDEO_BUFFER        =   30,
+    VIDEO_BUFFERED      =   30,
     VIDEO_COMPLETE      =   31
     
 };
@@ -61,7 +61,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy, readonly) NSString *articlePostDate;
 @property(nonatomic, copy, readonly) NSString *commentedArticle;
 @property(nonatomic, copy, readonly) NSString *commentContent;
-@property(nonatomic, copy, readonly) NSString *loginTimeStamp;
 @property(nonatomic, copy, readonly) NSString *likedContent;
 @property(nonatomic, copy, readonly) NSString *shareRetweetContent;
 @property(nonatomic, copy, readonly) NSString *followedEntity;
@@ -95,7 +94,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy) NSString *articlePostDate;
 @property(nonatomic, copy) NSString *commentedArticle;
 @property(nonatomic, copy) NSString *commentContent;
-@property(nonatomic, copy) NSString *loginTimeStamp;
 @property(nonatomic, copy) NSString *likedContent;
 @property(nonatomic, copy) NSString *shareRetweetContent;
 @property(nonatomic, copy) NSString *followedEntity;

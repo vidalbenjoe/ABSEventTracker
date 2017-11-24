@@ -25,6 +25,7 @@
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
         shared = [[super alloc] init];
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
@@ -32,9 +33,6 @@
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
               // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
-//                NSLog(@"FINGERPRINT: %@", [DeviceFingerprinting generateDeviceFingerprint]);
-//                NSLog(@"DEVICEUUID: %@", [DeviceInfo deviceUUID]);
-
                 // Initialize Session
                 [[SessionManager init] establish];
                 // Get device information to be used on device fingerprinting and analytics.
@@ -78,15 +76,19 @@
                 [self checkEventSource];
                 [self initWithDevice:device];
                 [self initAppProperty:digitalProperty];
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            dispatch_async(queue, ^{
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-                    EventAttributes *loadEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                    EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                         // set Event action into LOAD
                         [builder setActionTaken:LOAD];
                     }];
                     // Write LOAD action to to server.
-                    [ABSEventTracker initEventAttributes:loadEvent];
+                    [ABSEventTracker initEventAttributes:launchEvent];
                     [ABSBigDataServiceDispatcher dispatchCachedAttributes];
                 }];
+            });
+            
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
         }
