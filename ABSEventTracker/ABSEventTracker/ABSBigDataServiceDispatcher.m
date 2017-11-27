@@ -61,10 +61,11 @@ NSString *userID;
             /*
              * Checking the current time if not exceed the server sechash expiration date.
              * Note: The sechash will last for 60 minutes.
+             * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
              */
             if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
                 /*
-                 * Request a new Sechash if the current time exceeded the Sechash expiration timestamp
+                 * Request a new Sechash if the current time exceed the Sechash expiration timestamp
                  */
                 [self requestSecurityHash:^(NSString *sechash) {
                     NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
@@ -76,7 +77,7 @@ NSString *userID;
                         NSDate *receivedTimestamp = [NSDate date];
                         [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                        NSLog(@"BIG-DATA: Can't retrieve token from server");
+//                        [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
                         [AuthManager removeSechHash];
                     }];
                 }];
@@ -90,7 +91,7 @@ NSString *userID;
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    NSLog(@"BIG-DATA: Can't retrieve token from server");
+//                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
                     [AuthManager removeSechHash];
                 }];
             }
@@ -105,7 +106,7 @@ NSString *userID;
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    NSLog(@"BIG-DATA: Can't retrieve token from server");
+                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
                     [AuthManager removeSechHash];
                 }];
             }];
@@ -138,9 +139,8 @@ NSString *userID;
                 /*
                  * Request token failed
                  */
-                NSLog(@"Error getting token");
-                [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"TOKEN: %@", error
-                ]];
+//                [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA: Error getting token - %@", error]];
+               
             }];
 }
 
@@ -197,23 +197,23 @@ NSString *userID;
          * Retrieving server token to be used in request header.
          */
         NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+    
+    [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             /*
              * Success: Sending server response to ABSLogger.
              */
-            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+//            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             /*
              * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
              */
             NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
         
-            NSLog(@"jsonStoreFasilesd:%@", data);
             /*
              * Storing attributes dictionary into CacheManager.
              */
             [CacheManager storeFailedAttributesToCacheManager:data];
-            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+//            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
         }];
 }
 
@@ -238,32 +238,31 @@ NSString *userID;
 //            /*
 //             * Converting Dictionary attributes to NSData and send to server through HTTPBody
 //             */
-        
-            NSLog(@"customOperationLog: %@", attributes);
-            
-//            NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:NSJSONWritingPrettyPrinted error:0];
-//
-//            [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-//                // Remove the first index in the array of attributes from CacheManager if successfull
-//                [CacheManager removeCachedAttributeByFirstIndex];
-//            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//                /*
-//                 * Storing attributes dictionary again into CacheManager.
-//                 */
-//                [CacheManager storeFailedAttributesToCacheManager:attributes];
-//            }];
-//            NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
-//                //This is the completion block that will get called when the custom operation work is completed.
-//                // Work completed
-//            }];
-//            customOperation.completionBlock =^{
-//                //This is another way of catching the Custom Operation completition.
-//                //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
-//            };
-//            [blockCompletionOperation addDependency:customOperation];
-//            [operationQueue addOperation:customOperation];
-//            [customOperation start];
+            if ([NSJSONSerialization isValidJSONObject:customOperation]) {
+            NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:NSJSONWritingPrettyPrinted error:0];
+
+            [networking POST:url HTTPBody:data headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                // Remove the first index in the array of attributes from CacheManager if successfull
+                [CacheManager removeCachedAttributeByFirstIndex];
+            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                /*
+                 * Storing attributes dictionary again into CacheManager.
+                 */
+                [CacheManager storeFailedAttributesToCacheManager:attributes];
+            }];
+            NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
+                //This is the completion block that will get called when the custom operation work is completed.
+                // Work completed
+            }];
+            customOperation.completionBlock =^{
+                //This is another way of catching the Custom Operation completition.
+                //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
+            };
+            [blockCompletionOperation addDependency:customOperation];
+            [operationQueue addOperation:customOperation];
+            [customOperation start];
             //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method
+            }
         }
     }
 }
@@ -283,8 +282,13 @@ NSString *userID;
     }else{
         userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
     }
-    NSString *isvideoPaused = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoPaused ] intValue] != 0) ? @"True" : @"False";
-    NSString *isvideoEnded = ([[NSNumber numberWithBool:attributes.videoattributes.isVideoEnded ] intValue] != 0) ? @"True" : @"False";
+   
+    NSLog(@"actionDispatcher %@", action);
+    
+    NSString *isvideoPaused = ([NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]) ? @"True" : @"False";
+    NSString *isvideoEnded = ([NSNumber numberWithBool:attributes.videoattributes.isVideoEnded]) ? @"True" : @"False";
+    
+    NSLog(@"isvideoPaused %@", [NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]);
 
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     
@@ -298,14 +302,10 @@ NSString *userID;
     if (abandonViewTimeStamp != nil) {
         if (accessViewTimeStamp > abandonViewTimeStamp) {
             duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
-            NSLog(@"dwationtion: %@",duration);
         }
     }
-   
-    NSLog(@"consolebud: %@", attributes.videoattributes.videoConsolidatedBufferTime);
-    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            userID , @"GigyaID",
+        ObjectOrNull(userID) , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
         ObjectOrNull(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationName",
@@ -349,7 +349,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
-         ObjectOrNull([NSString stringWithFormat:@"%@",duration]), @"ViewPageDuration",
+        ObjectOrNull([NSString stringWithFormat:@" %@",duration]), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
@@ -369,19 +369,15 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoDuration]]) , @"VideoDuration",
         ObjectOrNull(isvideoPaused), @"VideoIsPaused",
         ObjectOrNull(isvideoEnded), @"VideoIsEnded",
-        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithBool:attributes.videoattributes.isVideoFullScreen]]), @"VideoFullScreen",
         ObjectOrNull(videoState), @"VideoPlayerState",
         ObjectOrNull(attributes.videoattributes.videoTitle) , @"VideoTitle",
         ObjectOrNull(attributes.videoattributes.videoURL) , @"VideoURL",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithBool:attributes.videoattributes.isVideoFullScreen]]), @"VideoFullScreen",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoVolume]]) , @"VideoVolume",
-         ObjectOrNull(videoSize) , @"VideoSize",nil];
-    
+         ObjectOrNull(videoSize) , @"VideoSize",
+                                                 nil];
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
-    if (!error) {
-        NSMutableDictionary* dataTo = [NSJSONSerialization JSONObjectWithData:attributesData options:kNilOptions error:&error];
-        NSLog(@"attributesDatasdataTo:%@", dataTo);
-    }
-  
+    
     return attributesData;
 }
 

@@ -22,4 +22,5 @@
 -(NSString*) getLogMessage{
     return message;
 }
+
 @end

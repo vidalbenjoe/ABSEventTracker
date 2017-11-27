@@ -21,6 +21,8 @@ NSDate *bufferTime;
 NSDateFormatter *dateFormatter;
 NSMutableArray *buffDurationArray;
 NSMutableString *consolidatedBufferDuration;
+EventAttributes *event;
+
 +(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -80,34 +82,25 @@ NSMutableString *consolidatedBufferDuration;
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
         consolidatedBufferDuration = [NSMutableString string];
     }
-    [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-        [builder setActionTaken:attributes.action];
-    }]];
     
     switch (attributes.videostate) {
+        case BUFFERING:
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            break;
         case PAUSED:
-            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                [builder setActionTaken:VIDEO_PLAYED];
-            }]];
+           
             break;
             
         case PLAYING:
-            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                [builder setActionTaken:VIDEO_PLAYED];
-            }]];
+           
             break;
             
         case SEEKING:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                [builder setActionTaken:VIDEO_SEEKED];
-            }]];
             break;
             
         case COMPLETED:
-            [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                [builder setActionTaken:VIDEO_COMPLETE];
-            }]];
+
             break;
         default:
             break;
@@ -123,26 +116,52 @@ NSMutableString *consolidatedBufferDuration;
             break;
         case VIDEO_RESUMED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            event = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:VIDEO_RESUMED];
+            }];
             break;
         case VIDEO_STOPPED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+//
+//            event = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+//                [builder setActionTaken:VIDEO_STOPPED];
+//            }];
+            
+            [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                [builder setIsVideoPause:NO];
+            }]];
             break;
         case VIDEO_PLAYED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            event = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:VIDEO_PLAYED];
+            }];
             break;
         case VIDEO_PAUSED:
+            
             [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
                 [builder setIsVideoPause:YES];
             }]];
+            event = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                [builder setActionTaken:VIDEO_PAUSED];
+            }];
             break;
         case VIDEO_COMPLETE:
-            [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-                [builder setIsVideoEnded:YES];
-            }]];
+//            [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+//                [builder setIsVideoEnded:YES];
+//            }];
+//            event = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+//                [builder setActionTaken:VIDEO_COMPLETE];
+//            }];
+           
             break;
         default:
             break;
     }
+//
+//    [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+//        [builder setAction:attributes.action];
+//    }]];
     
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
@@ -156,8 +175,9 @@ NSMutableString *consolidatedBufferDuration;
             for (NSString* key in buffDurationArray){
                 if ([consolidatedBufferDuration length]>0)
                     [consolidatedBufferDuration appendString:@"|"];
-                [consolidatedBufferDuration appendFormat:@"%@", key];
+                    [consolidatedBufferDuration appendFormat:@"%@", key];
             }
+            
             NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
             NSLog(@"buffDurationArray %@", buffDurationArray);
             [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
@@ -168,9 +188,8 @@ NSMutableString *consolidatedBufferDuration;
     }
     
     [[AttributeManager init] setVideoAttributes:attributes];
+    [[AttributeManager init] setEventAttributes:event];
 }
-
-
 
 
 

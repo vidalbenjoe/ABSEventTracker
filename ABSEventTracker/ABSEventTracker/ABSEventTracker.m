@@ -237,6 +237,38 @@
 
 #pragma mark - Video Attributes
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
+  
+    switch (attributes.action) {
+        case VIDEO_BUFFERED:
+            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            break;
+        case VIDEO_RESUMED:
+            
+            break;
+        case VIDEO_STOPPED:
+        
+            break;
+        case VIDEO_PLAYED:
+            
+            break;
+        case VIDEO_PAUSED:
+            
+            [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                [builder setIsVideoPause:YES];
+            }]];
+            break;
+        case VIDEO_COMPLETE:
+            [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+                            [builder setIsVideoEnded:YES];
+                        }];
+            
+            break;
+        default:
+            break;
+    }
+    
+    
+    
     [EventController writeVideoAttributes:attributes];
     
 }

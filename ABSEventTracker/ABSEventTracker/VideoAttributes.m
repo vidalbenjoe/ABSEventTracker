@@ -113,6 +113,14 @@
     return [[self class] videoStateByName][@(state)];
 }
 
++(instancetype) builder{
+    static VideoAttributes *shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [[super alloc] init];
+    });
+    return shared;
+}
 @end
 
 @implementation VideoBuilder
@@ -157,5 +165,6 @@
     }
     return self;
 }
+
 
 @end

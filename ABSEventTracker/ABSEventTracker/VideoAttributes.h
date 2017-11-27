@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 -(instancetype) update:(void(^)(VideoBuilder *)) updateBlock;
 -(instancetype) build;
 +(NSString *) convertVideoStateToString: (VideoState) state;
-
++(instancetype) builder;
 @end
 
 @interface VideoBuilder : NSObject
