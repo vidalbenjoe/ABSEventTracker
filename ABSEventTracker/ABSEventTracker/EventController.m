@@ -37,7 +37,7 @@ NSMutableString *consolidatedBufferDuration;
  * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
  */
 +(void) writeEvent:(EventAttributes *) attributes{
-    NSLog(@"writesterAc %ld", (long)attributes.actionTaken);
+//    NSLog(@"writesterAc %ld", (long)attributes.actionTaken);
     //    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
     switch (attributes.actionTaken) {
         case LOAD:
@@ -152,8 +152,8 @@ NSMutableString *consolidatedBufferDuration;
                     [consolidatedBufferDuration appendString:@" | "];
                     [consolidatedBufferDuration appendFormat:@"%@", key];
             }
-            NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
-            NSLog(@"buffDurationArray %@", buffDurationArray);
+//            NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
+//            NSLog(@"buffDurationArray %@", buffDurationArray);
 
             NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
             NSInteger maxtotalBuffTime = [maxValue integerValue];
@@ -164,7 +164,6 @@ NSMutableString *consolidatedBufferDuration;
     }
     
     [self writeEvent:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-        NSLog(@"videoAction %ld", (long)attributes.action);
         [builder setActionTaken:attributes.action];
     }]];
     

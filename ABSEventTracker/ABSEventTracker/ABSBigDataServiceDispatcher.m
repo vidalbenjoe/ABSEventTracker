@@ -283,12 +283,12 @@ NSString *userID;
         userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
     }
    
-    NSLog(@"actionDispatcher %@", action);
+//    NSLog(@"actionDispatcher %@", action);
     
     NSString *isvideoPaused = ([NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]) ? @"True" : @"False";
     NSString *isvideoEnded = ([NSNumber numberWithBool:attributes.videoattributes.isVideoEnded]) ? @"True" : @"False";
     
-    NSLog(@"isvideoPaused %@", [NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]);
+//    NSLog(@"isvideoPaused %@", [NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]);
 
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     
@@ -304,8 +304,6 @@ NSString *userID;
             duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
         }
     }
-    
-   
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
