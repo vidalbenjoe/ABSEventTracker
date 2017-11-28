@@ -27,13 +27,13 @@ typedef NS_ENUM(NSInteger, VideoState){
 
 @class VideoBuilder;
 @interface VideoAttributes : NSObject
-@property(nonatomic, readonly) ActionTaken action;
+@property(nonatomic) ActionTaken action;
 @property(nonatomic, readonly) VideoState videostate;
 @property(nonatomic, readonly) int videoWidth;
 @property(nonatomic, readonly) int videoHeight;
-@property(nonatomic, readonly) BOOL isVideoEnded;
-@property(nonatomic, readonly) BOOL isVideoPaused;
-@property(nonatomic, readonly) BOOL isVideoFullScreen;
+@property(nonatomic) BOOL isVideoEnded;
+@property(nonatomic) BOOL isVideoPaused;
+@property(nonatomic) BOOL isVideoFullScreen;
 @property(nonatomic, copy, readonly) NSString *videoTimeStamp;
 @property(nonatomic, copy, readonly) NSString *videoTitle;
 @property(nonatomic, copy, readonly) NSString *videoURL;
@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic, copy, readonly) NSString *videoMeta;
 @property(nonatomic, copy) NSString *videoConsolidatedBufferTime;
 
-@property(nonatomic, readonly) double videoTotalBufferTime;
+@property(nonatomic) NSInteger videoTotalBufferTime;
 @property(nonatomic, readonly) double videoDuration;
 @property(nonatomic, readonly) double videoSeekStart;
 @property(nonatomic, readonly) double videoSeekEnd;
@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 -(instancetype) update:(void(^)(VideoBuilder *)) updateBlock;
 -(instancetype) build;
 +(NSString *) convertVideoStateToString: (VideoState) state;
-+(instancetype) builder;
+
 @end
 
 @interface VideoBuilder : NSObject
@@ -89,7 +89,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic) BOOL isVideoPause;
 @property(nonatomic) BOOL isVideoFullScreen;
 
-@property(nonatomic) double videoTotalBufferTime;
+@property(nonatomic) NSInteger videoTotalBufferTime;
 @property(nonatomic) double videoDuration;
 @property(nonatomic) double videoSeekStart;
 @property(nonatomic) double videoSeekEnd;

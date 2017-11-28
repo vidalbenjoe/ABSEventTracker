@@ -25,7 +25,6 @@
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
         shared = [[super alloc] init];
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
@@ -71,24 +70,23 @@
                         [digitalProperty setSiteDomain:SODHostStagingURL];
                     }
                 }
-            
-                [self initSession:[SessionManager init]];
-                [self checkEventSource];
-                [self initWithDevice:device];
-                [self initAppProperty:digitalProperty];
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-            dispatch_async(queue, ^{
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                     EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                         // set Event action into LOAD
                         [builder setActionTaken:LOAD];
+                        NSLog(@"dumaanSaLoad");
                     }];
                     // Write LOAD action to to server.
                     [ABSEventTracker initEventAttributes:launchEvent];
                     [ABSBigDataServiceDispatcher dispatchCachedAttributes];
                 }];
-            });
             
+            
+            [self initSession:[SessionManager init]];
+            [self checkEventSource];
+            [self initWithDevice:device];
+            [self initAppProperty:digitalProperty];
+
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
         }
@@ -238,37 +236,6 @@
 #pragma mark - Video Attributes
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
   
-    switch (attributes.action) {
-        case VIDEO_BUFFERED:
-            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-            break;
-        case VIDEO_RESUMED:
-            
-            break;
-        case VIDEO_STOPPED:
-        
-            break;
-        case VIDEO_PLAYED:
-            
-            break;
-        case VIDEO_PAUSED:
-            
-            [ABSEventTracker initVideoAttributes:[VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-                [builder setIsVideoPause:YES];
-            }]];
-            break;
-        case VIDEO_COMPLETE:
-            [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-                            [builder setIsVideoEnded:YES];
-                        }];
-            
-            break;
-        default:
-            break;
-    }
-    
-    
-    
     [EventController writeVideoAttributes:attributes];
     
 }

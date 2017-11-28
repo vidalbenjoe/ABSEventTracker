@@ -304,6 +304,9 @@ NSString *userID;
             duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
         }
     }
+    
+   
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",

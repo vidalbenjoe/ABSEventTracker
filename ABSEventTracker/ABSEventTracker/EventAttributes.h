@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy) NSString *clickedContent;
 @property(nonatomic, copy) NSString *searchQuery;
 
-@property(nonatomic) ActionTaken actionTaken;
+@property(assign, nonatomic) ActionTaken actionTaken;
 
 @property(nonatomic, copy) NSString *readArticle;
 @property(nonatomic, copy) NSString *articleAuthor;

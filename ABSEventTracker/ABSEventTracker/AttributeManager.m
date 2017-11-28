@@ -56,6 +56,6 @@
 -(void) setVideoAttributes:(VideoAttributes *)videoAttribute{
     videoattributes = videoAttribute;
     // Trigger AttributeWriter every time video event happened
-    [AttributeWriter writer:self];
+//    [AttributeWriter writer:self];
 }
 @end
