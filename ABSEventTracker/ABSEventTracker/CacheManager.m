@@ -10,6 +10,18 @@
 @synthesize _id;
 @synthesize cacheDictionary;
 
++(void) storeApplicationLoadTimestamp: (NSString *) value{
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"applicationTimeStamp"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
++(NSString *) retrieveApplicationLoadTimestamp{
+    NSString *appLoadTimeStamp = [[NSUserDefaults standardUserDefaults]
+                       stringForKey:@"applicationTimeStamp"];
+    return appLoadTimeStamp;
+}
+
+
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes{
     NSError *error;
     if (![[NSFileManager defaultManager] fileExistsAtPath: [self cachePath]]){

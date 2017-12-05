@@ -19,6 +19,8 @@
 /*
  * Method for storing failed attributes 
  */
++(void) storeApplicationLoadTimestamp: (NSString *) value;
++(NSString *) retrieveApplicationLoadTimestamp;
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes;
 +(void) removeCachedAttributeByFirstIndex;
 +(void) removeAllCachedAttributes;

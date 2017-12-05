@@ -12,6 +12,7 @@
 #import "AttributeManager.h"
 #import "ABSRecommendationEngine.h"
 #import "ABSEventTracker.h"
+#import "CacheManager.h"
 @implementation EventController
 BOOL hasInitialized = false;
 NSMutableArray *buffDurationArray;
@@ -42,6 +43,7 @@ NSMutableString *consolidatedBufferDuration;
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [CacheManager storeApplicationLoadTimestamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case ABANDON_APP:
             [[ArbitaryVariant init] setApplicationAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];

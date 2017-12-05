@@ -19,6 +19,9 @@
 @property(nonatomic, retain) NSDate *tokenReceivedDate;
 @property(nonatomic, retain) NSDate *tokenExpirationDate;
 
++(void) storeFingerPrintID: (NSString *) value;
++(NSString *) retrievedFingerPrintID;
+
 +(void) storeTokenReceivedTimestamp: (NSDate *) received;
 +(NSDate *) retrieveTokenReceivedTimestamp;
 +(void) storeTokenExpirationTimestamp:(NSDate *) expiration;
@@ -28,8 +31,6 @@
  * Method to store token to NSUserDefault
  */
 +(void) storeTokenToUserDefault: (NSString *) value;
-
-
 +(void) storeSechashReceivedTimestamp: (NSDate *) received;
 +(NSDate *) retrieveSecHashReceivedTimestamp;
 +(void) storeSecHashExpirationTimestamp:(NSDate *) expiration;

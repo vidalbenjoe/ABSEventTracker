@@ -34,6 +34,17 @@
     return expiration;
 }
 
++(void) storeFingerPrintID: (NSString *) value{
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"fingerID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
++(NSString *) retrievedFingerPrintID{
+    NSString *fingerPrintID = [[NSUserDefaults standardUserDefaults]
+                       stringForKey:@"fingerID"];
+    return fingerPrintID;
+}
+
 +(void) storeTokenToUserDefault: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"responseToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -45,7 +56,6 @@
                        stringForKey:@"responseToken"];
     return token;
 }
-
 
 +(void) storeSechashReceivedTimestamp: (NSDate *) received{
     [[NSUserDefaults standardUserDefaults] setObject:received forKey:@"sechashreceivedTimestamp"];

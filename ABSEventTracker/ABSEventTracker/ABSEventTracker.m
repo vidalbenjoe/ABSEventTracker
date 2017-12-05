@@ -28,6 +28,8 @@
         shared = [[super alloc] init];
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
+        
+        
 //Checking the list of valid identifier if matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
@@ -43,7 +45,7 @@
                                                [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
                                                [builder setDeviceType:[DeviceInfo deviceType]];
                                            }];
-            
+                [AuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
                 // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
                 PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
                 [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
@@ -84,7 +86,6 @@
                     [ABSEventTracker initEventAttributes:launchEvent];
                     [ABSBigDataServiceDispatcher dispatchCachedAttributes];
                 }];
-            
             
             [self initSession:[SessionManager init]];
             [self checkEventSource];

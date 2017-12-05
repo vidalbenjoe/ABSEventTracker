@@ -301,10 +301,14 @@ NSString *userID;
         }
     }
     
+    if ([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint]) {
+        
+    }
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
-        ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
-        ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"PreviousFingerPrintId",
+        ObjectOrNull(attributes.deviceinvariant.deviceFingerprint) , @"fingerprintID",
+        ObjectOrNull([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [AuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         ObjectOrNull(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationName",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"ApplicationUniqueId",
@@ -314,7 +318,7 @@ NSString *userID;
         ObjectOrNull([DeviceInfo getUserInterfaceIdiom]) , @"DeviceType",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
         ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
-        ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp), @"ApplicationLoadTimeStamp",
+        ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp == nil ? [CacheManager retrieveApplicationLoadTimestamp] : attributes.arbitaryinvariant.applicationLaunchTimeStamp), @"ApplicationLoadTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp), @"ApplicationAbandonTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp), @"WritingEventTimestamp",
         ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp), @"LogoutTimeStamp",
