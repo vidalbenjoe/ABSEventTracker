@@ -283,13 +283,9 @@ NSString *userID;
         userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
     }
    
-//    NSLog(@"actionDispatcher %@", action);
-    
     NSString *isvideoPaused = ([NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]) ? @"True" : @"False";
     NSString *isvideoEnded = ([NSNumber numberWithBool:attributes.videoattributes.isVideoEnded]) ? @"True" : @"False";
     
-//    NSLog(@"isvideoPaused %@", [NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]);
-
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
@@ -308,6 +304,7 @@ NSString *userID;
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
         ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"fingerprintID",
+        ObjectOrNull([DeviceFingerprinting generateDeviceFingerprint]) , @"PreviousFingerPrintId",
         ObjectOrNull(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationName",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"ApplicationUniqueId",
@@ -347,11 +344,11 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.followedEntity) , @"FollowedEntity",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithInt:attributes.eventattributes.rating]]) , @"Rating",
         ObjectOrNull(attributes.eventattributes.metaTags) , @"MobileApplicationMetaTags",
-        ObjectOrNull(attributes.eventattributes.previousScreen) , @"PreviousView",
+        ObjectOrNull(attributes.eventattributes.previousView) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
-        ObjectOrNull(attributes.eventattributes.screenDestination) , @"DestinationView",
+        ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
         ObjectOrNull([NSString stringWithFormat:@" %@",duration]), @"ViewPageDuration",
-        ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentedArticle",
+        ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]), @"VideoPause",

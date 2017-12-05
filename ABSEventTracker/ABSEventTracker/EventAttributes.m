@@ -25,8 +25,8 @@
         _followedEntity         = builder.followedEntity;
         
         _metaTags               = builder.metaTags;
-        _previousScreen         = builder.previousScreen;
-        _screenDestination      = builder.screenDestination;
+        _previousView           = builder.previousView;
+        _destinationView        = builder.destinationView;
         _currentView            = builder.currentView;
         
         _latitute               = builder.latitute;
@@ -54,8 +54,8 @@
     builder.shareRetweetContent     = _shareRetweetContent;
     builder.followedEntity          = _followedEntity;
     builder.metaTags                = _metaTags;
-    builder.previousScreen          = _previousScreen;
-    builder.screenDestination       = _screenDestination;
+    builder.previousView            = _previousView;
+    builder.destinationView         = _destinationView;
     builder.currentView             = _currentView;
     builder.latitute                = _latitute;
     builder.longitude               = _longitude;
@@ -140,8 +140,8 @@
         _followedEntity         = nil;
         
         _metaTags               = nil;
-        _previousScreen         = nil;
-        _screenDestination      = nil;
+        _previousView           = nil;
+        _destinationView        = nil;
         _currentView            = nil;
         
         _actionTaken            = 0;

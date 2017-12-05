@@ -204,7 +204,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-        
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);

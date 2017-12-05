@@ -27,7 +27,7 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         // Adding restriction based on bundle identifier of digital property. The library will not be initialized if the current bundle identifier is not registered in ABSEventTracker
-        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, nil];
+        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
 //Checking the list of valid identifier if matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
@@ -58,6 +58,8 @@
                         [digitalProperty setSiteDomain:IWANTVHostProdURL];
                     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
                         [digitalProperty setSiteDomain:SODHostProdURL];
+                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
+                        [digitalProperty setSiteDomain:ONEOTTHostProdURL];
                     }
                 }else{
                     if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -68,6 +70,8 @@
                         [digitalProperty setSiteDomain:IWANTVHostStagingURL];
                     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
                         [digitalProperty setSiteDomain:SODHostStagingURL];
+                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
+                        [digitalProperty setSiteDomain:ONEOTTHostStagingURL];
                     }
                 }
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {

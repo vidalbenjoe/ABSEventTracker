@@ -116,20 +116,15 @@ NSMutableString *consolidatedBufferDuration;
             break;
         case VIDEO_RESUMED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-           
             break;
         case VIDEO_STOPPED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-            
             break;
         case VIDEO_PLAYED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-           
             break;
         case VIDEO_PAUSED:
-           
             [attributes setIsVideoPaused:YES];
-            
             break;
         case VIDEO_COMPLETE:
             [attributes setIsVideoEnded:YES];
@@ -149,7 +144,7 @@ NSMutableString *consolidatedBufferDuration;
             
             for (NSString* key in buffDurationArray){
                 if ([consolidatedBufferDuration length]>0)
-                    [consolidatedBufferDuration appendString:@" | "];
+                    [consolidatedBufferDuration appendString:@"|"];
                     [consolidatedBufferDuration appendFormat:@"%@", key];
             }
 //            NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
@@ -159,7 +154,6 @@ NSMutableString *consolidatedBufferDuration;
             NSInteger maxtotalBuffTime = [maxValue integerValue];
             [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];
             [attributes setVideoTotalBufferTime:maxtotalBuffTime];
-
         }
     }
     

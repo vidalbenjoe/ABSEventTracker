@@ -13,9 +13,9 @@
 #import <Foundation/Foundation.h>
 #define I_WANT_TV_ID        @"com.abs-cbn.iwanttv"
 #define TFC_ID              @"com.abscbni.tfctv"
-#define SKY_ON_DEMAND_ID    @"abs.app.devicehardware.ABSEventTester"
+#define SKY_ON_DEMAND_ID    @"com.mysky.ondemand"
 #define NEWS_ID             @""
-#define INVALID_ID          @"com.invalid"
+#define ONE_OTT             @"com.abs-cbn.iwanttv"
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERRO_REQUEST"
@@ -43,13 +43,14 @@ extern NSString* const TFCHostStagingURL;
 extern NSString* const NEWSHostStagingURL;
 extern NSString* const IWANTVHostStagingURL;
 extern NSString* const SODHostStagingURL;
+extern NSString* const ONEOTTHostStagingURL;
 
 // Production host URL
 extern NSString* const TFCHostProdURL;
 extern NSString* const NEWSHostProdURL;
 extern NSString* const IWANTVHostProdURL;
 extern NSString* const SODHostProdURL;
-
+extern NSString* const ONEOTTHostProdURL;
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier
  */

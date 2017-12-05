@@ -66,8 +66,8 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy, readonly) NSString *followedEntity;
 
 @property(nonatomic, copy, readonly) NSString *metaTags;
-@property(nonatomic, copy, readonly) NSString *previousScreen;
-@property(nonatomic, copy, readonly) NSString *screenDestination;
+@property(nonatomic, copy, readonly) NSString *previousView;
+@property(nonatomic, copy, readonly) NSString *destinationView;
 @property(nonatomic, copy, readonly) NSString *currentView;
 
 @property(nonatomic) float latitute;
@@ -99,8 +99,8 @@ typedef NS_ENUM(NSInteger, ActionTaken){
 @property(nonatomic, copy) NSString *followedEntity;
 
 @property(nonatomic, copy) NSString *metaTags;
-@property(nonatomic, copy) NSString *previousScreen;
-@property(nonatomic, copy) NSString *screenDestination;
+@property(nonatomic, copy) NSString *previousView;
+@property(nonatomic, copy) NSString *destinationView;
 @property(nonatomic, copy) NSString *currentView;
 
 @property(nonatomic) float latitute;
