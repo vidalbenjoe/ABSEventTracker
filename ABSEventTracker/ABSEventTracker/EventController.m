@@ -84,37 +84,9 @@ NSMutableString *consolidatedBufferDuration;
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
         consolidatedBufferDuration = [NSMutableString string];
     }
-    switch (attributes.videostate) {
-        case BUFFERING:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-            [attributes setAction:VIDEO_BUFFERED];
-            break;
-        case PAUSED:
-           
-            break;
-            
-        case PLAYING:
-           
-            break;
-            
-        case SEEKING:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-            break;
-            
-        case COMPLETED:
-
-            break;
-        default:
-            break;
-    }
-    
-    if (attributes.action == UNKNOWN) {
-        NSLog(@"Please specify video action");
-    }
-    
     switch (attributes.action) {
         case VIDEO_BUFFERED:
-            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [attributes setVideostate:BUFFERING];
             break;
         case VIDEO_RESUMED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
@@ -123,16 +95,41 @@ NSMutableString *consolidatedBufferDuration;
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
             break;
         case VIDEO_PLAYED:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            [attributes setVideostate:PLAYING];
             break;
         case VIDEO_PAUSED:
+            [attributes setVideostate:PAUSED];
             [attributes setIsVideoPaused:YES];
             break;
+        case VIDEO_SEEKED:
+            [attributes setVideostate:SEEKING];
+            break;
         case VIDEO_COMPLETE:
+            [attributes setVideostate:COMPLETED];
+            break;
+        default:
+            break;
+    }
+    
+    switch (attributes.videostate) {
+        case BUFFERING:
+            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            break;
+        case PLAYING:
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            break;
+        case SEEKING:
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            break;
+        case COMPLETED:
             [attributes setIsVideoEnded:YES];
             break;
         default:
             break;
+    }
+    
+    if (attributes.action == UNKNOWN) {
+        NSLog(@"Please specify video action");
     }
     
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
@@ -143,7 +140,7 @@ NSMutableString *consolidatedBufferDuration;
         if (videoEventTimeStamp > bufferTime) {
             //Formula:  videoEventTimeStamp - bufferTime
             [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
-            
+        
             for (NSString* key in buffDurationArray){
                 if ([consolidatedBufferDuration length]>0)
                     [consolidatedBufferDuration appendString:@"|"];

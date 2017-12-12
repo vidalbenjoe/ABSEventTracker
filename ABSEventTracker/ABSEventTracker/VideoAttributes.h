@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @class VideoBuilder;
 @interface VideoAttributes : NSObject
 @property(nonatomic) ActionTaken action;
-@property(nonatomic, readonly) VideoState videostate;
+@property(nonatomic) VideoState videostate;
 @property(nonatomic, readonly) int videoWidth;
 @property(nonatomic, readonly) int videoHeight;
 @property(nonatomic) BOOL isVideoEnded;
