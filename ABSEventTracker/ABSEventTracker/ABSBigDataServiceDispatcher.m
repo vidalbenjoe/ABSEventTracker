@@ -23,16 +23,12 @@ NSString *userID;
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
-
 +(void) requestSecurityHash: (void (^)(NSString *sechash))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         
-        NSDictionary *header = @{
-                                 @"x-mobile-header" : [Constant generateNewMobileHeader]
-                                 };
-        
+        NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
@@ -266,7 +262,7 @@ NSString *userID;
         }
     }
 }
-/*!
+/**
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
  * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
  */
@@ -302,7 +298,6 @@ NSString *userID;
     }
     
     if ([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint]) {
-        
     }
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -379,7 +374,6 @@ NSString *userID;
          ObjectOrNull(videoSize) , @"VideoSize",
                                                  nil];
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
-    
     return attributesData;
 }
 

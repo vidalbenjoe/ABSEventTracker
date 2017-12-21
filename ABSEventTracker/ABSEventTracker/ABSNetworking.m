@@ -40,7 +40,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                    timeoutInterval:60.0];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-     [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     [requestBody setHTTPMethod:@"POST"];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
@@ -75,7 +75,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-                                     
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(task, error);
                                           return;
@@ -97,7 +96,6 @@ NSURLSessionConfiguration *sessionConfiguration;
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
-    
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
                    cachePolicy: NSURLRequestReturnCacheDataElseLoad
@@ -107,7 +105,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
-    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
@@ -181,7 +178,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                     }
                 }
         }] resume];
-
     });
 }
 /*

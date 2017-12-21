@@ -18,15 +18,9 @@
     return [dateFormat stringFromDate:date];
 }
 
-+(NSString *) dateFormatter:(NSDate *) date{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [formatter setDateStyle:NSDateFormatterShortStyle];
-    [formatter setTimeStyle:NSDateFormatterNoStyle];
-    NSString *result = [formatter stringFromDate:date];
-    return result;
-}
-
+/*
+ * This method will generate randomUUID that will be used for sessionID @SessionManager
+ */
 +(NSString *) randomUUID{
     unsigned char bytes[128];
     int result = SecRandomCopyBytes(kSecRandomDefault, 128, bytes);
@@ -37,6 +31,9 @@
     return randomUUID;
 }
 
+/*
+ * This method will get the time difference between the two timestamp;
+ */
 +(NSInteger) timeDifferenceInSeconds: (NSDate *) start endTime: (NSDate *) end{
     NSCalendar *gregorian = [[NSCalendar alloc]
                              initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -45,7 +42,6 @@
                                                 fromDate:start
                                                   toDate:end options:0];
     NSInteger elapse = [components second];
-    NSLog(@"elapseTime: %ld", (long)elapse);
     return elapse;
 }
 

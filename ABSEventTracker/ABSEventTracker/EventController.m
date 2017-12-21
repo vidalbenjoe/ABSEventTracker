@@ -13,9 +13,8 @@
 #import "ABSRecommendationEngine.h"
 #import "ABSEventTracker.h"
 #import "CacheManager.h"
+
 @implementation EventController
-BOOL hasInitialized = false;
-NSMutableArray *buffDurationArray;
 NSString *currentTimeStamp;
 NSDate *videoEventTimeStamp;
 NSDate *bufferTime;
@@ -32,14 +31,13 @@ NSMutableString *consolidatedBufferDuration;
     return shared;
 }
 
-#pragma mark - EventAttributes
+#pragma mark - writeEvent
 /**
  * Wrapper function to write event attributes -> EventAttributes.
  * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
  */
 +(void) writeEvent:(EventAttributes *) attributes{
-//    NSLog(@"writesterAc %ld", (long)attributes.actionTaken);
-    //    ArbitaryVariant *arbitary = [[ArbitaryVariant alloc] init];
+    NSLog(@"eventWriterAction %ld", (long)attributes.actionTaken);
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -77,6 +75,8 @@ NSMutableString *consolidatedBufferDuration;
 /**
  * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
  */
+
+#pragma mark - writeVideo
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
     if (buffDurationArray == nil) {
         buffDurationArray = [NSMutableArray array];
@@ -141,9 +141,10 @@ NSMutableString *consolidatedBufferDuration;
     videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
     if (bufferTime != nil) {
         if (videoEventTimeStamp > bufferTime) {
-            //Formula:  videoEventTimeStamp - bufferTime
+            /*
+             * videoEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(VIDEO_BUFFERED)
+             */
             [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
-            
             for (NSString* key in buffDurationArray){
                 if ([consolidatedBufferDuration length]>0)
                     [consolidatedBufferDuration appendString:@"|"];
@@ -151,7 +152,6 @@ NSMutableString *consolidatedBufferDuration;
             }
 //            NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
 //            NSLog(@"buffDurationArray %@", buffDurationArray);
-
             NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
             NSInteger maxtotalBuffTime = [maxValue integerValue];
             [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];

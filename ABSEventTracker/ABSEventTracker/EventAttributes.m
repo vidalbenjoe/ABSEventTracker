@@ -103,7 +103,7 @@
              @(CLICK_IMAGE)         : @"ClickImage",
              @(SLIDER)              : @"Slider",
              @(READ_ARTICLES)       : @"ReadArticle",
-             @(ABANDON_APP)         : @"Abandon",
+             @(ABANDON_APP)         : @"AbandonApp",
              @(OTHERS)              : @"Other",
              @(ACCESS_VIEW)         : @"AccessView",
              @(ABANDON_VIEW)        : @"AbandonView",

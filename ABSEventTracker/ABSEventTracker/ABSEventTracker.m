@@ -30,7 +30,7 @@
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
         
         
-//Checking the list of valid identifier if matched on the current app bundle identifier
+        //Checking the list of valid identifier if it's matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         if (isValid) {
               // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
@@ -45,48 +45,35 @@
                                                [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
                                                [builder setDeviceType:[DeviceInfo deviceType]];
                                            }];
+                //Storing fingerprintID to AuthManager
                 [AuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
                 // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
                 PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
                 [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
                 [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-                if (isProd) {
-                    //use production site domain URL
-                    if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                        [digitalProperty setSiteDomain:TFCHostProdURL];
-                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                        [digitalProperty setSiteDomain:NEWSHostProdURL];
-                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                        [digitalProperty setSiteDomain:IWANTVHostProdURL];
-                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                        [digitalProperty setSiteDomain:SODHostProdURL];
-                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
-                        [digitalProperty setSiteDomain:ONEOTTHostProdURL];
-                    }
-                }else{
-                    if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                        [digitalProperty setSiteDomain:TFCHostStagingURL];
-                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                        [digitalProperty setSiteDomain:NEWSHostStagingURL];
-                    } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                        [digitalProperty setSiteDomain:IWANTVHostStagingURL];
-                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                        [digitalProperty setSiteDomain:SODHostStagingURL];
-                    }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
-                        [digitalProperty setSiteDomain:ONEOTTHostStagingURL];
-                    }
+            
+                //Check digital property if for production or for staging
+                if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+                    [digitalProperty setSiteDomain:isProd ? TFCHostProdURL : TFCHostStagingURL];
+                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+                    [digitalProperty setSiteDomain:isProd ? NEWSHostProdURL : NEWSHostStagingURL];
+                } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+                    [digitalProperty setSiteDomain:isProd ? IWANTVHostProdURL : IWANTVHostStagingURL];
+                }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+                    [digitalProperty setSiteDomain:isProd ? SODHostProdURL :  SODHostStagingURL];
+                }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
+                    [digitalProperty setSiteDomain:isProd ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
                 }
+            
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                     EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                        // set Event action into LOAD
+                        // Set Event action into LOAD
                         [builder setActionTaken:LOAD];
-                        NSLog(@"dumaanSaLoad");
                     }];
-                    // Write LOAD action to to server.
+                    // Event writing
                     [ABSEventTracker initEventAttributes:launchEvent];
                     [ABSBigDataServiceDispatcher dispatchCachedAttributes];
                 }];
-            
             [self initSession:[SessionManager init]];
             [self checkEventSource];
             [self initWithDevice:device];
@@ -151,7 +138,6 @@
     }]];
     [[AttributeManager init] setUserAttributes:attributes];
     [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
-    
 }
 /**
  * Set the Device information into attriutes manager.
@@ -240,7 +226,6 @@
 
 #pragma mark - Video Attributes
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
-  
     [EventController writeVideoAttributes:attributes];
     
 }

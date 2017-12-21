@@ -18,7 +18,10 @@
 @synthesize session;
 @synthesize arbitaryinvariant;
 @synthesize videoattributes;
-
+/*
+ * This class acts as a Facade/Manager for different sub-modules that constitutes the entire
+ * BigData's iOS library event processing functionality.
+ */
 +(AttributeManager*) init{
     static dispatch_once_t onceToken = 0;
     static id shared = nil;

@@ -12,7 +12,6 @@
  **                                                                  **
  **********************************************************************/
 #import <Foundation/Foundation.h>
-
 @protocol HTTPCallBack <NSObject>
 @optional
 -(void) onSuccess;

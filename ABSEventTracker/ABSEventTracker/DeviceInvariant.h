@@ -27,14 +27,12 @@
 -(instancetype) build;
 
 @end
-
 @interface DeviceInvariantBuilder : NSObject
 @property(nonatomic, assign) NSString *deviceFingerprint;
 @property(nonatomic, assign) NSString *deviceOS;
 @property(nonatomic, strong) NSString *deviceType;
 @property(nonatomic) NSInteger deviceScreenWidth;
 @property(nonatomic) NSInteger deviceScreenHeight;
-
 -(instancetype) init;
 
 @end

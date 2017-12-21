@@ -17,7 +17,6 @@
     }
     // Dispatch the consolidated attributes into server
     [ABSBigDataServiceDispatcher dispatchAttribute:manager];
-    
 }
 
 @end

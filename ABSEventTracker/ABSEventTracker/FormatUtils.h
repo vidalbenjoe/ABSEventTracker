@@ -16,7 +16,7 @@
 /**
  * Date formatter
  */
-+(NSString *) dateFormatter:(NSDate *) date;
+//+(NSString *) dateFormatter:(NSDate *) date;
 /**
  * Generate randomUUID
  */

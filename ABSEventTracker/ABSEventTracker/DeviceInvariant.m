@@ -8,7 +8,6 @@
 
 #import "DeviceInvariant.h"
 @implementation DeviceInvariant
-
 -(instancetype) initWithBuilder:(DeviceInvariantBuilder *)builder{
     if (self = [super init]) {
         _deviceFingerprint          = builder.deviceFingerprint;
@@ -44,7 +43,6 @@
     DeviceInvariantBuilder *builder = [DeviceInvariantBuilder new];
     return [self initWithBuilder:builder];
 }
-
 @end
 // DeviceInvariantBuilder
 @implementation DeviceInvariantBuilder

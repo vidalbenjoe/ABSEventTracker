@@ -11,8 +11,7 @@
 @implementation Constant
 
 NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
-
-NSString *const eventPreProd                        =@"http://stgeventswebapi.azurewebsites.net";
+NSString *const eventPreProd                    =@"http://stgeventswebapi.azurewebsites.net";
 
 NSString* const tokenURL                        = @"/token";
 NSString* const eventTokenURL                   = @"/oauth";

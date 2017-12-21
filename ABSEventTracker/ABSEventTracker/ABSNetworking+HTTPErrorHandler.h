@@ -5,12 +5,13 @@
  **                                                                  **
  **                                                                  **
  **                        ABSEventTracker                           **
- **            Created by Benjoe Vidal on 15/06/2017.                **
- **          Copyright © 2017 ABS-CBN. All rights reserved.          **
+ **           Created by Benjoe Vidal on 15/06/2017.                 **
+ **                 hello@benjoeriveravidal.com                      **
+ **        Copyright © 2017 ABS-CBN. All rights reserved.            **
  **                                                                  **
  **                                                                  **
- **                                                                  **
- **********************************************************************/
+ **********************************************************************
+ */
 #import "ABSNetworking.h"
 #import "HTTPCallBack.h"
 #import "ABSBigDataServiceDispatcher.h"

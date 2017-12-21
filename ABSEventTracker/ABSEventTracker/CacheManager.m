@@ -7,21 +7,16 @@
 
 #import "CacheManager.h"
 @implementation CacheManager
-@synthesize _id;
 @synthesize cacheDictionary;
-
 +(void) storeApplicationLoadTimestamp: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"applicationTimeStamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
 +(NSString *) retrieveApplicationLoadTimestamp{
     NSString *appLoadTimeStamp = [[NSUserDefaults standardUserDefaults]
                        stringForKey:@"applicationTimeStamp"];
     return appLoadTimeStamp;
 }
-
-
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes{
     NSError *error;
     if (![[NSFileManager defaultManager] fileExistsAtPath: [self cachePath]]){
@@ -33,6 +28,7 @@
         cachedList = [[NSMutableArray alloc] initWithCapacity:0];
     }
     [cachedList addObject:attributes];
+    /** Save cache to Plist*/
     BOOL success = [cachedList writeToFile:[self cachePath] atomically: YES];
     if (success) {
         NSLog(@"The failed attributes has been cached! %@", attributes);
@@ -83,8 +79,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"Info.plist"];
-    
-//    NSLog(@"documentsDirectory %@",documentsDirectory);
+
     return plistPath;
 }
 

@@ -225,14 +225,12 @@
 		8645B7BE1F04F92C00F21735 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				8661CC561F0E3A29006D7A1D /* Recommendation */,
+				8661CC561F0E3A29006D7A1D /* RecommendationEngine */,
 				8645B7E01F04FCF100F21735 /* Invariant */,
 				8645B7DC1F04FC3700F21735 /* Variant */,
 				8645B7D51F04FB8600F21735 /* Manager */,
 				8645B7CE1F04FA4300F21735 /* Session */,
 				8645B7C21F04F95800F21735 /* Attributes */,
-				8645B7BF1F04F93F00F21735 /* EventController.h */,
-				8645B7C01F04F93F00F21735 /* EventController.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -246,6 +244,8 @@
 				8645B7C61F04F98F00F21735 /* Event */,
 				8645B7C31F04F96A00F21735 /* AttributeWriter.h */,
 				8645B7C41F04F96B00F21735 /* AttributeWriter.m */,
+				8645B7BF1F04F93F00F21735 /* EventController.h */,
+				8645B7C01F04F93F00F21735 /* EventController.m */,
 			);
 			name = Attributes;
 			sourceTree = "<group>";
@@ -333,7 +333,7 @@
 			name = DigitalProperty;
 			sourceTree = "<group>";
 		};
-		8661CC561F0E3A29006D7A1D /* Recommendation */ = {
+		8661CC561F0E3A29006D7A1D /* RecommendationEngine */ = {
 			isa = PBXGroup;
 			children = (
 				1BF8CDF61F56669C00B0C70F /* ItemToItem.h */,
@@ -343,7 +343,7 @@
 				1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */,
 				1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */,
 			);
-			name = Recommendation;
+			name = RecommendationEngine;
 			sourceTree = "<group>";
 		};
 		86B6F3211F1740CF005B2B26 /* Video */ = {
