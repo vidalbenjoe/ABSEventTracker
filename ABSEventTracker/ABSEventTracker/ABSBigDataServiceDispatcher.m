@@ -284,6 +284,7 @@ NSString *userID;
     
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     
+    NSLog(@"videoState2: %@", videoState);
     NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
