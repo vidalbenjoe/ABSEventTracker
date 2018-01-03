@@ -338,7 +338,7 @@ NSString *userID;
         ObjectOrNull(attributes.videoattributes.videoConsolidatedBufferTime) , @"VideoConsolidatedBufferTime",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoTotalBufferTime]]) , @"VideoTotalBufferTime",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]]), @"ArticleContentAmount",
-        ObjectOrNull(attributes.userattributes.loginTimeStamp) , @"LoginTimeStamp",
+        ObjectOrNull(attributes.arbitaryinvariant.loginTimeStamp) , @"LoginTimeStamp",
         ObjectOrNull(attributes.eventattributes.likedContent) , @"LikedContent",
         ObjectOrNull(attributes.eventattributes.shareRetweetContent) , @"ShareRetweetContent",
         ObjectOrNull(attributes.eventattributes.followedEntity) , @"FollowedEntity",

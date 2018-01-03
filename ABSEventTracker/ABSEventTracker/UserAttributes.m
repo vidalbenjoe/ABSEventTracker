@@ -21,7 +21,6 @@
         _birthday       =   builder.birthday;
         _mobilenumber   =   builder.mobilenumber;
         _loginTimeStamp =   builder.loginTimeStamp;
-   
     }
     return self;
 }
@@ -53,7 +52,6 @@
 }
 -(instancetype) build{
     UserBuilder *builder = [UserBuilder new];
-    
     return [self initUserWithBuilder:builder];
 }
 
@@ -70,14 +68,14 @@
 //
 -(id)initWithCoder:(NSCoder *)decoder {
     if((self = [super init])) {
-    self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
-    self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
-    self.firstName = [decoder decodeObjectForKey:@"firstName"];
-    self.middleName = [decoder decodeObjectForKey:@"middleName"];
-    self.lastName = [decoder decodeObjectForKey:@"lastName"];
-    self.address = [decoder decodeObjectForKey:@"address"];
-    self.birthday = [decoder decodeObjectForKey:@"birthday"];
-    self.loginTimeStamp = [decoder decodeObjectForKey:@"logintimestamp"];
+        self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
+        self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
+        self.firstName = [decoder decodeObjectForKey:@"firstName"];
+        self.middleName = [decoder decodeObjectForKey:@"middleName"];
+        self.lastName = [decoder decodeObjectForKey:@"lastName"];
+        self.address = [decoder decodeObjectForKey:@"address"];
+        self.birthday = [decoder decodeObjectForKey:@"birthday"];
+        self.loginTimeStamp = [decoder decodeObjectForKey:@"logintimestamp"];
     }
     return self;
 }
@@ -90,7 +88,6 @@
 
 +(void) cachedUserInfoWithID: (NSString *) userID firstName:(NSString *)firstName middleName:(NSString *)middleName lastName:(NSString*) lastName{
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-
     [prefs setValue:userID forKey:@"cachedUserID"];
     [prefs setValue:firstName forKey:@"cachedFirstName"];
     [prefs setValue:middleName forKey:@"cachedMiddleName"];
@@ -107,18 +104,22 @@
 +(NSString *) retrieveFirstName{
     NSString *firstName = [[NSUserDefaults standardUserDefaults]
                         stringForKey:@"cachedFirstName"];
+    NSLog(@"Cached_Firstname %@:", firstName);
     return firstName;
 }
 
 +(NSString *) retrieveMiddleName{
     NSString *middleName = [[NSUserDefaults standardUserDefaults]
                           stringForKey:@"cachedMiddleName"];
+    NSLog(@"Cached_MiddleName: %@", middleName);
     return middleName;
 }
 
 +(NSString *) retrieveLastName{
     NSString *lastName = [[NSUserDefaults standardUserDefaults]
                         stringForKey:@"cachedLastName"];
+    
+    NSLog(@"Cahced_LastName: %@", lastName);
     return lastName;
 }
 

@@ -136,8 +136,9 @@
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];
     }]];
-    [[AttributeManager init] setUserAttributes:attributes];
     [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
+    [[AttributeManager init] setUserAttributes:attributes];
+   
 }
 /**
  * Set the Device information into attriutes manager.
