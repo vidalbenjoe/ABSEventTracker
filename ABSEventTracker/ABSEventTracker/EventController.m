@@ -37,7 +37,6 @@ NSMutableString *consolidatedBufferDuration;
  * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
  */
 +(void) writeEvent:(EventAttributes *) attributes{
-    NSLog(@"eventWriterAction %ld", (long)attributes.actionTaken);
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -68,7 +67,10 @@ NSMutableString *consolidatedBufferDuration;
         default:
             break;
     }
-    
+    GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
+        [builder setActionTaken:attributes.actionTaken];
+    }];
+    [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     [[AttributeManager init] setEventAttributes:attributes];
 }
@@ -84,7 +86,7 @@ NSMutableString *consolidatedBufferDuration;
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
         consolidatedBufferDuration = [NSMutableString string];
     }
-    switch (attributes.action) {
+    switch (attributes.actionTaken) {
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
             break;
@@ -124,11 +126,14 @@ NSMutableString *consolidatedBufferDuration;
         case COMPLETED:
             [attributes setIsVideoEnded:YES];
             break;
+        case PAUSED:
+            [attributes setActionTaken:VIDEO_PAUSED];
+            break;
         default:
             break;
     }
     
-    if (attributes.action == UNKNOWN) {
+    if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify video action");
     }
     
@@ -156,11 +161,11 @@ NSMutableString *consolidatedBufferDuration;
             [attributes setVideoTotalBufferTime:maxtotalBuffTime];
         }
     }
+    GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
+        [builder setActionTaken:attributes.actionTaken];
+    }];
     
-    [self writeEvent:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-        [builder setActionTaken:attributes.action];
-    }]];
-    
+    [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setVideoAttributes:attributes];
 }
 

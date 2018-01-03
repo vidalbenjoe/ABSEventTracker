@@ -82,45 +82,6 @@
     return [self initWithBuilder:builder];
 }
 
-+(NSDictionary *) actionTakenByName{
-    return @{@(FACEBOOK_LIKE)       : @"FacebookLike",
-             @(FACEBOOK_SHARE)      : @"FaceboookShare",
-             @(FACEBOOK_FOLLOW)     : @"FacebookFollow",
-             @(TWITTER_SHARE)       : @"TwitterShare",
-             @(TWITTER_FOLLOW)      : @"TwitterFollow",
-             @(INSTAGRAM_SHARE)     : @"InstagramShare",
-             @(INSTAGRAM_FOLLOW)    : @"InstagramFollow",
-             @(LOGIN)               : @"Login",
-             @(LOGOUT)              : @"Logout",
-             @(POST_COMMENT)        : @"PostComment",
-             @(SEARCH)              : @"Search",
-             @(SOCIAL_SHARE)        : @"SocialShare",
-             @(SOCIAL_FOLLOW)       : @"SocialFollow",
-             @(SOCIAL_LIKE)         : @"SocialLike",
-             @(CLICK_HYPERLINK)     : @"ClickHyperlink",
-             @(RATE)                : @"Rate",
-             @(LOAD)                : @"Load",
-             @(CLICK_IMAGE)         : @"ClickImage",
-             @(SLIDER)              : @"Slider",
-             @(READ_ARTICLES)       : @"ReadArticle",
-             @(ABANDON_APP)         : @"AbandonApp",
-             @(OTHERS)              : @"Other",
-             @(ACCESS_VIEW)         : @"AccessView",
-             @(ABANDON_VIEW)        : @"AbandonView",
-             @(VIDEO_PLAYED)        : @"VideoPlayed",
-             @(VIDEO_PAUSED)        : @"VideoPaused",
-             @(VIDEO_RESUMED)       : @"VideioResumed",
-             @(VIDEO_SEEKED)        : @"VideoSeek",
-             @(VIDEO_STOPPED)       : @"VideoStopped",
-             @(VIDEO_BUFFERED)      : @"VideoBuff",
-             @(VIDEO_COMPLETE)      : @"VideoCompleted"
-             };
-}
-
-+(NSString *) convertActionTaken: (ActionTaken) action{
-    return [[self class] actionTakenByName][@(action)];
-}
-
 @end
 
 @implementation EventBuilder

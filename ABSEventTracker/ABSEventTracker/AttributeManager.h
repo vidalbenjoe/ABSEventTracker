@@ -27,6 +27,7 @@
 
 @interface AttributeManager : NSObject
 +(AttributeManager*) init;
+@property(nonatomic) GenericEventController *genericattributes;
 @property(nonatomic) EventAttributes *eventattributes;
 @property(nonatomic) UserAttributes *userattributes;
 @property(nonatomic) PropertyEventSource *propertyinvariant;
@@ -35,6 +36,7 @@
 @property(nonatomic) ArbitaryVariant *arbitaryinvariant;
 @property(nonatomic) VideoAttributes *videoattributes;
 
+-(void) setGenericAttributes:(GenericEventController*) genericAttributes;
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
 -(void) setUserAttributes:(UserAttributes *) userAttributes;
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes;

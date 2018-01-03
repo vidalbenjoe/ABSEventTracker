@@ -9,8 +9,18 @@
 
 @implementation VideoAttributes
 
++(instancetype) sharedInstance{
+    static VideoAttributes *shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [[super alloc] init];
+    });
+    return shared;
+}
+
 -(instancetype) initWithBuilder:(VideoBuilder *)builder{
     if (self = [super init]) {
+        
         _videoTimeStamp           = builder.videoTimeStamp;
         _videoTitle               = builder.videoTitle;
         _videoURL                 = builder.videoURL;
@@ -23,7 +33,7 @@
         _videoAdPlay              = builder.videoAdPlay;
         _videoMeta                = builder.videoMeta;
         
-        _action                   = builder.action;
+        _actionTaken              = builder.actionTaken;
         _videostate               = builder.videostate;
         _videoWidth               = builder.videoWidth;
         _videoHeight              = builder.videoHeight;
@@ -62,7 +72,7 @@
     builder.videoAdPlay             = _videoAdPlay;
     builder.videoMeta               = _videoMeta;
     
-    builder.action                  = _action;
+    builder.actionTaken             = _actionTaken;
     builder.videostate              = _videostate;
     builder.videoWidth              = _videoWidth;
     builder.videoHeight             = _videoHeight;
@@ -99,20 +109,6 @@
     return [self initWithBuilder:builder];
 }
 
-+(NSDictionary *) videoStateByName{
-    return @{@(PAUSED)          : @"PAUSED",
-             @(PLAYING)         : @"PLAYING",
-             @(SEEKING)         : @"SEEKING",
-             @(ON_IDLE)         : @"ON_IDLE",
-             @(BUFFERING)       : @"BUFFERING",
-             @(COMPLETED)       : @"COMPLETED",
-             };
-}
-
-+(NSString *) convertVideoStateToString: (VideoState) state{
-    return [[self class] videoStateByName][@(state)];
-}
-
 @end
 
 @implementation VideoBuilder
@@ -135,7 +131,7 @@
         
         _videoWidth             = 0;
         _videoHeight            = 0;
-        _action                 = 0;
+        _actionTaken            = 0;
         _videostate             = 0;
         _isVideoEnded           = 0;
         _isVideoPause           = 0;

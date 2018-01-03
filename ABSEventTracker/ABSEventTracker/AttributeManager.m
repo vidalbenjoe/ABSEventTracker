@@ -11,6 +11,7 @@
 #import "ABSBigDataServiceDispatcher.h"
 
 @implementation AttributeManager
+@synthesize genericattributes;
 @synthesize userattributes;
 @synthesize eventattributes;
 @synthesize propertyinvariant;
@@ -29,6 +30,10 @@
         shared = [[self alloc] init];
     });
     return shared;
+}
+
+-(void) setGenericAttributes:(GenericEventController*) genericAttributes{
+    genericattributes = genericAttributes;
 }
 #pragma mark - Event Attributes
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
@@ -59,6 +64,6 @@
 -(void) setVideoAttributes:(VideoAttributes *)videoAttribute{
     videoattributes = videoAttribute;
     // Trigger AttributeWriter every time video event happened
-//    [AttributeWriter writer:self];
+    [AttributeWriter writer:self];
 }
 @end

@@ -227,6 +227,7 @@
 
 #pragma mark - Video Attributes
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
+     
     [EventController writeVideoAttributes:attributes];
     
 }

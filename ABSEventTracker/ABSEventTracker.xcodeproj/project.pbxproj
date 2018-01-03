@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		1B1E40D11F46A377002A8410 /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BDAB9201FFC934D008E3BF7 /* GenericEventController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */; };
 		1BF8CDF81F56669C00B0C70F /* ItemToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF8CDF61F56669C00B0C70F /* ItemToItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDF71F56669C00B0C70F /* ItemToItem.m */; };
 		1BF8CDFC1F5679AE00B0C70F /* UserToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -84,6 +86,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GenericEventController.h; sourceTree = "<group>"; };
+		1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GenericEventController.m; sourceTree = "<group>"; };
 		1BF8CDF61F56669C00B0C70F /* ItemToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemToItem.h; sourceTree = "<group>"; };
 		1BF8CDF71F56669C00B0C70F /* ItemToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemToItem.m; sourceTree = "<group>"; };
 		1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserToItem.h; sourceTree = "<group>"; };
@@ -246,6 +250,8 @@
 				8645B7C41F04F96B00F21735 /* AttributeWriter.m */,
 				8645B7BF1F04F93F00F21735 /* EventController.h */,
 				8645B7C01F04F93F00F21735 /* EventController.m */,
+				1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */,
+				1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */,
 			);
 			name = Attributes;
 			sourceTree = "<group>";
@@ -367,6 +373,7 @@
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 				1BF8CDFC1F5679AE00B0C70F /* UserToItem.h in Headers */,
+				1BDAB9201FFC934D008E3BF7 /* GenericEventController.h in Headers */,
 				2DF3A4B71F835ECD0068007A /* ABSLogger.h in Headers */,
 				1BF8CDF81F56669C00B0C70F /* ItemToItem.h in Headers */,
 				1B1E40D11F46A377002A8410 /* ABSRecommendationEngine.h in Headers */,
@@ -469,6 +476,7 @@
 			files = (
 				1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */,
 				8645B7ED1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
+				1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */,
 				8645B7D41F04FA8F00F21735 /* SessionManager+SessionRule.m in Sources */,
 				8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */,
 				8645B7C51F04F96B00F21735 /* AttributeWriter.m in Sources */,

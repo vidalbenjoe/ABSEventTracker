@@ -141,6 +141,7 @@ NSString *userID;
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
+   
     /*
      * Check if server token is stored in NSUserDefault and not null
      */
@@ -269,23 +270,26 @@ NSString *userID;
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     duration = 0;
+    NSLog(@"videoPauser: %@", [NSString stringWithFormat:@"%@", [NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]);
+
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSString *action = [EventAttributes convertActionTaken:attributes.eventattributes.actionTaken];
     
+    NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
+   
     if (attributes.userattributes.gigyaID == nil) {
         userID = attributes.userattributes.ssoID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.ssoID;
     }else{
         userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
     }
+    
    
     NSString *isvideoPaused = ([NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]) ? @"True" : @"False";
     NSString *isvideoEnded = ([NSNumber numberWithBool:attributes.videoattributes.isVideoEnded]) ? @"True" : @"False";
     
+
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
-    
-    NSLog(@"videoState2: %@", videoState);
-    NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
+        NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
@@ -300,6 +304,17 @@ NSString *userID;
     
     if ([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint]) {
     }
+    
+   
+    
+    NSLog(@"videoPlay: %f", attributes.videoattributes.videoPlayPosition);
+    
+    NSLog(@"RetUserFname: %@", attributes.userattributes.firstName == nil ? @"" : attributes.userattributes.firstName);
+    NSLog(@"REtUserLname: %@", attributes.userattributes.lastName == nil ? @"" : attributes.userattributes.lastName);
+    
+    NSLog(@"cachedUserFname: %@", [UserAttributes retrieveFirstName] == nil ? @"" : [UserAttributes retrieveFirstName]);
+    NSLog(@"cachedUserLname: %@", [UserAttributes retrieveLastName] == nil ? @"" : [UserAttributes retrieveLastName]);
+    
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",

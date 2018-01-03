@@ -11,6 +11,7 @@
 @implementation AttributeWriter
 
 +(void) writer:(AttributeManager *) manager{
+    
     // Do not update session when video state is playing
     if (manager.videoattributes.videostate != PLAYING) {
         [[SessionManager init] update];
