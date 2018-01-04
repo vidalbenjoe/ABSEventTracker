@@ -109,6 +109,19 @@
     return [self initWithBuilder:builder];
 }
 
++(NSDictionary *) videoStateByName{
+    return @{@(PAUSED)          : @"PAUSED",
+             @(PLAYING)         : @"PLAYING",
+             @(SEEKING)         : @"SEEKING",
+             @(ON_IDLE)         : @"ON_IDLE",
+             @(BUFFERING)       : @"BUFFERING",
+             @(COMPLETED)       : @"COMPLETED",
+             };
+}
+
++(NSString *) convertVideoStateToString: (VideoState) state{
+    return [[self class] videoStateByName][@(state)];
+}
 @end
 
 @implementation VideoBuilder
@@ -133,9 +146,9 @@
         _videoHeight            = 0;
         _actionTaken            = 0;
         _videostate             = 0;
-        _isVideoEnded           = 0;
-        _isVideoPause           = 0;
-        _isVideoFullScreen      = 0;
+        _isVideoEnded           = NO;
+        _isVideoPause           = NO;
+        _isVideoFullScreen      = NO;
         
         _videoTotalBufferTime   = 0;
         _videoDuration          = 0;

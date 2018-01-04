@@ -67,12 +67,15 @@ NSMutableString *consolidatedBufferDuration;
         default:
             break;
     }
+    
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
+    
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     [[AttributeManager init] setEventAttributes:attributes];
+    
 }
 /**
  * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
@@ -85,6 +88,11 @@ NSMutableString *consolidatedBufferDuration;
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
         consolidatedBufferDuration = [NSMutableString string];
+    }
+    [attributes setIsVideoPaused:NO];
+    [attributes setIsVideoEnded:NO];
+    if (attributes.actionTaken == UNKNOWN) {
+        NSLog(@"Please specify video action");
     }
     switch (attributes.actionTaken) {
         case VIDEO_BUFFERED:
@@ -132,13 +140,8 @@ NSMutableString *consolidatedBufferDuration;
         default:
             break;
     }
-    
-    if (attributes.actionTaken == UNKNOWN) {
-        NSLog(@"Please specify video action");
-    }
-    
+
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
-    
     bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
     videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
     if (bufferTime != nil) {

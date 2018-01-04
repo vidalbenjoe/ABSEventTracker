@@ -159,6 +159,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BDAB9221FFCECCB008E3BF7 /* Recommendation */ = {
+			isa = PBXGroup;
+			children = (
+				86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */,
+				86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */,
+			);
+			name = Recommendation;
+			sourceTree = "<group>";
+		};
+		1BDAB9231FFCECE0008E3BF7 /* EventDispatcher */ = {
+			isa = PBXGroup;
+			children = (
+				8645B7E51F04FDAA00F21735 /* ABSBigDataServiceDispatcher.h */,
+				8645B7E61F04FDAA00F21735 /* ABSBigDataServiceDispatcher.m */,
+			);
+			name = EventDispatcher;
+			sourceTree = "<group>";
+		};
 		8645B7721F04F51B00F21735 = {
 			isa = PBXGroup;
 			children = (
@@ -317,14 +335,12 @@
 		8645B7E41F04FD9000F21735 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				8645B7E51F04FDAA00F21735 /* ABSBigDataServiceDispatcher.h */,
-				8645B7E61F04FDAA00F21735 /* ABSBigDataServiceDispatcher.m */,
+				1BDAB9231FFCECE0008E3BF7 /* EventDispatcher */,
+				1BDAB9221FFCECCB008E3BF7 /* Recommendation */,
 				8645B7E81F04FDDA00F21735 /* ABSNetworking.h */,
 				8645B7E91F04FDDA00F21735 /* ABSNetworking.m */,
 				8645B7EB1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.h */,
 				8645B7EC1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m */,
-				86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */,
-				86E2AA921F135BA300B64A4A /* ABSRecommendationEngine.m */,
 				86E2AA951F135E6F00B64A4A /* HTTPCallBack.h */,
 			);
 			name = Network;

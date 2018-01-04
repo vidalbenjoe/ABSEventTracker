@@ -270,7 +270,6 @@ NSString *userID;
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     duration = 0;
-    NSLog(@"videoPauser: %@", [NSString stringWithFormat:@"%@", [NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]);
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
@@ -283,11 +282,10 @@ NSString *userID;
         userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
     }
     
-   
-    NSString *isvideoPaused = ([NSNumber numberWithBool:attributes.videoattributes.isVideoPaused]) ? @"True" : @"False";
-    NSString *isvideoEnded = ([NSNumber numberWithBool:attributes.videoattributes.isVideoEnded]) ? @"True" : @"False";
+    NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
+    NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
+    NSString *isvideoFullScreen = attributes.videoattributes.isVideoFullScreen ? @"True" : @"False";
     
-
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
@@ -304,18 +302,7 @@ NSString *userID;
     
     if ([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint]) {
     }
-    
    
-    
-    NSLog(@"videoPlay: %f", attributes.videoattributes.videoPlayPosition);
-    
-    NSLog(@"RetUserFname: %@", attributes.userattributes.firstName == nil ? @"" : attributes.userattributes.firstName);
-    NSLog(@"REtUserLname: %@", attributes.userattributes.lastName == nil ? @"" : attributes.userattributes.lastName);
-    
-    NSLog(@"cachedUserFname: %@", [UserAttributes retrieveFirstName] == nil ? @"" : [UserAttributes retrieveFirstName]);
-    NSLog(@"cachedUserLname: %@", [UserAttributes retrieveLastName] == nil ? @"" : [UserAttributes retrieveLastName]);
-    
-    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
         ObjectOrNull(attributes.deviceinvariant.deviceFingerprint) , @"fingerprintID",
@@ -385,7 +372,7 @@ NSString *userID;
         ObjectOrNull(videoState), @"VideoPlayerState",
         ObjectOrNull(attributes.videoattributes.videoTitle) , @"VideoTitle",
         ObjectOrNull(attributes.videoattributes.videoURL) , @"VideoURL",
-        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithBool:attributes.videoattributes.isVideoFullScreen]]), @"VideoFullScreen",
+        ObjectOrNull(isvideoFullScreen), @"VideoFullScreen",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoVolume]]) , @"VideoVolume",
          ObjectOrNull(videoSize) , @"VideoSize",
                                                  nil];

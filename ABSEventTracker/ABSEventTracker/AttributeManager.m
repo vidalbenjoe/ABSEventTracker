@@ -35,13 +35,19 @@
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes{
     genericattributes = genericAttributes;
 }
+
 #pragma mark - Event Attributes
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
+    videoattributes = nil;
+    videoattributes.isVideoEnded = NO;
+    videoattributes.isVideoPaused = NO;
+    videoattributes.isVideoFullScreen = NO;
     eventattributes = eventAttributes;
     [AttributeWriter writer:self];
 }
 #pragma mark - User Attributes
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
+    videoattributes = nil;
     userattributes = userAttributes;
 }
 #pragma mark - Property Attributes
