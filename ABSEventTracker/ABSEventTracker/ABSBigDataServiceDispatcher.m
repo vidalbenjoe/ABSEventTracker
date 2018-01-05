@@ -273,6 +273,7 @@ NSString *userID;
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+
     
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
@@ -318,7 +319,7 @@ NSString *userID;
         ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
         ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp == nil ? [CacheManager retrieveApplicationLoadTimestamp] : attributes.arbitaryinvariant.applicationLaunchTimeStamp), @"ApplicationLoadTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp), @"ApplicationAbandonTimeStamp",
-        ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp), @"WritingEventTimestamp",
+        ObjectOrNull([dateFormatter stringFromDate:[NSDate date]]), @"WritingEventTimestamp",
         ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp), @"LogoutTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp), @"SearchTimeStamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigDataSessionID",
@@ -351,7 +352,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
         ObjectOrNull([NSString stringWithFormat:@" %@",duration]), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
-        ObjectOrNull(attributes.eventattributes.clickedContent) , @"ViewAccessTimestamp",
+        ObjectOrNull(accessViewTimeStamp) , @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]), @"VideoPause",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]]) , @"VideoSeekStart",

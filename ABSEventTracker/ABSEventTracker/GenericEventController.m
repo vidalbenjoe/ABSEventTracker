@@ -62,6 +62,7 @@
              @(OTHERS)              : @"Other",
              @(ACCESS_VIEW)         : @"AccessView",
              @(ABANDON_VIEW)        : @"AbandonView",
+             
              @(VIDEO_PLAYED)        : @"VideoPlayed",
              @(VIDEO_PAUSED)        : @"VideoPaused",
              @(VIDEO_RESUMED)       : @"VideioResumed",
@@ -80,7 +81,7 @@
 @implementation GenericBuilder
 -(instancetype) init{
     if (self = [super init]) {
-        _actionTaken            = 0;
+        _actionTaken       = 0;
     }
     return self;
 }
