@@ -27,7 +27,6 @@
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo physicalMemory]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo processorNumber]]];
     [rawComponents addObject:[DeviceInfo deviceUUID]];
-    NSLog(@"DEVTUUID %@", [DeviceInfo deviceUUID]);
     return [rawComponents componentsJoinedByString:@","];
 }
 /*!

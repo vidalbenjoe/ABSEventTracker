@@ -104,14 +104,12 @@
 +(NSString *) retrieveFirstName{
     NSString *firstName = [[NSUserDefaults standardUserDefaults]
                         stringForKey:@"cachedFirstName"];
-    NSLog(@"Cached_Firstname %@:", firstName);
     return firstName;
 }
 
 +(NSString *) retrieveMiddleName{
     NSString *middleName = [[NSUserDefaults standardUserDefaults]
                           stringForKey:@"cachedMiddleName"];
-    NSLog(@"Cached_MiddleName: %@", middleName);
     return middleName;
 }
 
@@ -119,7 +117,6 @@
     NSString *lastName = [[NSUserDefaults standardUserDefaults]
                         stringForKey:@"cachedLastName"];
     
-    NSLog(@"Cahced_LastName: %@", lastName);
     return lastName;
 }
 
@@ -127,7 +124,6 @@
     //retrieving
     NSData *encodedPerson = [[NSUserDefaults standardUserDefaults] objectForKey:@"encodedPersonKey"];
     UserAttributes *person = (UserAttributes *)[NSKeyedUnarchiver unarchiveObjectWithData:encodedPerson];
-    NSLog(@"personSdw: %@", person.firstName);
     return person;
 }
 

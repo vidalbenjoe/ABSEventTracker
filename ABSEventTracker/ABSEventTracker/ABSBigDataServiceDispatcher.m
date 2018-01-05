@@ -273,7 +273,6 @@ NSString *userID;
     NSDate *date = [[NSDate alloc] init];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-
     
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
