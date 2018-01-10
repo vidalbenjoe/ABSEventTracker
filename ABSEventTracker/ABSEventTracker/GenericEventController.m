@@ -15,6 +15,7 @@
     }
     return self;
 }
+
 -(GenericBuilder *) makeBuilder{
     GenericBuilder *builder = [GenericBuilder new];
     builder.actionTaken             = _actionTaken;

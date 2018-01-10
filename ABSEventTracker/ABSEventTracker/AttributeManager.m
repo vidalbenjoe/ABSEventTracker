@@ -40,9 +40,6 @@
 #pragma mark - Event Attributes
 -(void) setEventAttributes:(EventAttributes*) eventAttributes{
     videoattributes = nil;
-    videoattributes.isVideoEnded = NO;
-    videoattributes.isVideoPaused = NO;
-    videoattributes.isVideoFullScreen = NO;
     eventattributes = eventAttributes;
     [AttributeWriter writer:self];
 }

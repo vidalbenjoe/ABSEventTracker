@@ -187,7 +187,7 @@ NSString *userID;
         /*
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
-    
+    if (writerAttributes != nil) {
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         /*
@@ -212,6 +212,7 @@ NSString *userID;
             [CacheManager storeFailedAttributesToCacheManager:data];
 //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
         }];
+    }
 }
 
 +(void) dispatchCachedAttributes{
@@ -377,7 +378,14 @@ NSString *userID;
          ObjectOrNull(videoSize) , @"VideoSize",
                                                  nil];
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
-    return attributesData;
+    
+    if (error) {
+        NSLog(@"Error on dispatcher");
+    } else{
+        return attributesData;
+    }
+
+    return nil;
 }
 
 // This method will return empty string if the attributes is nil or empty

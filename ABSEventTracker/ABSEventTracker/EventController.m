@@ -89,8 +89,8 @@ NSMutableString *consolidatedBufferDuration;
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
         consolidatedBufferDuration = [NSMutableString string];
     }
-    [attributes setIsVideoPaused:NO];
-    [attributes setIsVideoEnded:NO];
+    //[attributes setIsVideoPaused:NO];
+    //[attributes setIsVideoEnded:NO];
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify video action");
     }
