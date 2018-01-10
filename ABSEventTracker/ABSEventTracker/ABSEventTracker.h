@@ -15,6 +15,11 @@
 #import "UserAttributes.h"
 #import "EventAttributes.h"
 #import "VideoAttributes.h"
+
+typedef NS_ENUM(NSInteger, EnvironmentConfig){
+     STAGING             =   0,
+     PRODUCTION          =   1
+};
 @interface ABSEventTracker : NSObject
 
 /** 
@@ -22,6 +27,7 @@
  * This method will initialize multiple attribute such as SessionManager, DeviceInvariant and PropertyEventSource.
  */
 
++(ABSEventTracker *) initializeTracker :(EnvironmentConfig) config;
 +(ABSEventTracker *) initializeTrackerForProd :(BOOL) isProd;
 
 +(void) initWithUser:(UserAttributes *) attributes;

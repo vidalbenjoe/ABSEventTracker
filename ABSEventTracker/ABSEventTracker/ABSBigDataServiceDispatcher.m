@@ -20,6 +20,7 @@
 @implementation ABSBigDataServiceDispatcher
 NSNumber *duration;
 NSString *userID;
+
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
@@ -269,10 +270,9 @@ NSString *userID;
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     duration = 0;
-
-    NSDate *date = [[NSDate alloc] init];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    
     
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
@@ -281,7 +281,6 @@ NSString *userID;
     }else{
         userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
     }
-    
     NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
     NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
     NSString *isvideoFullScreen = attributes.videoattributes.isVideoFullScreen ? @"True" : @"False";
@@ -302,7 +301,8 @@ NSString *userID;
     
     if ([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint]) {
     }
-   
+//   [dateFormatter stringFromDate:date]
+//    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
         ObjectOrNull(attributes.deviceinvariant.deviceFingerprint) , @"fingerprintID",
@@ -318,7 +318,7 @@ NSString *userID;
         ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
         ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp == nil ? [CacheManager retrieveApplicationLoadTimestamp] : attributes.arbitaryinvariant.applicationLaunchTimeStamp), @"ApplicationLoadTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp), @"ApplicationAbandonTimeStamp",
-        ObjectOrNull([dateFormatter stringFromDate:date]), @"WritingEventTimestamp",
+        ObjectOrNull(@""), @"WritingEventTimestamp",
         ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp), @"LogoutTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp), @"SearchTimeStamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigDataSessionID",
@@ -351,7 +351,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
         ObjectOrNull([NSString stringWithFormat:@" %@",duration]), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
-        ObjectOrNull(accessViewTimeStamp) , @"ViewAccessTimestamp",
+                                @"", @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]), @"VideoPause",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]]) , @"VideoSeekStart",

@@ -22,6 +22,7 @@
 /*
  * This class acts as a Facade/Manager for different sub-modules that constitutes the entire
  * BigData's iOS library event processing functionality.
+ * It also manages the events data triggered by the digital property
  */
 +(AttributeManager*) init{
     static dispatch_once_t onceToken = 0;
@@ -31,7 +32,7 @@
     });
     return shared;
 }
-
+#pragma mark - Generic Action
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes{
     genericattributes = genericAttributes;
 }

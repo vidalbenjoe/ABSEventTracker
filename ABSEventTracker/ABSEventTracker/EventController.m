@@ -94,6 +94,7 @@ NSMutableString *consolidatedBufferDuration;
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify video action");
     }
+    
     switch (attributes.actionTaken) {
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
