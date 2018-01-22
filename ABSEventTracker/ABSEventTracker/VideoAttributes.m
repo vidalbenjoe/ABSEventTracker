@@ -17,7 +17,6 @@
     });
     return shared;
 }
-
 -(instancetype) initWithBuilder:(VideoBuilder *)builder{
     if (self = [super init]) {
         
