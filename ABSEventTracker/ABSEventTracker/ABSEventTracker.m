@@ -20,7 +20,7 @@
 
 @implementation ABSEventTracker
 +(ABSEventTracker *) initializeTracker :(EnvironmentConfig) config{
-    NSLog(@"EnvironmentConfig: %ld", (long) config);
+//    NSLog(@"EnvironmentConfig: %ld", (long) config);
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

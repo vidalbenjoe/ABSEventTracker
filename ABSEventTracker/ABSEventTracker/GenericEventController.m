@@ -66,7 +66,7 @@
              
              @(VIDEO_PLAYED)        : @"VideoPlayed",
              @(VIDEO_PAUSED)        : @"VideoPaused",
-             @(VIDEO_RESUMED)       : @"VideioResumed",
+             @(VIDEO_RESUMED)       : @"VideoResumed",
              @(VIDEO_SEEKED)        : @"VideoSeek",
              @(VIDEO_STOPPED)       : @"VideoStopped",
              @(VIDEO_BUFFERED)      : @"VideoBuff",

@@ -36,7 +36,7 @@ NSString *userID;
             NSDate *receivedTimestamp = [NSDate date];
             [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            NSLog(SECHASH_ERROR_REQUEST);
+            NSLog(SECHASH_ERROR_REQUEST "%@", error.description);
             [AuthManager removeSechHash];
         }];
     });
@@ -136,12 +136,10 @@ NSString *userID;
                  * Request token failed
                  */
 //                [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA: Error getting token - %@", error]];
-               
             }];
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-   
     /*
      * Check if server token is stored in NSUserDefault and not null
      */
@@ -181,7 +179,6 @@ NSString *userID;
         }];
     }
 }
-
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
         /*
@@ -194,8 +191,7 @@ NSString *userID;
          * Retrieving server token to be used in request header.
          */
         NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    
-    [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             /*
              * Success: Sending server response to ABSLogger.
              */
@@ -205,7 +201,6 @@ NSString *userID;
              * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
              */
             NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
-        
             /*
              * Storing attributes dictionary into CacheManager.
              */
@@ -229,7 +224,6 @@ NSString *userID;
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
@@ -274,7 +268,6 @@ NSString *userID;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     
-    
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
     if (attributes.userattributes.gigyaID == nil) {
@@ -282,6 +275,7 @@ NSString *userID;
     }else{
         userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
     }
+    
     NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
     NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
     NSString *isvideoFullScreen = attributes.videoattributes.isVideoFullScreen ? @"True" : @"False";
@@ -302,7 +296,6 @@ NSString *userID;
     
     if ([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint]) {
     }
-//   [dateFormatter stringFromDate:date]
 //    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
@@ -362,7 +355,6 @@ NSString *userID;
         ObjectOrNull(attributes.videoattributes.videoAdClick) , @"VideoAdClick",
         ObjectOrNull(attributes.videoattributes.videoAdComplete) , @"VideoAdComplete",
         ObjectOrNull(attributes.videoattributes.videoAdSkipped) , @"VideoAdSkipped",
-        ObjectOrNull(attributes.videoattributes.videoAdError) , @"VideoAdError",
         ObjectOrNull(attributes.videoattributes.videoAdPlay) , @"VideoAdPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoAdTime]]) , @"VideoAdTime",
         ObjectOrNull(attributes.videoattributes.videoMeta) , @"VideoMeta",
