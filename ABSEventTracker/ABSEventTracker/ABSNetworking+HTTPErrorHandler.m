@@ -25,6 +25,7 @@
     }else if(http.statusCode == PERMISSION_DENIED){
         [self onTokenRefresh];
     }
+
 }
 /*************************HTTP CALLBACK*****************************/
 

@@ -160,6 +160,7 @@
  */
 #pragma mark - Event source
 +(void) checkEventSource{
+    
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource init] setDigitalProperty:I_WANT_TV];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {

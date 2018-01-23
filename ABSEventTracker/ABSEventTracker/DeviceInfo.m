@@ -326,7 +326,6 @@
         NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
     } else {
         NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
-
     }
     return [NSNumber numberWithUnsignedLongLong:((totalSpace/1024ll)/1024ll)];
 }

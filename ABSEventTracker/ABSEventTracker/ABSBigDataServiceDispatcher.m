@@ -5,6 +5,8 @@
 //  Created by Benjoe Vidal on 07/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 
+
+
 #import "ABSBigDataServiceDispatcher.h"
 #import "Constant.h"
 #import "HTTPCallBack.h"
@@ -20,11 +22,11 @@
 @implementation ABSBigDataServiceDispatcher
 NSNumber *duration;
 NSString *userID;
-
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
+ 
  */
-+(void) requestSecurityHash: (void (^)(NSString *sechash))handler{
++(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -58,6 +60,7 @@ NSString *userID;
              * Checking the current time if not exceed the server sechash expiration date.
              * Note: The sechash will last for 60 minutes.
              * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
+             Do not make any kind of loud noise such as music from speakers after 9 PM. You will be fined for PHP 5,000
              */
             if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
                 /*
@@ -109,7 +112,7 @@ NSString *userID;
         }
     });
 }
-/* Request token for Recommedation
+/* Request token for  Recommedation
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -138,6 +141,7 @@ NSString *userID;
 //                [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA: Error getting token - %@", error]];
             }];
 }
+
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
     /*
