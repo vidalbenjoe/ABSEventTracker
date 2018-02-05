@@ -277,7 +277,7 @@ NSString *userID;
     if (attributes.userattributes.gigyaID == nil) {
         userID = attributes.userattributes.ssoID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.ssoID;
     }else{
-        userID = attributes.userattributes.gigyaID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.gigyaID;
+        userID = attributes.userattributes.gigyaID != nil ? attributes.userattributes.gigyaID : [UserAttributes retrieveUserID];
     }
     
     NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
@@ -298,8 +298,6 @@ NSString *userID;
         }
     }
     
-    if ([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint]) {
-    }
 //    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
@@ -311,20 +309,20 @@ NSString *userID;
         @"iOS" , @"DeviceOS",
         ObjectOrNull(attributes.deviceinvariant.deviceType) , @"MobileDevice",
         ObjectOrNull(screenSize)  , @"ScreenSize",
-        ObjectOrNull([DeviceInfo getUserInterfaceIdiom]) , @"DeviceType",
+        ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
         ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
         ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp == nil ? [CacheManager retrieveApplicationLoadTimestamp] : attributes.arbitaryinvariant.applicationLaunchTimeStamp), @"ApplicationLoadTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp), @"ApplicationAbandonTimeStamp",
-        ObjectOrNull(@""), @"WritingEventTimestamp",
+        ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp), @"WritingEventTimestamp",
         ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp), @"LogoutTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp), @"SearchTimeStamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigDataSessionID",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimestamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
-        ObjectOrNull(attributes.userattributes.firstName == nil ? [UserAttributes retrieveFirstName] : attributes.userattributes.firstName) , @"FirstName",
-        ObjectOrNull(attributes.userattributes.middleName == nil ? [UserAttributes retrieveMiddleName] : attributes.userattributes.middleName)  , @"MiddleName",
-        ObjectOrNull(attributes.userattributes.lastName == nil ? [UserAttributes retrieveLastName] : attributes.userattributes.lastName), @"LastName",
+        ObjectOrNull(attributes.userattributes.firstName != nil ? attributes.userattributes.firstName : [UserAttributes retrieveFirstName] ) , @"FirstName",
+        ObjectOrNull(attributes.userattributes.middleName == nil ? attributes.userattributes.middleName  : [UserAttributes retrieveMiddleName])  , @"MiddleName",
+        ObjectOrNull(attributes.userattributes.lastName == nil ? attributes.userattributes.lastName : [UserAttributes retrieveLastName] ), @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
@@ -336,6 +334,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
         ObjectOrNull(attributes.eventattributes.commentContent) , @"CommentContent",
         ObjectOrNull(attributes.videoattributes.videoConsolidatedBufferTime) , @"VideoConsolidatedBufferTime",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoBufferCount]]) , @"VideoBuffer",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoTotalBufferTime]]) , @"VideoTotalBufferTime",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithInt:attributes.eventattributes.articleCharacterCount]]), @"ArticleContentAmount",
         ObjectOrNull(attributes.arbitaryinvariant.loginTimeStamp) , @"LoginTimeStamp",
