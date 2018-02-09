@@ -85,6 +85,29 @@ NSURLSessionConfiguration *sessionConfiguration;
     [task resume];
 }
 
+/* This method will send request into server without parameter and will return server response into blocks handler
+ */
+
+-(void) POST:(NSURL *) url success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    requestBody = [[NSMutableURLRequest alloc]
+                   initWithURL:url
+                   cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                   timeoutInterval:60.0];
+    [requestBody setHTTPMethod:@"POST"];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
+    __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
+                                          ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                              NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+                                              if (respHttp.statusCode != SUCCESS) {
+                                                  errorHandler(task, error);
+                                                  return;
+                                              }
+                                              NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                                              successHandler(task, dictionary);
+                                          }];
+    [task resume];
+}
+
 /*
  * Method: POST
  * This post method is used for sending a string objects with multiple header into server through NSURLSession
@@ -141,8 +164,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
-    
     [requestBody setHTTPBody:body];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];

@@ -37,4 +37,5 @@
  * Method for event attributes dispatcher. This method is responsible for sending cached events attributes into the data lake.
  */
 +(void) dispatchCachedAttributes;
++(void) dispatcher:(AttributeManager *) attributes;
 @end

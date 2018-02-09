@@ -17,7 +17,7 @@
         [[SessionManager init] update];
     }
     // Dispatch the consolidated attributes into server
-    [ABSBigDataServiceDispatcher dispatchAttribute:manager];
+    [ABSBigDataServiceDispatcher dispatcher:manager];
 }
 
 @end

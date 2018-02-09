@@ -43,6 +43,26 @@ NSString *userID;
         }];
     });
 }
+
++(void) requestNewToken: (void (^)(NSString *token))handler{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        // REQUEST TOKEN
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
+        
+        [networking POST:url success:^(NSURLSessionDataTask *task, id responseObject) {
+            // store the token somewhere
+            NSString *token = responseObject[@"access_token"];
+            [AuthManager storeTokenToUserDefault:token];
+            handler(token);
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            //                        [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+        }];
+    });
+}
+
+
 /*!
  * Method for requesting server token. This method will return the server token via block(handler)
  */
@@ -194,23 +214,31 @@ NSString *userID;
         /*
          * Retrieving server token to be used in request header.
          */
-        NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-        [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-            /*
-             * Success: Sending server response to ABSLogger.
-             */
-//            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            /*
-             * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
-             */
-            NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
-            /*
-             * Storing attributes dictionary into CacheManager.
-             */
-            [CacheManager storeFailedAttributesToCacheManager:data];
-//            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+        
+        
+        [self requestNewToken:^(NSString *token) {
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
+
+            [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                /*
+                 * Success: Sending server response to ABSLogger.
+                 */
+                //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                /*
+                 * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+                 */
+                NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
+                /*
+                 * Storing attributes dictionary into CacheManager.
+                 */
+                [CacheManager storeFailedAttributesToCacheManager:data];
+                //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+            }];
+        
         }];
+        
+        
     }
 }
 
