@@ -10,20 +10,20 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
-NSString *const eventPreProd                    =@"http://stgeventswebapi.azurewebsites.net";
+//NSString* const eventAppsBaseURL                    = @"bigdataeventsapipreprod.southeastasia.cloudapp.azure.com";
+//NSString* const tokenURL                            = @":8085";
+//NSString* const eventWriteURL                       = @":8086";
 
+NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
+NSString *const eventPreProd                    = @"http://stgeventswebapi.azurewebsites.net";
 NSString* const tokenURL                        = @"/token";
 NSString* const eventTokenURL                   = @"/oauth";
-
 NSString* const eventWriteURL                   = @"/api/event/write";
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
-
 NSString* const UserToItemURL                   = @"http://recoengapi.bigdata.abs-cbn.com/usertoitem"; //POST
 NSString* const ItemToItemURL                   = @"http://recoengapi.bigdata.abs-cbn.com/itemtoitem"; //POST
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
 NSString* const host                            = @"http://www.iwantv.com.ph"; //POST
-
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
 NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";
@@ -42,14 +42,11 @@ NSString* const ONEOTTHostProdURL               = @"oneott.com.ph";
 {
     // GET bundleIdentifier
 //    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\":\"%@\"}", TESTER_ID];
-    
     NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\":\"%@\"}", [PropertyEventSource getBundleIdentifier]];
     
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
-    
-    
     return base64Encoded;
 }
 @end

@@ -145,6 +145,9 @@ NSMutableString *consolidatedBufferDuration;
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
     videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
+    
+    NSLog(@"bufferTimew %@", bufferTime);
+    NSLog(@"videoEventTimeStamp %@", videoEventTimeStamp);
     if (bufferTime != nil) {
         if (videoEventTimeStamp > bufferTime) {
             /*
@@ -159,10 +162,16 @@ NSMutableString *consolidatedBufferDuration;
             }
 //            NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
 //            NSLog(@"buffDurationArray %@", buffDurationArray);
-            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
-            NSInteger maxtotalBuffTime = [maxValue integerValue];
+//            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
+//            NSInteger maxtotalBuffTime = [maxValue integerValue];
+            
+            NSInteger sum = 0;
+            for (NSNumber *num in buffDurationArray){sum += [num intValue];}
+            
             [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];
-            [attributes setVideoTotalBufferTime:maxtotalBuffTime];
+            [attributes setVideoTotalBufferTime:sum];
+            [attributes setVideoBufferCount:[buffDurationArray count]];
+            
         }
     }
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {

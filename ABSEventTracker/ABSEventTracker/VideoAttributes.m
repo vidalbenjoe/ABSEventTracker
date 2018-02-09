@@ -40,7 +40,7 @@
         _isVideoPaused            = builder.isVideoPause;
         _isVideoFullScreen        = builder.isVideoFullScreen;
         
-        _videoTotalBufferTime     = builder.videoTotalBufferTime;
+        
         _videoDuration            = builder.videoDuration;
         _videoSeekStart           = builder.videoSeekStart;
         _videoSeekEnd             = builder.videoSeekEnd;
@@ -50,7 +50,11 @@
         _videoResumePosition      = builder.videoResumePosition;
         _videoStopPosition        = builder.videoStopPosition;
         _videoBufferPosition      = builder.videoBufferPosition;
+        
+        _videoBufferCount         = builder.videoBufferCount;
+        _videoTotalBufferTime     = builder.videoTotalBufferTime;
         _videoConsolidatedBufferTime = builder.videoConsolidatedBufferTime;
+        
     }
     
     return self;
@@ -78,7 +82,6 @@
     builder.isVideoEnded            = _isVideoEnded;
     builder.isVideoPause            = _isVideoPaused;
     builder.isVideoFullScreen       = _isVideoFullScreen;
-    builder.videoTotalBufferTime    = _videoTotalBufferTime;
     builder.videoDuration           = _videoDuration;
     builder.videoSeekStart          = _videoSeekStart;
     builder.videoSeekEnd            = _videoSeekEnd;
@@ -88,7 +91,11 @@
     builder.videoResumePosition     = _videoResumePosition;
     builder.videoStopPosition       = _videoStopPosition;
     builder.videoBufferPosition     = _videoBufferPosition;
+    
+    builder.videoTotalBufferTime    = _videoTotalBufferTime;
+    builder.videoBufferCount        = _videoBufferCount;
     builder.videoConsolidatedBufferTime = _videoConsolidatedBufferTime;
+    
     return builder;
 }
 
@@ -140,6 +147,8 @@
         _videoMeta              = nil;
         
         _videoConsolidatedBufferTime = nil;
+        _videoBufferCount       = 0;
+        _videoTotalBufferTime   = 0;
         
         _videoWidth             = 0;
         _videoHeight            = 0;
@@ -149,7 +158,6 @@
         _isVideoPause           = NO;
         _isVideoFullScreen      = NO;
         
-        _videoTotalBufferTime   = 0;
         _videoDuration          = 0;
         _videoSeekStart         = 0;
         _videoSeekEnd           = 0;
