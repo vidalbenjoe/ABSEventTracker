@@ -10,15 +10,15 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-//NSString* const eventAppsBaseURL                    = @"bigdataeventsapipreprod.southeastasia.cloudapp.azure.com";
-//NSString* const tokenURL                            = @":8085";
-//NSString* const eventWriteURL                       = @":8086";
+NSString* const eventAppsBaseURL                    = @"bigdataeventsapipreprod.southeastasia.cloudapp.azure.com";
+NSString* const eventTokenURL                       = @":8085";
+NSString* const eventWriteURL                       = @":8086";
 
-NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
+//NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
 NSString *const eventPreProd                    = @"http://stgeventswebapi.azurewebsites.net";
-NSString* const tokenURL                        = @"/token";
-NSString* const eventTokenURL                   = @"/oauth";
-NSString* const eventWriteURL                   = @"/api/event/write";
+//NSString* const tokenURL                        = @"/token";
+//NSString* const eventTokenURL                   = @"/oauth";
+//NSString* const eventWriteURL                   = @"/api/event/write";
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const UserToItemURL                   = @"http://recoengapi.bigdata.abs-cbn.com/usertoitem"; //POST
 NSString* const ItemToItemURL                   = @"http://recoengapi.bigdata.abs-cbn.com/itemtoitem"; //POST

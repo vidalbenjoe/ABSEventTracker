@@ -62,7 +62,17 @@
                 [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
             }
             
-            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+//            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+//                EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+//                    // Set Event action into LOAD
+//                    [builder setActionTaken:LOAD];
+//                }];
+//                // Event writing
+//                [ABSEventTracker initEventAttributes:launchEvent];
+//                [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+//            }];
+            
+            [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
                 EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                     // Set Event action into LOAD
                     [builder setActionTaken:LOAD];
@@ -130,15 +140,15 @@
                     [digitalProperty setSiteDomain:isProd ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
                 }
             
-                [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-                    EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                        // Set Event action into LOAD
-                        [builder setActionTaken:LOAD];
-                    }];
-                    // Event writing
-                    [ABSEventTracker initEventAttributes:launchEvent];
-                    [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+            [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
+                EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                    // Set Event action into LOAD
+                    [builder setActionTaken:LOAD];
                 }];
+                // Event writing
+                [ABSEventTracker initEventAttributes:launchEvent];
+                [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+            }];
             
             [self initSession:[SessionManager init]];
             [self checkEventSource];

@@ -34,7 +34,8 @@
  *This method will refresh token once the server response received HTTP error code 401
  */
 +(void) onTokenRefresh{
-    [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+    [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
+        NSLog(@"mynewToken: %@", token);
         [AuthManager storeTokenToUserDefault:token];
     }];
 }

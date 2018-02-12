@@ -23,8 +23,8 @@
 /*!
  * Method for requesting server token. This method will return the server token via block(handler)
  */
-+(void) requestToken: (void (^)(NSString *token))handler;
-
+//+(void) requestToken: (void (^)(NSString *token))handler;
++(void) requestNewToken: (void (^)(NSString *token))handler;
 /*!
  * Method for requesting reco server token. This method will return the recommendation server token via block(handler)
  */
@@ -32,7 +32,7 @@
 /*!
  * Method for event attributes dispatcher. This method is responsible for sending events attributes into the data lake.
  */
-+(void) dispatchAttribute:(AttributeManager *) attributes;
+//+(void) dispatchAttribute:(AttributeManager *) attributes;
 /*!
  * Method for event attributes dispatcher. This method is responsible for sending cached events attributes into the data lake.
  */

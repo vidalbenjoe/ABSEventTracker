@@ -19,10 +19,13 @@
 }
 -(instancetype) initWithBuilder:(VideoBuilder *)builder{
     if (self = [super init]) {
-        
+        _videoCategoryID          = builder.videoCategoryID;
+        _videoContentID           = builder.videoContentID;
         _videoTimeStamp           = builder.videoTimeStamp;
         _videoTitle               = builder.videoTitle;
         _videoURL                 = builder.videoURL;
+        _videoType                = builder.videoType;
+        _videoQuality             = builder.videoQuality;
         _videoVolume              = builder.videoVolume;
         
         _videoAdClick             = builder.videoAdClick;
@@ -39,7 +42,6 @@
         _isVideoEnded             = builder.isVideoEnded;
         _isVideoPaused            = builder.isVideoPause;
         _isVideoFullScreen        = builder.isVideoFullScreen;
-        
         
         _videoDuration            = builder.videoDuration;
         _videoSeekStart           = builder.videoSeekStart;
@@ -63,9 +65,13 @@
 -(VideoBuilder *) makeBuilder{
     
     VideoBuilder *builder = [VideoBuilder new];
+    builder.videoCategoryID         = _videoCategoryID;
+    builder.videoContentID          = _videoContentID;
     builder.videoTimeStamp          = _videoTimeStamp;
     builder.videoTitle              = _videoTitle;
     builder.videoURL                = _videoURL;
+    builder.videoType               = _videoType;
+    builder.videoQuality            = _videoQuality;
     builder.videoVolume             = _videoVolume;
     
     builder.videoAdClick            = _videoAdClick;
@@ -134,9 +140,13 @@
 
 -(instancetype) init{
     if (self = [super init]) {
+        _videoCategoryID        = nil;
+        _videoContentID         = nil;
         _videoTimeStamp         = nil;
         _videoTitle             = nil;
         _videoURL               = nil;
+        _videoType              = nil;
+        _videoQuality           = nil;
         
         _videoVolume            = 0;
         _videoAdClick           = nil;

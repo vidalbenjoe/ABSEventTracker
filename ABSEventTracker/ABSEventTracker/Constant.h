@@ -26,7 +26,7 @@
 
 
 
-#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST"
+#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST: "
 
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)      9
@@ -35,7 +35,7 @@
 @interface Constant : NSObject
 extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
 extern NSString* const eventPreProd;
-extern NSString* const tokenURL;
+extern NSString* const eventTokenURL;
 extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
