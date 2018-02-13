@@ -19,7 +19,7 @@
     NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource init] property]], @"recoPropertyID",
+                                            [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource sharedInstance] property]], @"recoPropertyID",
                                            @"97743" , @"contentID",nil];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
@@ -47,7 +47,7 @@
     
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            @"ff9ef55f-3286-48fd-8b03-c09d91ab8b57" , @"userID",
-                                           [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource init] property]] , @"recoPropertyID",nil];
+                                           [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource sharedInstance] property]] , @"recoPropertyID",nil];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", UserToItemURL]];

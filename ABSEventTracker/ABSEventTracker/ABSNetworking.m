@@ -15,7 +15,8 @@
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
 @synthesize requestBody;
-
+@synthesize propertyEvent;
+//@synthesize eventsource = _eventsource;
 +(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config{
     static ABSNetworking *shared = nil;
     static dispatch_once_t onceToken;
@@ -40,7 +41,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                    timeoutInterval:60.0];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    [requestBody setValue:[[PropertyEventSource sharedInstance] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     [requestBody setHTTPMethod:@"POST"];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
@@ -127,7 +128,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    [requestBody setValue:[[PropertyEventSource sharedInstance] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
@@ -162,8 +163,8 @@ NSURLSessionConfiguration *sessionConfiguration;
                    timeoutInterval:60.0
                    ];
     [requestBody setHTTPMethod:@"POST"];
-    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"Origin"];
     [requestBody setHTTPBody:body];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
@@ -172,6 +173,7 @@ NSURLSessionConfiguration *sessionConfiguration;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
+            
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -216,12 +218,12 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
-    [request setValue:[[PropertyEventSource init] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     
+    [request setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"Origin"];
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
+        
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);
             return;

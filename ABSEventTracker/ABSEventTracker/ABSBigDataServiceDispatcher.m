@@ -47,17 +47,17 @@ NSString *userID;
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         // REQUEST TOKEN
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
-        
-        [networking POST:url success:^(NSURLSessionDataTask *task, id responseObject) {
-            // store the token somewhere
-            NSString *token = responseObject[@"access_token"];
+//        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
+    
+        [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSString *token = responseObject[@"token"];
             NSLog(@"NEWTOKEN: %@", token);
             [AuthManager storeTokenToUserDefault:token];
             handler(token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            //                        [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+            
         }];
+    
     });
 }
 
@@ -212,11 +212,9 @@ NSString *userID;
         /*
          * Retrieving server token to be used in request header.
          */
-        
-        
+    
         [self requestNewToken:^(NSString *token) {
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
-
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Success: Sending server response to ABSLogger.
@@ -329,7 +327,7 @@ NSString *userID;
             duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
         }
     }
-    
+    NSLog(@"findewg: %@", attributes.deviceinvariant.deviceFingerprint);
 //    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",

@@ -32,14 +32,12 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 @property(nonatomic, assign) DigitalProperty property;
 @property(nonatomic, assign) NSString *applicationName;
 @property(nonatomic, assign) NSString *bundleIdentifier;
-@property(nonatomic, assign) NSString *siteDomain;
+@property(nonatomic, strong) NSString *siteDomain;
 
-+(instancetype) init;
++(instancetype) sharedInstance;
 
 +(NSString *) getAppName;
 +(NSString *) getBundleIdentifier;
-
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty;
-
 +(NSString *) convertPropertyTaken: (DigitalProperty) property;
 @end

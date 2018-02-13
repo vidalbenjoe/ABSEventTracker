@@ -7,18 +7,24 @@
 //
 
 #import "PropertyEventSource.h"
-
 @implementation PropertyEventSource
 @synthesize property;
 @synthesize applicationName;
 @synthesize bundleIdentifier;
-@synthesize siteDomain;
+@synthesize siteDomain = _siteDomain;
 
-+(instancetype)init{
++(instancetype) sharedInstance{
     static PropertyEventSource *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        shared = [[super alloc] init];
+        if (shared == nil) {
+            shared = [[super alloc] init];
+        }
+        
+        
+        
+//        ABSNetworking *da = [[ABSNetworking alloc] init];
+//        da.propertyEvent = shared;
     });
     return shared;
 }
@@ -28,12 +34,13 @@
  */
 
 +(NSString *) getAppName{
-    NSString *appname = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
+    NSString *appname = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *) kCFBundleNameKey];
     return appname;
 }
 /*
  * This method will return application bundle identifier. Ex. com.ph.abs-cbn.iwantv
  */
+
 +(NSString *) getBundleIdentifier{
     NSString * bundleidentifier = [[NSBundle mainBundle] bundleIdentifier];
     return bundleidentifier;

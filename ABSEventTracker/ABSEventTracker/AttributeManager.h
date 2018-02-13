@@ -23,8 +23,6 @@
 #import "VideoAttributes.h"
 
 // AttributeManager is the responsible for consolidating all of the attributes to be used in the event dispatcher - /Network/ABSBigDataServiceDispatcher
-
-
 @interface AttributeManager : NSObject
 +(AttributeManager*) init;
 @property(nonatomic) GenericEventController *genericattributes;

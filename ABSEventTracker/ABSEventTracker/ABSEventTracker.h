@@ -28,7 +28,6 @@ typedef NS_ENUM(NSInteger, EnvironmentConfig){
  */
 
 +(ABSEventTracker *) initializeTracker :(EnvironmentConfig) config;
-+(ABSEventTracker *) initializeTrackerForProd :(BOOL) isProd;
 
 +(void) initWithUser:(UserAttributes *) attributes;
 

@@ -28,9 +28,11 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
 
 @interface ABSNetworking : NSURLProtocol  <NSURLSessionDelegate, NSURLSessionDataDelegate>{
 @private NSMutableData* _receivedData;
+    PropertyEventSource *propertyEvent;
 }
-
+//@property(nonatomic, copy) PropertyEventSource *eventsource;
 @property(nonatomic) NSMutableURLRequest *requestBody;
+@property(nonatomic, copy) PropertyEventSource *propertyEvent;
 /*!
  * This method will initialize the ABSNetworking instance with session configuration
  *

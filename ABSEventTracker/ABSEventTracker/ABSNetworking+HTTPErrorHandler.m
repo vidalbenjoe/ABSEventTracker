@@ -25,7 +25,6 @@
     }else if(http.statusCode == PERMISSION_DENIED){
         [self onTokenRefresh];
     }
-
 }
 /*************************HTTP CALLBACK*****************************/
 
@@ -38,5 +37,6 @@
         NSLog(@"mynewToken: %@", token);
         [AuthManager storeTokenToUserDefault:token];
     }];
+
 }
 @end
