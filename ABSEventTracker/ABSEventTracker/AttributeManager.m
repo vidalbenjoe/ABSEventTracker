@@ -47,6 +47,7 @@
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     videoattributes = nil;
     userattributes = userAttributes;
+    
 }
 #pragma mark - Property Attributes
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes{

@@ -11,10 +11,6 @@
  **                                                                  **
  **********************************************************************/
 
-
-
-
-
 #import <Foundation/Foundation.h>
 #define I_WANT_TV_ID        @"com.abs-cbn.iwanttv"
 #define TFC_ID              @"com.abscbni.tfctv"
@@ -22,9 +18,6 @@
 #define NEWS_ID             @""
 #define ONE_OTT             @"com.abs-cbn.iwanttv"
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
-
-
-
 
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST"
 

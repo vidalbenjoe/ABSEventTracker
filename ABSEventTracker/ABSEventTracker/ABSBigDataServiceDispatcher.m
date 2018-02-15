@@ -22,7 +22,6 @@ NSNumber *duration;
 NSString *userID;
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
- 
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -48,7 +47,6 @@ NSString *userID;
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,tokenURL]];
-        
         [networking POST:url success:^(NSURLSessionDataTask *task, id responseObject) {
             // store the token somewhere
             NSString *token = responseObject[@"access_token"];
@@ -212,10 +210,8 @@ NSString *userID;
          * Retrieving server token to be used in request header.
          */
         
-        
-        [self requestNewToken:^(NSString *token) {
+        [self requestToken:^(NSString *token) {
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
-
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Success: Sending server response to ABSLogger.
@@ -232,10 +228,8 @@ NSString *userID;
                 [CacheManager storeFailedAttributesToCacheManager:data];
                 //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
             }];
-        
         }];
-        
-        
+    
     }
 }
 
@@ -373,7 +367,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
         ObjectOrNull([NSString stringWithFormat:@" %@",duration]), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
-                                @"", @"ViewAccessTimestamp",
+        ObjectOrNull(attributes.arbitaryinvariant.viewAccessTimeStamp), @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]), @"VideoPause",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]]) , @"VideoSeekStart",

@@ -83,6 +83,8 @@ NSMutableString *consolidatedBufferDuration;
 
 #pragma mark - writeVideo
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
+    
+   
     if (buffDurationArray == nil) {
         buffDurationArray = [NSMutableArray array];
         dateFormatter = [[NSDateFormatter alloc] init];
@@ -103,6 +105,7 @@ NSMutableString *consolidatedBufferDuration;
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
             break;
         case VIDEO_STOPPED:
+            [attributes setVideostate:COMPLETED];
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
             break;
         case VIDEO_PLAYED:
@@ -146,8 +149,6 @@ NSMutableString *consolidatedBufferDuration;
     bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
     videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
     
-    NSLog(@"bufferTimew %@", bufferTime);
-    NSLog(@"videoEventTimeStamp %@", videoEventTimeStamp);
     if (bufferTime != nil) {
         if (videoEventTimeStamp > bufferTime) {
             /*

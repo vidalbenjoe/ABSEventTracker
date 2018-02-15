@@ -70,7 +70,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
-    
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
     __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -182,7 +181,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                 if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
                     NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     successHandler(nil, dictionary);
-//                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
+                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
                 }else{
                     // Trim the string format JSON data to replace special character and convert to dictionary.
                     NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
