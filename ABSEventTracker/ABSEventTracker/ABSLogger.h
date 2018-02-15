@@ -22,10 +22,8 @@ typedef NS_ENUM(NSInteger, LogLevel){
     LOG_WARN        =   4,
     LOG_ERROR       =   5,
 };
-@interface ABSLogger : NSObject 
-
+@interface ABSLogger : NSObject
 @property(nonatomic, strong) NSString *message;
-
 +(instancetype) initialize;
--(NSString*) getLogMessage;
+-(NSString*) log;
 @end

@@ -97,7 +97,6 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic, unsafe_unretained) BOOL isVideoPause;
 @property(nonatomic, unsafe_unretained) BOOL isVideoFullScreen;
 
-
 @property(nonatomic) double videoDuration;
 @property(nonatomic) double videoSeekStart;
 @property(nonatomic) double videoSeekEnd;

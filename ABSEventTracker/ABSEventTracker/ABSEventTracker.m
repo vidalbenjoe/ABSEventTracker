@@ -63,29 +63,18 @@
             }
             
         
-//            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-//                EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-//                    // Set Event action into LOAD
-//                    [builder setActionTaken:LOAD];
-//                }];
-//                // Event writing
-//                [ABSEventTracker initEventAttributes:launchEvent];
-//                [ABSBigDataServiceDispatcher dispatchCachedAttributes];
-//            }];
-            
-            
-            
-            [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
+            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                 EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                     // Set Event action into LOAD
                     [builder setActionTaken:LOAD];
                 }];
-                
-                NSLog(@"firstTOken: %@", token);
                 // Event writing
-//                [ABSEventTracker initEventAttributes:launchEvent];
-//                [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+                [ABSEventTracker initEventAttributes:launchEvent];
+                [ABSBigDataServiceDispatcher dispatchCachedAttributes];
             }];
+            
+            
+          
             
             [self initSession:[SessionManager init]];
             [self checkEventSource];
@@ -149,11 +138,11 @@
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
     // Send LOGIN action into server
+    [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
+    [[AttributeManager init] setUserAttributes:attributes];
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];
     }]];
-    [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
-    [[AttributeManager init] setUserAttributes:attributes];
    
 }
 /**

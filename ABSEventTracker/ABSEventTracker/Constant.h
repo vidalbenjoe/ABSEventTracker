@@ -11,10 +11,6 @@
  **                                                                  **
  **********************************************************************/
 
-
-
-
-
 #import <Foundation/Foundation.h>
 #define I_WANT_TV_ID        @"com.abs-cbn.iwanttv"
 #define TFC_ID              @"com.abscbni.tfctv"
@@ -24,9 +20,8 @@
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
 
 
+#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST"
 
-
-#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST: "
 
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)      9

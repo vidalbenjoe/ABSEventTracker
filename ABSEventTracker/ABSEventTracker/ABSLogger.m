@@ -7,7 +7,6 @@
 //
 
 #import "ABSLogger.h"
-
 @implementation ABSLogger
 @synthesize message;
 +(instancetype) initialize{
@@ -15,11 +14,13 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
+        
     });
     return shared;
 }
 
--(NSString*) getLogMessage{
+-(NSString*) log{
+    
     return message;
 }
 

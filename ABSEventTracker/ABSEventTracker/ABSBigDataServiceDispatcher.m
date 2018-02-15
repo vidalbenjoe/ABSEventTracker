@@ -22,7 +22,6 @@ NSNumber *duration;
 NSString *userID;
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
- 
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -47,11 +46,13 @@ NSString *userID;
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         // REQUEST TOKEN
+
 //        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
     
         [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"token"];
             NSLog(@"NEWTOKEN: %@", token);
+
             [AuthManager storeTokenToUserDefault:token];
             handler(token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -65,71 +66,71 @@ NSString *userID;
 /*!
  * Method for requesting server token. This method will return the server token via block(handler)
  */
-//+(void) requestToken: (void (^)(NSString *token))handler{
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    dispatch_async(queue, ^{
-//        NSDate *timeNow = [NSDate date];
-//        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-//        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-//        // REQUEST TOKEN
-//        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
-//
-//        if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
-//            /*
-//             * Checking the current time if not exceed the server sechash expiration date.
-//             * Note: The sechash will last for 60 minutes.
-//             * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
-//             */
-//            if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
-//                /*
-//                 * Request a new Sechash if the current time exceed the Sechash expiration timestamp
-//                 */
-//                [self requestSecurityHash:^(NSString *sechash) {
-//                    NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
-//                    [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
-//                        // store the token somewhere
-//                        NSString *token = responseObject[@"access_token"];
-//                        [AuthManager storeTokenToUserDefault:token];
-//                        handler(token);
-//                        NSDate *receivedTimestamp = [NSDate date];
-//                        [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
-//                    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-////                        [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
-//                        [AuthManager removeSechHash];
-//                    }];
-//                }];
-//            }else{
-//                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
-//                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
-//                    // store the token somewhere
-//                    NSString *token = responseObject[@"access_token"];
-//                    [AuthManager storeTokenToUserDefault:token];
-//                    handler(token);
-//                    NSDate *receivedTimestamp = [NSDate date];
-//                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
-//                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-////                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
-//                    [AuthManager removeSechHash];
-//                }];
-//            }
-//        }else{
-//            [self requestSecurityHash:^(NSString *sechash) {
-//                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
-//                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
-//                    // store the token somewhere
-//                    NSString *token = responseObject[@"access_token"];
-//                    [AuthManager storeTokenToUserDefault:token];
-//                    handler(token);
-//                    NSDate *receivedTimestamp = [NSDate date];
-//                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
-//                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
++(void) requestToken: (void (^)(NSString *token))handler{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        NSDate *timeNow = [NSDate date];
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        // REQUEST TOKEN
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
+
+        if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
+            /*
+             * Checking the current time if not exceed the server sechash expiration date.
+             * Note: The sechash will last for 60 minutes.
+             * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
+             */
+            if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
+                /*
+                 * Request a new Sechash if the current time exceed the Sechash expiration timestamp
+                 */
+                [self requestSecurityHash:^(NSString *sechash) {
+                    NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+                    [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                        // store the token somewhere
+                        NSString *token = responseObject[@"access_token"];
+                        [AuthManager storeTokenToUserDefault:token];
+                        handler(token);
+                        NSDate *receivedTimestamp = [NSDate date];
+                        [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+//                        [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+                        [AuthManager removeSechHash];
+                    }];
+                }];
+            }else{
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
+                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                    // store the token somewhere
+                    NSString *token = responseObject[@"access_token"];
+                    [AuthManager storeTokenToUserDefault:token];
+                    handler(token);
+                    NSDate *receivedTimestamp = [NSDate date];
+                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
 //                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
-//                    [AuthManager removeSechHash];
-//                }];
-//            }];
-//        }
-//    });
-//}
+                    [AuthManager removeSechHash];
+                }];
+            }
+        }else{
+            [self requestSecurityHash:^(NSString *sechash) {
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                    // store the token somewhere
+                    NSString *token = responseObject[@"access_token"];
+                    [AuthManager storeTokenToUserDefault:token];
+                    handler(token);
+                    NSDate *receivedTimestamp = [NSDate date];
+                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+                    [AuthManager removeSechHash];
+                }];
+            }];
+        }
+    });
+}
 /* Request token for  Recommedation
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
@@ -160,47 +161,46 @@ NSString *userID;
             }];
 }
 
++(void) dispatchAttribute:(AttributeManager *) attributes{
+    /*
+     * Check if server token is stored in NSUserDefault and not null
+     */
+    if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
+        NSDate *timeNow = [NSDate date];
+        /*
+         * Checking the current time if not exceed the server token expiration date.
+         * Note: The server token will last for only 9 minutes.
+         */
+        if ([timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp] ] > 0){
+            /*
+             * Request a new server token if the current time exceeded the server token expiration timestamp
+             */
+            [self requestToken:^(NSString *token) {
+                /*Capture the current view inside the mobile app
+                 * Storing server token in NSUserDefault
+                 */
+                [AuthManager storeTokenToUserDefault:token];
+                [self dispatcher:attributes];
+            }];
+        }else{
+            /*
+             * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
+             */
+            [self dispatcher:attributes];
+        }
+    }else{
+        /*
+         * If server token is null in NSUserdefault, request a new token
+         */
 
-//+(void) dispatchAttribute:(AttributeManager *) attributes{
-//    /*
-//     * Check if server token is stored in NSUserDefault and not null
-//     */
-//    if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
-//        NSDate *timeNow = [NSDate date];
-//        /*
-//         * Checking the current time if not exceed the server token expiration date.
-//         * Note: The server token will last for only 9 minutes.
-//         */
-//        if ([timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp] ] > 0){
-//            /*
-//             * Request a new server token if the current time exceeded the server token expiration timestamp
-//             */
-//            [self requestToken:^(NSString *token) {
-//                /*Capture the current view inside the mobile app
-//                 * Storing server token in NSUserDefault
-//                 */
-//                [AuthManager storeTokenToUserDefault:token];
-//                [self dispatcher:attributes];
-//            }];
-//        }else{
-//            /*
-//             * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
-//             */
-//            [self dispatcher:attributes];
-//        }
-//    }else{
-//        /*
-//         * If server token is null in NSUserdefault, request a new token
-//         */
-//
-//        [self requestToken:^(NSString *token) {
-//            /*
-//             * Storing server token in NSUserDefault
-//             */
-//            [AuthManager storeTokenToUserDefault:token];
-//        }];
-//    }
-//}
+        [self requestToken:^(NSString *token) {
+            /*
+             * Storing server token in NSUserDefault
+             */
+            [AuthManager storeTokenToUserDefault:token];
+        }];
+    }
+}
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
         /*
@@ -212,8 +212,10 @@ NSString *userID;
         /*
          * Retrieving server token to be used in request header.
          */
-    
-        [self requestNewToken:^(NSString *token) {
+
+        
+        [self requestToken:^(NSString *token) {
+
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
@@ -231,10 +233,8 @@ NSString *userID;
                 [CacheManager storeFailedAttributesToCacheManager:data];
                 //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
             }];
-        
         }];
-        
-        
+    
     }
 }
 
@@ -327,7 +327,6 @@ NSString *userID;
             duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
         }
     }
-    NSLog(@"findewg: %@", attributes.deviceinvariant.deviceFingerprint);
 //    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaID",
@@ -378,7 +377,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
         ObjectOrNull([NSString stringWithFormat:@" %@",duration]), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
-                                @"", @"ViewAccessTimestamp",
+        ObjectOrNull(attributes.arbitaryinvariant.viewAccessTimeStamp), @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]), @"VideoPause",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]]) , @"VideoSeekStart",
