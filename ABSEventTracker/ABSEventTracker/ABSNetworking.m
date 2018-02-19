@@ -49,7 +49,7 @@ NSURLSessionConfiguration *sessionConfiguration;
         __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
-                            [[ABSLogger initialize] setMessage:response.description];
+//                            [[ABSLogger initialize] setMessage:response.description];
                                 if (respHttp.statusCode != SUCCESS) {
                                     errorHandler(task, error);
                                     return;
@@ -74,6 +74,8 @@ NSURLSessionConfiguration *sessionConfiguration;
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
     __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                      NSLog(@"TokenReque: %@", response.description);
+                                      
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(task, error);
@@ -171,6 +173,12 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+            
+            
+            NSLog(@"writingLog: %@", response.description);
+            NSLog(@"writingLogResh: %@", respHttp.description);
+            
+            
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
             
             if (respHttp.statusCode != SUCCESS) {
@@ -183,7 +191,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                 if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
                     NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                     successHandler(nil, dictionary);
-                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
+//                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
                 }else{
                     // Trim the string format JSON data to replace special character and convert to dictionary.
                     NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]

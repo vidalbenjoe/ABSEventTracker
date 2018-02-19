@@ -84,7 +84,6 @@ NSMutableString *consolidatedBufferDuration;
 #pragma mark - writeVideo
 +(void) writeVideoAttributes:(VideoAttributes *)attributes{
     
-   
     if (buffDurationArray == nil) {
         buffDurationArray = [NSMutableArray array];
         dateFormatter = [[NSDateFormatter alloc] init];

@@ -104,6 +104,8 @@ NSString *userID;
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     // store the token somewhere
                     NSString *token = responseObject[@"access_token"];
+                    
+                    NSLog(@"tokuen: %@", token);
                     [AuthManager storeTokenToUserDefault:token];
                     handler(token);
                     NSDate *receivedTimestamp = [NSDate date];
@@ -124,7 +126,7 @@ NSString *userID;
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+//                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
                     [AuthManager removeSechHash];
                 }];
             }];
@@ -215,7 +217,6 @@ NSString *userID;
 
         
         [self requestToken:^(NSString *token) {
-
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
@@ -256,7 +257,7 @@ NSString *userID;
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
             
             
-            [self requestNewToken:^(NSString *token) {
+            [self requestToken:^(NSString *token) {
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
                 /*
                  //             * Converting Dictionary attributes to NSData and send to server through HTTPBody
