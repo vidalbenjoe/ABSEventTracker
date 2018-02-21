@@ -16,12 +16,10 @@
 #define TFC_ID              @"com.abscbni.tfctv"
 #define SKY_ON_DEMAND_ID    @"com.mysky.ondemand"
 #define NEWS_ID             @""
-#define ONE_OTT             @"com.abs-cbn.iwanttv"
+#define ONE_OTT             @"com.abscbn.iwantNow"
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
 
-
 #define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST"
-
 
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)      9

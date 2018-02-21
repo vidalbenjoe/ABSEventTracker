@@ -51,8 +51,6 @@ NSString *userID;
     
         [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"token"];
-            NSLog(@"NEWTOKEN: %@", token);
-
             [AuthManager storeTokenToUserDefault:token];
             handler(token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -105,7 +103,6 @@ NSString *userID;
                     // store the token somewhere
                     NSString *token = responseObject[@"access_token"];
                     
-                    NSLog(@"tokuen: %@", token);
                     [AuthManager storeTokenToUserDefault:token];
                     handler(token);
                     NSDate *receivedTimestamp = [NSDate date];

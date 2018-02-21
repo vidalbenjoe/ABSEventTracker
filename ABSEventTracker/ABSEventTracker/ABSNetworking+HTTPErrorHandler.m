@@ -34,7 +34,6 @@
  */
 +(void) onTokenRefresh{
     [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
-        NSLog(@"mynewToken: %@", token);
         [AuthManager storeTokenToUserDefault:token];
     }];
 

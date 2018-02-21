@@ -72,10 +72,7 @@
                 [ABSEventTracker initEventAttributes:launchEvent];
                 [ABSBigDataServiceDispatcher dispatchCachedAttributes];
             }];
-            
-            
-          
-            
+
             [self initSession:[SessionManager init]];
             [self checkEventSource];
             [self initWithDevice:device];
@@ -98,7 +95,6 @@
  */
 #pragma mark - Event source
 +(void) checkEventSource{
-    
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource sharedInstance] setDigitalProperty:I_WANT_TV];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -153,6 +149,7 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
+
 /**
  * Set the Arbitary attributes into attriutes manager.
  * Parameters: ArbitaryVariant -
