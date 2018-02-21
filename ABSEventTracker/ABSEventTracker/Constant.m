@@ -10,11 +10,14 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-//NSString* const eventAppsBaseURL              = @"https://eventsapi.bigdata.abs-cbn.com";
-NSString* const eventTokenURL                   = @"/token";
-NSString* const eventWriteURL                   = @"/api/event/write";
+//production -  https://eventsapi.bigdata.abs-cbn.com
+//staging - https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com
 
-NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
+NSString* const eventAppsBaseURL                = @"https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com";
+NSString* const eventTokenURL                   = @"/token";
+NSString* const eventWriteURL                   = @"/write";
+
+//NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
 NSString *const eventPreProd                    = @"http://stgeventswebapi.azurewebsites.net";
 //NSString* const tokenURL                      = @"/token";
 //NSString* const eventTokenURL                 = @"/oauth";
@@ -37,6 +40,19 @@ NSString* const NEWSHostProdURL                 = @"news.abs-cbn.com";
 NSString* const IWANTVHostProdURL               = @"iwantv.com.ph";
 NSString* const SODHostProdURL                  = @"skyondemand.com.ph";
 NSString* const ONEOTTHostProdURL               = @"oneott.com.ph";
+
+// Origin URL Staging
+NSString* const TFCOriginStagingURL             = @"https://uatgnsok.tfc.tv";
+NSString* const NEWSOriginStagingURL            = @"https://stagingnews.abs-cbn.com";
+NSString* const IWANTVOriginStagingURL          = @"https://bigdata.iwantv.com.ph";
+NSString* const SODOriginStagingURL             = @"https://ppportal.skyondemand.com.ph";
+NSString* const ONEOTTOriginStagingURL          = @"https://bigdata.oneott.com.ph";
+// Origin URL Production
+NSString* const TFCOriginProdURL                = @"https://tfc.tv";
+NSString* const NEWSOriginProdURL               = @"https://news.abs-cbn.com";
+NSString* const IWANTVOriginProdURL             = @"https://iwantv.com.ph";
+NSString* const SODOriginProdURL                = @"https://skyondemand.com.ph";
+NSString* const ONEOTTOriginProdURL             = @"https://oneott.com.ph";
 
 +(NSString *) generateNewMobileHeader
 {

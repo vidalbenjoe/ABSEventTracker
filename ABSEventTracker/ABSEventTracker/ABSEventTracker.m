@@ -52,6 +52,7 @@
             
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
                 [digitalProperty setSiteDomain:config == PRODUCTION ? TFCHostProdURL : TFCHostStagingURL];
+               
             } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
                 [digitalProperty setSiteDomain:config == PRODUCTION ? NEWSHostProdURL : NEWSHostStagingURL];
             } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){

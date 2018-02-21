@@ -52,6 +52,21 @@ extern NSString* const NEWSHostProdURL;
 extern NSString* const IWANTVHostProdURL;
 extern NSString* const SODHostProdURL;
 extern NSString* const ONEOTTHostProdURL;
+
+// Origin URL Staging
+extern NSString* const TFCOriginStagingURL;
+extern NSString* const NEWSOriginStagingURL;
+extern NSString* const IWANTVOriginStagingURL;
+extern NSString* const SODOriginStagingURL;
+extern NSString* const ONEOTTOriginStagingURL;
+
+// Origin URL Production
+extern NSString* const TFCOriginProdURL;
+extern NSString* const NEWSOriginProdURL;
+extern NSString* const IWANTVOriginProdURL;
+extern NSString* const SODOriginProdURL;
+extern NSString* const ONEOTTOriginProdURL;
+
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier
  */

@@ -20,11 +20,7 @@
         if (shared == nil) {
             shared = [[super alloc] init];
         }
-        
-        
-        
-//        ABSNetworking *da = [[ABSNetworking alloc] init];
-//        da.propertyEvent = shared;
+    
     });
     return shared;
 }
