@@ -33,7 +33,6 @@ NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";
 NSString* const IWANTVHostStagingURL            = @"bigdata.iwantv.com.ph";
 NSString* const SODHostStagingURL               = @"ppportal.skyondemand.com.ph";
 NSString* const ONEOTTHostStagingURL            = @"bigdata.oneott.com.ph";
-
 // Production host URL
 NSString* const TFCHostProdURL                  = @"tfc.tv";
 NSString* const NEWSHostProdURL                 = @"news.abs-cbn.com";
@@ -42,17 +41,18 @@ NSString* const SODHostProdURL                  = @"skyondemand.com.ph";
 NSString* const ONEOTTHostProdURL               = @"oneott.com.ph";
 
 // Origin URL Staging
-NSString* const TFCOriginStagingURL             = @"https://uatgnsok.tfc.tv";
-NSString* const NEWSOriginStagingURL            = @"https://stagingnews.abs-cbn.com";
-NSString* const IWANTVOriginStagingURL          = @"https://bigdata.iwantv.com.ph";
-NSString* const SODOriginStagingURL             = @"https://ppportal.skyondemand.com.ph";
-NSString* const ONEOTTOriginStagingURL          = @"https://bigdata.oneott.com.ph";
+NSString* const TFCOriginStagingURL             = @"https://staging.com.abscbni.tfctv";
+NSString* const NEWSOriginStagingURL            = @"https://";
+NSString* const IWANTVOriginStagingURL          = @"https://staging.com.abs-cbn.iwanttv";
+NSString* const SODOriginStagingURL             = @"https://staging.com.mysky.ondemand";
+NSString* const ONEOTTOriginStagingURL          = @"https://staging.com.abscbn.iwantNow";
+
 // Origin URL Production
-NSString* const TFCOriginProdURL                = @"https://tfc.tv";
-NSString* const NEWSOriginProdURL               = @"https://news.abs-cbn.com";
-NSString* const IWANTVOriginProdURL             = @"https://iwantv.com.ph";
-NSString* const SODOriginProdURL                = @"https://skyondemand.com.ph";
-NSString* const ONEOTTOriginProdURL             = @"https://oneott.com.ph";
+NSString* const TFCOriginProdURL                = @"https://com.abscbni.tfctv";
+NSString* const NEWSOriginProdURL               = @"https://";
+NSString* const IWANTVOriginProdURL             = @"https://com.abs-cbn.iwanttv";
+NSString* const SODOriginProdURL                = @"https://com.mysky.ondemand";
+NSString* const ONEOTTOriginProdURL             = @"https://com.abscbn.iwantNow";
 
 +(NSString *) generateNewMobileHeader
 {

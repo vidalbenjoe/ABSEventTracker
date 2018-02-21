@@ -52,17 +52,19 @@
             
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
                 [digitalProperty setSiteDomain:config == PRODUCTION ? TFCHostProdURL : TFCHostStagingURL];
-               
+                [digitalProperty setOrigin:config == PRODUCTION ? TFCOriginProdURL : TFCOriginStagingURL];
             } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
                 [digitalProperty setSiteDomain:config == PRODUCTION ? NEWSHostProdURL : NEWSHostStagingURL];
+                [digitalProperty setOrigin:config == PRODUCTION ? NEWSOriginProdURL : NEWSOriginStagingURL];
             } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
                 [digitalProperty setSiteDomain:config == PRODUCTION ? IWANTVHostProdURL : IWANTVHostStagingURL];
+                [digitalProperty setOrigin:config == PRODUCTION ? IWANTVOriginProdURL : IWANTVOriginStagingURL];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
                 [digitalProperty setSiteDomain:config == PRODUCTION ? SODHostProdURL :  SODHostStagingURL];
+                [digitalProperty setOrigin:config == PRODUCTION ? SODOriginProdURL : SODOriginStagingURL];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
+                [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTOriginProdURL : ONEOTTOriginStagingURL];
             }
-            
         
             [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                 EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
