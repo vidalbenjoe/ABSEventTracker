@@ -66,7 +66,7 @@
                 [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTOriginProdURL : ONEOTTOriginStagingURL];
             }
         
-            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+            [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
                 EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                     // Set Event action into LOAD
                     [builder setActionTaken:LOAD];

@@ -173,10 +173,8 @@ NSURLSessionConfiguration *sessionConfiguration;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-            
             NSLog(@"writingLog: %@", response.description);
             NSLog(@"writingLogResh: %@", respHttp.description);
-            
             
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
             
@@ -229,7 +227,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
-        
+        NSLog(@"TOKEN THO: %@", response.description);
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);
             return;
@@ -241,5 +239,14 @@ NSURLSessionConfiguration *sessionConfiguration;
     [datatask resume];
     
 }
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
+    if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
+        if([challenge.protectionSpace.host isEqualToString:eventAppsBaseURL]){
+            NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+        }
+    }
+}
+
 
 @end
