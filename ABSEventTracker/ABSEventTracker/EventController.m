@@ -96,6 +96,10 @@ NSMutableString *consolidatedBufferDuration;
         NSLog(@"Please specify video action");
     }
     
+    
+//    [attributes setVideoTimeStamp]
+    
+    [attributes setVideoTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
     switch (attributes.actionTaken) {
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
@@ -143,6 +147,8 @@ NSMutableString *consolidatedBufferDuration;
         default:
             break;
     }
+    
+    
 
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
@@ -181,8 +187,6 @@ NSMutableString *consolidatedBufferDuration;
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setVideoAttributes:attributes];
 }
-
-
 
 @end
 

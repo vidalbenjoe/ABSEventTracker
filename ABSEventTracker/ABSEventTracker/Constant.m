@@ -13,7 +13,7 @@
 //production -  https://eventsapi.bigdata.abs-cbn.com
 //staging - https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com
 
-NSString* const eventAppsBaseURL                = @"https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com";
+NSString* const eventAppsBaseURL                = @"https://eventsapi.bigdata.abs-cbn.com";
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventWriteURL                   = @"/write";
 

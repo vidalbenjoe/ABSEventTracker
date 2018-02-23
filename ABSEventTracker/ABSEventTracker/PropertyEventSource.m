@@ -11,8 +11,8 @@
 @synthesize property;
 @synthesize applicationName;
 @synthesize bundleIdentifier;
-@synthesize siteDomain = _siteDomain;
-
+@synthesize siteDomain;
+@synthesize origin;
 +(instancetype) sharedInstance{
     static PropertyEventSource *shared = nil;
     static dispatch_once_t onceToken;
@@ -20,7 +20,6 @@
         if (shared == nil) {
             shared = [[super alloc] init];
         }
-    
     });
     return shared;
 }

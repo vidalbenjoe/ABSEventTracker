@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic, unsafe_unretained) BOOL isVideoFullScreen;
 @property(nonatomic, copy, readonly) NSString *videoCategoryID;
 @property(nonatomic, copy, readonly) NSString *videoContentID;
-@property(nonatomic, copy, readonly) NSString *videoTimeStamp;
+@property(nonatomic, copy) NSString *videoTimeStamp;
 @property(nonatomic, copy, readonly) NSString *videoTitle;
 @property(nonatomic, copy, readonly) NSString *videoURL;
 @property(nonatomic, copy, readonly) NSString *videoType;

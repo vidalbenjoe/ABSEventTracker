@@ -66,7 +66,7 @@ NSURLSessionConfiguration *sessionConfiguration;
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
-                   cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                   cachePolicy: NSURLRequestUseProtocolCachePolicy
                    timeoutInterval:60.0];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
@@ -92,7 +92,7 @@ NSURLSessionConfiguration *sessionConfiguration;
 -(void) POST:(NSURL *) url success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
-                   cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                   cachePolicy: NSURLRequestUseProtocolCachePolicy
                    timeoutInterval:60.0];
     [requestBody setHTTPMethod:@"POST"];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
@@ -122,8 +122,8 @@ NSURLSessionConfiguration *sessionConfiguration;
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
-                   cachePolicy: NSURLRequestReturnCacheDataElseLoad
-                   timeoutInterval:60.0
+                   cachePolicy: NSURLRequestUseProtocolCachePolicy
+                   timeoutInterval:120.0
                    ];
     
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -162,9 +162,10 @@ NSURLSessionConfiguration *sessionConfiguration;
                    cachePolicy: NSURLRequestUseProtocolCachePolicy
                    timeoutInterval:60.0
                    ];
+    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"Origin"];
+    [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
     [requestBody setHTTPBody:body];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
@@ -172,12 +173,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            
-            NSLog(@"writingLog: %@", response.description);
-            NSLog(@"writingLogResh: %@", respHttp.description);
-            
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
-            
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -218,16 +214,18 @@ NSURLSessionConfiguration *sessionConfiguration;
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
     }
     
-     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
-    request.HTTPMethod = @"GET";
     
+    request.HTTPMethod = @"GET";
+  
     [request setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
+    
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
-        NSLog(@"TOKEN THO: %@", response.description);
+        
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);
             return;
@@ -239,14 +237,21 @@ NSURLSessionConfiguration *sessionConfiguration;
     [datatask resume];
     
 }
-- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
-    if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
-        if([challenge.protectionSpace.host isEqualToString:eventAppsBaseURL]){
-            NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-            completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
-        }
-    }
-}
 
+//- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
+//{
+//    NSLog(@"taw");
+//    completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
+//}
+//
+//-(void)connection:(NSURLSession *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+//    if ([[challenge protectionSpace] authenticationMethod] == NSURLAuthenticationMethodServerTrust) {
+//        [[challenge sender] useCredential:[NSURLCredential credentialForTrust:[[challenge protectionSpace] serverTrust]] forAuthenticationChallenge:challenge];
+//    }
+//}
+//
+//-(void)connection:(NSURLSession *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
+//    NSLog(@"tasw");
+//}
 
 @end

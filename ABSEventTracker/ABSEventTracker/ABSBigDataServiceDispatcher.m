@@ -60,7 +60,6 @@ NSString *userID;
     });
 }
 
-
 /*!
  * Method for requesting server token. This method will return the server token via block(handler)
  */
@@ -211,10 +210,8 @@ NSString *userID;
         /*
          * Retrieving server token to be used in request header.
          */
-
-        
         [self requestNewToken:^(NSString *token) {
-            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [AuthManager retrieveServerTokenFromUserDefault]]};
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Success: Sending server response to ABSLogger.
@@ -325,15 +322,23 @@ NSString *userID;
             duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
         }
     }
+
+    
+    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.applicationName);
+    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.siteDomain);
+    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.origin);
+    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.bundleIdentifier);
+    
 //    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-        ObjectOrNull(userID) , @"GigyaID",
-        ObjectOrNull(attributes.deviceinvariant.deviceFingerprint) , @"fingerprintID",
+        ObjectOrNull(userID) , @"GigyaId",
+        ObjectOrNull(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         ObjectOrNull([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [AuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
+        ObjectOrNull(action), @"ActionTaken",
         ObjectOrNull(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationName",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"ApplicationUniqueId",
-        @"iOS" , @"DeviceOS",
+        @"iOS" , @"DeviceOs",
         ObjectOrNull(attributes.deviceinvariant.deviceType) , @"MobileDevice",
         ObjectOrNull(screenSize)  , @"ScreenSize",
         ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
@@ -344,9 +349,9 @@ NSString *userID;
         ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp), @"WritingEventTimestamp",
         ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp), @"LogoutTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp), @"SearchTimeStamp",
-        ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigDataSessionID",
-        ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimestamp",
-        ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimestamp",
+        ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigdataSessionId",
+        ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimeStamp",
+        ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimeStamp",
         ObjectOrNull(attributes.userattributes.firstName != nil ? attributes.userattributes.firstName : [UserAttributes retrieveFirstName] ) , @"FirstName",
         ObjectOrNull(attributes.userattributes.middleName == nil ? attributes.userattributes.middleName  : [UserAttributes retrieveMiddleName])  , @"MiddleName",
         ObjectOrNull(attributes.userattributes.lastName == nil ? attributes.userattributes.lastName : [UserAttributes retrieveLastName] ), @"LastName",
@@ -354,7 +359,6 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
         ObjectOrNull(attributes.eventattributes.searchQuery) , @"QueryString",
-        ObjectOrNull(action), @"ActionTaken",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"ReadArticle",
         ObjectOrNull([NSString stringWithFormat:@"%@", duration]), @"ReadingDuration",
         ObjectOrNull(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
