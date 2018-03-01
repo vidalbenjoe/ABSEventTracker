@@ -324,11 +324,11 @@ NSString *userID;
     }
 
     
-    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.applicationName);
-    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.siteDomain);
-    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.origin);
-    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.bundleIdentifier);
-    
+//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.applicationName);
+//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.siteDomain);
+//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.origin);
+//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.bundleIdentifier);
+//
 //    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaId",

@@ -33,11 +33,12 @@ extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
 
+
+extern NSString* const recoURL;
 extern NSString* const recommendationPopular;
 extern NSString* const UserToItemURL;
 extern NSString* const ItemToItemURL;
 extern NSString* const recommendationCommunityToItem;
-extern NSString* const host;
 
 // Staging host URL
 extern NSString* const TFCHostStagingURL;
@@ -53,19 +54,12 @@ extern NSString* const IWANTVHostProdURL;
 extern NSString* const SODHostProdURL;
 extern NSString* const ONEOTTHostProdURL;
 
-// Origin URL Staging
-extern NSString* const TFCOriginStagingURL;
-extern NSString* const NEWSOriginStagingURL;
-extern NSString* const IWANTVOriginStagingURL;
-extern NSString* const SODOriginStagingURL;
-extern NSString* const ONEOTTOriginStagingURL;
-
 // Origin URL Production
-extern NSString* const TFCOriginProdURL;
-extern NSString* const NEWSOriginProdURL;
-extern NSString* const IWANTVOriginProdURL;
-extern NSString* const SODOriginProdURL;
-extern NSString* const ONEOTTOriginProdURL;
+extern NSString* const TFCOriginURL;
+extern NSString* const NEWSOriginURL;
+extern NSString* const IWANTVOriginURL;
+extern NSString* const SODOriginURL;
+extern NSString* const ONEOTTOriginURL;
 
 /*!
  * Method to generate Mobile header that can be used to request a security token based on the appBundleIdentifier

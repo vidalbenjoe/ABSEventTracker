@@ -52,18 +52,19 @@
             
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
                 [digitalProperty setSiteDomain:config == PRODUCTION ? TFCHostProdURL : TFCHostStagingURL];
-                [digitalProperty setOrigin:config == PRODUCTION ? TFCOriginProdURL : TFCOriginStagingURL];
+                [digitalProperty setOrigin:TFCOriginURL];
             } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? NEWSHostProdURL : NEWSHostStagingURL];
-                [digitalProperty setOrigin:config == PRODUCTION ? NEWSOriginProdURL : NEWSOriginStagingURL];
+                [digitalProperty setSiteDomain:NEWSHostProdURL];
+                [digitalProperty setOrigin:NEWSOriginURL];
             } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? IWANTVHostProdURL : IWANTVHostStagingURL];
-                [digitalProperty setOrigin:config == PRODUCTION ? IWANTVOriginProdURL : IWANTVOriginStagingURL];
+                [digitalProperty setSiteDomain:config == PRODUCTION ? IWANTVHostProdURL :  IWANTVHostStagingURL];
+                [digitalProperty setOrigin:IWANTVOriginURL];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? SODHostProdURL :  SODHostStagingURL];
-                [digitalProperty setOrigin:config == PRODUCTION ? SODOriginProdURL : SODOriginStagingURL];
+                [digitalProperty setSiteDomain:config == PRODUCTION ? SODHostProdURL : SODHostStagingURL];
+                [digitalProperty setOrigin:SODOriginURL];
             }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTOriginProdURL : ONEOTTOriginStagingURL];
+                [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
+                [digitalProperty setOrigin:ONEOTTOriginURL];
             }
         
             [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {

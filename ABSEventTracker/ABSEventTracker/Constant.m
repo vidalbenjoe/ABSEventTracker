@@ -19,14 +19,15 @@ NSString* const eventWriteURL                   = @"/write";
 
 //NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
 NSString *const eventPreProd                    = @"http://stgeventswebapi.azurewebsites.net";
-//NSString* const tokenURL                      = @"/token";
-//NSString* const eventTokenURL                 = @"/oauth";
-//NSString* const eventWriteURL                 = @"/api/event/write";
+
+NSString* const recoURL                         = @"http://recoengapi.bigdata.abs-cbn.com";
+
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
-NSString* const UserToItemURL                   = @"http://recoengapi.bigdata.abs-cbn.com/usertoitem"; //POST
-NSString* const ItemToItemURL                   = @"http://recoengapi.bigdata.abs-cbn.com/itemtoitem"; //POST
-NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitemtest"; //POST
-NSString* const host                            = @"http://www.iwantv.com.ph"; //POST
+NSString* const UserToItemURL                   = @"/usertoitem"; //POST
+NSString* const ItemToItemURL                   = @"/itemtoitem"; //POST
+NSString* const recommendationCommunityToItem   = @"/communitytoitemtest"; //POST
+
+
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
 NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";
@@ -40,19 +41,12 @@ NSString* const IWANTVHostProdURL               = @"iwantv.com.ph";
 NSString* const SODHostProdURL                  = @"skyondemand.com.ph";
 NSString* const ONEOTTHostProdURL               = @"oneott.com.ph";
 
-// Origin URL Staging
-NSString* const TFCOriginStagingURL             = @"https://staging.com.abscbni.tfctv";
-NSString* const NEWSOriginStagingURL            = @"https://";
-NSString* const IWANTVOriginStagingURL          = @"https://staging.com.abs-cbn.iwanttv";
-NSString* const SODOriginStagingURL             = @"https://staging.com.mysky.ondemand";
-NSString* const ONEOTTOriginStagingURL          = @"https://staging.com.abscbn.iwantNow";
-
 // Origin URL Production
-NSString* const TFCOriginProdURL                = @"https://com.abscbni.tfctv";
-NSString* const NEWSOriginProdURL               = @"https://";
-NSString* const IWANTVOriginProdURL             = @"https://com.abs-cbn.iwanttv";
-NSString* const SODOriginProdURL                = @"https://com.mysky.ondemand";
-NSString* const ONEOTTOriginProdURL             = @"https://com.abscbn.iwantNow";
+NSString* const TFCOriginURL                = @"https://com.abscbni.tfctv";
+NSString* const NEWSOriginURL               = @"https://";
+NSString* const IWANTVOriginURL             = @"https://com.abs-cbn.iwanttv";
+NSString* const SODOriginURL                = @"https://com.mysky.ondemand";
+NSString* const ONEOTTOriginURL             = @"https://com.abscbn.iwantNow";
 
 +(NSString *) generateNewMobileHeader
 {
