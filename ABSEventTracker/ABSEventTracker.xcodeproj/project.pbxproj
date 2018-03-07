@@ -27,6 +27,8 @@
 		1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDF71F56669C00B0C70F /* ItemToItem.m */; };
 		1BF8CDFD1F5679AE00B0C70F /* UserToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */; };
 		2D04F48620491D4000AC5AFA /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D164E49204FF10F00603865 /* AudioAttributes.h */; };
+		2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D164E4A204FF10F00603865 /* AudioAttributes.m */; };
 		2DF3A4B71F835ECD0068007A /* ABSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 8628DB0E1F1F293200DCDB22 /* ABSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
@@ -90,6 +92,8 @@
 		1BF8CDF71F56669C00B0C70F /* ItemToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemToItem.m; sourceTree = "<group>"; };
 		1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserToItem.h; sourceTree = "<group>"; };
 		1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserToItem.m; sourceTree = "<group>"; };
+		2D164E49204FF10F00603865 /* AudioAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioAttributes.h; sourceTree = "<group>"; };
+		2D164E4A204FF10F00603865 /* AudioAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioAttributes.m; sourceTree = "<group>"; };
 		8628DB0E1F1F293200DCDB22 /* ABSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSLogger.h; sourceTree = "<group>"; };
 		8628DB0F1F1F293200DCDB22 /* ABSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSLogger.m; sourceTree = "<group>"; };
 		8645B77B1F04F51B00F21735 /* libABSEventTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libABSEventTracker.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +179,15 @@
 			name = EventDispatcher;
 			sourceTree = "<group>";
 		};
+		2D164E48204FF0F400603865 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				2D164E49204FF10F00603865 /* AudioAttributes.h */,
+				2D164E4A204FF10F00603865 /* AudioAttributes.m */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
 		8645B7721F04F51B00F21735 = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +271,7 @@
 		8645B7C21F04F95800F21735 /* Attributes */ = {
 			isa = PBXGroup;
 			children = (
+				2D164E48204FF0F400603865 /* Audio */,
 				86B6F3211F1740CF005B2B26 /* Video */,
 				8645B7EF1F04FFFE00F21735 /* DigitalProperty */,
 				8645B7CA1F04F9F100F21735 /* User */,
@@ -382,6 +396,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */,
 				8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
 				2D04F48620491D4000AC5AFA /* ABSRecommendationEngine.h in Headers */,
@@ -495,6 +510,7 @@
 				8645B7DB1F04FBD800F21735 /* CacheManager.m in Sources */,
 				8645B7B71F04F86500F21735 /* FormatUtils.m in Sources */,
 				8645B7F31F05001B00F21735 /* PropertyEventSource.m in Sources */,
+				2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */,
 				8645B7BD1F04F8FF00F21735 /* DeviceFingerprinting.m in Sources */,
 				8645B7BA1F04F8AF00F21735 /* ABSCustomOperation.m in Sources */,
 				8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */,

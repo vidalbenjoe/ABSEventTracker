@@ -40,11 +40,19 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     VIDEO_SEEKED        =   28,
     VIDEO_STOPPED       =   29,
     VIDEO_BUFFERED      =   30,
-    VIDEO_COMPLETE      =   31
+    VIDEO_COMPLETE      =   31,
+    
+    AUDIO_PLAYED        =   32,
+    AUDIO_PAUSED        =   33,
+    AUDIO_RESUMED       =   34,
+    AUDIO_SEEKED        =   35,
+    AUDIO_STOPPED       =   36,
+    AUDIO_BUFFERED      =   37,
+    AUDIO_COMPLETE      =   38
+    
 };
 @class GenericBuilder;
 @interface GenericEventController : NSObject
-
 @property(nonatomic) ActionTaken actionTaken;
 
 +(instancetype) makeWithBuilder:(void (^) (GenericBuilder *)) updateBlock;

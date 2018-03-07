@@ -63,7 +63,6 @@
 }
 
 -(VideoBuilder *) makeBuilder{
-    
     VideoBuilder *builder = [VideoBuilder new];
     builder.videoCategoryID         = _videoCategoryID;
     builder.videoContentID          = _videoContentID;

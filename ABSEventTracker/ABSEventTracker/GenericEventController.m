@@ -64,13 +64,21 @@
              @(ACCESS_VIEW)         : @"AccessView",
              @(ABANDON_VIEW)        : @"AbandonView",
              
-             @(VIDEO_PLAYED)        : @"VideoPlayed",
-             @(VIDEO_PAUSED)        : @"VideoPaused",
-             @(VIDEO_RESUMED)       : @"VideoResumed",
+             @(VIDEO_PLAYED)        : @"VideoPlay",
+             @(VIDEO_PAUSED)        : @"VideoPause",
+             @(VIDEO_RESUMED)       : @"VideoResume",
              @(VIDEO_SEEKED)        : @"VideoSeek",
-             @(VIDEO_STOPPED)       : @"VideoStopped",
+             @(VIDEO_STOPPED)       : @"VideoStop",
              @(VIDEO_BUFFERED)      : @"VideoBuff",
-             @(VIDEO_COMPLETE)      : @"VideoCompleted"
+             @(VIDEO_COMPLETE)      : @"VideoCompleted",
+             
+             @(AUDIO_PLAYED)        : @"AudioPlay",
+             @(AUDIO_PAUSED)        : @"AudioPause",
+             @(AUDIO_RESUMED)       : @"AudioResume",
+             @(AUDIO_SEEKED)        : @"AudioSeek",
+             @(AUDIO_STOPPED)       : @"AudioStop",
+             @(AUDIO_BUFFERED)      : @"AudioBuff",
+             @(AUDIO_COMPLETE)      : @"AudioCompleted"
              };
 }
 

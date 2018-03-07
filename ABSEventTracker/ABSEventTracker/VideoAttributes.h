@@ -30,9 +30,9 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic) VideoState videostate;
 @property(nonatomic, readonly) int videoWidth;
 @property(nonatomic, readonly) int videoHeight;
-@property(nonatomic, unsafe_unretained) BOOL isVideoEnded;
-@property(nonatomic, unsafe_unretained) BOOL isVideoPaused;
-@property(nonatomic, unsafe_unretained) BOOL isVideoFullScreen;
+@property(nonatomic) BOOL isVideoEnded;
+@property(nonatomic) BOOL isVideoPaused;
+@property(nonatomic) BOOL isVideoFullScreen;
 @property(nonatomic, copy, readonly) NSString *videoCategoryID;
 @property(nonatomic, copy, readonly) NSString *videoContentID;
 @property(nonatomic, copy) NSString *videoTimeStamp;
@@ -93,9 +93,9 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(assign, nonatomic) VideoState videostate;
 @property(nonatomic) int videoWidth;
 @property(nonatomic) int videoHeight;
-@property(nonatomic, unsafe_unretained) BOOL isVideoEnded;
-@property(nonatomic, unsafe_unretained) BOOL isVideoPause;
-@property(nonatomic, unsafe_unretained) BOOL isVideoFullScreen;
+@property(nonatomic) BOOL isVideoEnded;
+@property(nonatomic) BOOL isVideoPause;
+@property(nonatomic) BOOL isVideoFullScreen;
 
 @property(nonatomic) double videoDuration;
 @property(nonatomic) double videoSeekStart;
