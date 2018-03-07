@@ -136,8 +136,8 @@ NSString *userID;
     /*
      * Getting Digital property host url to be used in request header - @host
      */
-    NSDictionary *header = @{@"SiteDomain":@"http://ottdevapi.portal.azure-api.net"};
-            [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+    
+            [networking GET:recoURL path:recoTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Getting server token from the response
                  */
@@ -146,11 +146,11 @@ NSString *userID;
                 /*
                  * Store server token into NSUserDefault
                  */
-                [AuthManager storeTokenToUserDefault:token];
+//                [AuthManager storeTokenToUserDefault:token];
                 /*
                  * Store token expiration time into NSUserDefault
                  */
-                [AuthManager storeTokenReceivedTimestamp:[NSDate date]];
+//                [AuthManager storeTokenReceivedTimestamp:[NSDate date]];
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 /*
                  * Request token failed

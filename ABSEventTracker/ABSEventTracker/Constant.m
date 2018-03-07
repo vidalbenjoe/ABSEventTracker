@@ -23,10 +23,10 @@ NSString *const eventPreProd                    = @"http://stgeventswebapi.azure
 NSString* const recoURL                         = @"http://recoengapi.bigdata.abs-cbn.com";
 
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
+NSString* const recoTokenURL                    = @"/token";
 NSString* const UserToItemURL                   = @"/usertoitem"; //POST
 NSString* const ItemToItemURL                   = @"/itemtoitem"; //POST
-NSString* const recommendationCommunityToItem   = @"/communitytoitemtest"; //POST
-
+NSString* const recommendationCommunityToItem   = @"/communitytoitem"; //POST
 
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";

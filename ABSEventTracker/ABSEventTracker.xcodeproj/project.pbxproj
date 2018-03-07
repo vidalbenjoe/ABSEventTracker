@@ -26,6 +26,7 @@
 		1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */; };
 		1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDF71F56669C00B0C70F /* ItemToItem.m */; };
 		1BF8CDFD1F5679AE00B0C70F /* UserToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */; };
+		2D04F48620491D4000AC5AFA /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2DF3A4B71F835ECD0068007A /* ABSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 8628DB0E1F1F293200DCDB22 /* ABSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
@@ -383,6 +384,7 @@
 			files = (
 				8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
+				2D04F48620491D4000AC5AFA /* ABSRecommendationEngine.h in Headers */,
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 				1BDAB9201FFC934D008E3BF7 /* GenericEventController.h in Headers */,

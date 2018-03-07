@@ -7,6 +7,7 @@
 //
 
 #import "ABSRecommendationEngine.h"
+#import "ABSBigDataServiceDispatcher.h"
 #import "PropertyEventSource.h"
 #import "ABSNetworking.h"
 #import "AuthManager.h"
@@ -16,55 +17,63 @@
 
 @implementation ABSRecommendationEngine
 +(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem{
-    NSError *error;
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                            [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource sharedInstance] property]], @"recoPropertyID",
-                                           @"97743" , @"contentID",nil];
+                                                @"2", @"recoPropertyId",
+                                                @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
+    
+
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", ItemToItemURL]];
-    
-    NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
-                                                   options:kNilOptions
-                                                     error:&error];
-    if (!error) {
-        dispatch_async(queue, ^{
-            [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                ItemToItem *item = [[ItemToItem alloc] initWithDictionary:responseObject];
-                itemToitem(item);
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                [[ABSLogger initialize] setMessage:error.description];
-            }];
-        });
-    }
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL, ItemToItemURL]];
+    [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
+     
+        NSError *error;
+        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
+        NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
+                                                       options:kNilOptions
+                                                         error:&error];
+      
+        if (!error) {
+            dispatch_async(queue, ^{
+                [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                    ItemToItem *item = [[ItemToItem alloc] initWithDictionary:responseObject];
+                    itemToitem(item);
+                    
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    [[ABSLogger initialize] setMessage:error.description];
+                }];
+            });
+        }
+    }];
 }
 
 +(void) recommendationUser:(void (^)(UserToItem *userToItem)) userToitem{
-    NSError *error;
+   
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"ff9ef55f-3286-48fd-8b03-c09d91ab8b57" , @"userID",
-                                           [NSString stringWithFormat:@"%lu",(unsigned long)[[PropertyEventSource sharedInstance] property]] , @"recoPropertyID",nil];
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+                                           @"2", @"recoPropertyId",
+                                           @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", UserToItemURL]];
-    NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
-    NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
-                                                   options:kNilOptions
-                                                     error:&error];
-    if (!error) {
-        dispatch_async(queue, ^{
-            [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                UserToItem *item = [[UserToItem alloc] initWithDictionary:responseObject];
-                userToitem(item);
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                 [[ABSLogger initialize] setMessage:error.description];
-            }];
-        });
-    }
+    
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL, UserToItemURL]];
+     [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
+        NSError *error;
+         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
+         NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
+                                                        options:kNilOptions
+                                                          error:&error];
+             dispatch_async(queue, ^{
+                 [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                     UserToItem *item = [[UserToItem alloc] initWithDictionary:responseObject];
+                     userToitem(item);
+                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                     [[ABSLogger initialize] setMessage:error.description];
+                 }];
+             });
+          }];
 }
 
 

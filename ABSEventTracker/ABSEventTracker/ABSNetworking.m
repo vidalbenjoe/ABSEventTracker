@@ -16,7 +16,6 @@
 NSURLSessionConfiguration *sessionConfiguration;
 @synthesize requestBody;
 @synthesize propertyEvent;
-//@synthesize eventsource = _eventsource;
 +(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config{
     static ABSNetworking *shared = nil;
     static dispatch_once_t onceToken;
@@ -152,10 +151,12 @@ NSURLSessionConfiguration *sessionConfiguration;
  * This post method is used for sending json object with multiple header into server through NSURLSession
  */
 -(void) POST:(NSURL *) url HTTPBody:(NSData *) body headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    NSError *error;
     for (id key in headers){
         id value = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: value}];
     }
+    
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
     requestBody = [[NSMutableURLRequest alloc]
                    initWithURL:url
@@ -167,42 +168,47 @@ NSURLSessionConfiguration *sessionConfiguration;
     [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
     [requestBody setHTTPBody:body];
     
-    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    dispatch_async(queue, ^{
-//
-//    });
+    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
+    NSLog(@"genericdata: %@", dictionary);
     
-    [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
-        NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-        [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
-        if (respHttp.statusCode != SUCCESS) {
-            errorHandler(nil, error);
-            return;
-        }
-        /**
-         * Check the API if responding JSON data
-         */
-        if ([NSJSONSerialization isValidJSONObject:data] && data != nil) {
-            NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-            successHandler(nil, dictionary);
-            //                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
-        }else{
-            // Trim the string format JSON data to replace special character and convert to dictionary.
-            NSString* returnedString = [[[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
-                                         stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
-                                        stringByReplacingOccurrencesOfString:@" " withString:@""];
-            NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-            NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
+    
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
+            NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-            NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-            
-            if (!error) {
-                successHandler(nil, dictionary);
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
+            if (respHttp.statusCode != SUCCESS) {
+                errorHandler(nil, error);
+                return;
             }
-        }
-    }] resume];
+           
+            /**
+             * Check the API if responding JSON data
+             */
+            if ([NSJSONSerialization isValidJSONObject:body] && body != nil) {
+                NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
+                successHandler(nil, dictionary);
+                //                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
+            }else{
+                // Trim the string format JSON data to replace special character and convert to dictionary.
+                NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
+                                             stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
+                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
+                NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+                NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
+                NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+        
+                if (!error) {
+                    successHandler(nil, dictionary);
+                }
+            }
+        }] resume];
+        
+    });
 }
 /*
  * Method: GET
@@ -217,13 +223,13 @@ NSURLSessionConfiguration *sessionConfiguration;
      NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
-    
     request.HTTPMethod = @"GET";
-  
+
     [request setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
     
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+        
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
         
         if (respHttp.statusCode != SUCCESS) {
