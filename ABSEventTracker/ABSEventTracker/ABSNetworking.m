@@ -178,7 +178,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            
+            NSLog(@"genericdataHttp: %@", respHttp.description);
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);

@@ -11,54 +11,59 @@
 //@property(nonatomic) AudioPlayerState audioState;
 -(instancetype) initWithBuilder:(AudioBuilder *)builder{
     if (self = [super init]) {
-        _audioPlayerState = builder.audioPlayerState;
-        _audioPlayPosition = builder.audioPlayPosition;
-        _audioPausePosition = builder.audioPausePosition;
-        _audioResumePosition = builder.audioResumePosition;
-        _audioStopPosition = builder.audioStopPosition;
-        _audioBufferPosition = builder.audioBufferPosition;
-        _audioDuration = builder.audioDuration;
-        _isAudioEnded = builder.isAudioEnded;
-        _isAudioPaused = builder.isAudioPaused;
-        _audioVolume = builder.audioVolume;
-        _audioTitle = builder.audioTitle;
-        _audioURL = builder.audioURL;
-        _artist = builder.artist;
-        _audioType = builder.audioType;
-        _audioFormat = builder.audioFormat;
-        _audioCodec = builder.audioCodec;
-        _audioConsolidatedBufferTime = builder.audioConsolidatedBufferTime;
-        _audioCategoryID = builder.audioCategoryID;
-        _audioContentID = builder.audioContentID;
-        _audioTimeStamp = builder.audioTimeStamp;
+        _actionTaken                    = builder.actionTaken;
+        _audioPlayerState               = builder.audioPlayerState;
+        _audioPlayPosition              = builder.audioPlayPosition;
+        _audioPausePosition             = builder.audioPausePosition;
+        _audioResumePosition            = builder.audioResumePosition;
+        _audioStopPosition              = builder.audioStopPosition;
+        _audioBufferPosition            = builder.audioBufferPosition;
+        _audioDuration                  = builder.audioDuration;
+        _isAudioEnded                   = builder.isAudioEnded;
+        _isAudioPaused                  = builder.isAudioPaused;
+        _audioVolume                    = builder.audioVolume;
+        _audioTitle                     = builder.audioTitle;
+        _audioURL                       = builder.audioURL;
+        _artist                         = builder.artist;
+        _audioType                      = builder.audioType;
+        _audioFormat                    = builder.audioFormat;
+        _audioCodec                     = builder.audioCodec;
+        _audioConsolidatedBufferTime    = builder.audioConsolidatedBufferTime;
+        _audioTotalBufferTime           = builder.audioTotalBufferTime;
+        _audioBufferCount               = builder.audioBufferCount;
+        _audioCategoryID                = builder.audioCategoryID;
+        _audioContentID                 = builder.audioContentID;
+        _audioTimeStamp                 = builder.audioTimeStamp;
     }
         return self;
 }
     
 -(AudioBuilder *) makeBuilder{
     AudioBuilder *builder = [AudioBuilder new];
-        builder.audioPlayerState = _audioPlayerState;
-        builder.audioPlayPosition = _audioPlayPosition;
-    builder.audioPausePosition = _audioPausePosition;
-    builder.audioResumePosition = _audioResumePosition;
-    builder.audioStopPosition = _audioStopPosition;
-    builder.audioBufferPosition = _audioBufferPosition;
-    builder.audioDuration = _audioDuration;
-    builder.isAudioEnded = _isAudioEnded;
-    builder.isAudioPaused = _isAudioPaused;
-    builder.audioVolume = _audioVolume;
-    builder.audioTitle = _audioTitle;
-    builder.audioURL = _audioURL;
-    builder.artist = _artist;
-    builder.audioType = _audioType;
-    builder.audioFormat = _audioFormat;
-    builder.audioCodec = _audioCodec;
+    builder.actionTaken                 = _actionTaken;
+    builder.audioPlayerState            = _audioPlayerState;
+    builder.audioPlayPosition           = _audioPlayPosition;
+    builder.audioPausePosition          = _audioPausePosition;
+    builder.audioResumePosition         = _audioResumePosition;
+    builder.audioStopPosition           = _audioStopPosition;
+    builder.audioBufferPosition         = _audioBufferPosition;
+    builder.audioDuration               = _audioDuration;
+    builder.isAudioEnded                = _isAudioEnded;
+    builder.isAudioPaused               = _isAudioPaused;
+    builder.audioVolume                 = _audioVolume;
+    builder.audioTitle                  = _audioTitle;
+    builder.audioURL                    = _audioURL;
+    builder.artist                      = _artist;
+    builder.audioType                   = _audioType;
+    builder.audioFormat                 = _audioFormat;
+    builder.audioCodec                  = _audioCodec;
     builder.audioConsolidatedBufferTime = _audioConsolidatedBufferTime;
-    builder.audioCategoryID = _audioCategoryID;
-    builder.audioContentID = _audioContentID;
-    builder.audioTimeStamp = _audioTimeStamp;
-    
-    
+    builder.audioTotalBufferTime        = _audioTotalBufferTime;
+    builder.audioBufferCount            = _audioBufferCount;
+    builder.audioCategoryID             = _audioCategoryID;
+    builder.audioContentID              = _audioContentID;
+    builder.audioTimeStamp              = _audioTimeStamp;
+
         return builder;
     }
     
@@ -80,12 +85,11 @@
 }
 
 +(NSDictionary *) audioStateByName{
-    return @{@(PAUSED)          : @"PAUSED",
-             @(PLAYING)         : @"PLAYING",
-             @(SEEKING)         : @"SEEKING",
-             @(ON_IDLE)         : @"ON_IDLE",
-             @(BUFFERING)       : @"BUFFERING",
-             @(COMPLETED)       : @"COMPLETED",
+    return @{@(AUDIO_PAUSE)          : @"PAUSED",
+             @(AUDIO_PLAYING)         : @"PLAYING",
+             @(AUDIO_ON_IDLE)         : @"ON_IDLE",
+             @(AUDIO_BUFFERING)       : @"BUFFERING",
+             @(AUDIO_COMPLETED)       : @"COMPLETED",
              };
 }
 
@@ -98,6 +102,7 @@
 @implementation AudioBuilder
 -(instancetype) init{
     if (self = [super init]) {
+            _actionTaken            = 0;
             _audioPlayerState = 0;
             _audioPlayPosition = 0;
             _audioPausePosition = 0;
@@ -115,6 +120,8 @@
             _audioFormat = nil;
             _audioCodec = nil;
             _audioConsolidatedBufferTime = nil;
+            _audioBufferCount       = 0;
+            _audioTotalBufferTime   = 0;
             _audioCategoryID = nil;
             _audioContentID = nil;
             _audioTimeStamp = nil;

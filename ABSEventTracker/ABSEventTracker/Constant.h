@@ -33,7 +33,6 @@ extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
 
-
 extern NSString* const recoURL;
 extern NSString* const recoTokenURL;
 extern NSString* const recommendationPopular;

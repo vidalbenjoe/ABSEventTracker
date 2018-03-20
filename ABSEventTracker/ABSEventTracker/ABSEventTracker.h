@@ -15,6 +15,7 @@
 #import "UserAttributes.h"
 #import "EventAttributes.h"
 #import "VideoAttributes.h"
+#import "AudioAttributes.h"
 
 typedef NS_ENUM(NSInteger, EnvironmentConfig){
      STAGING             =   0,
@@ -90,6 +91,9 @@ typedef NS_ENUM(NSInteger, EnvironmentConfig){
  */
 
 +(void) initVideoAttributes: (VideoAttributes *) attributes;
+
+
++(void) initAudioAttributes: (AudioAttributes *) attributes;
 
 @end
 

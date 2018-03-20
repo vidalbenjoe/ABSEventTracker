@@ -26,6 +26,7 @@
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
+        
         //Checking the list of valid identifier if it's matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
         
@@ -139,11 +140,10 @@
 +(void) initWithUser:(UserAttributes *) attributes {
     // Send LOGIN action into server
     [UserAttributes cachedUserInfoWithID:attributes.ssoID ?: attributes.gigyaID firstName:attributes.firstName middleName:attributes.middleName lastName:attributes.lastName];
-    [[AttributeManager init] setUserAttributes:attributes];
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];
     }]];
-   
+    [[AttributeManager init] setUserAttributes:attributes];
 }
 /**
  * Set the Device information into attriutes manager.
@@ -169,6 +169,7 @@
 +(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
     [[AttributeManager init] setArbitaryAttributes:attributes];
 }
+
 /*!
  * @discussion Set the Event Attributes into attriutes manager.
  * @param
@@ -234,6 +235,10 @@
 #pragma mark - Video Attributes
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
     [EventController writeVideoAttributes:attributes];
+}
+#pragma mark - Video Attributes
++(void) initAudioAttributes:(AudioAttributes *)attributes{
+    [EventController writeAudioAttributes:attributes];
 }
 @end
 

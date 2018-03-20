@@ -21,7 +21,7 @@
 #import "SessionManager.h"
 #import "ArbitaryVariant.h"
 #import "VideoAttributes.h"
-
+#import "AudioAttributes.h"
 // AttributeManager is the responsible for consolidating all of the attributes to be used in the event dispatcher - /Network/ABSBigDataServiceDispatcher
 @interface AttributeManager : NSObject
 +(AttributeManager*) init;
@@ -33,6 +33,7 @@
 @property(nonatomic) SessionManager *session;
 @property(nonatomic) ArbitaryVariant *arbitaryinvariant;
 @property(nonatomic) VideoAttributes *videoattributes;
+@property(nonatomic) AudioAttributes *audioattributes;
 
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes;
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
@@ -42,5 +43,6 @@
 -(void) setSession:(SessionManager *)sessionAttributes;
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp;
 -(void) setVideoAttributes:(VideoAttributes *) videoAttribute;
+-(void) setAudioAttributes:(AudioAttributes *) audioAttributes;
 @end
 

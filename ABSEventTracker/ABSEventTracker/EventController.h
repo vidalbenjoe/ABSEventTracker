@@ -14,6 +14,7 @@
 #import <Foundation/Foundation.h>
 #import "EventAttributes.h"
 #import "VideoAttributes.h"
+#import "AudioAttributes.h"
 @interface EventController : NSObject
 
 /** Method to initialize EventController class */
@@ -26,4 +27,5 @@
 
 +(void) writeEvent:(EventAttributes *) attributes;
 +(void) writeVideoAttributes:(VideoAttributes *) attributes;
++(void) writeAudioAttributes:(AudioAttributes *) attributes;
 @end

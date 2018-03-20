@@ -179,5 +179,99 @@ NSMutableString *consolidatedBufferDuration;
     [[AttributeManager init] setVideoAttributes:attributes];
 }
 
++(void) writeAudioAttributes:(AudioAttributes *)attributes{
+    if (buffDurationArray == nil) {
+        buffDurationArray = [NSMutableArray array];
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        consolidatedBufferDuration = [NSMutableString string];
+    }
+    if (attributes.actionTaken == UNKNOWN) {
+        NSLog(@"Please specify video action");
+    }
+    [attributes setAudioTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+    switch (attributes.actionTaken) {
+        case AUDIO_BUFFERED:
+            [attributes setAudioPlayerState:AUDIO_BUFFERING];
+            break;
+        case AUDIO_RESUMED:
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            break;
+        case AUDIO_STOPPED:
+            [attributes setAudioPlayerState:AUDIO_COMPLETED];
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            break;
+        case AUDIO_PLAYED:
+            [attributes setAudioPlayerState:AUDIO_PLAYING];
+            break;
+        case AUDIO_PAUSED:
+            [attributes setAudioPlayerState:AUDIO_PAUSE];
+            [attributes setIsAudioPaused:YES];
+            break;
+        case AUDIO_SEEKED:
+            [attributes setAudioPlayerState:AUDIO_SEEKING];
+            break;
+        case AUDIO_COMPLETE:
+            [attributes setAudioPlayerState:AUDIO_COMPLETED];
+            break;
+        default:
+            break;
+    }
+    
+    switch (attributes.audioPlayerState) {
+        case AUDIO_BUFFERING:
+            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            break;
+        case AUDIO_PLAYING:
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            break;
+        case AUDIO_SEEKING:
+            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            break;
+        case AUDIO_COMPLETED:
+            [attributes setIsAudioEnded:YES];
+            break;
+        case AUDIO_PAUSE:
+            [attributes setActionTaken:AUDIO_PAUSED];
+            break;
+        default:
+            break;
+    }
+    
+    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
+    bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
+    videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
+    
+    if (bufferTime != nil) {
+        if (videoEventTimeStamp > bufferTime) {
+            /*
+             * audioEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(AUDIO_BUFFERED)
+             */
+            [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
+            
+            for (NSString* key in buffDurationArray){
+                if ([consolidatedBufferDuration length]>0)
+                    [consolidatedBufferDuration appendString:@"|"];
+                [consolidatedBufferDuration appendFormat:@"%@", key];
+            }
+            
+            NSInteger sum = 0;
+            for (NSNumber *num in buffDurationArray){sum += [num intValue];}
+            
+            [attributes setAudioConsolidatedBufferTime:consolidatedBufferDuration];
+            [attributes setAudioTotalBufferTime:sum];
+            [attributes setAudioBufferCount:[buffDurationArray count]];
+            
+        }
+    }
+    GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
+        [builder setActionTaken:attributes.actionTaken];
+    }];
+    
+    [[AttributeManager init] setGenericAttributes:genericAction];
+    [[AttributeManager init] setAudioAttributes:attributes];
+}
+
+
 @end
 

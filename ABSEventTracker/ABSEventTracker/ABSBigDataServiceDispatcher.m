@@ -309,7 +309,12 @@ NSString *userID;
     NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
     NSString *isvideoFullScreen = attributes.videoattributes.isVideoFullScreen ? @"True" : @"False";
     
+    NSString *isAudioEnded = attributes.audioattributes.isAudioEnded ? @"True" : @"False";
+    NSString *isAudioPaused = attributes.audioattributes.isAudioPaused ? @"True" : @"False";
+    
+    
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
+    NSString *audioState = [AudioAttributes convertAudioStateToString:attributes.audioattributes.audioPlayerState];
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
@@ -323,7 +328,6 @@ NSString *userID;
         }
     }
 
-    
 //    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.applicationName);
 //    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.siteDomain);
 //    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.origin);
@@ -338,7 +342,7 @@ NSString *userID;
         ObjectOrNull(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         ObjectOrNull(attributes.propertyinvariant.applicationName) , @"ApplicationName",
         ObjectOrNull(attributes.propertyinvariant.bundleIdentifier) , @"ApplicationUniqueId",
-        @"iOS" , @"DeviceOs",
+        ObjectOrNull(attributes.deviceinvariant.deviceOS), @"DeviceOs",
         ObjectOrNull(attributes.deviceinvariant.deviceType) , @"MobileDevice",
         ObjectOrNull(screenSize)  , @"ScreenSize",
         ObjectOrNull(attributes.deviceinvariant.deviceType) , @"DeviceType",
@@ -346,7 +350,7 @@ NSString *userID;
         ObjectOrNull([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
         ObjectOrNull(attributes.arbitaryinvariant.applicationLaunchTimeStamp == nil ? [CacheManager retrieveApplicationLoadTimestamp] : attributes.arbitaryinvariant.applicationLaunchTimeStamp), @"ApplicationLoadTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.applicationAbandonTimeStamp), @"ApplicationAbandonTimeStamp",
-        ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp), @"WritingEventTimestamp",
+        ObjectOrNull(attributes.arbitaryinvariant.postCommentTimeStamp), @"WritingEventTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.logoutTimeStamp), @"LogoutTimeStamp",
         ObjectOrNull(attributes.arbitaryinvariant.searchTimeStamp), @"SearchTimeStamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigdataSessionId",
@@ -401,9 +405,32 @@ NSString *userID;
         ObjectOrNull(attributes.videoattributes.videoURL) , @"VideoURL",
         ObjectOrNull(isvideoFullScreen), @"VideoFullScreen",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoVolume]]) , @"VideoVolume",
-         ObjectOrNull(videoSize) , @"VideoSize",
+        ObjectOrNull(videoSize) , @"VideoSize",
+        ObjectOrNull(attributes.audioattributes.audioCategoryID) , @"AudioCategoryId",
+        ObjectOrNull(attributes.audioattributes.audioContentID) , @"AudioContentId",
+        ObjectOrNull(attributes.audioattributes.audioConsolidatedBufferTime) , @"AudioConsolidatedBufferTime",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioBufferCount]]) ,@"AudioConsolidatedBufferTime",
+        ObjectOrNull(attributes.audioattributes.audioTimeStamp) ,@"AudioTimesTamp",
+        ObjectOrNull(attributes.audioattributes.audioType) ,@"AudioType",
+        ObjectOrNull(attributes.audioattributes.audioFormat) ,@"AudioFormat",
+        ObjectOrNull(attributes.audioattributes.audioCodec) ,@"AudioCodec",
+        ObjectOrNull(audioState) ,@"AudioPlayerState",
+        ObjectOrNull(isAudioEnded) ,@"AudioIsEnded",
+        ObjectOrNull(isAudioPaused) ,@"AudioIsPaused",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioDuration]]) ,@"AudioDuration",
+        ObjectOrNull(attributes.audioattributes.audioTitle) ,@"AudioTitle",
+        ObjectOrNull(attributes.audioattributes.audioURL) ,@"AudioURL",
+        ObjectOrNull(attributes.audioattributes.artist) ,@"AudioArtist",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioVolume]]) ,@"AudioVolume",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioPlayPosition]]) ,@"AudioPlay",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioPausePosition]]) ,@"AudioPause",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioResumePosition]]) ,@"AudioResume",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioStop",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBufferPosition",
                                                  nil];
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
+    
+
     
     if (error) {
         NSLog(@"Error on dispatcher");

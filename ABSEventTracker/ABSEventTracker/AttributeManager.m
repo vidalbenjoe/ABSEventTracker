@@ -19,6 +19,7 @@
 @synthesize session;
 @synthesize arbitaryinvariant;
 @synthesize videoattributes;
+@synthesize audioattributes;
 /*
  * This class acts as a Facade/Manager for different sub-modules that constitutes the entire
  * BigData's iOS library event processing functionality.
@@ -69,6 +70,11 @@
 -(void) setVideoAttributes:(VideoAttributes *)videoAttribute{
     videoattributes = videoAttribute;
     // Trigger AttributeWriter every time video event happened
+    [AttributeWriter writer:self];
+}
+
+-(void) setAudioAttributes:(AudioAttributes *) audioAttributes{
+    audioattributes = audioAttributes;
     [AttributeWriter writer:self];
 }
 @end
