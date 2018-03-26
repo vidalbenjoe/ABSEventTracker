@@ -37,7 +37,7 @@
             // Get device information to be used on device fingerprinting and analytics.
             DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
                                        (DeviceInvariantBuilder *builder) {
-                                           [builder setDeviceFingerprint:[DeviceFingerprinting generateDeviceFingerprint]];
+                                           [builder setDeviceFingerprint:config == PRODUCTION ?[DeviceFingerprinting generateDeviceFingerprint] : [NSString stringWithFormat:@"iOS-%@", [DeviceFingerprinting generateDeviceFingerprint]]];
                                            [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
                                            [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
                                            [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];

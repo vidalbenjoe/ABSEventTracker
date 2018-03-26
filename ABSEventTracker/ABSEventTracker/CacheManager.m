@@ -23,6 +23,7 @@
         NSString *bundle = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
         [[NSFileManager defaultManager] copyItemAtPath:bundle toPath:[self cachePath] error:&error];
     }
+    
     NSMutableArray *cachedList = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
     if (nil == cachedList) {
         cachedList = [[NSMutableArray alloc] initWithCapacity:0];

@@ -208,9 +208,6 @@ NSMutableString *consolidatedBufferDuration;
             [attributes setAudioPlayerState:AUDIO_PAUSE];
             [attributes setIsAudioPaused:YES];
             break;
-        case AUDIO_SEEKED:
-            [attributes setAudioPlayerState:AUDIO_SEEKING];
-            break;
         case AUDIO_COMPLETE:
             [attributes setAudioPlayerState:AUDIO_COMPLETED];
             break;
@@ -223,9 +220,6 @@ NSMutableString *consolidatedBufferDuration;
             [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         case AUDIO_PLAYING:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
-            break;
-        case AUDIO_SEEKING:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
             break;
         case AUDIO_COMPLETED:

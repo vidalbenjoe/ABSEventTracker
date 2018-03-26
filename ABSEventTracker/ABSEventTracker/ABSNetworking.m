@@ -73,7 +73,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
     __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
-                                
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(task, error);
@@ -124,7 +123,6 @@ NSURLSessionConfiguration *sessionConfiguration;
                    cachePolicy: NSURLRequestUseProtocolCachePolicy
                    timeoutInterval:120.0
                    ];
-    
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestBody setValue:[[PropertyEventSource sharedInstance] origin] forHTTPHeaderField:@"Origin"];
@@ -151,7 +149,7 @@ NSURLSessionConfiguration *sessionConfiguration;
  * This post method is used for sending json object with multiple header into server through NSURLSession
  */
 -(void) POST:(NSURL *) url HTTPBody:(NSData *) body headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
-    NSError *error;
+//    NSError *error;
     for (id key in headers){
         id value = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: value}];
@@ -168,17 +166,14 @@ NSURLSessionConfiguration *sessionConfiguration;
     [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
     [requestBody setHTTPBody:body];
     
-    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
-    NSLog(@"genericdata: %@", dictionary);
-    
-    
+//    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
+
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            NSLog(@"genericdataHttp: %@", respHttp.description);
             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
