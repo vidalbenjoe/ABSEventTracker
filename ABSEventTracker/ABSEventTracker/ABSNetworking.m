@@ -125,7 +125,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                    ];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[PropertyEventSource sharedInstance] origin] forHTTPHeaderField:@"Origin"];
+    [requestBody setValue:[[PropertyEventSource sharedInstance] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
@@ -163,11 +163,12 @@ NSURLSessionConfiguration *sessionConfiguration;
                    ];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
+    [requestBody setValue:@"com.abscbn.iwantNow" forHTTPHeaderField:@"SiteDomain"];
     [requestBody setHTTPBody:body];
     
 //    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
-
+    
+    
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -179,7 +180,8 @@ NSURLSessionConfiguration *sessionConfiguration;
                 errorHandler(nil, error);
                 return;
             }
-           
+            NSLog(@"httplog: %@", response.description);
+
             /**
              * Check the API if responding JSON data
              */
@@ -224,7 +226,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-        
+        NSLog(@"getToHtpp: %@", respHttp.description);
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path]];
         
         if (respHttp.statusCode != SUCCESS) {

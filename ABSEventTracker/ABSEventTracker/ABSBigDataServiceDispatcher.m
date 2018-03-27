@@ -173,7 +173,7 @@ NSString *userID;
             /*
              * Request a new server token if the current time exceeded the server token expiration timestamp
              */
-            [self requestNewToken:^(NSString *token) {
+            [self requestToken:^(NSString *token) {
                 /*Capture the current view inside the mobile app
                  * Storing server token in NSUserDefault
                  */
@@ -210,7 +210,7 @@ NSString *userID;
         /*
          * Retrieving server token to be used in request header.
          */
-        [self requestNewToken:^(NSString *token) {
+        [self requestToken:^(NSString *token) {
             NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [AuthManager retrieveServerTokenFromUserDefault]]};
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
@@ -251,7 +251,7 @@ NSString *userID;
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
             
             
-            [self requestNewToken:^(NSString *token) {
+            [self requestToken:^(NSString *token) {
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
                 /*
                  //             * Converting Dictionary attributes to NSData and send to server through HTTPBody

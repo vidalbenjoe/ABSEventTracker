@@ -68,7 +68,7 @@
                 [digitalProperty setOrigin:ONEOTTOriginURL];
             }
         
-            [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
+            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                 EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                     // Set Event action into LOAD
                     [builder setActionTaken:LOAD];

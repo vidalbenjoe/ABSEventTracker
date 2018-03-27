@@ -13,11 +13,11 @@
 //production -  https://eventsapi.bigdata.abs-cbn.com
 //staging - https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com
 
-NSString* const eventAppsBaseURL                = @"https://eventsapi.bigdata.abs-cbn.com";
+//NSString* const eventAppsBaseURL                = @"https://eventsapi.bigdata.abs-cbn.com";
 NSString* const eventTokenURL                   = @"/token";
-NSString* const eventWriteURL                   = @"/write";
+NSString* const eventWriteURL                   = @"/api/event/write";
 
-//NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
+NSString* const eventAppsBaseURL                = @"https://indraeventsapi.azurewebsites.net"; // Event Prod
 NSString *const eventPreProd                    = @"http://stgeventswebapi.azurewebsites.net";
 
 NSString* const recoURL                         = @"http://recoengapi.bigdata.abs-cbn.com";
