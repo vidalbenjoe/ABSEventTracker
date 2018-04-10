@@ -40,15 +40,14 @@ NSString *userID;
         }];
     });
 }
-
+/*
+ NodeJS Token request
+ */
 +(void) requestNewToken: (void (^)(NSString *token))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         // REQUEST TOKEN
-
-//        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
-    
         [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"token"];
             [AuthManager storeTokenToUserDefault:token];
@@ -59,10 +58,11 @@ NSString *userID;
     
     });
 }
-
 /*!
  * Method for requesting server token. This method will return the server token via block(handler)
+ * Only applicable for ASP Connection
  */
+
 +(void) requestToken: (void (^)(NSString *token))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -71,7 +71,6 @@ NSString *userID;
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
-
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if not exceed the server sechash expiration date.
@@ -97,6 +96,7 @@ NSString *userID;
                     }];
                 }];
             }else{
+                // Retrieving sechash via NSUserdefault
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     // store the token somewhere
@@ -115,7 +115,6 @@ NSString *userID;
             [self requestSecurityHash:^(NSString *sechash) {
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
-                    // store the token somewhere
                     NSString *token = responseObject[@"access_token"];
                     [AuthManager storeTokenToUserDefault:token];
                     handler(token);
@@ -136,7 +135,7 @@ NSString *userID;
     /*
      * Getting Digital property host url to be used in request header - @host
      */
-    
+
             [networking GET:recoURL path:recoTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Getting server token from the response
@@ -283,7 +282,6 @@ NSString *userID;
                 }
             }];
             
-//
         }
     }
 }
@@ -429,9 +427,7 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBufferPosition",
                                                  nil];
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
-    
 
-    
     if (error) {
         NSLog(@"Error on dispatcher");
     } else{

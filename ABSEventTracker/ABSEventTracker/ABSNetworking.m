@@ -45,6 +45,7 @@ NSURLSessionConfiguration *sessionConfiguration;
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate: self delegateQueue: [NSOperationQueue mainQueue]];
     dispatch_async(queue, ^{
+        
         __block NSURLSessionDataTask *task = [session dataTaskWithRequest:requestBody completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url]];
@@ -168,8 +169,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     
 //    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
     
-    
-    
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -180,8 +179,7 @@ NSURLSessionConfiguration *sessionConfiguration;
                 errorHandler(nil, error);
                 return;
             }
-            NSLog(@"httplog: %@", response.description);
-
+           
             /**
              * Check the API if responding JSON data
              */

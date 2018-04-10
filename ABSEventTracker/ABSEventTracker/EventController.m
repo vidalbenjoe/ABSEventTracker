@@ -65,6 +65,9 @@ NSMutableString *consolidatedBufferDuration;
             [[ArbitaryVariant init] setViewAbandonTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
             break;
         default:
+            [[ArbitaryVariant init] setLoginTimeStamp:nil];
+            [[ArbitaryVariant init] setLogoutTimeStamp:nil];
+            [[ArbitaryVariant init] setSearchTimeStamp:nil];
             break;
     }
     

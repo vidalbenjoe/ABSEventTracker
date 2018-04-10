@@ -83,7 +83,6 @@
 }
 
 +(NSString *) convertActionTaken: (ActionTaken) action{
-     
     return [[self class] actionTakenByName][@(action)];
 }
 @end
