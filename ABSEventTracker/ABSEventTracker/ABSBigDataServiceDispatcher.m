@@ -58,6 +58,7 @@ NSString *userID;
     
     });
 }
+
 /*!
  * Method for requesting server token. This method will return the server token via block(handler)
  * Only applicable for ASP Connection
@@ -135,7 +136,6 @@ NSString *userID;
     /*
      * Getting Digital property host url to be used in request header - @host
      */
-
             [networking GET:recoURL path:recoTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Getting server token from the response
@@ -320,17 +320,18 @@ NSString *userID;
     NSDate *accessViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     NSDate *abandonViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
     
-    if (abandonViewTimeStamp != nil) {
-        if (accessViewTimeStamp > abandonViewTimeStamp) {
-            duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
-        }
-    }
-
-//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.applicationName);
-//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.siteDomain);
-//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.origin);
-//    NSLog(@"OTT- Appname: %@", attributes.propertyinvariant.bundleIdentifier);
+//    if (abandonViewTimeStamp != nil) {
+//        if (accessViewTimeStamp > abandonViewTimeStamp) {
+//            duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
 //
+//        }
+//    }
+
+   
+//    [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]]
+    
+//    NSLog(@"duratdion %@", duration == nil ? "" : "");
+    
 //    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaId",
@@ -379,7 +380,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.previousView) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
-        ObjectOrNull([NSString stringWithFormat:@" %@",duration]), @"ViewPageDuration",
+        ObjectOrNull(abandonViewTimeStamp != nil ? accessViewTimeStamp < abandonViewTimeStamp ? [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]] : nil : nil), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
         ObjectOrNull(attributes.arbitaryinvariant.viewAccessTimeStamp), @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
@@ -427,7 +428,7 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBufferPosition",
                                                  nil];
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
-
+    
     if (error) {
         NSLog(@"Error on dispatcher");
     } else{

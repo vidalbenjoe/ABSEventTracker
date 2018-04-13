@@ -64,20 +64,20 @@
              @(ACCESS_VIEW)         : @"AccessView",
              @(ABANDON_VIEW)        : @"AbandonView",
              
-             @(VIDEO_PLAYED)        : @"VideoPlay",
-             @(VIDEO_PAUSED)        : @"VideoPause",
-             @(VIDEO_RESUMED)       : @"VideoResume",
+             @(VIDEO_PLAYED)        : @"VideoPlayed",
+             @(VIDEO_PAUSED)        : @"VideoPaused",
+             @(VIDEO_RESUMED)       : @"VideoResumed",
              @(VIDEO_SEEKED)        : @"VideoSeek",
-             @(VIDEO_STOPPED)       : @"VideoStop",
-             @(VIDEO_BUFFERED)      : @"VideoBuff",
+             @(VIDEO_STOPPED)       : @"VideoStopped",
+             @(VIDEO_BUFFERED)      : @"VideoBuffered",
              @(VIDEO_COMPLETE)      : @"VideoCompleted",
              
-             @(AUDIO_PLAYED)        : @"AudioPlay",
-             @(AUDIO_PAUSED)        : @"AudioPause",
-             @(AUDIO_RESUMED)       : @"AudioResume",
+             @(AUDIO_PLAYED)        : @"AudioPlayed",
+             @(AUDIO_PAUSED)        : @"AudioPaused",
+             @(AUDIO_RESUMED)       : @"AudioResumed",
              @(AUDIO_SEEKED)        : @"AudioSeek",
-             @(AUDIO_STOPPED)       : @"AudioStop",
-             @(AUDIO_BUFFERED)      : @"AudioBuff",
+             @(AUDIO_STOPPED)       : @"AudioStopped",
+             @(AUDIO_BUFFERED)      : @"AudioBuffered",
              @(AUDIO_COMPLETE)      : @"AudioCompleted"
              };
 }

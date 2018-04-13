@@ -205,6 +205,7 @@ NSMutableString *consolidatedBufferDuration;
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
             break;
         case AUDIO_PLAYED:
+            
             [attributes setAudioPlayerState:AUDIO_PLAYING];
             break;
         case AUDIO_PAUSED:

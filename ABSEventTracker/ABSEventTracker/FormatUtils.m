@@ -42,6 +42,8 @@
                                                 fromDate:start
                                                   toDate:end options:0];
     NSInteger elapse = [components second];
+    
+    NSLog(@"ViewPageDuration: %ld", (long)elapse);
     return elapse;
 }
 
