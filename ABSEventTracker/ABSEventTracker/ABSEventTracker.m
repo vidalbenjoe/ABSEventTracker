@@ -19,6 +19,7 @@
 #import "ABSLogger.h"
 
 @implementation ABSEventTracker
+
 +(ABSEventTracker *) initializeTracker :(EnvironmentConfig) config{
 //    NSLog(@"EnvironmentConfig: %ld", (long) config);
     static ABSEventTracker *shared = nil;
@@ -28,7 +29,7 @@
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
         //Checking the list of valid identifier if it's matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
-        
+    
         if (isValid) {
             // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
             // Initialize Session
@@ -36,7 +37,7 @@
             // Get device information to be used on device fingerprinting and analytics.
             DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
                                        (DeviceInvariantBuilder *builder) {
-                                           [builder setDeviceFingerprint:config == PRODUCTION ?[DeviceFingerprinting generateDeviceFingerprint] : [NSString stringWithFormat:@"iOS-%@", [DeviceFingerprinting generateDeviceFingerprint]]];
+                                           [builder setDeviceFingerprint:config == PRODUCTION ?[DeviceFingerprinting generateDeviceFingerprint] : [NSString stringWithFormat:@"%@", [DeviceFingerprinting generateDeviceFingerprint]]];
                                            [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
                                            [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
                                            [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
@@ -75,6 +76,7 @@
                 // Event writing
                 [ABSEventTracker initEventAttributes:launchEvent];
                 [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+                
             }];
 
             [self initSession:[SessionManager init]];

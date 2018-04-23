@@ -28,7 +28,6 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
 
 @interface ABSNetworking : NSURLProtocol  <NSURLSessionDelegate, NSURLSessionDataDelegate>{
 @private NSMutableData* _receivedData;
-    PropertyEventSource *propertyEvent;
 }
 //@property(nonatomic, copy) PropertyEventSource *eventsource;
 @property(nonatomic) NSMutableURLRequest *requestBody;
@@ -37,7 +36,7 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
  * This method will initialize the ABSNetworking instance with session configuration
  *
  */
-+(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config;
++(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config ;
 
 /*!
  * This method will send dictionary object with HTTP headers into server and will return server response into blocks handler

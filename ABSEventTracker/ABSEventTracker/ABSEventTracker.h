@@ -91,8 +91,6 @@ typedef NS_ENUM(NSInteger, EnvironmentConfig){
  */
 
 +(void) initVideoAttributes: (VideoAttributes *) attributes;
-
-
 +(void) initAudioAttributes: (AudioAttributes *) attributes;
 
 @end

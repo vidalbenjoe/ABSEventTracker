@@ -11,8 +11,10 @@
 #import "ABSLogger.h"
 #pragma mark - HTTPerrorLogger
 @implementation ABSNetworking (HTTPErrorHandler)
-+(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request{
-//    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@",(long)http.statusCode,request]];
++(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request isDebug:(BOOL) debug{
+    if (debug == YES) {
+         [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@",(long) http.statusCode, request]];
+    }
     if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];
@@ -26,6 +28,7 @@
         [self onTokenRefresh];
     }
 }
+
 /*************************HTTP CALLBACK*****************************/
 
 #pragma mark - Token

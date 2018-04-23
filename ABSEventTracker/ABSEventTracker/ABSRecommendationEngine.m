@@ -17,12 +17,10 @@
 
 @implementation ABSRecommendationEngine
 +(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem{
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                 @"2", @"recoPropertyId",
                                                 @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
-    
 
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
@@ -56,7 +54,6 @@
                                            @"2", @"recoPropertyId",
                                            @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
     
-    
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL, UserToItemURL]];
      [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
@@ -75,8 +72,4 @@
              });
           }];
 }
-
-
-
-
 @end

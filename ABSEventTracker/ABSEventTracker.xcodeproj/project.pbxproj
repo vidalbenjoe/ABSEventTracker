@@ -223,11 +223,11 @@
 			children = (
 				8645B7AF1F04F7F100F21735 /* DeviceInfo.h */,
 				8645B7B01F04F7F100F21735 /* DeviceInfo.m */,
+				8645B7B81F04F8AF00F21735 /* ABSCustomOperation.h */,
 				8645B7B21F04F81C00F21735 /* Reachability.h */,
 				8645B7B31F04F81C00F21735 /* Reachability.m */,
 				8645B7B51F04F86500F21735 /* FormatUtils.h */,
 				8645B7B61F04F86500F21735 /* FormatUtils.m */,
-				8645B7B81F04F8AF00F21735 /* ABSCustomOperation.h */,
 				8645B7B91F04F8AF00F21735 /* ABSCustomOperation.m */,
 				8628DB0E1F1F293200DCDB22 /* ABSLogger.h */,
 				8628DB0F1F1F293200DCDB22 /* ABSLogger.m */,

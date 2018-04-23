@@ -20,7 +20,6 @@
 }
 
 -(NSString*) log{
-    
     return message;
 }
 

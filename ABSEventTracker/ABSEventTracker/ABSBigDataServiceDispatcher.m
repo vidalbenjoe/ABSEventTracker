@@ -20,17 +20,20 @@
 @implementation ABSBigDataServiceDispatcher
 NSNumber *duration;
 NSString *userID;
+BOOL debug;
+
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] ];
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
         [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
+            
             [AuthManager storeSecurityHashTouserDefault:sechash];
             NSDate *receivedTimestamp = [NSDate date];
             [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
@@ -310,29 +313,14 @@ NSString *userID;
     NSString *isAudioEnded = attributes.audioattributes.isAudioEnded ? @"True" : @"False";
     NSString *isAudioPaused = attributes.audioattributes.isAudioPaused ? @"True" : @"False";
     
-    
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     NSString *audioState = [AudioAttributes convertAudioStateToString:attributes.audioattributes.audioPlayerState];
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
-    
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
     NSDate *accessViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     NSDate *abandonViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
     
-//    if (abandonViewTimeStamp != nil) {
-//        if (accessViewTimeStamp > abandonViewTimeStamp) {
-//            duration = [NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]];
-//
-//        }
-//    }
-
-   
-//    [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]]
-    
-//    NSLog(@"duratdion %@", duration == nil ? "" : "");
-    
-//    accessViewTimeStamp
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaId",
         ObjectOrNull(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
@@ -380,7 +368,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.previousView) , @"PreviousView",
         ObjectOrNull(attributes.eventattributes.currentView) , @"CurrentView",
         ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
-        ObjectOrNull(abandonViewTimeStamp != nil ? accessViewTimeStamp < abandonViewTimeStamp ? [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]] : nil : nil), @"ViewPageDuration",
+        ObjectOrNull(abandonViewTimeStamp != nil && accessViewTimeStamp !=nil ? accessViewTimeStamp < abandonViewTimeStamp ? [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]] : nil : nil), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
         ObjectOrNull(attributes.arbitaryinvariant.viewAccessTimeStamp), @"ViewAccessTimestamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
