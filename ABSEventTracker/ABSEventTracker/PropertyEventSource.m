@@ -13,6 +13,7 @@
 @synthesize bundleIdentifier;
 @synthesize siteDomain;
 @synthesize origin;
+@synthesize url;
 +(instancetype) sharedInstance{
     static PropertyEventSource *shared = nil;
     static dispatch_once_t onceToken;

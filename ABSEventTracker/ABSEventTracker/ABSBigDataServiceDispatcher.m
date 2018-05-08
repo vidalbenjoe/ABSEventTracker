@@ -16,30 +16,31 @@
 #import "ABSCustomOperation.h"
 #import "ABSLogger.h"
 #import "DeviceInfo.h"
-
+#import "ABSLogger.h"
 @implementation ABSBigDataServiceDispatcher
 NSNumber *duration;
 NSString *userID;
-BOOL debug;
 
+BOOL debug;
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] ];
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:eventAppsBaseURL path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
-            
             [AuthManager storeSecurityHashTouserDefault:sechash];
             NSDate *receivedTimestamp = [NSDate date];
             [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST  "%@", error.description);
             [AuthManager removeSechHash];
+             [[ABSLogger initialize] setMessage:error.description];
         }];
     });
 }
@@ -51,14 +52,13 @@ BOOL debug;
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         // REQUEST TOKEN
-        [networking GET:eventAppsBaseURL path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"token"];
             [AuthManager storeTokenToUserDefault:token];
             handler(token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
+            [[ABSLogger initialize] setMessage:error.description];
         }];
-    
     });
 }
 
@@ -74,7 +74,7 @@ BOOL debug;
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", eventAppsBaseURL,eventTokenURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url],eventTokenURL]];
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if not exceed the server sechash expiration date.
@@ -125,7 +125,7 @@ BOOL debug;
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+                    [[ABSLogger initialize] setMessage:error.description];
                     [AuthManager removeSechHash];
                 }];
             }];
@@ -207,7 +207,8 @@ BOOL debug;
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
     if (writerAttributes != nil) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
+        
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         /*
          * Retrieving server token to be used in request header.
@@ -249,7 +250,9 @@ BOOL debug;
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",eventAppsBaseURL,eventWriteURL]];
+            
+        
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
             
             
@@ -305,7 +308,6 @@ BOOL debug;
     }else{
         userID = attributes.userattributes.gigyaID != nil ? attributes.userattributes.gigyaID : [UserAttributes retrieveUserID];
     }
-    
     NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
     NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
     NSString *isvideoFullScreen = attributes.videoattributes.isVideoFullScreen ? @"True" : @"False";
@@ -415,10 +417,11 @@ BOOL debug;
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioStop",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBufferPosition",
                                                  nil];
-         NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:kNilOptions error:&error];
+    
+         NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
     
     if (error) {
-        NSLog(@"Error on dispatcher");
+        NSLog(@"Error on Dispatcher");
     } else{
         return attributesData;
     }

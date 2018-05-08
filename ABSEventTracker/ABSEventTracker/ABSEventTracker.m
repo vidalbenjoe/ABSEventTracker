@@ -29,8 +29,9 @@
         NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
         //Checking the list of valid identifier if it's matched on the current app bundle identifier
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
-    
+
         if (isValid) {
+           
             // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
             // Initialize Session
             [[SessionManager init] establish];
@@ -47,10 +48,11 @@
             [AuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
             // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
             PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
+            [digitalProperty setUrl:config == PRODUCTION ? urlPreProd : urlStaging];
             [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
             [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
             //Check digital property if for production or for staging
-            
+
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
                 [digitalProperty setSiteDomain:config == PRODUCTION ? TFCHostProdURL : TFCHostStagingURL];
                 [digitalProperty setOrigin:TFCOriginURL];
@@ -67,23 +69,22 @@
                 [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
                 [digitalProperty setOrigin:ONEOTTOriginURL];
             }
-        
+            
+            [self initSession:[SessionManager init]];
+            [self checkEventSource];
+            [self initWithDevice:device];
+            [self initAppProperty:digitalProperty];
+
             [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-                EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+            EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                     // Set Event action into LOAD
                     [builder setActionTaken:LOAD];
                 }];
                 // Event writing
                 [ABSEventTracker initEventAttributes:launchEvent];
                 [ABSBigDataServiceDispatcher dispatchCachedAttributes];
-                
             }];
 
-            [self initSession:[SessionManager init]];
-            [self checkEventSource];
-            [self initWithDevice:device];
-            [self initAppProperty:digitalProperty];
-            
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
             NSLog(@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property");

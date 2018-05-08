@@ -25,15 +25,15 @@
 // AttributeManager is the responsible for consolidating all of the attributes to be used in the event dispatcher - /Network/ABSBigDataServiceDispatcher
 @interface AttributeManager : NSObject
 +(AttributeManager*) init;
-@property(nonatomic) GenericEventController *genericattributes;
-@property(nonatomic) EventAttributes *eventattributes;
-@property(nonatomic) UserAttributes *userattributes;
-@property(nonatomic) PropertyEventSource *propertyinvariant;
-@property(nonatomic) DeviceInvariant *deviceinvariant;
-@property(nonatomic) SessionManager *session;
-@property(nonatomic) ArbitaryVariant *arbitaryinvariant;
-@property(nonatomic) VideoAttributes *videoattributes;
-@property(nonatomic) AudioAttributes *audioattributes;
+@property(nonatomic, weak) GenericEventController *genericattributes;
+@property(nonatomic, weak) EventAttributes *eventattributes;
+@property(nonatomic, weak) UserAttributes *userattributes;
+@property(nonatomic, weak) PropertyEventSource *propertyinvariant;
+@property(nonatomic, weak) DeviceInvariant *deviceinvariant;
+@property(nonatomic, weak) SessionManager *session;
+@property(nonatomic, weak) ArbitaryVariant *arbitaryinvariant;
+@property(nonatomic, weak) VideoAttributes *videoattributes;
+@property(nonatomic, weak) AudioAttributes *audioattributes;
 
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes;
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;

@@ -19,16 +19,17 @@
 #define ONE_OTT             @"com.abscbn.iwantNow"
 #define TESTER_ID           @"com.abs.cbn.event.processing.library.test"
 
-#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST"
+#define SECHASH_ERROR_REQUEST      @"SECHASH_ERROR_REQUEST "
 
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
 #define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)      9
 #define DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)   45
 
 @interface Constant : NSObject
-extern NSString* const eventAppsBaseURL; // Base server URL ex: https:www.google.com
-extern NSString* const eventPreProd;
-extern NSString* const eventTokenURL;
+extern NSString *const urlStaging;
+extern NSString *const urlProd;
+extern NSString *const urlPreProd;
+
 extern NSString* const eventTokenURL; // token sub url
 extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;

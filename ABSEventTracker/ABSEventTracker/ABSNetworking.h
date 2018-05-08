@@ -26,12 +26,11 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
     INTERNAL_SERVER_ERROR   =   500
 };
 
-@interface ABSNetworking : NSURLProtocol  <NSURLSessionDelegate, NSURLSessionDataDelegate>{
-@private NSMutableData* _receivedData;
-}
+@interface ABSNetworking : NSURLProtocol  <NSURLSessionDelegate, NSURLSessionDataDelegate>
 //@property(nonatomic, copy) PropertyEventSource *eventsource;
-@property(nonatomic) NSMutableURLRequest *requestBody;
+@property(nonatomic, strong) NSMutableURLRequest *requestBody;
 @property(nonatomic, copy) PropertyEventSource *propertyEvent;
+    
 /*!
  * This method will initialize the ABSNetworking instance with session configuration
  *
