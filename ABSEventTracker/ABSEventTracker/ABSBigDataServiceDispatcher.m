@@ -26,12 +26,11 @@ BOOL debug;
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] ];
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:urlStaging path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
             [AuthManager storeSecurityHashTouserDefault:sechash];
@@ -40,7 +39,7 @@ BOOL debug;
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST  "%@", error.description);
             [AuthManager removeSechHash];
-             [[ABSLogger initialize] setMessage:error.description];
+            [[ABSLogger initialize] setMessage:error.description];
         }];
     });
 }
@@ -52,7 +51,7 @@ BOOL debug;
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         // REQUEST TOKEN
-        [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:urlStaging path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"token"];
             [AuthManager storeTokenToUserDefault:token];
             handler(token);
@@ -298,8 +297,7 @@ BOOL debug;
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     duration = 0;
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+      
     
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
@@ -320,8 +318,11 @@ BOOL debug;
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
-    NSDate *accessViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
-    NSDate *abandonViewTimeStamp = [dateFormatter dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
+    NSDate *accessViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
+    NSDate *abandonViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
+    
+    NSLog(@"Accessw:%@", accessViewTimeStamp);
+    NSLog(@"AbandonVw: %@", abandonViewTimeStamp);
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaId",

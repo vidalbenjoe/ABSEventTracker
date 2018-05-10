@@ -31,7 +31,6 @@
         BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
 
         if (isValid) {
-           
             // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
             // Initialize Session
             [[SessionManager init] establish];

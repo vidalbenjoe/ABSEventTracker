@@ -156,7 +156,6 @@ NSURLSessionConfiguration *sessionConfiguration;
         id value = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: value}];
     }
-    
         sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
         requestBody = [[NSMutableURLRequest alloc]
                        initWithURL:url
@@ -179,8 +178,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         
-        
-        
         [[session dataTaskWithRequest:self->requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
          [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] isDebug:YES];
@@ -193,7 +190,7 @@ NSURLSessionConfiguration *sessionConfiguration;
              * Check the API if responding JSON data
              */
             if ([NSJSONSerialization isValidJSONObject:body] && body != nil) {
-                NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
+                NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
                 successHandler(nil, dictionary);
                 //                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
             }else{

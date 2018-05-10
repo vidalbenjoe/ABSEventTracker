@@ -13,7 +13,7 @@
 //production -  https://eventsapi.bigdata.abs-cbn.com
 //staging - https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com
 
-NSString *const urlStaging                    = @"https://indraeventsapi.azurewebsites.net";
+NSString *const urlStaging                    = @"http://indraeventsapi.azurewebsites.net";
 NSString *const urlProd                       = @"https://pre-prodeventsapi.azurewebsites.net";
 NSString *const urlPreProd                    = @"";
 

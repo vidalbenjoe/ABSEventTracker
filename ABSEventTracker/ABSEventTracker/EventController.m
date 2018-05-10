@@ -50,6 +50,9 @@ NSMutableString *consolidatedBufferDuration;
             break;
         case LOGOUT:
             [[ArbitaryVariant init] setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            
+            
+            
             [UserAttributes clearUserData];
             break;
         case SEARCH:

@@ -25,6 +25,14 @@
     return self;
 }
 
+
+
++(instancetype) makeWithBuilder:(void (^)(UserBuilder *))updateBlock{
+    UserBuilder *builder = [UserBuilder new];
+    updateBlock(builder);
+    return [[UserAttributes alloc] initUserWithBuilder: builder];
+}
+
 -(UserBuilder *) makeBuilder{
     UserBuilder *builder = [UserBuilder new];
     builder.ssoID           =   _ssoID;
@@ -39,17 +47,12 @@
     return builder;
 }
 
-+(instancetype) makeWithBuilder:(void (^)(UserBuilder *))updateBlock{
-    UserBuilder *builder = [UserBuilder new];
-    updateBlock(builder);
-    return [[UserAttributes alloc] initUserWithBuilder: builder];
-}
-
--(instancetype) update:(void (^)(UserBuilder *))updateBlock{
+-(instancetype) update:(void (^)(UserBuilder *)) updateBlock{
     UserBuilder *builder = [self makeBuilder];
     updateBlock(builder);
     return [[UserAttributes alloc] initUserWithBuilder:builder];
 }
+
 -(instancetype) build{
     UserBuilder *builder = [UserBuilder new];
     return [self initUserWithBuilder:builder];

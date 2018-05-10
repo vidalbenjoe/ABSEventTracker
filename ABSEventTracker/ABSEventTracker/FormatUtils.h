@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface FormatUtils : NSObject
++(NSDateFormatter * ) dateFormatter;
 /**
  * Get current time and date
  */
