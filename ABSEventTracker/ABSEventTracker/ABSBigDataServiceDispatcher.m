@@ -30,7 +30,7 @@ BOOL debug;
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] ];
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:urlStaging path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
             [AuthManager storeSecurityHashTouserDefault:sechash];
@@ -73,7 +73,7 @@ BOOL debug;
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url],eventTokenURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if not exceed the server sechash expiration date.
@@ -104,7 +104,6 @@ BOOL debug;
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     // store the token somewhere
                     NSString *token = responseObject[@"access_token"];
-                    
                     [AuthManager storeTokenToUserDefault:token];
                     handler(token);
                     NSDate *receivedTimestamp = [NSDate date];
@@ -179,7 +178,8 @@ BOOL debug;
                  * Storing server token in NSUserDefault
                  */
                 [AuthManager storeTokenToUserDefault:token];
-                [self dispatcher:attributes];
+               [self dispatcher:attributes];
+                
             }];
         }else{
             /*
@@ -212,8 +212,9 @@ BOOL debug;
         /*
          * Retrieving server token to be used in request header.
          */
-        [self requestToken:^(NSString *token) {
-            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [AuthManager retrieveServerTokenFromUserDefault]]};
+        
+        if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Success: Sending server response to ABSLogger.
@@ -230,9 +231,30 @@ BOOL debug;
                 [CacheManager storeFailedAttributesToCacheManager:data];
                 //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
             }];
-        }];
-    
+        }else{
+            [self requestToken:^(NSString *token) {
+                NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [AuthManager retrieveServerTokenFromUserDefault]]};
+                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                    /*
+                     * Success: Sending server response to ABSLogger.
+                     */
+                    //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    /*
+                     * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+                     */
+                    NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
+                    /*
+                     * Storing attributes dictionary into CacheManager.
+                     */
+                    [CacheManager storeFailedAttributesToCacheManager:data];
+                    //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+                }];
+            }];
+        }
+        
     }
+    
 }
 
 +(void) dispatchCachedAttributes{
@@ -297,7 +319,6 @@ BOOL debug;
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     duration = 0;
-      
     
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
@@ -320,9 +341,6 @@ BOOL debug;
     
     NSDate *accessViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     NSDate *abandonViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
-    
-    NSLog(@"Accessw:%@", accessViewTimeStamp);
-    NSLog(@"AbandonVw: %@", abandonViewTimeStamp);
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaId",

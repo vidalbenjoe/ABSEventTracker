@@ -145,6 +145,7 @@
     }]];
     [[AttributeManager init] setUserAttributes:attributes];
 }
+
 /**
  * Set the Device information into attriutes manager.
  */

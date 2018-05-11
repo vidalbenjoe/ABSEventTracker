@@ -77,4 +77,8 @@
     audioattributes = audioAttributes;
     [AttributeWriter writer:self];
 }
+
+- (void)dealloc {
+  
+}
 @end

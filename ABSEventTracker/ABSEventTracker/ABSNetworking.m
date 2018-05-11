@@ -172,7 +172,6 @@ NSURLSessionConfiguration *sessionConfiguration;
         [requestBody setHTTPBody:body];
     
 //    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
-  
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -185,14 +184,13 @@ NSURLSessionConfiguration *sessionConfiguration;
                 errorHandler(nil, error);
                 return;
             }
-            
             /**
              * Check the API if responding JSON data
              */
-            if ([NSJSONSerialization isValidJSONObject:body] && body != nil) {
+            
+            if ([NSJSONSerialization isValidJSONObject:body]) {
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
                 successHandler(nil, dictionary);
-                //                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"@BIG-DATA EVENT: JSON is not valid - %@", error]];
             }else{
                 // Trim the string format JSON data to replace special character and convert to dictionary.
                 NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
@@ -223,6 +221,7 @@ NSURLSessionConfiguration *sessionConfiguration;
         id header = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
     }
+    
      NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
