@@ -271,7 +271,6 @@ BOOL debug;
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-            
         
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
             ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
@@ -335,6 +334,7 @@ BOOL debug;
     NSString *isAudioPaused = attributes.audioattributes.isAudioPaused ? @"True" : @"False";
     
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
+    
     NSString *audioState = [AudioAttributes convertAudioStateToString:attributes.audioattributes.audioPlayerState];
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
@@ -344,6 +344,7 @@ BOOL debug;
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         ObjectOrNull(userID) , @"GigyaId",
+        ObjectOrNull(attributes.userattributes.ssoID) , @"SSOId",
         ObjectOrNull(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         ObjectOrNull([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [AuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         ObjectOrNull(action), @"ActionTaken",
@@ -366,7 +367,7 @@ BOOL debug;
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimeStamp",
         ObjectOrNull(attributes.userattributes.firstName != nil ? attributes.userattributes.firstName : [UserAttributes retrieveFirstName] ) , @"FirstName",
         ObjectOrNull(attributes.userattributes.middleName == nil ? attributes.userattributes.middleName  : [UserAttributes retrieveMiddleName])  , @"MiddleName",
-        ObjectOrNull(attributes.userattributes.lastName == nil ? attributes.userattributes.lastName : [UserAttributes retrieveLastName] ), @"LastName",
+        ObjectOrNull(attributes.userattributes.lastName != nil ? attributes.userattributes.lastName : [UserAttributes retrieveLastName] ) , @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
@@ -439,6 +440,7 @@ BOOL debug;
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
     
+        NSLog(@"DispatcherJSON %@",attributesDictionary);
     if (error) {
         NSLog(@"Error on Dispatcher");
     } else{

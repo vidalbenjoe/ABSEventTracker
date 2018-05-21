@@ -60,7 +60,6 @@ NSURLSessionConfiguration *sessionConfiguration;
         [task resume];
     });
 }
-
 /* This method will send string parameters into server and will return server response into blocks handler
  */
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
@@ -176,7 +175,6 @@ NSURLSessionConfiguration *sessionConfiguration;
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        
         [[session dataTaskWithRequest:self->requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
          [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] isDebug:YES];
@@ -185,9 +183,8 @@ NSURLSessionConfiguration *sessionConfiguration;
                 return;
             }
             /**
-             * Check the API if responding JSON data
+             * Checking the returned JSON
              */
-            
             if ([NSJSONSerialization isValidJSONObject:body]) {
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
                 successHandler(nil, dictionary);

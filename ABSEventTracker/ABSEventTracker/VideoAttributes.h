@@ -16,12 +16,13 @@
 #import "GenericEventController.h"
 // Video States
 typedef NS_ENUM(NSInteger, VideoState){
-    PAUSED     =   0,
-    PLAYING    =   1,
-    SEEKING    =   2,
-    ON_IDLE    =   3,
-    BUFFERING  =   4,
-    COMPLETED  =   5
+    UNKNOWNSTATE = 0,
+    PAUSED     =   1,
+    PLAYING    =   2,
+    SEEKING    =   3,
+    RESUMING   =   4,
+    BUFFERING  =   5,
+    COMPLETED  =   6
 };
 
 @class VideoBuilder;
@@ -89,7 +90,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic) NSInteger videoBufferCount;
 
 @property(assign, nonatomic) ActionTaken actionTaken;
-@property(assign, nonatomic) VideoState videostate;
+@property(nonatomic) VideoState videostate;
 @property(nonatomic) int videoWidth;
 @property(nonatomic) int videoHeight;
 @property(nonatomic) BOOL isVideoEnded;

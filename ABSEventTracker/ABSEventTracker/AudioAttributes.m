@@ -85,9 +85,10 @@
 }
 
 +(NSDictionary *) audioStateByName{
-    return @{@(AUDIO_PAUSE)          : @"PAUSED",
+    return @{@(AUDIOUNKNOWNSTATE)     : @"",
+             @(AUDIO_PAUSE)           : @"PAUSED",
              @(AUDIO_PLAYING)         : @"PLAYING",
-             @(AUDIO_ON_IDLE)         : @"ON_IDLE",
+             @(AUDIO_RESUMING)        : @"RESUMING",
              @(AUDIO_BUFFERING)       : @"BUFFERING",
              @(AUDIO_COMPLETED)       : @"COMPLETED",
              };
@@ -103,28 +104,28 @@
 -(instancetype) init{
     if (self = [super init]) {
             _actionTaken            = 0;
-            _audioPlayerState = 0;
-            _audioPlayPosition = 0;
-            _audioPausePosition = 0;
-            _audioResumePosition = 0;
-            _audioStopPosition = 0;
-            _audioBufferPosition = 0;
-            _audioDuration = 0;
-            _isAudioEnded = NO;
-            _isAudioPaused = NO;
-            _audioVolume = 0;
-            _audioTitle = nil;
-            _audioURL = nil;
-            _artist = nil;
-            _audioType = nil;
-            _audioFormat = nil;
-            _audioCodec = nil;
+            _audioPlayerState       = 0;
+            _audioPlayPosition      = 0;
+            _audioPausePosition     = 0;
+            _audioResumePosition    = 0;
+            _audioStopPosition      = 0;
+            _audioBufferPosition    = 0;
+            _audioDuration          = 0;
+            _isAudioEnded           = NO;
+            _isAudioPaused          = NO;
+            _audioVolume            = 0;
+            _audioTitle             = nil;
+            _audioURL               = nil;
+            _artist                 = nil;
+            _audioType              = nil;
+            _audioFormat            = nil;
+            _audioCodec             = nil;
             _audioConsolidatedBufferTime = nil;
             _audioBufferCount       = 0;
             _audioTotalBufferTime   = 0;
-            _audioCategoryID = nil;
-            _audioContentID = nil;
-            _audioTimeStamp = nil;
+            _audioCategoryID        = nil;
+            _audioContentID         = nil;
+            _audioTimeStamp         = nil;
     }
     return self;
 }

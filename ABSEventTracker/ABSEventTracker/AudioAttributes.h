@@ -10,11 +10,13 @@
 #import "GenericEventController.h"
 
 typedef NS_ENUM(NSInteger, AudioPlayerState){
-    AUDIO_PAUSE     =   0,
-    AUDIO_PLAYING    =   1,
-    AUDIO_ON_IDLE    =   2,
-    AUDIO_BUFFERING  =   3,
-    AUDIO_COMPLETED  =   4
+    AUDIOUNKNOWNSTATE   =   0,
+    AUDIO_PAUSE         =   1,
+    AUDIO_PLAYING       =   2,
+    AUDIO_RESUMING      =   3,
+    AUDIO_BUFFERING     =   4,
+    AUDIO_COMPLETED     =   5
+    
 };
 
 @class AudioBuilder;

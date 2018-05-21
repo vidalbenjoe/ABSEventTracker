@@ -27,14 +27,14 @@
 +(AttributeManager*) init;
 
 @property(nonatomic, strong) GenericEventController *genericattributes;
-@property(nonatomic, strong) EventAttributes *eventattributes;
+@property(nonatomic, weak) EventAttributes *eventattributes;
 @property(nonatomic, strong) UserAttributes *userattributes;
 @property(nonatomic, strong) PropertyEventSource *propertyinvariant;
 @property(nonatomic, strong) DeviceInvariant *deviceinvariant;
 @property(nonatomic, strong) SessionManager *session;
 @property(nonatomic, strong) ArbitaryVariant *arbitaryinvariant;
 @property(nonatomic, strong) VideoAttributes *videoattributes;
-@property(nonatomic, strong) AudioAttributes *audioattributes;
+@property(nonatomic, weak) AudioAttributes *audioattributes;
 
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes;
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;

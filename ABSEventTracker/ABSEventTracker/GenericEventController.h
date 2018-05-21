@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 typedef NS_ENUM(NSInteger, ActionTaken){
+    
     UNKNOWN             =   0,
     FACEBOOK_LIKE       =   1,
     FACEBOOK_SHARE      =   2,

@@ -50,9 +50,6 @@ NSMutableString *consolidatedBufferDuration;
             break;
         case LOGOUT:
             [[ArbitaryVariant init] setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-            
-            
-            
             [UserAttributes clearUserData];
             break;
         case SEARCH:
@@ -105,6 +102,7 @@ NSMutableString *consolidatedBufferDuration;
             break;
         case VIDEO_RESUMED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            [attributes setVideostate:RESUMING];
             break;
         case VIDEO_STOPPED:
             [attributes setVideostate:COMPLETED];
@@ -163,6 +161,7 @@ NSMutableString *consolidatedBufferDuration;
                     [consolidatedBufferDuration appendString:@"|"];
                     [consolidatedBufferDuration appendFormat:@"%@", key];
             }
+            
 //            NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
 //            NSLog(@"buffDurationArray %@", buffDurationArray);
 //            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
@@ -202,13 +201,13 @@ NSMutableString *consolidatedBufferDuration;
             break;
         case AUDIO_RESUMED:
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+             [attributes setAudioPlayerState:AUDIO_RESUMING];
             break;
         case AUDIO_STOPPED:
             [attributes setAudioPlayerState:AUDIO_COMPLETED];
             currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
             break;
         case AUDIO_PLAYED:
-            
             [attributes setAudioPlayerState:AUDIO_PLAYING];
             break;
         case AUDIO_PAUSED:

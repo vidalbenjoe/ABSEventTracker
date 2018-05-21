@@ -17,45 +17,46 @@
     });
     return shared;
 }
+
 -(instancetype) initWithBuilder:(VideoBuilder *)builder{
     if (self = [super init]) {
-        _videoCategoryID          = builder.videoCategoryID;
-        _videoContentID           = builder.videoContentID;
-        _videoTimeStamp           = builder.videoTimeStamp;
-        _videoTitle               = builder.videoTitle;
-        _videoURL                 = builder.videoURL;
-        _videoType                = builder.videoType;
-        _videoQuality             = builder.videoQuality;
-        _videoVolume              = builder.videoVolume;
+        _videoCategoryID                = builder.videoCategoryID;
+        _videoContentID                 = builder.videoContentID;
+        _videoTimeStamp                 = builder.videoTimeStamp;
+        _videoTitle                     = builder.videoTitle;
+        _videoURL                       = builder.videoURL;
+        _videoType                      = builder.videoType;
+        _videoQuality                   = builder.videoQuality;
+        _videoVolume                    = builder.videoVolume;
         
-        _videoAdClick             = builder.videoAdClick;
-        _videoAdComplete          = builder.videoAdComplete;
-        _videoAdSkipped           = builder.videoAdSkipped;
-        _videoAdError             = builder.videoAdError;
-        _videoAdPlay              = builder.videoAdPlay;
-        _videoMeta                = builder.videoMeta;
+        _videoAdClick                   = builder.videoAdClick;
+        _videoAdComplete                = builder.videoAdComplete;
+        _videoAdSkipped                 = builder.videoAdSkipped;
+        _videoAdError                   = builder.videoAdError;
+        _videoAdPlay                    = builder.videoAdPlay;
+        _videoMeta                      = builder.videoMeta;
         
-        _actionTaken              = builder.actionTaken;
-        _videostate               = builder.videostate;
-        _videoWidth               = builder.videoWidth;
-        _videoHeight              = builder.videoHeight;
-        _isVideoEnded             = builder.isVideoEnded;
-        _isVideoPaused            = builder.isVideoPause;
-        _isVideoFullScreen        = builder.isVideoFullScreen;
+        _actionTaken                    = builder.actionTaken;
+        _videostate                     = builder.videostate;
+        _videoWidth                     = builder.videoWidth;
+        _videoHeight                    = builder.videoHeight;
+        _isVideoEnded                   = builder.isVideoEnded;
+        _isVideoPaused                  = builder.isVideoPause;
+        _isVideoFullScreen              = builder.isVideoFullScreen;
         
-        _videoDuration            = builder.videoDuration;
-        _videoSeekStart           = builder.videoSeekStart;
-        _videoSeekEnd             = builder.videoSeekEnd;
-        _videoAdTime              = builder.videoAdTime;
-        _videoPlayPosition        = builder.videoPlayPosition;
-        _videoPausePosition       = builder.videoPausePosition;
-        _videoResumePosition      = builder.videoResumePosition;
-        _videoStopPosition        = builder.videoStopPosition;
-        _videoBufferPosition      = builder.videoBufferPosition;
+        _videoDuration                  = builder.videoDuration;
+        _videoSeekStart                 = builder.videoSeekStart;
+        _videoSeekEnd                   = builder.videoSeekEnd;
+        _videoAdTime                    = builder.videoAdTime;
+        _videoPlayPosition              = builder.videoPlayPosition;
+        _videoPausePosition             = builder.videoPausePosition;
+        _videoResumePosition            = builder.videoResumePosition;
+        _videoStopPosition              = builder.videoStopPosition;
+        _videoBufferPosition            = builder.videoBufferPosition;
         
-        _videoBufferCount         = builder.videoBufferCount;
-        _videoTotalBufferTime     = builder.videoTotalBufferTime;
-        _videoConsolidatedBufferTime = builder.videoConsolidatedBufferTime;
+        _videoBufferCount               = builder.videoBufferCount;
+        _videoTotalBufferTime           = builder.videoTotalBufferTime;
+        _videoConsolidatedBufferTime    = builder.videoConsolidatedBufferTime;
         
     }
     
@@ -64,41 +65,41 @@
 
 -(VideoBuilder *) makeBuilder{
     VideoBuilder *builder = [VideoBuilder new];
-    builder.videoCategoryID         = _videoCategoryID;
-    builder.videoContentID          = _videoContentID;
-    builder.videoTimeStamp          = _videoTimeStamp;
-    builder.videoTitle              = _videoTitle;
-    builder.videoURL                = _videoURL;
-    builder.videoType               = _videoType;
-    builder.videoQuality            = _videoQuality;
-    builder.videoVolume             = _videoVolume;
+    builder.videoCategoryID             = _videoCategoryID;
+    builder.videoContentID              = _videoContentID;
+    builder.videoTimeStamp              = _videoTimeStamp;
+    builder.videoTitle                  = _videoTitle;
+    builder.videoURL                    = _videoURL;
+    builder.videoType                   = _videoType;
+    builder.videoQuality                = _videoQuality;
+    builder.videoVolume                 = _videoVolume;
     
-    builder.videoAdClick            = _videoAdClick;
-    builder.videoAdComplete         = _videoAdComplete;
-    builder.videoAdSkipped          = _videoAdSkipped;
-    builder.videoAdError            = _videoAdError;
-    builder.videoAdPlay             = _videoAdPlay;
-    builder.videoMeta               = _videoMeta;
+    builder.videoAdClick                = _videoAdClick;
+    builder.videoAdComplete             = _videoAdComplete;
+    builder.videoAdSkipped              = _videoAdSkipped;
+    builder.videoAdError                = _videoAdError;
+    builder.videoAdPlay                 = _videoAdPlay;
+    builder.videoMeta                   = _videoMeta;
     
-    builder.actionTaken             = _actionTaken;
-    builder.videostate              = _videostate;
-    builder.videoWidth              = _videoWidth;
-    builder.videoHeight             = _videoHeight;
-    builder.isVideoEnded            = _isVideoEnded;
-    builder.isVideoPause            = _isVideoPaused;
-    builder.isVideoFullScreen       = _isVideoFullScreen;
-    builder.videoDuration           = _videoDuration;
-    builder.videoSeekStart          = _videoSeekStart;
-    builder.videoSeekEnd            = _videoSeekEnd;
-    builder.videoAdTime             = _videoAdTime;
-    builder.videoPlayPosition       = _videoPlayPosition;
-    builder.videoPausePosition      = _videoPausePosition;
-    builder.videoResumePosition     = _videoResumePosition;
-    builder.videoStopPosition       = _videoStopPosition;
-    builder.videoBufferPosition     = _videoBufferPosition;
+    builder.actionTaken                 = _actionTaken;
+    builder.videostate                  = _videostate;
+    builder.videoWidth                  = _videoWidth;
+    builder.videoHeight                 = _videoHeight;
+    builder.isVideoEnded                = _isVideoEnded;
+    builder.isVideoPause                = _isVideoPaused;
+    builder.isVideoFullScreen           = _isVideoFullScreen;
+    builder.videoDuration               = _videoDuration;
+    builder.videoSeekStart              = _videoSeekStart;
+    builder.videoSeekEnd                = _videoSeekEnd;
+    builder.videoAdTime                 = _videoAdTime;
+    builder.videoPlayPosition           = _videoPlayPosition;
+    builder.videoPausePosition          = _videoPausePosition;
+    builder.videoResumePosition         = _videoResumePosition;
+    builder.videoStopPosition           = _videoStopPosition;
+    builder.videoBufferPosition         = _videoBufferPosition;
     
-    builder.videoTotalBufferTime    = _videoTotalBufferTime;
-    builder.videoBufferCount        = _videoBufferCount;
+    builder.videoTotalBufferTime        = _videoTotalBufferTime;
+    builder.videoBufferCount            = _videoBufferCount;
     builder.videoConsolidatedBufferTime = _videoConsolidatedBufferTime;
     
     return builder;
@@ -121,10 +122,11 @@
 }
 
 +(NSDictionary *) videoStateByName{
-    return @{@(PAUSED)          : @"PAUSED",
+    return @{@(UNKNOWNSTATE)    : @"",
+             @(PAUSED)          : @"PAUSED",
              @(PLAYING)         : @"PLAYING",
              @(SEEKING)         : @"SEEKING",
-             @(ON_IDLE)         : @"ON_IDLE",
+             @(RESUMING)        : @"RESUMING",
              @(BUFFERING)       : @"BUFFERING",
              @(COMPLETED)       : @"COMPLETED",
              };
