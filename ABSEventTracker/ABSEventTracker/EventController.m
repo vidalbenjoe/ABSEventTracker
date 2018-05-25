@@ -80,6 +80,7 @@ NSMutableString *consolidatedBufferDuration;
     [[AttributeManager init] setEventAttributes:attributes];
     
 }
+
 /**
  * This method will gather video attributes triggered by user. It is also a wrapper function to write video event attributes -> VideoAttributes to server
  */
@@ -97,6 +98,7 @@ NSMutableString *consolidatedBufferDuration;
     }
     [attributes setVideoTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
     switch (attributes.actionTaken) {
+            
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
             break;
@@ -110,6 +112,7 @@ NSMutableString *consolidatedBufferDuration;
             break;
         case VIDEO_PLAYED:
             [attributes setVideostate:PLAYING];
+            [attributes setIsVideoPaused:NO];
             break;
         case VIDEO_PAUSED:
             [attributes setVideostate:PAUSED];
@@ -138,9 +141,7 @@ NSMutableString *consolidatedBufferDuration;
         case COMPLETED:
             [attributes setIsVideoEnded:YES];
             break;
-        case PAUSED:
-            [attributes setActionTaken:VIDEO_PAUSED];
-            break;
+            
         default:
             break;
     }
@@ -162,13 +163,13 @@ NSMutableString *consolidatedBufferDuration;
                     [consolidatedBufferDuration appendFormat:@"%@", key];
             }
             
-//            NSLog(@"consolidatedBufferDuration %@", consolidatedBufferDuration);
-//            NSLog(@"buffDurationArray %@", buffDurationArray);
 //            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
 //            NSInteger maxtotalBuffTime = [maxValue integerValue];
-            
+
             NSInteger sum = 0;
-            for (NSNumber *num in buffDurationArray){sum += [num intValue];}
+            for (NSNumber *num in buffDurationArray){
+                sum += [num intValue];
+            }
             
             [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];
             [attributes setVideoTotalBufferTime:sum];
@@ -179,7 +180,6 @@ NSMutableString *consolidatedBufferDuration;
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
-    
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setVideoAttributes:attributes];
 }

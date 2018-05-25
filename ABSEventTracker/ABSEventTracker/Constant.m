@@ -13,9 +13,9 @@
 //production -  https://eventsapi.bigdata.abs-cbn.com
 //staging - https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com
 
-NSString *const urlStaging                    = @"http://indraeventsapi.azurewebsites.net";
-NSString *const urlProd                       = @"https://pre-prodeventsapi.azurewebsites.net";
-NSString *const urlPreProd                    = @"";
+NSString *const urlStaging                      = @"http://indraeventsapi.azurewebsites.net";
+NSString *const urlProd                         = @"https://pre-prodeventsapi.azurewebsites.net";
+NSString *const urlPreProd                      = @"";
 
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventWriteURL                   = @"/api/event/send";
@@ -34,6 +34,7 @@ NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";
 NSString* const IWANTVHostStagingURL            = @"bigdata.iwantv.com.ph";
 NSString* const SODHostStagingURL               = @"ppportal.skyondemand.com.ph";
 NSString* const ONEOTTHostStagingURL            = @"bigdata.oneott.com.ph";
+
 // Production host URL
 NSString* const TFCHostProdURL                  = @"tfc.tv";
 NSString* const NEWSHostProdURL                 = @"news.abs-cbn.com";

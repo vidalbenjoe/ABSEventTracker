@@ -149,35 +149,29 @@
         _videoType              = nil;
         _videoQuality           = nil;
         
-        _videoVolume            = 0;
+        _videoConsolidatedBufferTime = nil;
         _videoAdClick           = nil;
         _videoAdComplete        = nil;
         _videoAdSkipped         = nil;
         _videoAdError           = nil;
         _videoAdPlay            = nil;
         _videoMeta              = nil;
-        
-        _videoConsolidatedBufferTime = nil;
+        _isVideoEnded           = NO;
+        _isVideoPause           = NO;
+        _isVideoFullScreen      = NO;
         _videoBufferCount       = 0;
         _videoTotalBufferTime   = 0;
-        
+        _videoVolume            = 0;
         _videoWidth             = 0;
         _videoHeight            = 0;
         _actionTaken            = 0;
         _videostate             = 0;
-        _isVideoEnded           = NO;
-        _isVideoPause           = NO;
-        _isVideoFullScreen      = NO;
-        
         _videoDuration          = 0;
         _videoSeekStart         = 0;
         _videoSeekEnd           = 0;
-        
         _videoAdTime            = 0;
-        
         _videoPlayPosition      = 0;
         _videoPausePosition     = 0;
-        
         _videoResumePosition    = 0;
         _videoStopPosition      = 0;
         _videoBufferPosition    = 0;

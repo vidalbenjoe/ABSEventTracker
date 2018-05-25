@@ -138,8 +138,4 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
 
 -(void) GET:(NSString *) url path:(NSString *) path headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
 
-// For connection certificate / HTTPS
-//- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler;
-//
-//-(void)connection:(NSURLSession *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
 @end

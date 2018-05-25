@@ -17,10 +17,10 @@
 #import "ABSLogger.h"
 #import "DeviceInfo.h"
 #import "ABSLogger.h"
+
 @implementation ABSBigDataServiceDispatcher
 NSNumber *duration;
 NSString *userID;
-
 BOOL debug;
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
@@ -74,9 +74,10 @@ BOOL debug;
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
+    
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
-             * Checking the current time if not exceed the server sechash expiration date.
+             * Checking the current time if it's not exceeding the server sechash expiration date.
              * Note: The sechash will last for 60 minutes.
              * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
              */
@@ -94,10 +95,11 @@ BOOL debug;
                         NSDate *receivedTimestamp = [NSDate date];
                         [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//                        [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+                        [[ABSLogger initialize] setMessage:error.description];
                         [AuthManager removeSechHash];
                     }];
                 }];
+                
             }else{
                 // Retrieving sechash via NSUserdefault
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
@@ -109,7 +111,7 @@ BOOL debug;
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//                     [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA:  Can't retrieve token from server - %@", error]];
+                    [[ABSLogger initialize] setMessage:error.description];
                     [AuthManager removeSechHash];
                 }];
             }
@@ -439,7 +441,6 @@ BOOL debug;
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
-    
         NSLog(@"DispatcherJSON %@",attributesDictionary);
     if (error) {
         NSLog(@"Error on Dispatcher");

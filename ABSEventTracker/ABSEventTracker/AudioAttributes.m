@@ -111,21 +111,21 @@
             _audioStopPosition      = 0;
             _audioBufferPosition    = 0;
             _audioDuration          = 0;
+            _audioVolume            = 0;
+            _audioBufferCount       = 0;
+            _audioTotalBufferTime   = 0;
             _isAudioEnded           = NO;
             _isAudioPaused          = NO;
-            _audioVolume            = 0;
             _audioTitle             = nil;
             _audioURL               = nil;
             _artist                 = nil;
             _audioType              = nil;
             _audioFormat            = nil;
             _audioCodec             = nil;
-            _audioConsolidatedBufferTime = nil;
-            _audioBufferCount       = 0;
-            _audioTotalBufferTime   = 0;
             _audioCategoryID        = nil;
             _audioContentID         = nil;
             _audioTimeStamp         = nil;
+            _audioConsolidatedBufferTime = nil;
     }
     return self;
 }
