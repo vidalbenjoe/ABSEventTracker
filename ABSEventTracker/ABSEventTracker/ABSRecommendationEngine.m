@@ -22,7 +22,7 @@
                                                 @"2", @"recoPropertyId",
                                                 @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
 
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+   ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL, ItemToItemURL]];
     [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
@@ -54,7 +54,7 @@
                                            @"2", @"recoPropertyId",
                                            @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
     
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+  ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL, UserToItemURL]];
      [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
         NSError *error;

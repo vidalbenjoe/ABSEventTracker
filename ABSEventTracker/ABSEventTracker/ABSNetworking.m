@@ -14,13 +14,15 @@
 
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
+bool isHTTPDebug;
 @synthesize requestBody;
-+(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config{
++(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config enableHTTPLog:(BOOL) isEnableHTTPLog{
     static ABSNetworking *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
         sessionConfiguration = config;
+        isHTTPDebug = isEnableHTTPLog;
     });
     return shared;
 }
@@ -48,7 +50,10 @@ NSURLSessionConfiguration *sessionConfiguration;
         
         __block NSURLSessionDataTask *task = [session dataTaskWithRequest:self->requestBody completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-                             [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] isDebug:YES];
+            
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", params] isDebug:YES];
+            
+            
 //                            [[ABSLogger initialize] setMessage:response.description];
                                 if (respHttp.statusCode != SUCCESS) {
                                     errorHandler(task, error);
@@ -144,7 +149,7 @@ NSURLSessionConfiguration *sessionConfiguration;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             successHandler(nil, dictionary);
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] isDebug:YES];
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:YES];
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -182,7 +187,10 @@ NSURLSessionConfiguration *sessionConfiguration;
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:self->requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] isDebug:YES];
+      
+            NSString *params = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], params ] isDebug: isHTTPDebug];
+            
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -235,14 +243,13 @@ NSURLSessionConfiguration *sessionConfiguration;
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
        
-        [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@%@", url,path] isDebug:YES];
-        
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);
             return;
         }
         
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:YES];
         successHandler(datatask, dictionary);
     }];
     [datatask resume];

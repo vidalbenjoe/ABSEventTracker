@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
  * This method will initialize the ABSNetworking instance with session configuration
  *
  */
-+(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config ;
++(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config enableHTTPLog:(BOOL) isEnableHTTPLog;
 
 /*!
  * This method will send dictionary object with HTTP headers into server and will return server response into blocks handler

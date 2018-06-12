@@ -21,14 +21,19 @@
 @implementation ABSBigDataServiceDispatcher
 NSNumber *duration;
 NSString *userID;
-BOOL debug;
+
+
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] ];
+//        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] ];
+        
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
+        
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
         [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
@@ -49,7 +54,7 @@ BOOL debug;
 +(void) requestNewToken: (void (^)(NSString *token))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+      ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         // REQUEST TOKEN
         [networking GET:urlStaging path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"token"];
@@ -70,7 +75,7 @@ BOOL debug;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         NSDate *timeNow = [NSDate date];
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
@@ -135,7 +140,7 @@ BOOL debug;
 /* Request token for  Recommedation
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
     /*
      * Getting Digital property host url to be used in request header - @host
      */
@@ -209,8 +214,7 @@ BOOL debug;
          */
     if (writerAttributes != nil) {
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
-        
-        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+      ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         /*
          * Retrieving server token to be used in request header.
          */
@@ -275,8 +279,7 @@ BOOL debug;
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
         
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
-            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-            
+           ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
             
             [self requestToken:^(NSString *token) {
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
@@ -309,7 +312,6 @@ BOOL debug;
                     //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method
                 }
             }];
-            
         }
     }
 }
@@ -320,6 +322,7 @@ BOOL debug;
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     duration = 0;
+    
     
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
@@ -441,9 +444,8 @@ BOOL debug;
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
-        NSLog(@"DispatcherJSON %@",attributesDictionary);
     if (error) {
-        NSLog(@"Error on Dispatcher");
+        NSLog(@"Error occured when dispatching logs to the datalake");
     } else{
         return attributesData;
     }

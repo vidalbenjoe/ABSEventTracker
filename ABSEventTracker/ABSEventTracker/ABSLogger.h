@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, LogLevel){
 };
 @interface ABSLogger : NSObject
 @property(nonatomic, strong) NSString *message;
+@property(nonatomic) BOOL displayHTTPLogs;
 +(instancetype) initialize;
 -(NSString*) log;
 @end

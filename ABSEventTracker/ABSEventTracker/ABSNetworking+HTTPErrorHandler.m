@@ -11,9 +11,9 @@
 #import "ABSLogger.h"
 #pragma mark - HTTPerrorLogger
 @implementation ABSNetworking (HTTPErrorHandler)
-+(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request isDebug:(BOOL) debug{
++(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request HTTPBody:(NSString *) body isDebug:(BOOL) debug{
     if (debug == YES) {
-         [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@",(long) http.statusCode, request]];
+        NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
     }
     if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];

@@ -9,6 +9,7 @@
 #import "ABSLogger.h"
 @implementation ABSLogger
 @synthesize message;
+@synthesize displayHTTPLogs;
 +(instancetype) initialize{
     static ABSLogger *shared = nil;
     static dispatch_once_t onceToken;

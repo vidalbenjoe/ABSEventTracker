@@ -20,7 +20,7 @@
 
 @implementation ABSEventTracker
 
-+(ABSEventTracker *) initializeTracker :(EnvironmentConfig) config{
++(instancetype) initializeTracker :(EnvironmentConfig) config HTTPLogs :(BOOL) isEnableHTTPLogs{
 //    NSLog(@"EnvironmentConfig: %ld", (long) config);
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
@@ -52,6 +52,7 @@
             [digitalProperty setUrl:config == PRODUCTION ? urlPreProd : urlStaging];
             [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
             [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+            
             //Check digital property if for production or for staging
 
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -82,10 +83,13 @@
                     [builder setActionTaken:LOAD];
                 }];
                 // Event writing
+                
                 [ABSEventTracker initEventAttributes:launchEvent];
                 [ABSBigDataServiceDispatcher dispatchCachedAttributes];
             }];
-
+            
+            [[ABSLogger initialize] setDisplayHTTPLogs:isEnableHTTPLogs];
+        
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
             NSLog(@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property");
