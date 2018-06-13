@@ -20,7 +20,7 @@
 
 @implementation ABSEventTracker
 
-+(instancetype) initializeTracker :(EnvironmentConfig) config HTTPLogs :(BOOL) isEnableHTTPLogs{
++(instancetype) initializeTracker :(EnvironmentConfig) config isEnableHTTPLogs :(BOOL) HTTPLogs{
 //    NSLog(@"EnvironmentConfig: %ld", (long) config);
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
@@ -88,7 +88,7 @@
                 [ABSBigDataServiceDispatcher dispatchCachedAttributes];
             }];
             
-            [[ABSLogger initialize] setDisplayHTTPLogs:isEnableHTTPLogs];
+            [[ABSLogger initialize] setDisplayHTTPLogs:HTTPLogs];
         
         }else{
             [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
