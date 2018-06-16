@@ -16,61 +16,64 @@
 #import "ABSLogger.h"
 
 @implementation ABSRecommendationEngine
-+(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem{
++(void) recommendationItem:(void (^)(NSMutableDictionary *itemToItem)) itemToitem categoryID:(NSString *) categoryID contentID: (NSString *) contentID digitalProperyID: (NSString* ) digitalproperyID{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                @"2", @"recoPropertyId",
-                                                @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
-
    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL, ItemToItemURL]];
+
     [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
-     
         NSError *error;
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
-        NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
-                                                       options:kNilOptions
-                                                         error:&error];
-      
         if (!error) {
             dispatch_async(queue, ^{
-                [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    ItemToItem *item = [[ItemToItem alloc] initWithDictionary:responseObject];
-                    itemToitem(item);
-                    
+                [networking GET:[NSString stringWithFormat:@"%@%@?categoryId=%@&contentId=%@&digitalPropertyId=%@", recoURL, ItemToItemURL, categoryID, contentID, digitalproperyID] path:@"" headerParameters:header
+                        success:^(NSURLSessionDataTask *task, id responseObject) {
+                            itemToitem(responseObject);
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    [[ABSLogger initialize] setMessage:error.description];
+                    
                 }];
             });
         }
     }];
 }
 
-+(void) recommendationUser:(void (^)(UserToItem *userToItem)) userToitem{
-   
++(void) recommendationUser:(void (^)(NSMutableDictionary *userToItem)) userToitem userID: (NSString* ) userID digitalPropertyID: (NSString *) digitalPropertyID{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    NSMutableDictionary *itemtoitemDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"2", @"recoPropertyId",
-                                           @"05947;9A5-DA03-459F-A3FD-D3C6E26126AA" , @"userId",nil];
-    
-  ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL, UserToItemURL]];
-     [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
+    [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
         NSError *error;
-         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
-         NSData *body = [NSJSONSerialization dataWithJSONObject:itemtoitemDict
-                                                        options:kNilOptions
-                                                          error:&error];
-             dispatch_async(queue, ^{
-                 [networking POST:url HTTPBody:body headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                     UserToItem *item = [[UserToItem alloc] initWithDictionary:responseObject];
-                     userToitem(item);
-                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                     [[ABSLogger initialize] setMessage:error.description];
-                 }];
-             });
-          }];
+        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
+        if (!error) {
+            dispatch_async(queue, ^{
+                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@&digitalPropertyId=%@", recoURL, UserToItemURL, userID, digitalPropertyID] path:@"" headerParameters:header
+                        success:^(NSURLSessionDataTask *task, id responseObject) {
+                            userToitem(responseObject);
+                        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                            
+                        }];
+                
+            });
+        }
+    }];
+}
+
++(void) recommendationCommunity:(void (^)(NSMutableDictionary *communityToItem)) communityToitem userID: (NSString* ) userID digitalPropertyID: (NSString *) digitalPropertyID{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
+    [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
+        NSError *error;
+        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
+        if (!error) {
+            dispatch_async(queue, ^{
+                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@&digitalPropertyId=%@", recoURL, recommendationCommunityToItem, userID, digitalPropertyID] path:@"" headerParameters:header
+                        success:^(NSURLSessionDataTask *task, id responseObject) {
+                          communityToitem(responseObject);
+                        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                            
+                        }];
+            });
+        }
+    }];
+    
 }
 
 

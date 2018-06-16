@@ -12,9 +12,10 @@
  **                                                                  **
  **********************************************************************/
 #import <Foundation/Foundation.h>
-#import "ItemToItem.h"
+#import "ItemToItemRecommendation.h"
 #import "UserToItem.h"
 @interface ABSRecommendationEngine : NSObject
-+(void) recommendationItem:(void (^)(ItemToItem *itemToItem)) itemToitem;
-+(void) recommendationUser:(void (^)(UserToItem *userToItem)) userToitem;
++(void) recommendationItem:(void (^)(NSMutableDictionary *itemToItem)) itemToitem categoryID:(NSString *) categoryID contentID: (NSString *) contentID digitalProperyID: (NSString* ) digitalproperyID;
++(void) recommendationUser:(void (^)(NSMutableDictionary *userToItem)) userToitem userID: (NSString* ) userID digitalPropertyID: (NSString *) digitalPropertyID;
++(void) recommendationCommunity:(void (^)(NSMutableDictionary *communityToItem)) communityToitem userID: (NSString* ) userID digitalPropertyID: (NSString *) digitalPropertyID;
 @end

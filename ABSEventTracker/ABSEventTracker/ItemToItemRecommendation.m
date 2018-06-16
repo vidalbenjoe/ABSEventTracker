@@ -1,15 +1,14 @@
 //
-//  ItemToItem.m
+//  ItemToItemRecommendation.m
 //  ABSEventTracker
 //
-//  Created by Benjoe Vidal on 29/08/2017.
-//  Copyright © 2017 ABS-CBN. All rights reserved.
+//  Created by Indra on 15/06/2018.
+//  Copyright © 2018 ABS-CBN. All rights reserved.
 //
 
-#import "ItemToItem.h"
+#import "ItemToItemRecommendation.h"
 
-@implementation ItemToItem
-
+@implementation ItemToItemRecommendation
 -(instancetype) initWithDictionary:(NSDictionary *) item{
     if (self = [super init]) {
         self.categoryID = [item valueForKey:@"categoryID"];

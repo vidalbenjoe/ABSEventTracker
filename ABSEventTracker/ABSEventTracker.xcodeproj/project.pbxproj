@@ -24,9 +24,11 @@
 /* Begin PBXBuildFile section */
 		1BDAB9201FFC934D008E3BF7 /* GenericEventController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */; };
-		1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDF71F56669C00B0C70F /* ItemToItem.m */; };
 		1BF8CDFD1F5679AE00B0C70F /* UserToItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */; };
 		2D04F48620491D4000AC5AFA /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D11350E20D390F0007CCF43 /* ItemToItemRecommendation.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D11350C20D390F0007CCF43 /* ItemToItemRecommendation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D11350F20D390F0007CCF43 /* ItemToItemRecommendation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D11350D20D390F0007CCF43 /* ItemToItemRecommendation.m */; };
+		2D11351020D391D1007CCF43 /* UserToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D164E49204FF10F00603865 /* AudioAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D164E4A204FF10F00603865 /* AudioAttributes.m */; };
 		2DF3A4B71F835ECD0068007A /* ABSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 8628DB0E1F1F293200DCDB22 /* ABSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,10 +90,10 @@
 /* Begin PBXFileReference section */
 		1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GenericEventController.h; sourceTree = "<group>"; };
 		1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GenericEventController.m; sourceTree = "<group>"; };
-		1BF8CDF61F56669C00B0C70F /* ItemToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemToItem.h; sourceTree = "<group>"; };
-		1BF8CDF71F56669C00B0C70F /* ItemToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemToItem.m; sourceTree = "<group>"; };
 		1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserToItem.h; sourceTree = "<group>"; };
 		1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserToItem.m; sourceTree = "<group>"; };
+		2D11350C20D390F0007CCF43 /* ItemToItemRecommendation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemToItemRecommendation.h; sourceTree = "<group>"; };
+		2D11350D20D390F0007CCF43 /* ItemToItemRecommendation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemToItemRecommendation.m; sourceTree = "<group>"; };
 		2D164E49204FF10F00603865 /* AudioAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioAttributes.h; sourceTree = "<group>"; };
 		2D164E4A204FF10F00603865 /* AudioAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioAttributes.m; sourceTree = "<group>"; };
 		8628DB0E1F1F293200DCDB22 /* ABSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSLogger.h; sourceTree = "<group>"; };
@@ -370,12 +372,12 @@
 		8661CC561F0E3A29006D7A1D /* RecommendationEngine */ = {
 			isa = PBXGroup;
 			children = (
-				1BF8CDF61F56669C00B0C70F /* ItemToItem.h */,
-				1BF8CDF71F56669C00B0C70F /* ItemToItem.m */,
 				8661CC571F0E3A4A006D7A1D /* Popular.h */,
 				8661CC581F0E3A4A006D7A1D /* Popular.m */,
 				1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */,
 				1BF8CDFB1F5679AE00B0C70F /* UserToItem.m */,
+				2D11350C20D390F0007CCF43 /* ItemToItemRecommendation.h */,
+				2D11350D20D390F0007CCF43 /* ItemToItemRecommendation.m */,
 			);
 			name = RecommendationEngine;
 			sourceTree = "<group>";
@@ -403,7 +405,9 @@
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 				2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */,
 				1BDAB9201FFC934D008E3BF7 /* GenericEventController.h in Headers */,
+				2D11350E20D390F0007CCF43 /* ItemToItemRecommendation.h in Headers */,
 				2DF3A4B71F835ECD0068007A /* ABSLogger.h in Headers */,
+				2D11351020D391D1007CCF43 /* UserToItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,7 +504,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BF8CDF91F56669C00B0C70F /* ItemToItem.m in Sources */,
 				8645B7ED1F04FE0800F21735 /* ABSNetworking+HTTPErrorHandler.m in Sources */,
 				1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */,
 				8645B7D41F04FA8F00F21735 /* SessionManager+SessionRule.m in Sources */,
@@ -522,6 +525,7 @@
 				8645B7AA1F04F72100F21735 /* Constant.m in Sources */,
 				8661CC5A1F0E3A4A006D7A1D /* Popular.m in Sources */,
 				8645B7C91F04F99F00F21735 /* EventAttributes.m in Sources */,
+				2D11350F20D390F0007CCF43 /* ItemToItemRecommendation.m in Sources */,
 				8645B7D81F04FB9400F21735 /* AttributeManager.m in Sources */,
 				8645B7E71F04FDAA00F21735 /* ABSBigDataServiceDispatcher.m in Sources */,
 				8645B7B41F04F81C00F21735 /* Reachability.m in Sources */,

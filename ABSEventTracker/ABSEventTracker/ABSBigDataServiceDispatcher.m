@@ -42,9 +42,13 @@ NSString *userID;
             NSDate *receivedTimestamp = [NSDate date];
             [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            
+            
+            
             NSLog(SECHASH_ERROR_REQUEST  "%@", error.description);
-            [AuthManager removeSechHash];
             [[ABSLogger initialize] setMessage:error.description];
+            [AuthManager removeSechHash];
+          
         }];
     });
 }
@@ -137,33 +141,35 @@ NSString *userID;
         }
     });
 }
+
++(void) recoSecurityHash: (void (^)(NSString *sechash))handler{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
+        // REQUEST TOKEN
+        [networking GET:recoURL path:recoMobileResourceURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSString *seccode = responseObject[@"seccode"];
+            handler(seccode);
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            [[ABSLogger initialize] setMessage:error.description];
+        }];
+    });
+}
 /* Request token for  Recommedation
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
-    /*
-     * Getting Digital property host url to be used in request header - @host
-     */
-            [networking GET:recoURL path:recoTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-                /*
-                 * Getting server token from the response
-                 */
-                NSString *token = responseObject[@"token"];
-                handler(token);
-                /*
-                 * Store server token into NSUserDefault
-                 */
-//                [AuthManager storeTokenToUserDefault:token];
-                /*
-                 * Store token expiration time into NSUserDefault
-                 */
-//                [AuthManager storeTokenReceivedTimestamp:[NSDate date]];
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                /*
-                 * Request token failed
-                 */
-//                [[ABSLogger init] setMessage:[NSString stringWithFormat:@"@ BIG-DATA: Error getting token - %@", error]];
-            }];
+     [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL ,recoTokenURL]];
+    [self recoSecurityHash:^(NSString *sechash) {
+        NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+        [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSString *token = responseObject[@"access_token"];
+            handler(token);
+        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+            [[ABSLogger initialize] setMessage:error.description];
+        }];
+    }];
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
@@ -244,7 +250,6 @@ NSString *userID;
                     /*
                      * Success: Sending server response to ABSLogger.
                      */
-                    //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                     /*
                      * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
@@ -254,7 +259,6 @@ NSString *userID;
                      * Storing attributes dictionary into CacheManager.
                      */
                     [CacheManager storeFailedAttributesToCacheManager:data];
-                    //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
                 }];
             }];
         }

@@ -17,16 +17,18 @@ NSString *const urlStaging                      = @"http://indraeventsapi.azurew
 NSString *const urlProd                         = @"https://pre-prodeventsapi.azurewebsites.net";
 NSString *const urlPreProd                      = @"";
 
+NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventWriteURL                   = @"/api/event/send";
 
-NSString* const recoURL                         = @"http://recoengapi.bigdata.abs-cbn.com";
 
-NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
+NSString* const recoURL                         = @"https://recoengineapidev.azurewebsites.net";
+
+NSString* const recoMobileResourceURL          = @"/api/recommendation/datasource";
 NSString* const recoTokenURL                    = @"/token";
-NSString* const UserToItemURL                   = @"/usertoitem"; //POST
-NSString* const ItemToItemURL                   = @"/itemtoitem"; //POST
-NSString* const recommendationCommunityToItem   = @"/communitytoitem"; //POST
+NSString* const UserToItemURL                   = @"/api/recommendation/usertoitem"; //POST
+NSString* const ItemToItemURL                   = @"/api/recommendation/itemtoitem"; //POST
+NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
 
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";

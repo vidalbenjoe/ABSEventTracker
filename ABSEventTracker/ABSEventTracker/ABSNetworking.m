@@ -51,10 +51,8 @@ bool isHTTPDebug;
         __block NSURLSessionDataTask *task = [session dataTaskWithRequest:self->requestBody completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", params] isDebug:YES];
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", params] isDebug:isHTTPDebug];
             
-            
-//                            [[ABSLogger initialize] setMessage:response.description];
                                 if (respHttp.statusCode != SUCCESS) {
                                     errorHandler(task, error);
                                     return;
@@ -149,7 +147,7 @@ bool isHTTPDebug;
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             successHandler(nil, dictionary);
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:YES];
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -178,8 +176,8 @@ bool isHTTPDebug;
         [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain]
            forHTTPHeaderField:@"SiteDomain"];
-        [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin]
-           forHTTPHeaderField:@"Origin"];
+//        [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin]
+//           forHTTPHeaderField:@"Origin"];
         [requestBody setHTTPBody:body];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
@@ -242,15 +240,17 @@ bool isHTTPDebug;
     dispatch_async(queue, ^{
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-       
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);
+            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", headers] isDebug:isHTTPDebug];
             return;
         }
         
-        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:YES];
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
         successHandler(datatask, dictionary);
+        
+        NSLog(@"recodICtion: %@", dictionary);
     }];
     [datatask resume];
     });
