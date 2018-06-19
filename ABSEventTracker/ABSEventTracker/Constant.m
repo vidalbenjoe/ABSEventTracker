@@ -22,9 +22,9 @@ NSString* const eventTokenURL                   = @"/token";
 NSString* const eventWriteURL                   = @"/api/event/send";
 
 
-NSString* const recoURL                         = @"https://recoengineapidev.azurewebsites.net";
+NSString* const recoURL                         = @"http://recoengineapidev.azurewebsites.net";
 
-NSString* const recoMobileResourceURL          = @"/api/recommendation/datasource";
+NSString* const recoMobileResourceURL           = @"/api/recommendation/datasource";
 NSString* const recoTokenURL                    = @"/token";
 NSString* const UserToItemURL                   = @"/api/recommendation/usertoitem"; //POST
 NSString* const ItemToItemURL                   = @"/api/recommendation/itemtoitem"; //POST

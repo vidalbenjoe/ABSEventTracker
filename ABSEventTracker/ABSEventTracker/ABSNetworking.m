@@ -81,6 +81,9 @@ bool isHTTPDebug;
           __block NSURLSessionDataTask *task = [session dataTaskWithRequest:self->requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+                                      
+                                      [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: parameters isDebug:isHTTPDebug];
+                                      
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(task, error);
                                           return;
@@ -107,6 +110,9 @@ bool isHTTPDebug;
          __block NSURLSessionDataTask *task = [session dataTaskWithRequest:self->requestBody completionHandler:
                                           ^(NSData *data, NSURLResponse *response, NSError *error) {
                                               NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+                                              
+                                              [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: @"" isDebug:isHTTPDebug];
+                                              
                                               if (respHttp.statusCode != SUCCESS) {
                                                   errorHandler(task, error);
                                                   return;
@@ -228,14 +234,15 @@ bool isHTTPDebug;
     for (id key in headers){
         id header = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
+       
     }
     
      NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
-
-    [request setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
+  
+//
+//    [request setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -250,7 +257,6 @@ bool isHTTPDebug;
         [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
         successHandler(datatask, dictionary);
         
-        NSLog(@"recodICtion: %@", dictionary);
     }];
     [datatask resume];
     });

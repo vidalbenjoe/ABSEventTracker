@@ -161,6 +161,7 @@ NSString *userID;
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
      [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL ,recoTokenURL]];
+   
     [self recoSecurityHash:^(NSString *sechash) {
         NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
         [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -170,6 +171,7 @@ NSString *userID;
             [[ABSLogger initialize] setMessage:error.description];
         }];
     }];
+    
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
