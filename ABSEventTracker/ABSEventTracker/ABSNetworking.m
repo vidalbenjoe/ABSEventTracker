@@ -236,13 +236,12 @@ bool isHTTPDebug;
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
        
     }
-    
      NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
   
-//
-//    [request setValue:[[[AttributeManager init] propertyinvariant] origin] forHTTPHeaderField:@"Origin"];
+    [request setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
     __block NSURLSessionDataTask *datatask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {

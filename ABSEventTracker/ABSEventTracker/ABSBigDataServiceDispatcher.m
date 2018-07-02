@@ -34,6 +34,7 @@ NSString *userID;
         
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         
+        NSLog(@"OCnstathXMobi %@", [Constant generateNewMobileHeader]);
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
         [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
