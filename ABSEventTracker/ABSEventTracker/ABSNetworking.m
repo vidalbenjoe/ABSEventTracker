@@ -10,7 +10,6 @@
 #import "ABSBigDataServiceDispatcher.h"
 #import "ABSNetworking+HTTPErrorHandler.h"
 #import "Constant.h"
-#import "ABSLogger.h"
 
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
@@ -223,7 +222,6 @@ bool isHTTPDebug;
         }] resume];
         
     });
-    
 }
 /*
  * Method: GET

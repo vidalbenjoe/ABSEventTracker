@@ -38,8 +38,8 @@
 
 +(void) onTokenRefresh{
     //TODO: Need to create separarate token refresh for Recommendation.
-//    [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
-//        [AuthManager storeTokenToUserDefault:token];
-//    }];
+    [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
+        [AuthManager storeTokenToUserDefault:token];
+    }];
 }
 @end

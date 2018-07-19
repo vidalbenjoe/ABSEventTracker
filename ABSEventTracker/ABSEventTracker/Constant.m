@@ -21,7 +21,6 @@ NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource"
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventWriteURL                   = @"/api/event/send";
 
-
 NSString* const recoURL                         = @"http://recoengineapidev.azurewebsites.net";
 
 NSString* const recoMobileResourceURL           = @"/api/recommendation/datasource";

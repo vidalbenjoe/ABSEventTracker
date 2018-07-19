@@ -13,7 +13,6 @@
 #import "AuthManager.h"
 #import "PropertyEventSource.h"
 #import "AttributeManager.h"
-#import "ABSLogger.h"
 
 @implementation ABSRecommendationEngine
 +(void) recommendationItem:(void (^)(NSMutableDictionary *itemToItem)) itemToitem categoryID:(NSString *) categoryID contentID: (NSString *) contentID digitalProperyID: (NSString* ) digitalproperyID{
@@ -48,7 +47,8 @@
                         success:^(NSURLSessionDataTask *task, id responseObject) {
                             userToitem(responseObject);
                         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                            
+                           
+                            return;
                         }];
             });
         }

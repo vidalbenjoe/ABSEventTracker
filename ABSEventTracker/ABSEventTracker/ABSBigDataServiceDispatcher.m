@@ -22,7 +22,6 @@
 NSNumber *duration;
 NSString *userID;
 
-
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
@@ -47,7 +46,7 @@ NSString *userID;
             
             
             NSLog(SECHASH_ERROR_REQUEST  "%@", error.description);
-            [[ABSLogger initialize] setMessage:error.description];
+//            [[ABSLogger initialize] setMessage:error.description];
             [AuthManager removeSechHash];
           
         }];
@@ -66,7 +65,7 @@ NSString *userID;
             [AuthManager storeTokenToUserDefault:token];
             handler(token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            [[ABSLogger initialize] setMessage:error.description];
+//            [[ABSLogger initialize] setMessage:error.description];
         }];
     });
 }
@@ -105,7 +104,7 @@ NSString *userID;
                         NSDate *receivedTimestamp = [NSDate date];
                         [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                        [[ABSLogger initialize] setMessage:error.description];
+//                        [[ABSLogger initialize] setMessage:error.description];
                         [AuthManager removeSechHash];
                     }];
                 }];
@@ -121,7 +120,7 @@ NSString *userID;
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    [[ABSLogger initialize] setMessage:error.description];
+//                    [[ABSLogger initialize] setMessage:error.description];
                     [AuthManager removeSechHash];
                 }];
             }
@@ -135,7 +134,7 @@ NSString *userID;
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    [[ABSLogger initialize] setMessage:error.description];
+//                    [[ABSLogger initialize] setMessage:error.description];
                     [AuthManager removeSechHash];
                 }];
             }];
@@ -152,7 +151,7 @@ NSString *userID;
             NSString *seccode = responseObject[@"seccode"];
             handler(seccode);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            [[ABSLogger initialize] setMessage:error.description];
+//            [[ABSLogger initialize] setMessage:error.description];
         }];
     });
 }
@@ -169,7 +168,7 @@ NSString *userID;
             NSString *token = responseObject[@"access_token"];
             handler(token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            [[ABSLogger initialize] setMessage:error.description];
+//            [[ABSLogger initialize] setMessage:error.description];
         }];
     }];
     
@@ -329,7 +328,6 @@ NSString *userID;
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     duration = 0;
-    
     
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
