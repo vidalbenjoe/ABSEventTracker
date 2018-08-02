@@ -80,7 +80,7 @@ NSString *userID;
     dispatch_async(queue, ^{
         NSDate *timeNow = [NSDate date];
          ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
-        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+//        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
     
@@ -159,7 +159,7 @@ NSString *userID;
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
-     [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+//     [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL ,recoTokenURL]];
    
     [self recoSecurityHash:^(NSString *sechash) {
@@ -290,8 +290,10 @@ NSString *userID;
             [self requestToken:^(NSString *token) {
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token]};
                 /*
-                 //             * Converting Dictionary attributes to NSData and send to server through HTTPBody
-                 //             */
+                  Converting Dictionary attributes to NSData and send to server through HTTPBody
+                 */
+                
+                
                 if ([NSJSONSerialization isValidJSONObject:customOperation]) {
                     NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:NSJSONWritingPrettyPrinted error:0];
                     
@@ -304,15 +306,12 @@ NSString *userID;
                          */
                         [CacheManager storeFailedAttributesToCacheManager:attributes];
                     }];
-                    NSBlockOperation *blockCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
-                        //This is the completion block that will get called when the custom operation work is completed.
-                        // Work completed
-                    }];
+                  
                     customOperation.completionBlock =^{
                         //This is another way of catching the Custom Operation completition.
                         //In case you donot want to catch the completion using a block operation as state above. you can catch it here and remove the block operation and the dependency introduced in the next line of code
                     };
-                    [blockCompletionOperation addDependency:customOperation];
+//                    [blockCompletionOperation addDependency:customOperation];
                     [operationQueue addOperation:customOperation];
                     [customOperation start];
                     //Uncommenting this line of code will run the custom operation twice one using the NSOperationQueue and the other using the custom operations start method

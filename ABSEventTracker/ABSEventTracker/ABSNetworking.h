@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
 
 @interface ABSNetworking : NSURLProtocol  <NSURLSessionDelegate, NSURLSessionDataDelegate>
 //@property(nonatomic, copy) PropertyEventSource *eventsource;
-@property(nonatomic, strong) NSMutableURLRequest *requestBody;
+//@property(nonatomic, strong) NSMutableURLRequest *requestBody;
 @property(nonatomic, strong) PropertyEventSource *propertyEvent;
     
 /*!
@@ -37,21 +37,6 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
  */
 +(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config enableHTTPLog:(BOOL) isEnableHTTPLog;
 
-/*!
- * This method will send dictionary object with HTTP headers into server and will return server response into blocks handler
- * @params
- * url
- * params
- * successHandler
- * errorHandler
- * Server response code:
- * 200 - SUCCESS
- * 401 - UNAUTHORIZE
- * 400 - BAD REQUEST
- * 404 - NOT FOUND
- * 500 - INTERNL SERVER ERROR
- */
--(void) POST:(NSURL *) url parameters:(NSDictionary *) params headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask * task, id  responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError * error)) errorHandler;
 /*!
  * This method will send string parameters into server and will return server response into blocks handler
  * @params
@@ -82,7 +67,7 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
  * 404 - NOT FOUND
  * 500 - INTERNL SERVER ERROR
  */
--(void) POST:(NSURL *) url success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
+//-(void) POST:(NSURL *) url success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
 
 /*!
  * This method will send string parameters with headers into server and will return server response into blocks handler

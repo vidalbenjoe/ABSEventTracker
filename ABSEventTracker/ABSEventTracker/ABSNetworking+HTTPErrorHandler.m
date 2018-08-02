@@ -15,6 +15,7 @@
     if (debug == YES) {
         NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
     }
+    
     if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];

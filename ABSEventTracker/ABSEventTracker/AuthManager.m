@@ -14,8 +14,9 @@
 
 +(void) storeTokenReceivedTimestamp: (NSDate *) received{
     [[NSUserDefaults standardUserDefaults] setObject:received forKey:@"tokenreceivedTimestamp"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     [self storeTokenExpirationTimestamp:received];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+  
 }
 +(NSDate *) retrieveTokenReceivedTimestamp{
     NSDate *token = (NSDate*) [[NSUserDefaults standardUserDefaults] stringForKey:@"tokenreceivedTimestamp"];
@@ -23,7 +24,6 @@
 }
 +(void) storeTokenExpirationTimestamp:(NSDate *) expiration{
     NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
-    
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"tokenExpirationTimestamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -37,8 +37,8 @@
 +(void) storeFingerPrintID: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"fingerID"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
+
 +(NSString *) retrievedFingerPrintID{
     NSString *fingerPrintID = [[NSUserDefaults standardUserDefaults]
                        stringForKey:@"fingerID"];
@@ -48,7 +48,6 @@
 +(void) storeTokenToUserDefault: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"responseToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
 }
 
 +(NSString *) retrieveServerTokenFromUserDefault{

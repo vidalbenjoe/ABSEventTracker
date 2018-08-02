@@ -6,7 +6,9 @@
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 
 #import "CacheManager.h"
+#import "ABSCustomOperation.h"
 @implementation CacheManager
+    
 @synthesize cacheDictionary;
 +(void) storeApplicationLoadTimestamp: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"applicationTimeStamp"];
@@ -29,6 +31,9 @@
         cachedList = [[NSMutableArray alloc] initWithCapacity:0];
     }
     [cachedList addObject:attributes];
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
     /** Save cache to Plist*/
     BOOL success = [cachedList writeToFile:[self cachePath] atomically: YES];
     if (success) {
@@ -36,6 +41,8 @@
     }else{
         NSLog(@"Failed to cache attributes");
     }
+        
+});
 }
 
 +(NSMutableDictionary *) retrieveFailedAttributesFromCacheByIndex{
@@ -48,6 +55,8 @@
 }
 
 +(NSMutableArray *) retrieveAllCacheArray{
+ 
+    
     NSMutableArray *cache = [NSMutableArray arrayWithContentsOfFile:[self cachePath]];
     return cache;
 }
@@ -77,11 +86,13 @@
 }
 
 +(NSString*) cachePath{
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
+    
     NSString *plistPath = [documentsDirectory stringByAppendingPathComponent:@"Info.plist"];
-
     return plistPath;
+    
 }
 
 @end
