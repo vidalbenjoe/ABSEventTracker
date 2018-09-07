@@ -15,7 +15,6 @@
 
 NSString *const urlStaging                      = @"http://indraeventsapi.azurewebsites.net";
 NSString *const urlProd                         = @"https://pre-prodeventsapi.azurewebsites.net";
-NSString *const urlPreProd                      = @"";
 
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
@@ -55,12 +54,10 @@ NSString* const ONEOTTOriginURL             = @"https://com.abscbn.iwantNow";
     // GET bundleIdentifier
 //    NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\":\"%@\"}", TESTER_ID];
     NSString *bundleIdentifier = [NSString stringWithFormat:@"{\"packageName\":\"%@\"}", [PropertyEventSource getBundleIdentifier]];
-    NSLog(@"bundleIdentifiers: %@", bundleIdentifier);
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
     
-    NSLog(@"BASED64: %@", base64Encoded);
     return base64Encoded;
 }
 @end

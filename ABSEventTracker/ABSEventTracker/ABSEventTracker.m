@@ -48,11 +48,11 @@
             //Storing fingerprintID to AuthManager
             [AuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
             // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
+            
             PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
-            [digitalProperty setUrl:config == PRODUCTION ? urlPreProd : urlStaging];
             [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
             [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-            
+            [digitalProperty setUrl:config == PRODUCTION ? urlProd : urlStaging];
             //Check digital property if for production or for staging
 
             if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
@@ -71,7 +71,7 @@
                 [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
                 [digitalProperty setOrigin:ONEOTTOriginURL];
             }
-            
+           
             [self initSession:[SessionManager init]];
             [self checkEventSource];
             [self initWithDevice:device];

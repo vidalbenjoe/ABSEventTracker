@@ -49,7 +49,8 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     AUDIO_SEEKED        =   35,
     AUDIO_STOPPED       =   36,
     AUDIO_BUFFERED      =   37,
-    AUDIO_COMPLETE      =   38
+    AUDIO_COMPLETE      =   38,
+    SESSION_EXPIRED     =   39
     
 };
 @class GenericBuilder;

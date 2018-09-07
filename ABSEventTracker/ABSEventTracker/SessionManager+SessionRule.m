@@ -8,13 +8,14 @@
 #import "SessionManager+SessionRule.h"
 #import "Constant.h"
 #import "FormatUtils.h"
+#import "ABSEventTracker.h"
 @implementation SessionManager (SessionRule)
 
 // Updating the session id by generation a random UUID.
 
 -(void) startSession{
     NSDate *currentTime = [NSDate date];
-    // Add 10 minutes expiration from the current time.
+    // Add 30 minutes expiration from the current time.
     NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
     [self setSessionStart: currentTime];
     [self setSessionEnd:endtime];
@@ -40,8 +41,12 @@
         /* Update the session ID if the current time is greater than 30 minutes since the last triggered event
          */
         [self updateSessionID];
-        /*  Update the SessionEndTime and sessionStartTime if the current time is less than the sessionEndTime - Meanin the session is expired, and you have to initialize another session
+        /*  Update the SessionEndTime and sessionStartTime if the current time is less than the sessionEndTime - Meaning the session is expired, and you have to initialize another session
          */
+        [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *buider) {
+            [buider setActionTaken:SESSION_EXPIRED];
+        }]];
+        
         NSDate *end = [start dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
         [self setSessionStart:start];
         [self setSessionEnd:end];

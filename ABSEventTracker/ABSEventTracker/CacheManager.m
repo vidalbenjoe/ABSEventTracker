@@ -10,15 +10,18 @@
 @implementation CacheManager
     
 @synthesize cacheDictionary;
+
 +(void) storeApplicationLoadTimestamp: (NSString *) value{
     [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"applicationTimeStamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 +(NSString *) retrieveApplicationLoadTimestamp{
     NSString *appLoadTimeStamp = [[NSUserDefaults standardUserDefaults]
                        stringForKey:@"applicationTimeStamp"];
     return appLoadTimeStamp;
 }
+
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes{
     NSError *error;
     if (![[NSFileManager defaultManager] fileExistsAtPath: [self cachePath]]){
@@ -37,7 +40,7 @@
     /** Save cache to Plist*/
     BOOL success = [cachedList writeToFile:[self cachePath] atomically: YES];
     if (success) {
-        NSLog(@"The failed attributes has been cached! %@", attributes);
+//        NSLog(@"The failed attributes has been cached! %@", attributes);
     }else{
         NSLog(@"Failed to cache attributes");
     }

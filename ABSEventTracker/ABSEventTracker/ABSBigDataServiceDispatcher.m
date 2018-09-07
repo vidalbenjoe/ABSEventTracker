@@ -26,14 +26,12 @@ NSString *userID;
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
 //        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] ];
-        
+    
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         
-        NSLog(@"OCnstathXMobi %@", [Constant generateNewMobileHeader]);
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
         [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
@@ -42,13 +40,9 @@ NSString *userID;
             NSDate *receivedTimestamp = [NSDate date];
             [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-            
-            
-            
             NSLog(SECHASH_ERROR_REQUEST  "%@", error.description);
 //            [[ABSLogger initialize] setMessage:error.description];
             [AuthManager removeSechHash];
-          
         }];
     });
 }
@@ -83,6 +77,9 @@ NSString *userID;
 //        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
+        
+        NSLog(@"requestTokenURLwd: %@", [[[AttributeManager init] propertyinvariant] url]);
+        
     
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
@@ -374,7 +371,7 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigdataSessionId",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimeStamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimeStamp",
-        ObjectOrNull(attributes.userattributes.firstName != nil ? attributes.userattributes.firstName : [UserAttributes retrieveFirstName] ) , @"FirstName",
+        ObjectOrNull(attributes.userattributes.firstName != nil ? attributes.userattributes.firstName : [UserAttributes retrieveFirstName]) , @"FirstName",
         ObjectOrNull(attributes.userattributes.middleName == nil ? attributes.userattributes.middleName  : [UserAttributes retrieveMiddleName])  , @"MiddleName",
         ObjectOrNull(attributes.userattributes.lastName != nil ? attributes.userattributes.lastName : [UserAttributes retrieveLastName] ) , @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
@@ -415,6 +412,9 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoAdTime]]) , @"VideoAdTime",
         ObjectOrNull(attributes.videoattributes.videoMeta) , @"VideoMeta",
         ObjectOrNull(attributes.videoattributes.videoTimeStamp) , @"VideoTimeStamp",
+        ObjectOrNull(attributes.videoattributes.videoType) , @"VideoType",
+        ObjectOrNull(attributes.videoattributes.videoQuality) , @"VideoQuality",
+        ObjectOrNull(attributes.videoattributes.videoCategoryID) , @"VideoCategoryID",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoDuration]]) , @"VideoDuration",
         ObjectOrNull(isvideoPaused), @"VideoIsPaused",
         ObjectOrNull(isvideoEnded), @"VideoIsEnded",
@@ -448,6 +448,7 @@ NSString *userID;
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
+    
     if (error) {
         NSLog(@"Error occured when dispatching logs to the datalake");
     } else{
