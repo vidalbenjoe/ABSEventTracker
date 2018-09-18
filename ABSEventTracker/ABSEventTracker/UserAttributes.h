@@ -18,12 +18,6 @@
 @interface UserAttributes : NSObject<NSCoding>
 @property(nonatomic, weak) NSString *ssoID;
 @property(nonatomic, weak) NSString *gigyaID;
-@property(nonatomic, weak) NSString *firstName;
-@property(nonatomic, weak) NSString *middleName;
-@property(nonatomic, weak) NSString *lastName;
-@property(nonatomic, weak) NSString *address;
-@property(nonatomic, weak) NSDate *birthday;
-@property(nonatomic) int mobilenumber;
 @property(nonatomic, weak) NSString *loginTimeStamp;
 
 +(instancetype) makeWithBuilder:(void (^) (UserBuilder *)) updateBlock;
@@ -31,11 +25,8 @@
 -(instancetype) update:(void(^)(UserBuilder *)) updateBlock;
 -(instancetype) build;
 +(void) cacheUserData: (UserAttributes *) userinfo;
-+(void) cachedUserInfoWithID: (NSString *) userID firstName:(NSString *)firstName middleName:(NSString *)middleName lastName:(NSString*) lastName;
++(void) cachedUserInfoWithID: (NSString *) userID;
 +(NSString *) retrieveUserID;
-+(NSString *) retrieveFirstName;
-+(NSString *) retrieveMiddleName;
-+(NSString *) retrieveLastName;
 
 +(UserAttributes *) retrieveUserInfoFromCache;
 +(void) clearUserData;
@@ -44,12 +35,6 @@
 @interface UserBuilder : NSObject
 @property(nonatomic, assign) NSString *ssoID;
 @property(nonatomic, assign) NSString *gigyaID;
-@property(nonatomic, strong) NSString *firstName;
-@property(nonatomic, strong) NSString *middleName;
-@property(nonatomic, strong) NSString *lastName;
-@property(nonatomic, strong) NSString *address;
-@property(nonatomic, strong) NSDate *birthday;
-@property(nonatomic) int mobilenumber;
 @property(nonatomic, strong) NSString *loginTimeStamp;
 -(instancetype) init;
 

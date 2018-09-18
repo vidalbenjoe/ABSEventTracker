@@ -289,8 +289,6 @@ NSString *userID;
                 /*
                   Converting Dictionary attributes to NSData and send to server through HTTPBody
                  */
-                
-                
                 if ([NSJSONSerialization isValidJSONObject:customOperation]) {
                     NSData *data = [NSJSONSerialization dataWithJSONObject:customOperation options:NSJSONWritingPrettyPrinted error:0];
                     
@@ -371,9 +369,6 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@",attributes.session.sessionID]), @"BigdataSessionId",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimeStamp",
         ObjectOrNull([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimeStamp",
-        ObjectOrNull(attributes.userattributes.firstName != nil ? attributes.userattributes.firstName : [UserAttributes retrieveFirstName]) , @"FirstName",
-        ObjectOrNull(attributes.userattributes.middleName == nil ? attributes.userattributes.middleName  : [UserAttributes retrieveMiddleName])  , @"MiddleName",
-        ObjectOrNull(attributes.userattributes.lastName != nil ? attributes.userattributes.lastName : [UserAttributes retrieveLastName] ) , @"LastName",
         ObjectOrNull(attributes.eventattributes.clickedContent) , @"ClickedContent",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         ObjectOrNull([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
@@ -398,7 +393,7 @@ NSString *userID;
         ObjectOrNull(attributes.eventattributes.destinationView) , @"DestinationView",
         ObjectOrNull(abandonViewTimeStamp != nil && accessViewTimeStamp !=nil ? accessViewTimeStamp < abandonViewTimeStamp ? [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]] : nil : nil), @"ViewPageDuration",
         ObjectOrNull(attributes.eventattributes.readArticle) , @"CommentedArticle",
-        ObjectOrNull(attributes.arbitaryinvariant.viewAccessTimeStamp), @"ViewAccessTimestamp",
+        ObjectOrNull(attributes.arbitaryinvariant.viewAccessTimeStamp), @"ViewAccessTimeStamp",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPausePosition]]), @"VideoPause",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekStart]]) , @"VideoSeekStart",
@@ -410,7 +405,6 @@ NSString *userID;
         ObjectOrNull(attributes.videoattributes.videoAdSkipped) , @"VideoAdSkipped",
         ObjectOrNull(attributes.videoattributes.videoAdPlay) , @"VideoAdPlay",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoAdTime]]) , @"VideoAdTime",
-        ObjectOrNull(attributes.videoattributes.videoMeta) , @"VideoMeta",
         ObjectOrNull(attributes.videoattributes.videoTimeStamp) , @"VideoTimeStamp",
         ObjectOrNull(attributes.videoattributes.videoType) , @"VideoType",
         ObjectOrNull(attributes.videoattributes.videoQuality) , @"VideoQuality",
@@ -428,7 +422,7 @@ NSString *userID;
         ObjectOrNull(attributes.audioattributes.audioContentID) , @"AudioContentId",
         ObjectOrNull(attributes.audioattributes.audioConsolidatedBufferTime) , @"AudioConsolidatedBufferTime",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioBufferCount]]) ,@"AudioConsolidatedBufferTime",
-        ObjectOrNull(attributes.audioattributes.audioTimeStamp) ,@"AudioTimesTamp",
+        ObjectOrNull(attributes.audioattributes.audioTimeStamp) ,@"AudioTimeStamp",
         ObjectOrNull(attributes.audioattributes.audioType) ,@"AudioType",
         ObjectOrNull(attributes.audioattributes.audioFormat) ,@"AudioFormat",
         ObjectOrNull(attributes.audioattributes.audioCodec) ,@"AudioCodec",
@@ -444,7 +438,7 @@ NSString *userID;
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioPausePosition]]) ,@"AudioPause",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioResumePosition]]) ,@"AudioResume",
         ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioStop",
-        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBufferPosition",
+        ObjectOrNull([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBuffer",
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error];
@@ -462,5 +456,16 @@ NSString *userID;
 static id ObjectOrNull(id object){
     return object ?: @"null";
 }
+
+
+//audiotimestamp
+//should be  capital S in stamp - viewaccessTimestamp
+
+//Firstname
+//middlename
+//lastname
+//user related
+//video meta
+//audiobuifffer position should be audio buffer
 
 @end
