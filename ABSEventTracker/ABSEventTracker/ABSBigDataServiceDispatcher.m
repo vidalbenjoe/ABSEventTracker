@@ -78,9 +78,6 @@ NSString *userID;
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
         
-        NSLog(@"requestTokenURLwd: %@", [[[AttributeManager init] propertyinvariant] url]);
-        
-    
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if it's not exceeding the server sechash expiration date.
@@ -456,16 +453,5 @@ NSString *userID;
 static id ObjectOrNull(id object){
     return object ?: @"null";
 }
-
-
-//audiotimestamp
-//should be  capital S in stamp - viewaccessTimestamp
-
-//Firstname
-//middlename
-//lastname
-//user related
-//video meta
-//audiobuifffer position should be audio buffer
 
 @end

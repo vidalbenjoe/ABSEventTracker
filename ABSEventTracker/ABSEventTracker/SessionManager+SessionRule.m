@@ -46,7 +46,7 @@
         [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *buider) {
             [buider setActionTaken:SESSION_EXPIRED];
         }]];
-        
+
         NSDate *end = [start dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
         [self setSessionStart:start];
         [self setSessionEnd:end];

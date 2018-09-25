@@ -20,83 +20,79 @@
 
 @implementation ABSEventTracker
 
-+(instancetype) initializeTracker :(EnvironmentConfig) config isEnableHTTPLogs :(BOOL) HTTPLogs{
++(ABSEventTracker *) initializeTracker :(EnvironmentConfig) config isEnableHTTPLogs :(BOOL) HTTPLogs{
 //    NSLog(@"EnvironmentConfig: %ld", (long) config);
     static ABSEventTracker *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
         shared = [[super alloc] init];
-        NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
-        //Checking the list of valid identifier if it's matched on the current app bundle identifier
-        BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
+//        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        //        dispatch_async(queue, ^{
+//        });
+      });
 
-        if (isValid) {
-            // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
-            // Initialize Session
-            [[SessionManager init] establish];
-            // Get device information to be used on device fingerprinting and analytics.
-            DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
-                                       (DeviceInvariantBuilder *builder) {
-                                           [builder setDeviceFingerprint:config == PRODUCTION ?[DeviceFingerprinting generateDeviceFingerprint] : [NSString stringWithFormat:@"%@", [DeviceFingerprinting generateDeviceFingerprint]]];
-                                           [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
-                                           [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
-                                           [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
-                                           [builder setDeviceType:[DeviceInfo deviceType]];
-                                       }];
-            //Storing fingerprintID to AuthManager
-            [AuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
-            // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
-            
-            PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
-            [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
-            [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-            [digitalProperty setUrl:config == PRODUCTION ? urlProd : urlStaging];
-            //Check digital property if for production or for staging
-
-            if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-                [digitalProperty setSiteDomain:config == PRODUCTION ? TFCHostProdURL : TFCHostStagingURL];
-                [digitalProperty setOrigin:TFCOriginURL];
-            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
-                [digitalProperty setSiteDomain:NEWSHostProdURL];
-                [digitalProperty setOrigin:NEWSOriginURL];
-            } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? IWANTVHostProdURL :  IWANTVHostStagingURL];
-                [digitalProperty setOrigin:IWANTVOriginURL];
-            }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? SODHostProdURL : SODHostStagingURL];
-                [digitalProperty setOrigin:SODOriginURL];
-            }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
-                [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
-                [digitalProperty setOrigin:ONEOTTOriginURL];
-            }
-           
-            [self initSession:[SessionManager init]];
-            [self checkEventSource];
-            [self initWithDevice:device];
-            [self initAppProperty:digitalProperty];
-
-            [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
-            EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-                    // Set Event action into LOAD
-                    [builder setActionTaken:LOAD];
-                }];
-                // Event writing
-                
-                [ABSEventTracker initEventAttributes:launchEvent];
-                [ABSBigDataServiceDispatcher dispatchCachedAttributes];
-            }];
-            
-            [[ABSLogger initialize] setDisplayHTTPLogs:HTTPLogs];
+    NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
+    //Checking the list of valid identifier if it's matched on the current app bundle identifier
+    BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
+    if (isValid) {
+        // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
+        // Initialize Session
+        [[SessionManager init] establish];
+        // Getting the device information to be used on device fingerprinting and analytics.
+        DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
+                                   (DeviceInvariantBuilder *builder) {
+                                       [builder setDeviceFingerprint:config == PRODUCTION ?[DeviceFingerprinting generateDeviceFingerprint] : [NSString stringWithFormat:@"%@", [DeviceFingerprinting generateDeviceFingerprint]]];
+                                       [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
+                                       [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
+                                       [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
+                                       [builder setDeviceType:[DeviceInfo deviceType]];
+                                   }];
+        //Storing fingerprintID to AuthManager
+        [AuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
+        // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
         
-        }else{
-            [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
-            NSLog(@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property");
+        PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
+        [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
+        [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
+        [digitalProperty setUrl:config == PRODUCTION ? urlProd : urlStaging];
+        //Check digital property if for production or for staging
+        
+        if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
+            [digitalProperty setSiteDomain:config == PRODUCTION ? TFCHostProdURL : TFCHostStagingURL];
+            [digitalProperty setOrigin:TFCOriginURL];
+        } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]){
+            [digitalProperty setSiteDomain:NEWSHostProdURL];
+            [digitalProperty setOrigin:NEWSOriginURL];
+        } else if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]){
+            [digitalProperty setSiteDomain:config == PRODUCTION ? IWANTVHostProdURL :  IWANTVHostStagingURL];
+            [digitalProperty setOrigin:IWANTVOriginURL];
+        }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]){
+            [digitalProperty setSiteDomain:config == PRODUCTION ? SODHostProdURL : SODHostStagingURL];
+            [digitalProperty setOrigin:SODOriginURL];
+        }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: ONE_OTT]){
+            [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
+            [digitalProperty setOrigin:ONEOTTOriginURL];
         }
-    });
-});
-    
+        
+        [self initSession:[SessionManager init]];
+        [self checkEventSource];
+        [self initWithDevice:device];
+        [self initAppProperty:digitalProperty];
+        
+        [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
+            EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
+                // Set Event action into LOAD
+                [builder setActionTaken:LOAD];
+            }];
+            // Event writing
+            [ABSEventTracker initEventAttributes:launchEvent];
+            [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+        }];
+        [[ABSLogger initialize] setDisplayHTTPLogs:HTTPLogs];
+    }else{
+        [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
+        NSLog(@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property");
+    }
     return shared;
 }
 
