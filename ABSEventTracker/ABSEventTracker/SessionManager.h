@@ -17,7 +17,7 @@
 @property(nonatomic, retain) NSDate *sessionStart;
 @property(nonatomic, retain) NSDate *eventTriggeredTime;
 @property(nonatomic, retain) NSDate *sessionEnd;
-+(instancetype) init;
++(id) init;
 -(void) establish;
 -(void) update;
 @end

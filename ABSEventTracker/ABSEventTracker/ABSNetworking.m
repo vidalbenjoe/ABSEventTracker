@@ -8,8 +8,8 @@
 #import "AuthManager.h"
 #import "AttributeManager.h"
 #import "ABSBigDataServiceDispatcher.h"
-#import "ABSNetworking+HTTPErrorHandler.h"
 #import "Constant.h"
+#import "ABSLogger.h"
 
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
@@ -44,7 +44,7 @@ bool isHTTPDebug;
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
                                       
-                                      [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: parameters isDebug:isHTTPDebug];
+                                      [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: parameters isDebug:isHTTPDebug];
                                       
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(nil, error);
@@ -119,7 +119,7 @@ bool isHTTPDebug;
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
@@ -171,7 +171,7 @@ bool isHTTPDebug;
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
       
             NSString *params = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
-            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], params ] isDebug: isHTTPDebug];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], params ] isDebug: isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
@@ -229,12 +229,12 @@ bool isHTTPDebug;
         NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
         if (respHttp.statusCode != SUCCESS) {
             errorHandler(datatask, error);
-            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", headers] isDebug:isHTTPDebug];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", headers] isDebug:isHTTPDebug];
             return;
         }
         if(data != nil && !error){
                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-            [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
             
             successHandler(nil, dictionary);
             
@@ -245,6 +245,38 @@ bool isHTTPDebug;
     }];
     [datatask resume];
     });
+}
+
+-(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request HTTPBody:(NSString *) body isDebug:(BOOL) debug{
+    if (debug == YES) {
+        NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
+    }
+    if (http.statusCode == UNAUTHORIZE) {
+        [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
+        [self onTokenRefresh];
+    }else if (http.statusCode== BAD_REQUEST) {
+        [[ABSLogger initialize] setMessage:@"BAD REQUEST"];
+    }else if (http.statusCode == INTERNAL_SERVER_ERROR) {
+        [[ABSLogger initialize] setMessage:@"INTERNAL SERVER ERROR"];
+    }else if (http.statusCode == NOT_FOUND) {
+        [[ABSLogger initialize] setMessage:@"SERVER NOT FOUND"];
+    }else if(http.statusCode == PERMISSION_DENIED){
+        [self onTokenRefresh];
+    }
+}
+
+/*************************HTTP CALLBACK*****************************/
+
+#pragma mark - Token
+/*!
+ *This method will refresh token once the server response received HTTP error code 401
+ */
+
+-(void) onTokenRefresh{
+    //TODO: Need to create separarate token refresh for Recommendation.
+    [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
+        [AuthManager storeTokenToUserDefault:token];
+    }];
 }
 
 @end

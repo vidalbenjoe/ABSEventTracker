@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, EnvironmentConfig){
  * This method will initialize multiple attribute such as SessionManager, DeviceInvariant and PropertyEventSource.
  */
 
-+(ABSEventTracker *) initializeTracker :(EnvironmentConfig) config isEnableHTTPLogs :(BOOL) HTTPLogs;
++(instancetype) initializeTracker :(EnvironmentConfig) config isEnableHTTPLogs :(BOOL) HTTPLogs;
 
 +(void) initWithUser:(UserAttributes *) attributes;
 
