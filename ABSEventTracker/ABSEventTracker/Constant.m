@@ -10,9 +10,6 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-//production -  https://eventsapi.bigdata.abs-cbn.com
-//staging - https://bigdataeventsapipreprod.southeastasia.cloudapp.azure.com
-
 NSString *const urlStaging                      = @"http://indraeventsapi.azurewebsites.net";
 NSString *const urlProd                         = @"https://pre-prodeventsapi.azurewebsites.net";
 
@@ -20,9 +17,11 @@ NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource"
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventWriteURL                   = @"/api/event/send";
 
-NSString* const recoURL                         = @"http://recoengineapidev.azurewebsites.net";
+NSString* const devRecoURL                         = @"https://recoengineapidev.azurewebsites.net";
 
-NSString* const recoMobileResourceURL           = @"/api/recommendation/datasource";
+NSString* const prodRecoURL                         = @"https://recoengapi.bigdata.abs-cbn.com";
+
+NSString* const recoMobileResourceURL           = @"/api/recommendation/mobiledatasource";
 NSString* const recoTokenURL                    = @"/token";
 NSString* const UserToItemURL                   = @"/api/recommendation/usertoitem"; //POST
 NSString* const ItemToItemURL                   = @"/api/recommendation/itemtoitem"; //POST
@@ -57,7 +56,7 @@ NSString* const ONEOTTOriginURL             = @"https://com.abscbn.iwantNow";
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
-    
+    NSLog(@"baseLcoded: %@", base64Encoded);
     return base64Encoded;
 }
 @end

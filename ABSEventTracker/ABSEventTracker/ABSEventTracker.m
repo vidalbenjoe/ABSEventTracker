@@ -244,6 +244,10 @@
 +(void) initAudioAttributes:(AudioAttributes *)attributes{
     [EventController writeAudioAttributes:attributes];
 }
+
++(void) updateRecommendation: (RecommendationAttributes *) attributes{
+    [EventController getRecommendationAttributes:attributes];
+}
 @end
 
 

@@ -28,6 +28,9 @@
 		2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D164E49204FF10F00603865 /* AudioAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D164E4A204FF10F00603865 /* AudioAttributes.m */; };
 		2D251C3E2161E83F005B224D /* GenericEventController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D85EA582175EC240062DF61 /* UserToItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BF8CDFA1F5679AE00B0C70F /* UserToItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D9F9FF921799F7A00E149C2 /* RecommendationAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9F9FF721799F7A00E149C2 /* RecommendationAttributes.h */; };
+		2D9F9FFA21799F7A00E149C2 /* RecommendationAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9F9FF821799F7A00E149C2 /* RecommendationAttributes.m */; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
 		8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* AuthManager.m */; };
@@ -90,6 +93,8 @@
 		2D11350D20D390F0007CCF43 /* ItemToItemRecommendation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemToItemRecommendation.m; sourceTree = "<group>"; };
 		2D164E49204FF10F00603865 /* AudioAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioAttributes.h; sourceTree = "<group>"; };
 		2D164E4A204FF10F00603865 /* AudioAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioAttributes.m; sourceTree = "<group>"; };
+		2D9F9FF721799F7A00E149C2 /* RecommendationAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecommendationAttributes.h; sourceTree = "<group>"; };
+		2D9F9FF821799F7A00E149C2 /* RecommendationAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecommendationAttributes.m; sourceTree = "<group>"; };
 		8628DB0E1F1F293200DCDB22 /* ABSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSLogger.h; sourceTree = "<group>"; };
 		8628DB0F1F1F293200DCDB22 /* ABSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSLogger.m; sourceTree = "<group>"; };
 		8645B77B1F04F51B00F21735 /* libABSEventTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libABSEventTracker.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +185,15 @@
 			name = Audio;
 			sourceTree = "<group>";
 		};
+		2D9F9FF621799E7400E149C2 /* Recommendation */ = {
+			isa = PBXGroup;
+			children = (
+				2D9F9FF721799F7A00E149C2 /* RecommendationAttributes.h */,
+				2D9F9FF821799F7A00E149C2 /* RecommendationAttributes.m */,
+			);
+			path = Recommendation;
+			sourceTree = "<group>";
+		};
 		8645B7721F04F51B00F21735 = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +277,7 @@
 		8645B7C21F04F95800F21735 /* Attributes */ = {
 			isa = PBXGroup;
 			children = (
+				2D9F9FF621799E7400E149C2 /* Recommendation */,
 				2D164E48204FF0F400603865 /* Audio */,
 				86B6F3211F1740CF005B2B26 /* Video */,
 				8645B7EF1F04FFFE00F21735 /* DigitalProperty */,
@@ -387,6 +402,8 @@
 				8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
+				2D85EA582175EC240062DF61 /* UserToItem.h in Headers */,
+				2D9F9FF921799F7A00E149C2 /* RecommendationAttributes.h in Headers */,
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 				2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */,
 				2D251C3E2161E83F005B224D /* GenericEventController.h in Headers */,
@@ -477,7 +494,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\n# If we're already inside this script then die\nif [ -n \"$RW_MULTIPLATFORM_BUILD_IN_PROGRESS\" ]; then\nexit 0\nfi\nexport RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1\n\nRW_FRAMEWORK_NAME=${PROJECT_NAME}\nRW_INPUT_STATIC_LIB=\"lib${PROJECT_NAME}.a\"\nRW_FRAMEWORK_LOCATION=\"${BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework\"\n\nfunction build_static_library {\n    # Will rebuild the static library as specified\n    #     build_static_library sdk\n    xcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" \\\n    -target \"${TARGET_NAME}\" \\\n    -configuration \"${CONFIGURATION}\" \\\n    -sdk \"${1}\" \\\n    ONLY_ACTIVE_ARCH=NO \\\n    BUILD_DIR=\"${BUILD_DIR}\" \\\n    OBJROOT=\"${OBJROOT}\" \\\n    BUILD_ROOT=\"${BUILD_ROOT}\" \\\n    SYMROOT=\"${SYMROOT}\" $ACTION \\\n    -UseModernBuildSystem=NO\n}\n\nfunction make_fat_library {\n    # Will smash 2 static libs together\n    #     make_fat_library in1 in2 out\n    xcrun lipo -create \"${1}\" \"${2}\" -output \"${3}\"\n}\n\n# 1 - Extract the platform (iphoneos/iphonesimulator) from the SDK name\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]; then\nRW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# 2 - Extract the version from the SDK\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]; then\nRW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# 3 - Determine the other platform\nif [ \"$RW_SDK_PLATFORM\" == \"iphoneos\" ]; then\nRW_OTHER_PLATFORM=iphonesimulator\nelse\nRW_OTHER_PLATFORM=iphoneos\nfi\n\n# 4 - Find the build directory\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$RW_SDK_PLATFORM$ ]]; then\nRW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${RW_OTHER_PLATFORM}\"\nelse\necho \"Could not find other platform build directory.\"\nexit 1\nfi\n\n# Build the other platform.\nbuild_static_library \"${RW_OTHER_PLATFORM}${RW_SDK_VERSION}\"\n\n# If we're currently building for iphonesimulator, then need to rebuild\n#   to ensure that we get both i386 and x86_64\nif [ \"$RW_SDK_PLATFORM\" == \"iphonesimulator\" ]; then\nbuild_static_library \"${SDK_NAME}\"\nfi\n\n# Join the 2 static libs into 1 and push into the .framework\nmake_fat_library \"${BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n# Ensure that the framework is present in both platform'videos build directories\ncp -a \"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n# Copy the framework to the user's desktop\nditto \"${RW_FRAMEWORK_LOCATION}\" \"${HOME}/Documents/IwantSky/${RW_FRAMEWORK_NAME}.framework\"\n\n";
+			shellScript = "set -e\n\n# If we're already inside this script then die\nif [ -n \"$RW_MULTIPLATFORM_BUILD_IN_PROGRESS\" ]; then\nexit 0\nfi\nexport RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1\n\nRW_FRAMEWORK_NAME=${PROJECT_NAME}\nRW_INPUT_STATIC_LIB=\"lib${PROJECT_NAME}.a\"\nRW_FRAMEWORK_LOCATION=\"${BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework\"\n\nfunction build_static_library {\n    # Will rebuild the static library as specified\n    #     build_static_library sdk\n    xcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" \\\n    -target \"${TARGET_NAME}\" \\\n    -configuration \"${CONFIGURATION}\" \\\n    -sdk \"${1}\" \\\n    ONLY_ACTIVE_ARCH=NO \\\n    BUILD_DIR=\"${BUILD_DIR}\" \\\n    OBJROOT=\"${OBJROOT}\" \\\n    BUILD_ROOT=\"${BUILD_ROOT}\" \\\n    SYMROOT=\"${SYMROOT}\" $ACTION \\\n    -UseModernBuildSystem=NO\n}\n\nfunction make_fat_library {\n    # Will smash 2 static libs together\n    #     make_fat_library in1 in2 out\n    xcrun lipo -create \"${1}\" \"${2}\" -output \"${3}\"\n}\n\n# 1 - Extract the platform (iphoneos/iphonesimulator) from the SDK name\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]; then\nRW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# 2 - Extract the version from the SDK\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]; then\nRW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# 3 - Determine the other platform\nif [ \"$RW_SDK_PLATFORM\" == \"iphoneos\" ]; then\nRW_OTHER_PLATFORM=iphonesimulator\nelse\nRW_OTHER_PLATFORM=iphoneos\nfi\n\n# 4 - Find the build directory\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$RW_SDK_PLATFORM$ ]]; then\nRW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${RW_OTHER_PLATFORM}\"\nelse\necho \"Could not find other platform build directory.\"\nexit 1\nfi\n\n# Build the other platform.\nbuild_static_library \"${RW_OTHER_PLATFORM}${RW_SDK_VERSION}\"\n\n# If we're currently building for iphonesimulator, then need to rebuild\n#   to ensure that we get both i386 and x86_64\nif [ \"$RW_SDK_PLATFORM\" == \"iphonesimulator\" ]; then\nbuild_static_library \"${SDK_NAME}\"\nfi\n\n# Join the 2 static libs into 1 and push into the .framework\nmake_fat_library \"${BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_INPUT_STATIC_LIB}\" \\\n\"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n# Ensure that the framework is present in both platform'videos build directories\ncp -a \"${RW_FRAMEWORK_LOCATION}/Versions/A/${RW_FRAMEWORK_NAME}\" \\\n\"${RW_OTHER_BUILT_PRODUCTS_DIR}/${RW_FRAMEWORK_NAME}.framework/Versions/A/${RW_FRAMEWORK_NAME}\"\n\n# Copy the framework to the user's desktop\nditto \"${RW_FRAMEWORK_LOCATION}\" \"${HOME}/Documents/iwanttv/${RW_FRAMEWORK_NAME}.framework\"\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -514,6 +531,7 @@
 				8645B7E31F04FD0600F21735 /* DeviceInvariant.m in Sources */,
 				8645B7FB1F05042900F21735 /* ABSEventTracker.m in Sources */,
 				8645B7DF1F04FC4E00F21735 /* ArbitaryVariant.m in Sources */,
+				2D9F9FFA21799F7A00E149C2 /* RecommendationAttributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

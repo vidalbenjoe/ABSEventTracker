@@ -24,7 +24,7 @@
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
         if (!error) {
             dispatch_async(queue, ^{
-                [networking GET:[NSString stringWithFormat:@"%@%@?categoryId=%@&contentId=%@&digitalPropertyId=%@", recoURL, ItemToItemURL, categoryID, contentID, digitalproperyID] path:@"" headerParameters:header
+                [networking GET:[NSString stringWithFormat:@"%@%@?categoryId=%@&contentId=%@&digitalPropertyId=%@", devRecoURL, ItemToItemURL, categoryID, contentID, digitalproperyID] path:@"" headerParameters:header
                         success:^(NSURLSessionDataTask *task, id responseObject) {
                             itemToitem(responseObject);
                         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -43,7 +43,7 @@
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
         if (!error) {
             dispatch_async(queue, ^{
-                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@&digitalPropertyId=%@", recoURL, UserToItemURL, userID, digitalPropertyID] path:@"" headerParameters:header
+                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@&digitalPropertyId=%@", devRecoURL, UserToItemURL, userID, digitalPropertyID] path:@"" headerParameters:header
                         success:^(NSURLSessionDataTask *task, id responseObject) {
                             userToitem(responseObject);
                         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -63,7 +63,7 @@
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
         if (!error) {
             dispatch_async(queue, ^{
-                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@&digitalPropertyId=%@", recoURL, recommendationCommunityToItem, userID, digitalPropertyID] path:@"" headerParameters:header
+                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@&digitalPropertyId=%@", devRecoURL, recommendationCommunityToItem, userID, digitalPropertyID] path:@"" headerParameters:header
                         success:^(NSURLSessionDataTask *task, id responseObject) {
                             communityToitem(responseObject);
                         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {

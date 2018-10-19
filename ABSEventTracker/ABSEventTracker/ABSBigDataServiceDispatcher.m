@@ -141,7 +141,8 @@ NSString *userID;
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         // REQUEST TOKEN
-        [networking GET:recoURL path:recoMobileResourceURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
+        [networking GET:devRecoURL path:recoMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *seccode = responseObject[@"seccode"];
             handler(seccode);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -154,7 +155,7 @@ NSString *userID;
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
 //     [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", recoURL ,recoTokenURL]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", devRecoURL ,recoTokenURL]];
    
     [self recoSecurityHash:^(NSString *sechash) {
         NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];

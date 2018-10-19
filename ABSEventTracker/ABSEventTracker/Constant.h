@@ -35,7 +35,7 @@ extern NSString* const eventWriteURL;
 extern NSString* const eventMobileResourceURL;
 
 extern NSString* const recoMobileResourceURL;
-extern NSString* const recoURL;
+extern NSString* const devRecoURL;
 extern NSString* const recoTokenURL;
 extern NSString* const recommendationPopular;
 extern NSString* const UserToItemURL;

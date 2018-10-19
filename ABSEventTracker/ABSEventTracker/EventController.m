@@ -272,6 +272,10 @@ NSMutableString *consolidatedBufferDuration;
     [[AttributeManager init] setAudioAttributes:attributes];
 }
 
++(void) getRecommendationAttributes:(RecommendationAttributes *) attributes{
+    [[AttributeManager init] setRecommendationAttributes:attributes];
+}
+
 
 @end
 

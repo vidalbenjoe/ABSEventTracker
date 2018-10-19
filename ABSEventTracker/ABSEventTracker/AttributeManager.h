@@ -35,6 +35,7 @@
 @property(nonatomic, strong) ArbitaryVariant *arbitaryinvariant;
 @property(nonatomic, strong) VideoAttributes *videoattributes;
 @property(nonatomic, weak) AudioAttributes *audioattributes;
+@property(nonatomic, weak) RecommendationAttributes *recommendationAttributes;
 
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes;
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
@@ -45,6 +46,6 @@
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp;
 -(void) setVideoAttributes:(VideoAttributes *) videoAttribute;
 -(void) setAudioAttributes:(AudioAttributes *) audioAttributes;
-
+-(void) setRecommendationAttributes:(RecommendationAttributes *) recommendationAttributes;
 @end
 
