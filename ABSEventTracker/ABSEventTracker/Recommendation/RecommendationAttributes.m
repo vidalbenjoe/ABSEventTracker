@@ -23,16 +23,16 @@
     if (self = [super init]) {
         _userId                 = builder.userId;
         _categoryId             = builder.categoryId;
-        _digitalPropertyId      = builder.categoryId;
+        _digitalPropertyId      = builder.digitalPropertyId;
     }
     return self;
 }
 
 -(RecommendationBuilder *) makeBuilder{
     RecommendationBuilder *builder = [RecommendationBuilder new];
-    builder.userId          = _userId;
-    builder.categoryId      = _categoryId;
-    builder.categoryId      = _digitalPropertyId;
+    builder.userId                  = _userId;
+    builder.categoryId              = _categoryId;
+    builder.digitalPropertyId       = _digitalPropertyId;
   
     return builder;
 }

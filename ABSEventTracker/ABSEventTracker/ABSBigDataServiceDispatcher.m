@@ -162,6 +162,7 @@ NSString *userID;
         [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"access_token"];
             handler(token);
+            NSLog(@"recotoken: %@", token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
 //            [[ABSLogger initialize] setMessage:error.description];
         }];
@@ -201,7 +202,6 @@ NSString *userID;
         /*
          * If server token is null in NSUserdefault, request a new token
          */
-
         [self requestNewToken:^(NSString *token) {
             /*
              * Storing server token in NSUserDefault
@@ -210,6 +210,7 @@ NSString *userID;
         }];
     }
 }
+
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
         /*
@@ -447,6 +448,33 @@ NSString *userID;
 
     return nil;
 }
+
++(void) recommendationDispatcher:(AttributeManager *) attributes{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
+   
+        NSError *error;
+        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", @"YAZ2oWN1k6PjKQvuIMzoGpmpMsJkyCuPVG_O3T_jjVyIB6Ut1tzdTYpM-e_GA945C_QD5ZqY2gl3S2qEzpI7YalvlOUB96XDvVL8pn0nMAu2In4JDgTCsc3gfYTkpC8Y4gPw7rsCfGrDqpsPQVrc-IaNf5eeGwZaVUC1gwcygVkFZtUecppsz8FKemXIfx3NaM5ghIWjm07fGsi0AynOb_7-1WL7gvL3F3Rl9r51vtYsvegqcBaxgDP7Sdb5bB7KZ8Kbmj2nWO7ExevgzGPYKJiXFGCNV90Si34dYBIeIi4"]};
+        
+        NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", devRecoURL, recommendationGetItemToItem, attributes.recommendationattributes.userId, attributes.recommendationattributes.categoryId, attributes.recommendationattributes.digitalPropertyId];
+        
+        NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+        
+        
+        if (!error) {
+            dispatch_async(queue, ^{
+                [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                    NSLog(@"recosuccs: %@", responseObject);
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                     NSLog(@"recoerror: %@", error.description);
+                }];
+                
+                
+            });
+        }
+}
+
+
 
 // This method will return null value string if the attributes is nil or empty
 static id isNullObject(id object){

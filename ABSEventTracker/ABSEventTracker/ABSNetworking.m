@@ -108,18 +108,66 @@ bool isHTTPDebug;
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReturnCacheDataElseLoad
                                         timeoutInterval:150.0];
+    
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
-    
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+    
+    dispatch_async(queue, ^{
+        [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
+            NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+            
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
+            
+            if (respHttp.statusCode != SUCCESS) {
+                errorHandler(nil, error);
+                return;
+            }
+            
+            if(data != nil){
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                successHandler(nil, dictionary);
+                
+            }else{
+                errorHandler(nil, error);
+                return;
+            }
+            
+            
+        }] resume];
+    });
+}
+
+-(void) POST:(NSURL *) url queryParams:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    for (id key in headers){
+        id token = [headers objectForKey:key];
+        [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
+    }
+    sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
+//    NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
+//                                        initWithURL:url
+//                                        cachePolicy: NSURLRequestReturnCacheDataElseLoad
+//                                        timeoutInterval:150.0];
+    NSMutableURLRequest *requestBody = [NSMutableURLRequest requestWithURL:url];
+    
+//    NSData *postData = [parameters dataUsingEncoding:NSUTF8StringEncoding];
+     [requestBody setValue:@"test.com" forHTTPHeaderField:@"SiteDomain"];
+     [requestBody setHTTPMethod:@"POST"];
+//    [requestBody setHTTPBody:[NSData dataWithBytes:
+//                              [parameters UTF8String]length:strlen([parameters UTF8String])]];
+
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
+            
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:@"" isDebug:isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);

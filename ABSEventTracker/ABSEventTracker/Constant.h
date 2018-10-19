@@ -41,6 +41,7 @@ extern NSString* const recommendationPopular;
 extern NSString* const UserToItemURL;
 extern NSString* const ItemToItemURL;
 extern NSString* const recommendationCommunityToItem;
+extern NSString* const recommendationGetItemToItem;
 
 // Staging host URL
 extern NSString* const TFCHostStagingURL;

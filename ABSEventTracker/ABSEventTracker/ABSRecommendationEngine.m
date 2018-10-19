@@ -13,6 +13,7 @@
 #import "AuthManager.h"
 #import "PropertyEventSource.h"
 #import "AttributeManager.h"
+#import "EventController.h"
 
 @implementation ABSRecommendationEngine
 +(void) recommendationItem:(void (^)(NSMutableDictionary *itemToItem)) itemToitem categoryID:(NSString *) categoryID contentID: (NSString *) contentID digitalProperyID: (NSString* ) digitalproperyID{
@@ -75,5 +76,8 @@
     
 }
 
++(void) updateRecommendation: (RecommendationAttributes *) attributes{
+    [EventController getRecommendationAttributes:attributes];
+}
 
 @end

@@ -27,6 +27,9 @@ NSString* const UserToItemURL                   = @"/api/recommendation/usertoit
 NSString* const ItemToItemURL                   = @"/api/recommendation/itemtoitem"; //POST
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
 
+NSString* const recommendationGetItemToItem   = @"/api/recommendation/update?";
+
+
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
 NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";

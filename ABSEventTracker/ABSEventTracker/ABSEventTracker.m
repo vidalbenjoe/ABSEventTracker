@@ -245,9 +245,7 @@
     [EventController writeAudioAttributes:attributes];
 }
 
-+(void) updateRecommendation: (RecommendationAttributes *) attributes{
-    [EventController getRecommendationAttributes:attributes];
-}
+
 @end
 
 

@@ -46,4 +46,5 @@
  */
 +(void) dispatchCachedAttributes;
 +(void) dispatcher:(AttributeManager *) attributes;
++(void) recommendationDispatcher:(AttributeManager *) attributes;
 @end

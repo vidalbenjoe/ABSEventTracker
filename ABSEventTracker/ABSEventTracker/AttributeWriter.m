@@ -19,4 +19,9 @@
     [ABSBigDataServiceDispatcher dispatchAttribute:manager];
 }
 
++(void) recommendationWriter:(AttributeManager *)manager{
+    [ABSBigDataServiceDispatcher recommendationDispatcher: manager];
+}
+
+
 @end
