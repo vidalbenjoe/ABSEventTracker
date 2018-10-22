@@ -556,6 +556,9 @@ NSString *userID;
                 [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                     NSLog(@"Success - Updating recommendation");
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    [RecoAuthManager removeRecoSechHash];
+                    [RecoAuthManager removeRecoToken];
+                    
                     NSLog(@"Unknown error from server - Recommendation: %@", error.description);
                 }];
             });
