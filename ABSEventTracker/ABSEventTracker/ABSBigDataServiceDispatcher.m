@@ -77,7 +77,6 @@ NSString *userID;
 //        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
-        
         if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if it's not exceeding the server sechash expiration date.
@@ -93,6 +92,7 @@ NSString *userID;
                     [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                         // store the token somewhere
                         NSString *token = responseObject[@"access_token"];
+                       
                         [AuthManager storeTokenToUserDefault:token];
                         handler(token);
                         NSDate *receivedTimestamp = [NSDate date];
@@ -111,6 +111,7 @@ NSString *userID;
                     NSString *token = responseObject[@"access_token"];
                     [AuthManager storeTokenToUserDefault:token];
                     handler(token);
+                
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -119,12 +120,15 @@ NSString *userID;
                 }];
             }
         }else{
+            // Requesting fresh token
             [self requestSecurityHash:^(NSString *sechash) {
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     NSString *token = responseObject[@"access_token"];
+                    NSLog(@"eventtoken: %@", token);
                     [AuthManager storeTokenToUserDefault:token];
                     handler(token);
+                    
                     NSDate *receivedTimestamp = [NSDate date];
                     [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -154,9 +158,7 @@ NSString *userID;
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
-//     [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", devRecoURL ,recoTokenURL]];
-   
     [self recoSecurityHash:^(NSString *sechash) {
         NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
         [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -453,14 +455,14 @@ NSString *userID;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
    
+    [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
         NSError *error;
-        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", @"YAZ2oWN1k6PjKQvuIMzoGpmpMsJkyCuPVG_O3T_jjVyIB6Ut1tzdTYpM-e_GA945C_QD5ZqY2gl3S2qEzpI7YalvlOUB96XDvVL8pn0nMAu2In4JDgTCsc3gfYTkpC8Y4gPw7rsCfGrDqpsPQVrc-IaNf5eeGwZaVUC1gwcygVkFZtUecppsz8FKemXIfx3NaM5ghIWjm07fGsi0AynOb_7-1WL7gvL3F3Rl9r51vtYsvegqcBaxgDP7Sdb5bB7KZ8Kbmj2nWO7ExevgzGPYKJiXFGCNV90Si34dYBIeIi4"]};
+        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
         
         NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", devRecoURL, recommendationGetItemToItem, attributes.recommendationattributes.userId, attributes.recommendationattributes.categoryId, attributes.recommendationattributes.digitalPropertyId];
         
         NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-        
-        
+    
         if (!error) {
             dispatch_async(queue, ^{
                 [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -472,6 +474,7 @@ NSString *userID;
                 
             });
         }
+    }];
 }
 
 

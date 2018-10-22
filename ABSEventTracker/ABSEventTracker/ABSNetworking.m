@@ -143,6 +143,11 @@ bool isHTTPDebug;
     });
 }
 
+/*
+ * Method: POST
+ * This post method is used for sending a request with query parameter along side with the URL with multiple header into server through NSURLSession
+ */
+
 -(void) POST:(NSURL *) url queryParams:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     for (id key in headers){
@@ -150,17 +155,10 @@ bool isHTTPDebug;
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
-//    NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
-//                                        initWithURL:url
-//                                        cachePolicy: NSURLRequestReturnCacheDataElseLoad
-//                                        timeoutInterval:150.0];
     NSMutableURLRequest *requestBody = [NSMutableURLRequest requestWithURL:url];
     
-//    NSData *postData = [parameters dataUsingEncoding:NSUTF8StringEncoding];
-     [requestBody setValue:@"test.com" forHTTPHeaderField:@"SiteDomain"];
+    [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
      [requestBody setHTTPMethod:@"POST"];
-//    [requestBody setHTTPBody:[NSData dataWithBytes:
-//                              [parameters UTF8String]length:strlen([parameters UTF8String])]];
 
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_async(queue, ^{
@@ -182,8 +180,6 @@ bool isHTTPDebug;
                 errorHandler(nil, error);
                 return;
             }
-            
-            
         }] resume];
     });
 }
