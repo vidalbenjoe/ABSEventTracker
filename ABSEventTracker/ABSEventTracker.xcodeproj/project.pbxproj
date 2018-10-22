@@ -33,6 +33,8 @@
 		2D9F9FFB2179B95E00E149C2 /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 86E2AA911F135BA300B64A4A /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D9F9FFC2179B97000E149C2 /* RecommendationAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9F9FF721799F7A00E149C2 /* RecommendationAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D9F9FFD2179D5AD00E149C2 /* ItemToItemRecommendation.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D11350C20D390F0007CCF43 /* ItemToItemRecommendation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2D9FA000217D8CC600E149C2 /* RecoAuthManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9F9FFE217D8CC600E149C2 /* RecoAuthManager.h */; };
+		2D9FA001217D8CC600E149C2 /* RecoAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9F9FFF217D8CC600E149C2 /* RecoAuthManager.m */; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
 		8645B7AE1F04F79400F21735 /* EventAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* EventAuthManager.m */; };
@@ -97,6 +99,8 @@
 		2D164E4A204FF10F00603865 /* AudioAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioAttributes.m; sourceTree = "<group>"; };
 		2D9F9FF721799F7A00E149C2 /* RecommendationAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecommendationAttributes.h; sourceTree = "<group>"; };
 		2D9F9FF821799F7A00E149C2 /* RecommendationAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecommendationAttributes.m; sourceTree = "<group>"; };
+		2D9F9FFE217D8CC600E149C2 /* RecoAuthManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecoAuthManager.h; sourceTree = "<group>"; };
+		2D9F9FFF217D8CC600E149C2 /* RecoAuthManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecoAuthManager.m; sourceTree = "<group>"; };
 		8628DB0E1F1F293200DCDB22 /* ABSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABSLogger.h; sourceTree = "<group>"; };
 		8628DB0F1F1F293200DCDB22 /* ABSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABSLogger.m; sourceTree = "<group>"; };
 		8645B77B1F04F51B00F21735 /* libABSEventTracker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libABSEventTracker.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +263,8 @@
 				8645B7AD1F04F79400F21735 /* EventAuthManager.m */,
 				8645B7BB1F04F8FF00F21735 /* DeviceFingerprinting.h */,
 				8645B7BC1F04F8FF00F21735 /* DeviceFingerprinting.m */,
+				2D9F9FFE217D8CC600E149C2 /* RecoAuthManager.h */,
+				2D9F9FFF217D8CC600E149C2 /* RecoAuthManager.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -403,6 +409,7 @@
 			files = (
 				8645B7FA1F0503B800F21735 /* ABSEventTracker.h in Headers */,
 				8645B7F91F0502AD00F21735 /* EventAttributes.h in Headers */,
+				2D9FA000217D8CC600E149C2 /* RecoAuthManager.h in Headers */,
 				86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */,
 				2D85EA582175EC240062DF61 /* UserToItem.h in Headers */,
 				2D9F9FFB2179B95E00E149C2 /* ABSRecommendationEngine.h in Headers */,
@@ -507,6 +514,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D9FA001217D8CC600E149C2 /* RecoAuthManager.m in Sources */,
 				1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */,
 				8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */,
 				8645B7C51F04F96B00F21735 /* AttributeWriter.m in Sources */,
