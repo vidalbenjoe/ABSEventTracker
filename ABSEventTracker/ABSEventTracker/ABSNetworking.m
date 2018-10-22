@@ -5,7 +5,7 @@
 //
 
 #import "ABSNetworking.h"
-#import "AuthManager.h"
+#import "EventAuthManager.h"
 #import "AttributeManager.h"
 #import "ABSBigDataServiceDispatcher.h"
 #import "Constant.h"
@@ -319,7 +319,7 @@ bool isHTTPDebug;
 -(void) onTokenRefresh{
     //TODO: Need to create separarate token refresh for Recommendation.
     [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
-        [AuthManager storeTokenToUserDefault:token];
+        [EventAuthManager storeTokenToUserDefault:token];
     }];
 }
 

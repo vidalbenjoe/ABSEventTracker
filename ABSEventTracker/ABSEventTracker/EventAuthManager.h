@@ -1,5 +1,5 @@
 //
-//  AuthManager.h
+//  EventAuthManager.h
 //  ABSEventTracker
 
 /**********************************************************************
@@ -15,7 +15,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AuthManager : NSObject
+@interface EventAuthManager : NSObject
 @property(nonatomic, retain) NSDate *tokenReceivedDate;
 @property(nonatomic, retain) NSDate *tokenExpirationDate;
 
@@ -26,7 +26,6 @@
 +(NSDate *) retrieveTokenReceivedTimestamp;
 +(void) storeTokenExpirationTimestamp:(NSDate *) expiration;
 +(NSDate *) retrieveTokenExpirationTimestamp;
-
 /*!
  * Method to store token to NSUserDefault
  */
@@ -34,7 +33,6 @@
 +(void) storeSechashReceivedTimestamp: (NSDate *) received;
 +(NSDate *) retrieveSecHashReceivedTimestamp;
 +(void) storeSecHashExpirationTimestamp:(NSDate *) expiration;
-
 /*!
  * Method to store securit hash to NSUserDefault
  */

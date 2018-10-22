@@ -9,7 +9,7 @@
 #import "Constant.h"
 #import "HTTPCallBack.h"
 #import "ABSNetworking.h"
-#import "AuthManager.h"
+#import "EventAuthManager.h"
 #import "CacheManager.h"
 #import "DeviceFingerprinting.h"
 #import "FormatUtils.h"
@@ -36,13 +36,13 @@ NSString *userID;
         [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
             handler(sechash);
-            [AuthManager storeSecurityHashTouserDefault:sechash];
+            [EventAuthManager storeSecurityHashTouserDefault:sechash];
             NSDate *receivedTimestamp = [NSDate date];
-            [AuthManager storeSechashReceivedTimestamp:receivedTimestamp];
+            [EventAuthManager storeSechashReceivedTimestamp:receivedTimestamp];
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(SECHASH_ERROR_REQUEST  "%@", error.description);
 //            [[ABSLogger initialize] setMessage:error.description];
-            [AuthManager removeSechHash];
+            [EventAuthManager removeSechHash];
         }];
     });
 }
@@ -56,7 +56,7 @@ NSString *userID;
         // REQUEST TOKEN
         [networking GET:urlStaging path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *token = responseObject[@"token"];
-            [AuthManager storeTokenToUserDefault:token];
+            [EventAuthManager storeTokenToUserDefault:token];
             handler(token);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
 //            [[ABSLogger initialize] setMessage:error.description];
@@ -74,16 +74,15 @@ NSString *userID;
     dispatch_async(queue, ^{
         NSDate *timeNow = [NSDate date];
          ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
-//        [[networking requestBody] setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         // REQUEST TOKEN
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
-        if ([AuthManager retrieveSecurityHashFromUserDefault] != nil) {
+        if ([EventAuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if it's not exceeding the server sechash expiration date.
              * Note: The sechash will last for 60 minutes.
              * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
              */
-            if ([timeNow timeIntervalSinceDate:[AuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
+            if ([timeNow timeIntervalSinceDate:[EventAuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
                 /*
                  * Request a new Sechash if the current time exceed the Sechash expiration timestamp
                  */
@@ -93,30 +92,30 @@ NSString *userID;
                         // store the token somewhere
                         NSString *token = responseObject[@"access_token"];
                        
-                        [AuthManager storeTokenToUserDefault:token];
+                        [EventAuthManager storeTokenToUserDefault:token];
                         handler(token);
                         NSDate *receivedTimestamp = [NSDate date];
-                        [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                        [EventAuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                     } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
 //                        [[ABSLogger initialize] setMessage:error.description];
-                        [AuthManager removeSechHash];
+                        [EventAuthManager removeSechHash];
                     }];
                 }];
                 
             }else{
                 // Retrieving sechash via NSUserdefault
-                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [AuthManager retrieveSecurityHashFromUserDefault]];
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [EventAuthManager retrieveSecurityHashFromUserDefault]];
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     // store the token somewhere
                     NSString *token = responseObject[@"access_token"];
-                    [AuthManager storeTokenToUserDefault:token];
+                    [EventAuthManager storeTokenToUserDefault:token];
                     handler(token);
                 
                     NSDate *receivedTimestamp = [NSDate date];
-                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                    [EventAuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
 //                    [[ABSLogger initialize] setMessage:error.description];
-                    [AuthManager removeSechHash];
+                    [EventAuthManager removeSechHash];
                 }];
             }
         }else{
@@ -126,14 +125,14 @@ NSString *userID;
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     NSString *token = responseObject[@"access_token"];
                     NSLog(@"eventtoken: %@", token);
-                    [AuthManager storeTokenToUserDefault:token];
+                    [EventAuthManager storeTokenToUserDefault:token];
                     handler(token);
                     
                     NSDate *receivedTimestamp = [NSDate date];
-                    [AuthManager storeTokenReceivedTimestamp:receivedTimestamp];
+                    [EventAuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
 //                    [[ABSLogger initialize] setMessage:error.description];
-                    [AuthManager removeSechHash];
+                    [EventAuthManager removeSechHash];
                 }];
             }];
         }
@@ -176,13 +175,13 @@ NSString *userID;
     /*
      * Check if server token is stored in NSUserDefault and not null
      */
-    if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
+    if ([EventAuthManager retrieveServerTokenFromUserDefault] != nil) {
         NSDate *timeNow = [NSDate date];
         /*
          * Checking the current time if not exceed the server token expiration date.
          * Note: The server token will last for only 9 minutes.
          */
-        if ([timeNow timeIntervalSinceDate:[AuthManager retrieveTokenExpirationTimestamp] ] > 0){
+        if ([timeNow timeIntervalSinceDate:[EventAuthManager retrieveTokenExpirationTimestamp] ] > 0){
             /*
              * Request a new server token if the current time exceeded the server token expiration timestamp
              */
@@ -190,7 +189,7 @@ NSString *userID;
                 /*Capture the current view inside the mobile app
                  * Storing server token in NSUserDefault
                  */
-                [AuthManager storeTokenToUserDefault:token];
+                [EventAuthManager storeTokenToUserDefault:token];
                [self dispatcher:attributes];
                 
             }];
@@ -208,7 +207,7 @@ NSString *userID;
             /*
              * Storing server token in NSUserDefault
              */
-            [AuthManager storeTokenToUserDefault:token];
+            [EventAuthManager storeTokenToUserDefault:token];
         }];
     }
 }
@@ -225,8 +224,8 @@ NSString *userID;
          * Retrieving server token to be used in request header.
          */
         
-        if ([AuthManager retrieveServerTokenFromUserDefault] != nil) {
-            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [AuthManager retrieveServerTokenFromUserDefault]]};
+        if ([EventAuthManager retrieveServerTokenFromUserDefault] != nil) {
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [EventAuthManager retrieveServerTokenFromUserDefault]]};
             [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                 /*
                  * Success: Sending server response to ABSLogger.
@@ -245,7 +244,7 @@ NSString *userID;
             }];
         }else{
             [self requestToken:^(NSString *token) {
-                NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [AuthManager retrieveServerTokenFromUserDefault]]};
+                NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [EventAuthManager retrieveServerTokenFromUserDefault]]};
                 [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
                     /*
                      * Success: Sending server response to ABSLogger.
@@ -350,7 +349,7 @@ NSString *userID;
         isNullObject(userID) , @"GigyaId",
         isNullObject(attributes.userattributes.ssoID) , @"SSOId",
         isNullObject(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
-        isNullObject([[AuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [AuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
+        isNullObject([[EventAuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [EventAuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         isNullObject(action), @"ActionTaken",
         isNullObject(attributes.propertyinvariant.siteDomain) , @"SiteDomain",
         isNullObject(attributes.propertyinvariant.applicationName) , @"ApplicationName",
@@ -459,16 +458,16 @@ NSString *userID;
         NSError *error;
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
         
-        NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", devRecoURL, recommendationGetItemToItem, attributes.recommendationattributes.userId, attributes.recommendationattributes.categoryId, attributes.recommendationattributes.digitalPropertyId];
+        NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", devRecoURL, recommendationGetItemToItem, isNullObject(attributes.recommendationattributes.userId), isNullObject(attributes.recommendationattributes.categoryId), isNullObject(attributes.recommendationattributes.digitalPropertyId)];
         
         NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     
         if (!error) {
             dispatch_async(queue, ^{
                 [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    NSLog(@"recosuccs: %@", responseObject);
+                    NSLog(@"Success - Updating recommendation: %@", responseObject);
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                     NSLog(@"recoerror: %@", error.description);
+                     NSLog(@"Unknown error from server - Recommendation: %@", error.description);
                 }];
                 
                 

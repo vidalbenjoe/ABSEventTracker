@@ -1,14 +1,14 @@
 //
-//  AuthManager.m
+//  EventAuthManager.h
 //  EventApp
 //
 //  Created by Benjoe Vidal on 07/06/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
 //
 
-#import "AuthManager.h"
+#import "EventAuthManager.h"
 #import "Constant.h"
-@implementation AuthManager
+@implementation EventAuthManager
 @synthesize tokenReceivedDate;
 @synthesize tokenExpirationDate;
 

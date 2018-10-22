@@ -35,7 +35,7 @@
 		2D9F9FFD2179D5AD00E149C2 /* ItemToItemRecommendation.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D11350C20D390F0007CCF43 /* ItemToItemRecommendation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8628DB111F1F293200DCDB22 /* ABSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8628DB0F1F1F293200DCDB22 /* ABSLogger.m */; };
 		8645B7AA1F04F72100F21735 /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7A91F04F72100F21735 /* Constant.m */; };
-		8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* AuthManager.m */; };
+		8645B7AE1F04F79400F21735 /* EventAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7AD1F04F79400F21735 /* EventAuthManager.m */; };
 		8645B7B11F04F7F100F21735 /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7B01F04F7F100F21735 /* DeviceInfo.m */; };
 		8645B7B41F04F81C00F21735 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7B31F04F81C00F21735 /* Reachability.m */; };
 		8645B7B71F04F86500F21735 /* FormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B7B61F04F86500F21735 /* FormatUtils.m */; };
@@ -104,8 +104,8 @@
 		8645B77F1F04F51B00F21735 /* ABSEventTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ABSEventTracker.m; sourceTree = "<group>"; };
 		8645B7A81F04F72100F21735 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		8645B7A91F04F72100F21735 /* Constant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constant.m; sourceTree = "<group>"; };
-		8645B7AC1F04F79400F21735 /* AuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthManager.h; sourceTree = "<group>"; };
-		8645B7AD1F04F79400F21735 /* AuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthManager.m; sourceTree = "<group>"; };
+		8645B7AC1F04F79400F21735 /* EventAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAuthManager.h; sourceTree = "<group>"; };
+		8645B7AD1F04F79400F21735 /* EventAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventAuthManager.m; sourceTree = "<group>"; };
 		8645B7AF1F04F7F100F21735 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		8645B7B01F04F7F100F21735 /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
 		8645B7B21F04F81C00F21735 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -255,8 +255,8 @@
 		8645B7AB1F04F78400F21735 /* Security */ = {
 			isa = PBXGroup;
 			children = (
-				8645B7AC1F04F79400F21735 /* AuthManager.h */,
-				8645B7AD1F04F79400F21735 /* AuthManager.m */,
+				8645B7AC1F04F79400F21735 /* EventAuthManager.h */,
+				8645B7AD1F04F79400F21735 /* EventAuthManager.m */,
 				8645B7BB1F04F8FF00F21735 /* DeviceFingerprinting.h */,
 				8645B7BC1F04F8FF00F21735 /* DeviceFingerprinting.m */,
 			);
@@ -516,7 +516,7 @@
 				2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */,
 				8645B7BD1F04F8FF00F21735 /* DeviceFingerprinting.m in Sources */,
 				8645B7BA1F04F8AF00F21735 /* ABSCustomOperation.m in Sources */,
-				8645B7AE1F04F79400F21735 /* AuthManager.m in Sources */,
+				8645B7AE1F04F79400F21735 /* EventAuthManager.m in Sources */,
 				8645B7CD1F04FA0500F21735 /* UserAttributes.m in Sources */,
 				8645B7B11F04F7F100F21735 /* DeviceInfo.m in Sources */,
 				8645B7C11F04F94000F21735 /* EventController.m in Sources */,

@@ -10,7 +10,7 @@
 #import "ABSBigDataServiceDispatcher.h"
 #import "PropertyEventSource.h"
 #import "ABSNetworking.h"
-#import "AuthManager.h"
+#import "EventAuthManager.h"
 #import "PropertyEventSource.h"
 #import "AttributeManager.h"
 #import "EventController.h"

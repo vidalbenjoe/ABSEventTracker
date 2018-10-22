@@ -7,7 +7,7 @@
 //
 #import "ABSEventTracker.h"
 #import "FormatUtils.h"
-#import "AuthManager.h"
+#import "EventAuthManager.h"
 #import "DeviceFingerprinting.h"
 #import "ABSBigDataServiceDispatcher.h"
 #import "ABSRecommendationEngine.h"
@@ -67,8 +67,8 @@
                     [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
                     [digitalProperty setOrigin:ONEOTTOriginURL];
                 }
-                //Storing fingerprintID to AuthManager
-                [AuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
+                //Storing fingerprintID to EventAuthManager
+                [EventAuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
                 
                 [self checkEventSource];
                 [self initWithDevice:device];
