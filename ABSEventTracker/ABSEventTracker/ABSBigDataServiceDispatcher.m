@@ -10,6 +10,7 @@
 #import "HTTPCallBack.h"
 #import "ABSNetworking.h"
 #import "EventAuthManager.h"
+#import "RecoAuthManager.h"
 #import "CacheManager.h"
 #import "DeviceFingerprinting.h"
 #import "FormatUtils.h"
@@ -91,7 +92,6 @@ NSString *userID;
                     [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                         // store the token somewhere
                         NSString *token = responseObject[@"access_token"];
-                       
                         [EventAuthManager storeTokenToUserDefault:token];
                         handler(token);
                         NSDate *receivedTimestamp = [NSDate date];
@@ -110,7 +110,6 @@ NSString *userID;
                     NSString *token = responseObject[@"access_token"];
                     [EventAuthManager storeTokenToUserDefault:token];
                     handler(token);
-                
                     NSDate *receivedTimestamp = [NSDate date];
                     [EventAuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -124,7 +123,6 @@ NSString *userID;
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     NSString *token = responseObject[@"access_token"];
-                    NSLog(@"eventtoken: %@", token);
                     [EventAuthManager storeTokenToUserDefault:token];
                     handler(token);
                     
@@ -156,19 +154,68 @@ NSString *userID;
 /* Request token for  Recommedation
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", devRecoURL ,recoTokenURL]];
-    [self recoSecurityHash:^(NSString *sechash) {
-        NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
-        [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSString *token = responseObject[@"access_token"];
-            handler(token);
-            NSLog(@"recotoken: %@", token);
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//            [[ABSLogger initialize] setMessage:error.description];
-        }];
-    }];
     
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        NSDate *timeNow = [NSDate date];
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
+        // REQUEST TOKEN
+      NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", devRecoURL ,recoTokenURL]];
+        if ([RecoAuthManager retrieveRecoSecurityHashFromUserDefault] != nil) {
+            /*
+             * Checking the current time if it's not exceeding the server sechash expiration date.
+             * Note: The sechash will last for 60 minutes.
+             * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
+             */
+            if ([timeNow timeIntervalSinceDate:[RecoAuthManager retrieveRecoSecHashReceivedTimestamp] ] > 0) {
+                /*
+                 * Request a new Sechash if the current time exceed the Sechash expiration timestamp
+                 */
+                [self recoSecurityHash:^(NSString *sechash) {
+                    NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+                    [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                        NSString *token = responseObject[@"access_token"];
+                        [RecoAuthManager storeRecoTokenToUserDefault:token];
+                        handler(token);
+                        NSDate *receivedTimestamp = [NSDate date];
+                        [RecoAuthManager storeRecoTokenReceivedTimestamp:receivedTimestamp];
+                    } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                        //            [[ABSLogger initialize] setMessage:error.description];
+                    [RecoAuthManager removeRecoSechHash];
+                    }];
+                }];
+            }else{
+                // Retrieving sechash via NSUserdefault
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [RecoAuthManager retrieveRecoSecurityHashFromUserDefault]];
+                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                    NSString *token = responseObject[@"access_token"];
+                    [RecoAuthManager storeRecoTokenToUserDefault:token];
+                    handler(token);
+                    NSDate *receivedTimestamp = [NSDate date];
+                    [RecoAuthManager storeRecoTokenReceivedTimestamp:receivedTimestamp];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    //            [[ABSLogger initialize] setMessage:error.description];
+                    [RecoAuthManager removeRecoSechHash];
+                }];
+            }
+        }else{
+            // Requesting fresh token
+            [self recoSecurityHash:^(NSString *sechash) {
+                NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+                [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
+                    NSString *token = responseObject[@"access_token"];
+                    [RecoAuthManager storeRecoTokenToUserDefault:token];
+                    handler(token);
+                    NSDate *receivedTimestamp = [NSDate date];
+                    [RecoAuthManager storeRecoTokenReceivedTimestamp:receivedTimestamp];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    //                    [[ABSLogger initialize] setMessage:error.description];
+                    [RecoAuthManager removeRecoSechHash];
+                }];
+            }];
+        }
+    });
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
@@ -203,7 +250,7 @@ NSString *userID;
         /*
          * If server token is null in NSUserdefault, request a new token
          */
-        [self requestNewToken:^(NSString *token) {
+        [self requestToken:^(NSString *token) {
             /*
              * Storing server token in NSUserDefault
              */
@@ -218,7 +265,7 @@ NSString *userID;
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
     if (writerAttributes != nil) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url], eventWriteURL]];
       ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         /*
          * Retrieving server token to be used in request header.
@@ -451,33 +498,80 @@ NSString *userID;
 }
 
 +(void) recommendationDispatcher:(AttributeManager *) attributes{
+    /*
+     * Check if server token is stored in NSUserDefault and not null
+     */
+    if ([RecoAuthManager retrieveServerRecoTokenFromUserDefault] != nil) {
+        NSDate *timeNow = [NSDate date];
+        /*
+         * Checking the current time if not exceed the server token expiration date.
+         * Note: The server token will last for only 9 minutes.
+         */
+        if ([timeNow timeIntervalSinceDate:[RecoAuthManager retrieveRecoTokenExpirationTimestamp] ] > 0){
+            /*
+             * Request a new server token if the current time exceeded the server token expiration timestamp
+             */
+            [self recoTokenRequest:^(NSString *token) {
+                /*
+                 * Storing server token in NSUserDefault
+                 */
+                [RecoAuthManager storeRecoTokenToUserDefault:token];
+                // update reco
+                [self dispatchrecoupdate:attributes.recommendationattributes];
+                
+            }];
+        }else{
+            /*
+             * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
+             */
+              [self dispatchrecoupdate:attributes.recommendationattributes];
+        }
+    }else{
+        /*
+         * If server token is null in NSUserdefault, request a new token
+         */
+        [self recoTokenRequest:^(NSString *token) {
+            /*
+             * Storing server token in NSUserDefault
+             */
+            [RecoAuthManager storeRecoTokenToUserDefault:token];
+        }];
+    }
+
+  
+}
+
++(void) dispatchrecoupdate:(RecommendationAttributes *) attributes{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
-   
-    [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
-        NSError *error;
-        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
-        
-        NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", devRecoURL, recommendationGetItemToItem, isNullObject(attributes.recommendationattributes.userId), isNullObject(attributes.recommendationattributes.categoryId), isNullObject(attributes.recommendationattributes.digitalPropertyId)];
-        
-        NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", devRecoURL, recommendationGetItemToItem, isNullObject(attributes.userId), isNullObject(attributes.categoryId), isNullObject(attributes.digitalPropertyId)];
     
+    NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    NSError *error;
+    if ([RecoAuthManager retrieveServerRecoTokenFromUserDefault] != nil) {
+          NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [RecoAuthManager retrieveServerRecoTokenFromUserDefault]]};
+      
         if (!error) {
             dispatch_async(queue, ^{
                 [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    NSLog(@"Success - Updating recommendation: %@", responseObject);
+                    NSLog(@"Success - Updating recommendation");
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                     NSLog(@"Unknown error from server - Recommendation: %@", error.description);
+                    NSLog(@"Unknown error from server - Recommendation: %@", error.description);
                 }];
-                
-                
             });
         }
-    }];
+    }else{
+        [self recoTokenRequest:^(NSString *token) {
+            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [RecoAuthManager retrieveServerRecoTokenFromUserDefault]]};
+            [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                NSLog(@"Success - Updating recommendation: %@", responseObject);
+            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                NSLog(@"Unknown error from server - Recommendation: %@", error.description);
+            }];
+            
+        }];
+    }
 }
-
-
-
 // This method will return null value string if the attributes is nil or empty
 static id isNullObject(id object){
     return object ?: @"null"; // return string "null" if object is nil and empty
