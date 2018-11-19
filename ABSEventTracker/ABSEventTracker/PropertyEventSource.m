@@ -33,6 +33,12 @@
     NSString *appname = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *) kCFBundleNameKey];
     return appname;
 }
+
++(NSString *) getAppVersion{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    return version;
+}
 /*
  * This method will return application bundle identifier. Ex. com.ph.abs-cbn.iwantv
  */

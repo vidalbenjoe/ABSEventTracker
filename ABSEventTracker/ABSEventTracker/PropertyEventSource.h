@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 
 +(NSString *) getAppName;
 +(NSString *) getBundleIdentifier;
++(NSString *) getAppVersion;
 -(void) setDigitalProperty:(DigitalProperty) digitalProperty;
 +(NSString *) convertPropertyTaken: (DigitalProperty) property;
 @end
