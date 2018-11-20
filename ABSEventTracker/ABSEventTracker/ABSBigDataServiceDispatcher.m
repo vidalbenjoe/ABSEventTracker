@@ -248,7 +248,7 @@ NSString *userID;
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
     if (writerAttributes != nil) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url], eventWriteURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url], [[[AttributeManager init] propertyinvariant] path]]];
       ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         /*
          * Retrieving server token to be used in request header.
@@ -309,7 +309,8 @@ NSString *userID;
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url], [[[AttributeManager init] propertyinvariant] path]]];
+        
            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
             
             [self requestToken:^(NSString *token) {

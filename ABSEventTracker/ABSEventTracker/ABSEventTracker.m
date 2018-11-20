@@ -51,6 +51,7 @@
                 [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
                 [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
                 [digitalProperty setUrl:config == PRODUCTION ? urlProd : urlStaging];
+                [digitalProperty setPath:config == PRODUCTION ? eventSendProdPath : eventSendStagingPath];
                 //Check digital property if for production or for staging
                 
                 if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {

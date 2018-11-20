@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 @property(nonatomic, assign) NSString *origin;
 @property(nonatomic, strong) NSString *siteDomain;
 @property(nonatomic, assign) NSString *url;
+@property(nonatomic, assign) NSString *path;
 
 +(instancetype) sharedInstance;
 

@@ -15,7 +15,8 @@ NSString *const urlProd                         = @"https://pre-prodeventsapi.az
 
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
-NSString* const eventWriteURL                   = @"/api/event/send";
+NSString* const eventSendStagingPath             = @"/api/event/send";
+NSString* const eventSendProdPath               = @"/api/event/sendasynchub";
 
 NSString* const devRecoURL                      = @"https://recoengineapidev.azurewebsites.net";
 

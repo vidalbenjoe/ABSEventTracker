@@ -31,7 +31,8 @@ extern NSString *const urlProd;
 extern NSString *const urlPreProd;
 
 extern NSString* const eventTokenURL; // token sub url
-extern NSString* const eventWriteURL;
+extern NSString* const eventSendStagingPath;
+extern NSString* const eventSendProdPath;
 extern NSString* const eventMobileResourceURL;
 
 extern NSString* const recoMobileResourceURL;
