@@ -33,7 +33,7 @@ bool isHTTPDebug;
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReturnCacheDataElseLoad
-                                        timeoutInterval:150.0];
+                                        timeoutInterval:200.0];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
@@ -63,40 +63,6 @@ bool isHTTPDebug;
       });
 }
 
-/* This method will send request into server without parameter and will return server response into blocks handler
- */
-
-//-(void) POST:(NSURL *) url success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
-//    
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
-//                   initWithURL:url
-//                   cachePolicy: NSURLRequestUseProtocolCachePolicy
-//                   timeoutInterval:120.0];
-//    [requestBody setHTTPMethod:@"POST"];
-//    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
-//     dispatch_async(queue, ^{
-//         __block NSURLSessionDataTask *task = [session dataTaskWithRequest:self->requestBody completionHandler:
-//                                          ^(NSData *data, NSURLResponse *response, NSError *error) {
-//                                              NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-//                                              
-//                                              [ABSNetworking HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: @"" isDebug:isHTTPDebug];
-//                                              
-//                                              if (respHttp.statusCode != SUCCESS) {
-//                                                  errorHandler(task, error);
-//                                                  return;
-//                                              }
-//                                              
-//                                              NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-//                                              successHandler(task, dictionary);
-//                                          }];
-//    [task resume];
-//     });
-//}
-/*
- * Method: POST
- * This post method is used for sending a string objects with multiple header into server through NSURLSession
- */
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     for (id key in headers){
@@ -107,7 +73,7 @@ bool isHTTPDebug;
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReturnCacheDataElseLoad
-                                        timeoutInterval:150.0];
+                                        timeoutInterval:200.0];
     
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -122,7 +88,7 @@ bool isHTTPDebug;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
+//            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
@@ -278,6 +244,7 @@ bool isHTTPDebug;
         }
         if(data != nil && !error){
                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+            
             [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
             
             successHandler(nil, dictionary);
@@ -318,7 +285,7 @@ bool isHTTPDebug;
 
 -(void) onTokenRefresh{
     //TODO: Need to create separarate token refresh for Recommendation.
-    [ABSBigDataServiceDispatcher requestNewToken:^(NSString *token) {
+    [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
         [EventAuthManager storeTokenToUserDefault:token];
     }];
 }

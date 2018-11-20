@@ -47,23 +47,6 @@ NSString *userID;
         }];
     });
 }
-/*
- NodeJS Token request
- */
-+(void) requestNewToken: (void (^)(NSString *token))handler{
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-      ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
-        // REQUEST TOKEN
-        [networking GET:urlStaging path:eventTokenURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSString *token = responseObject[@"token"];
-            [EventAuthManager storeTokenToUserDefault:token];
-            handler(token);
-        } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//            [[ABSLogger initialize] setMessage:error.description];
-        }];
-    });
-}
 
 /*!
  * Method for requesting server token. This method will return the server token via block(handler)
@@ -277,7 +260,7 @@ NSString *userID;
                 /*
                  * Success: Sending server response to ABSLogger.
                  */
-                //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+//                            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 /*
                  * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
@@ -310,7 +293,6 @@ NSString *userID;
         }
         
     }
-    
 }
 
 +(void) dispatchCachedAttributes{
@@ -327,7 +309,6 @@ NSString *userID;
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-        
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url],eventWriteURL]];
            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
             

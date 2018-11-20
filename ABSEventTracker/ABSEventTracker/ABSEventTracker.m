@@ -44,7 +44,6 @@
                                                [builder setDeviceType:[DeviceInfo deviceType]];
                                                [builder setAppversionBuildRelease:[PropertyEventSource getAppVersion]];
                                                
-                                               NSLog(@"BuildBersoon: %@", [PropertyEventSource getAppVersion]);
                                            }];
                 
                 // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier

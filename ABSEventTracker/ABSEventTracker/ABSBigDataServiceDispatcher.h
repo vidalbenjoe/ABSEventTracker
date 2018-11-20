@@ -26,7 +26,6 @@
  * Method for requesting server token. This method will return the server token via block(handler)
  */
 +(void) requestToken: (void (^)(NSString *token))handler;
-+(void) requestNewToken: (void (^)(NSString *token))handler;
 /*!
  * Method for requesting reco server token. This method will return the recommendation server token via block(handler)
  */
