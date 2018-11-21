@@ -19,7 +19,6 @@ NSString* const eventSendStagingPath            = @"/api/event/send";
 NSString* const eventSendProdPath               = @"/api/event/sendasynchub";
 
 NSString* const devRecoURL                      = @"https://recoengineapidev.azurewebsites.net";
-
 NSString* const prodRecoURL                     = @"https://recoengapi.bigdata.abs-cbn.com";
 
 NSString* const recoMobileResourceURL           = @"/api/recommendation/mobiledatasource";

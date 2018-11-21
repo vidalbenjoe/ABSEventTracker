@@ -29,6 +29,7 @@ bool isHTTPDebug;
 /* This method will send string parameters into server and will return server response into blocks handler
  */
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
@@ -43,8 +44,8 @@ bool isHTTPDebug;
           [[session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-                                      
-                                      [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: parameters isDebug:isHTTPDebug];
+                                        // Logging token
+//                                      [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: parameters isDebug:isHTTPDebug];
                                       
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(nil, error);

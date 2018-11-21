@@ -23,6 +23,7 @@
 }
 
 +(void) storeFailedAttributesToCacheManager: (NSMutableDictionary *) attributes{
+   
     NSError *error;
     if (![[NSFileManager defaultManager] fileExistsAtPath: [self cachePath]]){
         NSString *bundle = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
@@ -40,7 +41,7 @@
     /** Save cache to Plist*/
     BOOL success = [cachedList writeToFile:[self cachePath] atomically: YES];
     if (success) {
-//        NSLog(@"The failed attributes has been cached! %@", attributes);
+        NSLog(@"The failed attributes has been cached!");
     }else{
         NSLog(@"Failed to cache attributes");
     }

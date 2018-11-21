@@ -71,8 +71,8 @@ NSString *userID;
                  * Request a new Sechash if the current time exceed the Sechash expiration timestamp
                  */
                 [self requestSecurityHash:^(NSString *sechash) {
-                    NSLog(@"Request a new Sechash if the current time");
                     NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
+                   
                     [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                         // store the token somewhere
                         NSString *token = responseObject[@"access_token"];
@@ -204,78 +204,66 @@ NSString *userID;
 }
 
 +(void) dispatchAttribute:(AttributeManager *) attributes{
-    /*
-     * Check if server token is stored in NSUserDefault and not null
-     */
-    
-    if ([EventAuthManager retrieveServerTokenFromUserDefault] != nil) {
-        NSDate *timeNow = [NSDate date];
-        /*
-         * Checking the current time if not exceed the server token expiration date.
-         * Note: The server token will last for only 9 minutes.
-         */
-        if ([timeNow timeIntervalSinceDate:[EventAuthManager retrieveTokenExpirationTimestamp] ] > 0){
-            /*
-             * Request a new server token if the current time exceeded the server token expiration timestamp
-             */
-            [self requestToken:^(NSString *token) {
-                /*Capture the current view inside the mobile app
-                 * Storing server token in NSUserDefault
-                 */
-            [EventAuthManager storeTokenToUserDefault:token];
-            [self dispatcher:attributes];
-           
-            }];
-        }else{
-            /*
-             * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
-             */
-            [self dispatcher:attributes];
-        }
-    }else{
-        /*
-         * If server token is null in NSUserdefault, request a new token
-         */
-        [self requestToken:^(NSString *token) {
-            /*
-             * Storing server token in NSUserDefault
-             */
-            [EventAuthManager storeTokenToUserDefault:token];
-        }];
-    }
+     [self dispatcher:attributes];
 }
 
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url], [[[AttributeManager init] propertyinvariant] path]]];
+    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         /*
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
     if (writerAttributes != nil) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url], [[[AttributeManager init] propertyinvariant] path]]];
-      ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         /*
-         * Retrieving server token to be used in request header.
+         * Check if server token is stored in NSUserDefault and not null
          */
-        
         if ([EventAuthManager retrieveServerTokenFromUserDefault] != nil) {
-            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [EventAuthManager retrieveServerTokenFromUserDefault]]};
-            [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSDate *timeNow = [NSDate date];
+            /*
+             * Checking the current time if not exceed the server token expiration date.
+             * Note: The server token will last for only 9 minutes.
+             */
+            if ([timeNow timeIntervalSinceDate:[EventAuthManager retrieveTokenExpirationTimestamp] ] > 0){
                 /*
-                 * Success: Sending server response to ABSLogger.
+                 * Request a new server token if the current time exceeded the server token expiration timestamp
                  */
-//                            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                [self requestToken:^(NSString *token) {
+                    /*Capture the current view inside the mobile app
+                     * Storing server token in NSUserDefault
+                     */
+                    [EventAuthManager storeTokenToUserDefault:token];
+                    [self dispatcher:attributes];
+                    
+                }];
+            }else{
+                
                 /*
-                 * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+                 * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
                  */
-                NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
-                /*
-                 * Storing attributes dictionary into CacheManager.
-                 */
-                [CacheManager storeFailedAttributesToCacheManager:data];
-                //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
-            }];
+                NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [EventAuthManager retrieveServerTokenFromUserDefault]]};
+                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//                    NSLog(@"Big-data: Success Sending Event");
+                    /*
+                     * Success: Sending server response to ABSLogger.
+                     */
+                    //                            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    /*
+                     * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+                     */
+                    NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
+                    /*
+                     * Storing attributes dictionary into CacheManager.
+                     */
+                    [CacheManager storeFailedAttributesToCacheManager:data];
+                    //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+                }];
+            }
         }else{
+            /*
+             * If server token is null in NSUserdefault, request a new token
+             */
             [self requestToken:^(NSString *token) {
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [EventAuthManager retrieveServerTokenFromUserDefault]]};
                 [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -294,7 +282,7 @@ NSString *userID;
                 }];
             }];
         }
-        
+      
     }
 }
 
@@ -461,10 +449,10 @@ NSString *userID;
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioBufferCount]]) ,@"AudioConsolidatedBufferTime",
         isNullObject(attributes.audioattributes.audioTimeStamp) ,@"AudioTimeStamp",
         isNullObject(escapedAudioType) ,@"AudioType",
-        isNullObject(attributes.audioattributes.audioFormat) ,@"AudioFormat",
-        isNullObject(attributes.audioattributes.audioCodec) ,@"AudioCodec",
-        isNullObject(audioState) ,@"AudioPlayerState",
-        isNullObject(isAudioEnded) ,@"AudioIsEnded",
+        isNullObject(attributes.audioattributes.audioFormat),@"AudioFormat",
+        isNullObject(attributes.audioattributes.audioCodec),@"AudioCodec",
+        isNullObject(audioState) , @"AudioPlayerState",
+        isNullObject(isAudioEnded) , @"AudioIsEnded",
         isNullObject(isAudioPaused) ,@"AudioIsPaused",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioDuration]]) ,@"AudioDuration",
         isNullObject(attributes.audioattributes.audioTitle) ,@"AudioTitle",
@@ -562,7 +550,6 @@ NSString *userID;
             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                 NSLog(@"Unknown error from server - Recommendation: %@", error.description);
             }];
-            
         }];
     }
 }
