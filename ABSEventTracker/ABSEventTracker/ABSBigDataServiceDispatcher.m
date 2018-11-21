@@ -20,7 +20,7 @@
 #import "ABSLogger.h"
 
 @implementation ABSBigDataServiceDispatcher
-NSNumber *duration;
+double durations;
 NSString *userID;
 
 /*!
@@ -71,6 +71,7 @@ NSString *userID;
                  * Request a new Sechash if the current time exceed the Sechash expiration timestamp
                  */
                 [self requestSecurityHash:^(NSString *sechash) {
+                    NSLog(@"Request a new Sechash if the current time");
                     NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
                     [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                         // store the token somewhere
@@ -138,7 +139,6 @@ NSString *userID;
  */
 +(void) recoTokenRequest: (void (^)(NSString *token)) handler{
     
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         NSDate *timeNow = [NSDate date];
@@ -169,6 +169,7 @@ NSString *userID;
                     }];
                 }];
             }else{
+                
                 // Retrieving sechash via NSUserdefault
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", [RecoAuthManager retrieveRecoSecurityHashFromUserDefault]];
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -183,6 +184,7 @@ NSString *userID;
                 }];
             }
         }else{
+            
             // Requesting fresh token
             [self recoSecurityHash:^(NSString *sechash) {
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
@@ -205,6 +207,7 @@ NSString *userID;
     /*
      * Check if server token is stored in NSUserDefault and not null
      */
+    
     if ([EventAuthManager retrieveServerTokenFromUserDefault] != nil) {
         NSDate *timeNow = [NSDate date];
         /*
@@ -219,9 +222,9 @@ NSString *userID;
                 /*Capture the current view inside the mobile app
                  * Storing server token in NSUserDefault
                  */
-                [EventAuthManager storeTokenToUserDefault:token];
-               [self dispatcher:attributes];
-                
+            [EventAuthManager storeTokenToUserDefault:token];
+            [self dispatcher:attributes];
+           
             }];
         }else{
             /*
@@ -350,7 +353,7 @@ NSString *userID;
  */
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
-    duration = 0;
+    durations = 0;
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
     if (attributes.userattributes.gigyaID == nil) {
@@ -373,6 +376,10 @@ NSString *userID;
     
     NSDate *accessViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     NSDate *abandonViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
+    
+    NSString *escapedVideoURL = [attributes.videoattributes.videoURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString *escapedAudioURL = [attributes.audioattributes.audioURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString *escapedAudioType = [attributes.audioattributes.audioType stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         isNullObject(userID) , @"GigyaId",
@@ -403,7 +410,7 @@ NSString *userID;
         isNullObject([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
         isNullObject(attributes.eventattributes.searchQuery) , @"QueryString",
         isNullObject(attributes.eventattributes.readArticle) , @"ReadArticle",
-        isNullObject([NSString stringWithFormat:@"%@", duration]), @"ReadingDuration",
+        isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:durations]]), @"ReadingDuration",
         isNullObject(attributes.eventattributes.articleAuthor) , @"ArticleAuthor",
         isNullObject(attributes.eventattributes.articlePostDate) , @"ArticlePostDate",
         isNullObject(attributes.eventattributes.commentContent) , @"CommentContent",
@@ -444,7 +451,7 @@ NSString *userID;
         isNullObject(isvideoEnded), @"VideoIsEnded",
         isNullObject(videoState), @"VideoPlayerState",
         isNullObject(attributes.videoattributes.videoTitle) , @"VideoTitle",
-        isNullObject(attributes.videoattributes.videoURL) , @"VideoURL",
+        isNullObject(escapedVideoURL) , @"VideoURL",
         isNullObject(isvideoFullScreen), @"VideoFullScreen",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoVolume]]) , @"VideoVolume",
         isNullObject(videoSize) , @"VideoSize",
@@ -453,7 +460,7 @@ NSString *userID;
         isNullObject(attributes.audioattributes.audioConsolidatedBufferTime) , @"AudioConsolidatedBufferTime",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioBufferCount]]) ,@"AudioConsolidatedBufferTime",
         isNullObject(attributes.audioattributes.audioTimeStamp) ,@"AudioTimeStamp",
-        isNullObject(attributes.audioattributes.audioType) ,@"AudioType",
+        isNullObject(escapedAudioType) ,@"AudioType",
         isNullObject(attributes.audioattributes.audioFormat) ,@"AudioFormat",
         isNullObject(attributes.audioattributes.audioCodec) ,@"AudioCodec",
         isNullObject(audioState) ,@"AudioPlayerState",
@@ -461,7 +468,7 @@ NSString *userID;
         isNullObject(isAudioPaused) ,@"AudioIsPaused",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioDuration]]) ,@"AudioDuration",
         isNullObject(attributes.audioattributes.audioTitle) ,@"AudioTitle",
-        isNullObject(attributes.audioattributes.audioURL) ,@"AudioURL",
+        isNullObject(escapedAudioURL) ,@"AudioURL",
         isNullObject(attributes.audioattributes.artist) ,@"AudioArtist",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioVolume]]) ,@"AudioVolume",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioPlayPosition]]) ,@"AudioPlay",

@@ -15,7 +15,7 @@ NSString *const urlProd                         = @"https://pre-prodeventsapi.az
 
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
-NSString* const eventSendStagingPath             = @"/api/event/send";
+NSString* const eventSendStagingPath            = @"/api/event/send";
 NSString* const eventSendProdPath               = @"/api/event/sendasynchub";
 
 NSString* const devRecoURL                      = @"https://recoengineapidev.azurewebsites.net";
@@ -29,7 +29,6 @@ NSString* const ItemToItemURL                   = @"/api/recommendation/itemtoit
 NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
 
 NSString* const recommendationGetItemToItem   = @"/api/recommendation/update?";
-
 
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
