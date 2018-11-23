@@ -33,7 +33,7 @@ bool isHTTPDebug;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
-                                        cachePolicy: NSURLRequestReturnCacheDataElseLoad
+                                        cachePolicy: NSURLRequestReloadRevalidatingCacheData
                                         timeoutInterval:200.0];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
@@ -73,7 +73,7 @@ bool isHTTPDebug;
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
-                                        cachePolicy: NSURLRequestReturnCacheDataElseLoad
+                                        cachePolicy: NSURLRequestReloadRevalidatingCacheData
                                         timeoutInterval:200.0];
     
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -163,7 +163,7 @@ bool isHTTPDebug;
         sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
         NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
-                                        cachePolicy: NSURLRequestReturnCacheDataElseLoad
+                                        cachePolicy: NSURLRequestReloadRevalidatingCacheData
                                         timeoutInterval:150.0];
         
         [requestBody setHTTPMethod:@"POST"];
@@ -195,23 +195,25 @@ bool isHTTPDebug;
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
                 successHandler(nil, dictionary);
             }else{
+                NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
+                successHandler(nil, dictionary);
                 // Trim the string format JSON data to replace special character and convert to dictionary.
-                NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
-                                             stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
-                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
-                NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-                
-                NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
-                NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
-               
-                if(data != nil && !error){
-                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-                    successHandler(nil, dictionary);
-                    
-                }else{
-                    errorHandler(nil, error);
-                    return;
-                }
+//                NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
+//                                             stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
+//                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
+//                NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+//
+//                NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
+//                NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
+//
+//                if(data != nil && !error){
+//                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+//                    successHandler(nil, dictionary);
+//
+//                }else{
+//                    errorHandler(nil, error);
+//                    return;
+//                }
                 
             }
         }] resume];
