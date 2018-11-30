@@ -180,10 +180,7 @@ bool isHTTPDebug;
     
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-      
-            NSString *params = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
-            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], params ] isDebug: isHTTPDebug];
-            
+    
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -201,14 +198,12 @@ bool isHTTPDebug;
                                              stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
                                             stringByReplacingOccurrencesOfString:@" " withString:@""];
                 NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-
                 NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
                 NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
-
+                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], trimmedString ] isDebug: isHTTPDebug];
                 if(data != nil && !error){
                     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
                     successHandler(nil, dictionary);
-
                 }else{
                     errorHandler(nil, error);
                     return;
