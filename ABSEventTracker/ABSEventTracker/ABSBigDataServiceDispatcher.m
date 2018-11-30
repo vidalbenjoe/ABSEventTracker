@@ -214,6 +214,8 @@ NSString *userID;
         /*
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
+    NSString *jsonString = [[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding];
+    NSLog(@"jsonStringss %@", jsonString);
     if (writerAttributes != nil) {
         /*
          * Check if server token is stored in NSUserDefault and not null
@@ -369,6 +371,9 @@ NSString *userID;
     NSString *escapedAudioURL = [attributes.audioattributes.audioURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *escapedAudioType = [attributes.audioattributes.audioType stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
+    NSLog(@"escapedVideoURL %@", escapedVideoURL);
+    NSLog(@"unescapedVideoURL %@", attributes.videoattributes.videoURL);
+    
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         isNullObject(userID) , @"GigyaId",
         isNullObject(attributes.userattributes.ssoID) , @"SSOId",
@@ -465,7 +470,11 @@ NSString *userID;
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioStop",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBuffer",
                                                  nil];
-         NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error]; // convert dictionary to data
+    
+         NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:0 error:&error]; // convert dictionary to data
+        NSString *policyStr = [[NSString alloc] initWithData:attributesData encoding:NSUTF8StringEncoding];
+        policyStr = [policyStr stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
+        attributesData = [policyStr dataUsingEncoding:NSUTF8StringEncoding];
     
     if (error) {
         NSLog(@"Error occured when dispatching logs to the datalake");
