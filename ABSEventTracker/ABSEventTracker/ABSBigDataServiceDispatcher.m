@@ -215,7 +215,7 @@ NSString *userID;
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
     NSString *jsonString = [[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding];
-    NSLog(@"jsonStringss %@", jsonString);
+//    NSLog(@"jsonStringss %@", jsonString);
     if (writerAttributes != nil) {
         /*
          * Check if server token is stored in NSUserDefault and not null
@@ -471,7 +471,7 @@ NSString *userID;
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBuffer",
                                                  nil];
     
-         NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:0 error:&error]; // convert dictionary to data
+         NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error]; // convert dictionary to data
         NSString *policyStr = [[NSString alloc] initWithData:attributesData encoding:NSUTF8StringEncoding];
         policyStr = [policyStr stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
         attributesData = [policyStr dataUsingEncoding:NSUTF8StringEncoding];

@@ -195,25 +195,23 @@ bool isHTTPDebug;
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
                 successHandler(nil, dictionary);
             }else{
-                NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:0 error:&error];
-                successHandler(nil, dictionary);
                 // Trim the string format JSON data to replace special character and convert to dictionary.
-//                NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
-//                                             stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
-//                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
-//                NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-//
-//                NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
-//                NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
-//
-//                if(data != nil && !error){
-//                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-//                    successHandler(nil, dictionary);
-//
-//                }else{
-//                    errorHandler(nil, error);
-//                    return;
-//                }
+                NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
+                                             stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
+                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
+                NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+
+                NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
+                NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
+
+                if(data != nil && !error){
+                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+                    successHandler(nil, dictionary);
+
+                }else{
+                    errorHandler(nil, error);
+                    return;
+                }
                 
             }
         }] resume];
