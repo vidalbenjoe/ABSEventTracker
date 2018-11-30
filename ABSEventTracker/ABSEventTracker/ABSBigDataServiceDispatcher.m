@@ -214,7 +214,7 @@ NSString *userID;
         /*
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
          */
-    NSString *jsonString = [[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding];
+//    NSString *jsonString = [[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding];
 //    NSLog(@"jsonStringss %@", jsonString);
     if (writerAttributes != nil) {
         /*
@@ -472,9 +472,9 @@ NSString *userID;
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error]; // convert dictionary to data
-        NSString *policyStr = [[NSString alloc] initWithData:attributesData encoding:NSUTF8StringEncoding];
-        policyStr = [policyStr stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
-        attributesData = [policyStr dataUsingEncoding:NSUTF8StringEncoding];
+//        NSString *policyStr = [[NSString alloc] initWithData:attributesData encoding:NSUTF8StringEncoding];
+//        policyStr = [policyStr stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
+//        attributesData = [policyStr dataUsingEncoding:NSUTF8StringEncoding];
     
     if (error) {
         NSLog(@"Error occured when dispatching logs to the datalake");

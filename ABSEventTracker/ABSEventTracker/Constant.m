@@ -10,13 +10,13 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 
-NSString *const urlStaging                      = @"https://bigdataeventsapistaging.azurewebsites.net";
-NSString *const urlProd                         = @"https://bigdataeventsapidev02.azurewebsites.net";
+NSString *const urlStaging                      = @"https://bigdataeventsapidev02.azurewebsites.net";
+NSString *const urlProd                         = @"https://pre-prodeventsapi.azurewebsites.net";
 
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventSendStagingPath            = @"/api/event/send";
-NSString* const eventSendProdPath               = @"/api/event/send";
+NSString* const eventSendProdPath               = @"/api/event/sendasynchub";
 
 NSString* const devRecoURL                      = @"https://recoengineapidev.azurewebsites.net";
 NSString* const prodRecoURL                     = @"https://recoengapi.bigdata.abs-cbn.com";

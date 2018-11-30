@@ -195,6 +195,7 @@ bool isHTTPDebug;
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
                 successHandler(nil, dictionary);
             }else{
+                NSLog(@"Trimmming the string format JSON data to replace special character and convert to dictionary");
                 // Trim the string format JSON data to replace special character and convert to dictionary.
                 NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                                              stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
