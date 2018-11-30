@@ -22,8 +22,8 @@
 #define SECHASH_ERROR_REQUEST   @"Encountered an error while requesting for Security hash "
 
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
-#define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)      9
-#define DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)   45
+#define DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)     30
+#define DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)   50
 
 @interface Constant : NSObject
 extern NSString *const urlStaging;
