@@ -72,7 +72,6 @@ NSString *userID;
                  */
                 [self requestSecurityHash:^(NSString *sechash) {
                     NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
-                   
                     [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                         // store the token somewhere
                         NSString *token = responseObject[@"access_token"];
@@ -184,7 +183,6 @@ NSString *userID;
                 }];
             }
         }else{
-            
             // Requesting fresh token
             [self recoSecurityHash:^(NSString *sechash) {
                 NSString *post = [NSString stringWithFormat:@"targetcode=%@&grant_type=password", sechash];
@@ -343,6 +341,7 @@ NSString *userID;
  */
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
+    NSString *viewpageDuration;
     durations = 0;
     NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
    
@@ -364,16 +363,30 @@ NSString *userID;
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
-    NSDate *accessViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
+   
     NSDate *abandonViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
+    NSDate *accessViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     
     NSString *escapedVideoURL = [attributes.videoattributes.videoURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *escapedAudioURL = [attributes.audioattributes.audioURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSString *escapedAudioType = [attributes.audioattributes.audioType stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
-    NSLog(@"escapedVideoURL %@", escapedVideoURL);
-    NSLog(@"unescapedVideoURL %@", attributes.videoattributes.videoURL);
-    
+    if (attributes.eventattributes.actionTaken == ABANDON_VIEW || attributes.eventattributes.actionTaken == ACCESS_VIEW) {
+    if (abandonViewTimeStamp != nil ) {
+        NSComparisonResult result;
+        //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
+        result = [accessViewTimeStamp compare:abandonViewTimeStamp]; // comparing two dates
+        if(result==NSOrderedAscending){
+//            NSLog(@"today is less");
+        viewpageDuration = [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]];
+        }
+        else if(result==NSOrderedDescending){
+//            NSLog(@"newDate is less");
+        viewpageDuration = [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]];
+        }
+        }
+    }
+  
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         isNullObject(userID) , @"GigyaId",
         isNullObject(attributes.userattributes.ssoID) , @"SSOId",
@@ -420,7 +433,7 @@ NSString *userID;
         isNullObject(attributes.eventattributes.previousView) , @"PreviousView",
         isNullObject(attributes.eventattributes.currentView) , @"CurrentView",
         isNullObject(attributes.eventattributes.destinationView) , @"DestinationView",
-        isNullObject(abandonViewTimeStamp != nil && accessViewTimeStamp !=nil ? accessViewTimeStamp < abandonViewTimeStamp ? [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]] : nil : nil), @"ViewPageDuration",
+        isNullObject(viewpageDuration), @"ViewPageDuration",
         isNullObject(attributes.eventattributes.readArticle) , @"CommentedArticle",
         isNullObject(attributes.arbitaryinvariant.viewAccessTimeStamp), @"ViewAccessTimeStamp",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoPlayPosition]]), @"VideoPlay",

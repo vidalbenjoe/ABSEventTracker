@@ -16,15 +16,15 @@
 @class ArbitaryBuilder;
 @interface ArbitaryVariant : NSObject
 
-@property(nonatomic, strong) NSString *applicationAbandonTimeStamp;
-@property(nonatomic, retain) NSString *applicationLaunchTimeStamp;
-@property(nonatomic, retain) NSString *postCommentTimeStamp;
-@property(nonatomic, retain) NSString *loginTimeStamp;
-@property(nonatomic, retain) NSString *logoutTimeStamp;
-@property(nonatomic, retain) NSString *searchTimeStamp;
-@property(nonatomic, retain) NSString *viewAccessTimeStamp;
-@property(nonatomic, retain) NSString *viewAbandonTimeStamp;
-@property(nonatomic, retain) NSString *videoBufferTime;
+@property(nonatomic, weak) NSString *applicationAbandonTimeStamp;
+@property(nonatomic, weak) NSString *applicationLaunchTimeStamp;
+@property(nonatomic, weak) NSString *postCommentTimeStamp;
+@property(nonatomic, weak) NSString *loginTimeStamp;
+@property(nonatomic, weak) NSString *logoutTimeStamp;
+@property(nonatomic, weak) NSString *searchTimeStamp;
+@property(nonatomic, strong) NSString *viewAccessTimeStamp;
+@property(nonatomic, strong) NSString *viewAbandonTimeStamp;
+@property(nonatomic, strong) NSString *videoBufferTime;
 +(ArbitaryVariant*) init;
 +(instancetype) makeWithBuilder:(void (^) (ArbitaryBuilder *)) updateBlock;
 -(instancetype) initTimeStampWithBuilder:(ArbitaryBuilder *) builder;
@@ -34,12 +34,12 @@
 @end
 
 @interface ArbitaryBuilder : NSObject
-@property(nonatomic, assign) NSString *applicationAbandonTimeStamp;
-@property(nonatomic, assign) NSString *applicationLaunchTimeStamp;
-@property(nonatomic, strong) NSString *postCommentTimeStamp;
-@property(nonatomic, strong) NSString *loginTimeStamp;
-@property(nonatomic, strong) NSString *logoutTimeStamp;
-@property(nonatomic, strong) NSString *searchTimeStamp;
+@property(nonatomic, weak) NSString *applicationAbandonTimeStamp;
+@property(nonatomic, weak) NSString *applicationLaunchTimeStamp;
+@property(nonatomic, weak) NSString *postCommentTimeStamp;
+@property(nonatomic, weak) NSString *loginTimeStamp;
+@property(nonatomic, weak) NSString *logoutTimeStamp;
+@property(nonatomic, weak) NSString *searchTimeStamp;
 @property(nonatomic, strong) NSString *viewAccessTimeStamp;
 @property(nonatomic, strong) NSString *viewAbandonTimeStamp;
 @property(nonatomic, strong) NSString *videoBufferTime;
