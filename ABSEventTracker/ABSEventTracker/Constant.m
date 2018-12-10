@@ -9,8 +9,7 @@
 #import "Constant.h"
 #import "PropertyEventSource.h"
 @implementation Constant
-
-NSString *const urlStaging                      = @"https://bigdataeventsapidev02.azurewebsites.net";
+NSString *const urlStaging                      = @"https://bigdataeventsapistaging.azurewebsites.net";
 NSString *const urlProd                         = @"https://pre-prodeventsapi.azurewebsites.net";
 
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";

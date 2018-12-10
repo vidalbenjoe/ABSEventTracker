@@ -110,6 +110,62 @@ bool isHTTPDebug;
     });
 }
 
+
+-(void) POST:(NSURL *) url JSONString:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    for (id key in headers){
+        id token = [headers objectForKey:key];
+        [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
+    }
+    sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
+    NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
+                                        initWithURL:url
+                                        cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                        timeoutInterval:200.0];
+    
+    [requestBody setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
+//    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+    [requestBody setHTTPMethod:@"POST"];
+//    NSString* JSONDataString = [[[[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
+//        stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+    
+    
+//    NSString* JSONDataString = [[[[NSString alloc] initWithString:parameters] stringByReplacingOccurrencesOfString:@"'" withString:@""]
+//                                stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+//
+//    NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+//    NSString *trimmedString = [JSONDataString stringByTrimmingCharactersInSet:quoteCharset];
+//    NSLog(@"loggingJSON: %@", [NSString stringWithFormat:@"\"%@\"", parameters]);
+    [requestBody setHTTPBody:[[NSString stringWithFormat:@"\"%@\"", parameters] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+    
+    dispatch_async(queue, ^{
+        [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
+            NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+            
+            if(data != nil){
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                NSString *ksomnda = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], ksomnda ] isDebug: isHTTPDebug];
+                successHandler(nil, dictionary);
+                
+            }else{
+                errorHandler(nil, error);
+                return;
+            }
+            
+            if (respHttp.statusCode != SUCCESS) {
+                errorHandler(nil, error);
+                return;
+            }
+            
+            
+        }] resume];
+    });
+}
+
 /*
  * Method: POST
  * This post method is used for sending a request with query parameter along side with the URL with multiple header into server through NSURLSession
