@@ -150,11 +150,11 @@
         _videoQuality           = nil;
         
         _videoConsolidatedBufferTime = nil;
-        _videoAdClick           = nil;
-        _videoAdComplete        = nil;
-        _videoAdSkipped         = nil;
-        _videoAdError           = nil;
-        _videoAdPlay            = nil;
+        _videoAdClick           = NO;
+        _videoAdComplete        = NO;
+        _videoAdSkipped         = NO;
+        _videoAdError           = NO;
+        _videoAdPlay            = NO;
         _videoMeta              = nil;
         _isVideoEnded           = NO;
         _isVideoPause           = NO;

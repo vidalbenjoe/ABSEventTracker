@@ -374,6 +374,13 @@ NSString *userID;
     NSString *isAudioEnded = attributes.audioattributes.isAudioEnded ? @"True" : @"False";
     NSString *isAudioPaused = attributes.audioattributes.isAudioPaused ? @"True" : @"False";
     
+    
+    NSString *isVideoAdPlay = attributes.videoattributes.videoAdPlay ? @"True" : @"False";
+    NSString *isVideoAdSkipped = attributes.videoattributes.videoAdSkipped ? @"True" : @"False";
+    NSString *isVideoAdClick = attributes.videoattributes.videoAdClick ? @"True" : @"False";
+    NSString *isVideoAdError = attributes.videoattributes.videoAdError ? @"True" : @"False";
+    NSString *isVideoAdComplete = attributes.videoattributes.videoAdComplete ? @"True" : @"False";
+    
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
     
     NSString *audioState = [AudioAttributes convertAudioStateToString:attributes.audioattributes.audioPlayerState];
@@ -459,10 +466,11 @@ NSString *userID;
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoSeekEnd]]) , @"VideoSeekEnd",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoResumePosition]]) , @"VideoResume",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoStopPosition]]) , @"VideoStop",
-        isNullObject(attributes.videoattributes.videoAdClick) , @"VideoAdClick",
-        isNullObject(attributes.videoattributes.videoAdComplete) , @"VideoAdComplete",
-        isNullObject(attributes.videoattributes.videoAdSkipped) , @"VideoAdSkipped",
-        isNullObject(attributes.videoattributes.videoAdPlay) , @"VideoAdPlay",
+        isNullObject(isVideoAdClick) , @"VideoAdClick",
+        isNullObject(isVideoAdComplete) , @"VideoAdComplete",
+        isNullObject(isVideoAdSkipped) , @"VideoAdSkipped",
+        isNullObject(isVideoAdPlay) , @"VideoAdPlay",
+        isNullObject(isVideoAdError) , @"VideoAdError",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.videoattributes.videoAdTime]]) , @"VideoAdTime",
         isNullObject(attributes.videoattributes.videoTimeStamp) , @"VideoTimeStamp",
         isNullObject(attributes.videoattributes.videoType) , @"VideoType",

@@ -43,11 +43,12 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic, copy, readonly) NSString *videoQuality;
 @property(nonatomic, readonly) double videoVolume;
 
-@property(nonatomic, copy, readonly) NSString *videoAdClick;
-@property(nonatomic, copy, readonly) NSString *videoAdComplete;
-@property(nonatomic, copy, readonly) NSString *videoAdSkipped;
-@property(nonatomic, copy, readonly) NSString *videoAdError;
-@property(nonatomic, copy, readonly) NSString *videoAdPlay;
+@property(nonatomic) BOOL videoAdClick;
+@property(nonatomic) BOOL videoAdComplete;
+@property(nonatomic) BOOL videoAdSkipped;
+@property(nonatomic) BOOL videoAdError;
+@property(nonatomic) BOOL videoAdPlay;
+
 @property(nonatomic, copy, readonly) NSString *videoMeta;
 @property(nonatomic, copy) NSString *videoConsolidatedBufferTime;
 @property(nonatomic) NSInteger videoTotalBufferTime;
@@ -80,11 +81,12 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic, copy) NSString *videoQuality;
 @property(nonatomic) double videoVolume;
 
-@property(nonatomic, copy) NSString *videoAdClick;
-@property(nonatomic, copy) NSString *videoAdComplete;
-@property(nonatomic, copy) NSString *videoAdSkipped;
-@property(nonatomic, copy) NSString *videoAdError;
-@property(nonatomic, copy) NSString *videoAdPlay;
+@property(nonatomic) BOOL videoAdClick;
+@property(nonatomic) BOOL videoAdComplete;
+@property(nonatomic) BOOL videoAdSkipped;
+@property(nonatomic) BOOL videoAdError;
+@property(nonatomic) BOOL videoAdPlay;
+
 @property(nonatomic, copy) NSString *videoMeta;
 @property(nonatomic, copy) NSString *videoConsolidatedBufferTime;
 @property(nonatomic) NSInteger videoTotalBufferTime;
