@@ -130,21 +130,33 @@ NSMutableString *consolidatedBufferDuration;
             [attributes setVideoAdClick:NO];
             [attributes setVideoAdError:NO];
             [attributes setVideoAdSkipped:NO];
+            [attributes setVideoAdComplete:NO];
             break;
         case VIDEO_AD_CLICK:
             [attributes setVideoAdClick:YES];
             [attributes setVideoAdPlay:NO];
             [attributes setVideoAdError:NO];
             [attributes setVideoAdSkipped:NO];
+             [attributes setVideoAdComplete:NO];
             break;
         case VIDEO_AD_ERROR:
             [attributes setVideoAdError:YES];
             [attributes setVideoAdPlay:NO];
             [attributes setVideoAdClick:NO];
             [attributes setVideoAdSkipped:NO];
+             [attributes setVideoAdComplete:NO];
             break;
         case VIDEO_AD_SKIPPED:
             [attributes setVideoAdSkipped:YES];
+            [attributes setVideoAdPlay:NO];
+            [attributes setVideoAdClick:NO];
+            [attributes setVideoAdError:NO];
+             [attributes setVideoAdComplete:NO];
+            break;
+            
+        case VIDEO_AD_COMPLETE:
+            [attributes setVideoAdComplete:YES];
+            [attributes setVideoAdSkipped:NO];
             [attributes setVideoAdPlay:NO];
             [attributes setVideoAdClick:NO];
             [attributes setVideoAdError:NO];

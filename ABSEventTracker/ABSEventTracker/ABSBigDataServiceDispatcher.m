@@ -208,8 +208,8 @@ NSString *userID;
 +(void) dispatcher:(AttributeManager *) attributes{
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
     
-    NSString *JSONDataString = [[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding];
-    
+//    NSString *JSONDataString = [[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding];
+  
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url], [[[AttributeManager init] propertyinvariant] path]]];
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         /*
@@ -232,71 +232,70 @@ NSString *userID;
                  * Request a new server token if the current time exceeded the server token expiration timestamp
                  */
                 [self requestToken:^(NSString *token) {
+                    NSLog(@"Request a new server token: %@", token);
                     /*Capture the current view inside the mobile app
                      * Storing server token in NSUserDefault
                      */
                     [EventAuthManager storeTokenToUserDefault:token];
                     [self dispatcher:attributes];
-                    
                 }];
             }else{
-                
                 /*
                  * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
                  */
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", [EventAuthManager retrieveServerTokenFromUserDefault]]};
                 
-                [networking POST:url JSONString:JSONDataString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    
-                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    
-                }];
-                
-                
-//                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-////                    NSLog(@"Big-data: Success Sending Event");
-//                    /*
-//                     * Success: Sending server response to ABSLogger.
-//                     */
-//                    //                            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+//                [networking POST:url JSONString:JSONDataString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//
 //                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//                    /*
-//                     * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
-//                     */
-//                    NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
-//                    /*
-//                     * Storing attributes dictionary into CacheManager.
-//                     */
-//                    [CacheManager storeFailedAttributesToCacheManager:data];
-//                    //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+//
 //                }];
+            
+                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//                    NSLog(@"Big-data: Success Sending Event");
+                    /*
+                     * Success: Sending server response to ABSLogger.
+                     */
+                    //                            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    /*
+                     * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+                     */
+                    NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
+                    /*
+                     * Storing attributes dictionary into CacheManager.
+                     */
+                    [CacheManager storeFailedAttributesToCacheManager:data];
+                    //            [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", error]];
+                }];
             }
         }else{
             /*
              * If server token is null in NSUserdefault, request a new token
              */
             [self requestToken:^(NSString *token) {
+                NSLog(@"erver token is null in NSUserdefault: %@", token);
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [EventAuthManager retrieveServerTokenFromUserDefault]]};
-                [networking POST:url JSONString:JSONDataString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRIsTING: %@", responseObject]];
-                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    
-                }];
-                
-//                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-//                    /*
-//                     * Success: Sending server response to ABSLogger.
-//                     */
+//                [networking POST:url JSONString:JSONDataString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+//                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRIsTING: %@", responseObject]];
 //                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-//                    /*
-//                     * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
-//                     */
-//                    NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
-//                    /*
-//                     * Storing attributes dictionary into CacheManager.
-//                     */
-//                    [CacheManager storeFailedAttributesToCacheManager:data];
+//
 //                }];
+                
+                [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+                    /*
+                     * Success: Sending server response to ABSLogger.
+                     */
+                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                    /*
+                     * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
+                     */
+                    NSMutableDictionary* data = [NSJSONSerialization JSONObjectWithData:writerAttributes options:kNilOptions error:&error];
+                    /*
+                     * Storing attributes dictionary into CacheManager.
+                     */
+                    [CacheManager storeFailedAttributesToCacheManager:data];
+                }];
             }];
         }
       

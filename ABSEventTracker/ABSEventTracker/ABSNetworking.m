@@ -218,8 +218,8 @@ bool isHTTPDebug;
         NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReloadRevalidatingCacheData
-                                        timeoutInterval:150.0];
-        
+                                        timeoutInterval:200.0];
+        NSLog(@"HTTPHeader: %@", headers);
         [requestBody setHTTPMethod:@"POST"];
         [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain]
@@ -234,7 +234,7 @@ bool isHTTPDebug;
     
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-    
+            
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
                 return;
@@ -247,7 +247,6 @@ bool isHTTPDebug;
                 successHandler(nil, dictionary);
                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], dictionary ] isDebug: isHTTPDebug];
             }else{
-                NSLog(@"Trimmming the string format JSON data to replace special character and convert to dictionary");
                 // Trim the string format JSON data to replace special character and convert to dictionary.
                 NSString* returnedString = [[[[NSString alloc] initWithData:body encoding:NSASCIIStringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
                                              stringByReplacingOccurrencesOfString:@"\\" withString:@""];
@@ -255,6 +254,7 @@ bool isHTTPDebug;
                 NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
                 NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
                  [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], trimmedString ] isDebug: isHTTPDebug];
+               
                 if(data != nil && !error){
                     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
                     successHandler(nil, dictionary);
@@ -311,6 +311,7 @@ bool isHTTPDebug;
 
 -(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request HTTPBody:(NSString *) body isDebug:(BOOL) debug{
     if (debug == YES) {
+        NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
         NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
     }
     if (http.statusCode == UNAUTHORIZE) {

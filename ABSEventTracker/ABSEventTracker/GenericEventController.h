@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     VIDEO_AD_ERROR      =   41,
     VIDEO_AD_PLAY       =   42,
     VIDEO_AD_SKIPPED    =   43,
-    VIDEO_AD_TIME       =   44
+    VIDEO_AD_COMPLETE   =   44
     
 };
 
