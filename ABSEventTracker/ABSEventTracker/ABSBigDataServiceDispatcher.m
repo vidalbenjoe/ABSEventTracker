@@ -373,7 +373,6 @@ NSString *userID;
     NSString *isAudioEnded = attributes.audioattributes.isAudioEnded ? @"True" : @"False";
     NSString *isAudioPaused = attributes.audioattributes.isAudioPaused ? @"True" : @"False";
     
-    
     NSString *isVideoAdPlay = attributes.videoattributes.videoAdPlay ? @"True" : @"False";
     NSString *isVideoAdSkipped = attributes.videoattributes.videoAdSkipped ? @"True" : @"False";
     NSString *isVideoAdClick = attributes.videoattributes.videoAdClick ? @"True" : @"False";
@@ -386,7 +385,6 @@ NSString *userID;
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
     
-   
     NSDate *abandonViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAbandonTimeStamp];
     NSDate *accessViewTimeStamp = [[FormatUtils dateFormatter] dateFromString:attributes.arbitaryinvariant.viewAccessTimeStamp];
     
@@ -402,8 +400,7 @@ NSString *userID;
         if(result==NSOrderedAscending){
 //            NSLog(@"today is less");
         viewpageDuration = [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]];
-        }
-        else if(result==NSOrderedDescending){
+        }else if(result==NSOrderedDescending){
 //            NSLog(@"newDate is less");
         viewpageDuration = [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]];
         }
@@ -488,7 +485,8 @@ NSString *userID;
         isNullObject(attributes.audioattributes.audioCategoryID) , @"AudioCategoryId",
         isNullObject(attributes.audioattributes.audioContentID) , @"AudioContentId",
         isNullObject(attributes.audioattributes.audioConsolidatedBufferTime) , @"AudioConsolidatedBufferTime",
-        isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioBufferCount]]) ,@"AudioConsolidatedBufferTime",
+        isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioBufferCount]]) ,@"AudioBuffer",
+        isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioTotalBufferTime]]) , @"AudioTotalBufferTime",
         isNullObject(attributes.audioattributes.audioTimeStamp) ,@"AudioTimeStamp",
         isNullObject(escapedAudioType) ,@"AudioType",
         isNullObject(attributes.audioattributes.audioFormat),@"AudioFormat",
@@ -505,7 +503,6 @@ NSString *userID;
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioPausePosition]]) ,@"AudioPause",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioResumePosition]]) ,@"AudioResume",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioStop",
-        isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioBuffer",
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error]; // convert dictionary to data

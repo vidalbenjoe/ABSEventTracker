@@ -35,6 +35,7 @@
         _viewAccessTimeStamp              =   builder.viewAccessTimeStamp;
         _viewAbandonTimeStamp             =   builder.viewAbandonTimeStamp;
         _videoBufferTime                  =   builder.videoBufferTime;
+        _audioBufferTime                  =   builder.audioBufferTime;
     }
     return self;
 }
@@ -50,6 +51,7 @@
     builder.viewAccessTimeStamp             =   _viewAccessTimeStamp;
     builder.viewAbandonTimeStamp            =   _viewAbandonTimeStamp;
     builder.videoBufferTime                 =   _videoBufferTime;
+    builder.audioBufferTime                 =   _audioBufferTime;
     
     return builder;
 }
@@ -85,6 +87,7 @@
         _viewAccessTimeStamp                    =   nil;
         _viewAbandonTimeStamp                   =   nil;
         _videoBufferTime                        =   nil;
+        _audioBufferTime                        =   nil;
     }
     return self;
 }

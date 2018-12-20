@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic) BOOL videoAdPlay;
 
 @property(nonatomic, copy, readonly) NSString *videoMeta;
-@property(nonatomic, copy) NSString *videoConsolidatedBufferTime;
+@property(nonatomic, weak) NSString *videoConsolidatedBufferTime;
 @property(nonatomic) NSInteger videoTotalBufferTime;
 @property(nonatomic) NSInteger videoBufferCount;
 @property(nonatomic, readonly) double videoDuration;
@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic) BOOL videoAdPlay;
 
 @property(nonatomic, copy) NSString *videoMeta;
-@property(nonatomic, copy) NSString *videoConsolidatedBufferTime;
+@property(nonatomic, weak) NSString *videoConsolidatedBufferTime;
 @property(nonatomic) NSInteger videoTotalBufferTime;
 @property(nonatomic) NSInteger videoBufferCount;
 

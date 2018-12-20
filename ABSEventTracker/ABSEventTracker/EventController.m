@@ -15,13 +15,16 @@
 #import "CacheManager.h"
 
 @implementation EventController
-NSString *currentTimeStamp;
+NSDate *currentTimeStamp;
 NSDate *videoEventTimeStamp;
-NSDate *bufferTime;
+NSDate *audioEventTimeStamp;
+NSDate *videoConvertedbufferTime;
+NSDate *audioConvertedbufferTime;
 NSDateFormatter *dateFormatter;
-NSMutableArray *buffDurationArray;
-NSMutableString *consolidatedBufferDuration;
-
+NSMutableArray *videobuffDurationArray;
+NSMutableArray *audiobuffDurationArray;
+NSMutableString *videoconsolidatedBufferDuration;
+NSMutableString *audioconsolidatedBufferDuration;
 +(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -86,37 +89,40 @@ NSMutableString *consolidatedBufferDuration;
  */
 
 #pragma mark - writeVideo
-+(void) writeVideoAttributes:(VideoAttributes *)attributes{
-    if (buffDurationArray == nil) {
-        buffDurationArray = [NSMutableArray array];
++(void) writeVideoAttributes:(VideoAttributes *) attributes{
+    if (videobuffDurationArray == nil) {
+        videobuffDurationArray = [NSMutableArray array];
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-        consolidatedBufferDuration = [NSMutableString string];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        videoconsolidatedBufferDuration = [[NSMutableString alloc] init];
     }
+    
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify video action");
     }
+    
     [attributes setVideoTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
     switch (attributes.actionTaken) {
-            
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
             break;
         case VIDEO_RESUMED:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            currentTimeStamp = [NSDate date];
             [attributes setVideostate:RESUMING];
             break;
         case VIDEO_STOPPED:
             [attributes setVideostate:COMPLETED];
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            currentTimeStamp = [NSDate date];
             break;
         case VIDEO_PLAYED:
             [attributes setVideostate:PLAYING];
             [attributes setIsVideoPaused:NO];
+            currentTimeStamp = [NSDate date];
             break;
         case VIDEO_PAUSED:
             [attributes setVideostate:PAUSED];
             [attributes setIsVideoPaused:YES];
+            currentTimeStamp = [NSDate date];
             break;
         case VIDEO_SEEKED:
             [attributes setVideostate:SEEKING];
@@ -151,7 +157,7 @@ NSMutableString *consolidatedBufferDuration;
             [attributes setVideoAdPlay:NO];
             [attributes setVideoAdClick:NO];
             [attributes setVideoAdError:NO];
-             [attributes setVideoAdComplete:NO];
+            [attributes setVideoAdComplete:NO];
             break;
             
         case VIDEO_AD_COMPLETE:
@@ -167,51 +173,49 @@ NSMutableString *consolidatedBufferDuration;
     
     switch (attributes.videostate) {
         case BUFFERING:
-            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+            [[ArbitaryVariant init] setVideoBufferTime:[NSDate date]];
             break;
         case PLAYING:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+           currentTimeStamp = [NSDate date];
             break;
         case SEEKING:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            currentTimeStamp = [NSDate date];
             break;
         case COMPLETED:
             [attributes setIsVideoEnded:YES];
             break;
-            
         default:
             break;
     }
-
-    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
-    bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
-    videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
+   
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+   
+    NSString *videocurrentTime = [formatter stringFromDate:[[ArbitaryVariant init] videoBufferTime]];
+    videoConvertedbufferTime = [formatter dateFromString:videocurrentTime];
+    videoEventTimeStamp = currentTimeStamp;
     
-    if (bufferTime != nil) {
-        if (videoEventTimeStamp > bufferTime) {
+    if (videoConvertedbufferTime != nil) {
+        NSComparisonResult result;
+        //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
+        result = [videoEventTimeStamp compare:videoConvertedbufferTime]; // comparing two dates
+        if(result==NSOrderedDescending){
             /*
              * videoEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(VIDEO_BUFFERED)
              */
-            [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
-
-            for (NSString* key in buffDurationArray){
-                if ([consolidatedBufferDuration length]>0)
-                    [consolidatedBufferDuration appendString:@"|"];
-                    [consolidatedBufferDuration appendFormat:@"%@", key];
-            }
+            [videobuffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:videoConvertedbufferTime endTime:videoEventTimeStamp]]];
             
-//            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
-//            NSInteger maxtotalBuffTime = [maxValue integerValue];
-
+            //            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
+            //            NSInteger maxtotalBuffTime = [maxValue integerValue];
+            
             NSInteger sum = 0;
-            for (NSNumber *num in buffDurationArray){
+            for (NSNumber *num in videobuffDurationArray){
                 sum += [num intValue];
             }
             
-            [attributes setVideoConsolidatedBufferTime:consolidatedBufferDuration];
+            [attributes setVideoConsolidatedBufferTime:[videobuffDurationArray componentsJoinedByString: @"|"]];
             [attributes setVideoTotalBufferTime:sum];
-            [attributes setVideoBufferCount:[buffDurationArray count]];
-            
+            [attributes setVideoBufferCount:[videobuffDurationArray count]];
         }
     }
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
@@ -219,14 +223,16 @@ NSMutableString *consolidatedBufferDuration;
     }];
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setVideoAttributes:attributes];
+    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
+
 }
 
 +(void) writeAudioAttributes:(AudioAttributes *)attributes{
-    if (buffDurationArray == nil) {
-        buffDurationArray = [NSMutableArray array];
+    if (audiobuffDurationArray == nil) {
+        audiobuffDurationArray = [NSMutableArray array];
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-        consolidatedBufferDuration = [NSMutableString string];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        audioconsolidatedBufferDuration = [[NSMutableString alloc] init];
     }
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify video action");
@@ -237,17 +243,19 @@ NSMutableString *consolidatedBufferDuration;
             [attributes setAudioPlayerState:AUDIO_BUFFERING];
             break;
         case AUDIO_RESUMED:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            currentTimeStamp = [NSDate date];
              [attributes setAudioPlayerState:AUDIO_RESUMING];
             break;
         case AUDIO_STOPPED:
             [attributes setAudioPlayerState:AUDIO_COMPLETED];
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            currentTimeStamp = [NSDate date];
             break;
         case AUDIO_PLAYED:
+            currentTimeStamp = [NSDate date];
             [attributes setAudioPlayerState:AUDIO_PLAYING];
             break;
         case AUDIO_PAUSED:
+            currentTimeStamp = [NSDate date];
             [attributes setAudioPlayerState:AUDIO_PAUSE];
             [attributes setIsAudioPaused:YES];
             break;
@@ -260,45 +268,44 @@ NSMutableString *consolidatedBufferDuration;
     
     switch (attributes.audioPlayerState) {
         case AUDIO_BUFFERING:
-            [[ArbitaryVariant init] setVideoBufferTime:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+             [[ArbitaryVariant init] setAudioBufferTime:[NSDate date]];
             break;
         case AUDIO_PLAYING:
-            currentTimeStamp = [FormatUtils getCurrentTimeAndDate:[NSDate date]];
+            currentTimeStamp = [NSDate date];
             break;
         case AUDIO_COMPLETED:
             [attributes setIsAudioEnded:YES];
             break;
         case AUDIO_PAUSE:
             [attributes setActionTaken:AUDIO_PAUSED];
+            currentTimeStamp = [NSDate date];
             break;
         default:
             break;
     }
     
-    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
-    bufferTime = [dateFormatter dateFromString:[[ArbitaryVariant init] videoBufferTime]];
-    videoEventTimeStamp = [dateFormatter dateFromString:currentTimeStamp];
-    
-    if (bufferTime != nil) {
-        if (videoEventTimeStamp > bufferTime) {
+    NSString *audiocurrentTime = [dateFormatter stringFromDate:[[ArbitaryVariant init] audioBufferTime]];
+    audioConvertedbufferTime = [dateFormatter dateFromString:audiocurrentTime];
+    audioEventTimeStamp = currentTimeStamp;
+
+    if (audioConvertedbufferTime != nil) {
+        NSComparisonResult result;
+        //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
+        result = [audioEventTimeStamp compare:audioConvertedbufferTime]; // comparing two dates
+        if(result==NSOrderedDescending){
             /*
              * audioEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(AUDIO_BUFFERED)
              */
-            [buffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:bufferTime endTime:videoEventTimeStamp]]];
-            
-            for (NSString* key in buffDurationArray){
-                if ([consolidatedBufferDuration length]>0)
-                    [consolidatedBufferDuration appendString:@"|"];
-                [consolidatedBufferDuration appendFormat:@"%@", key];
-            }
+            [audiobuffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:audioConvertedbufferTime endTime:audioEventTimeStamp]]];
             
             NSInteger sum = 0;
-            for (NSNumber *num in buffDurationArray){sum += [num intValue];}
-            
-            [attributes setAudioConsolidatedBufferTime:consolidatedBufferDuration];
+            for (NSNumber *num in audiobuffDurationArray){
+                sum += [num intValue];
+            }
+        
+            [attributes setAudioConsolidatedBufferTime:[audiobuffDurationArray componentsJoinedByString: @"|"]];
             [attributes setAudioTotalBufferTime:sum];
-            [attributes setAudioBufferCount:[buffDurationArray count]];
-            
+            [attributes setAudioBufferCount:[audiobuffDurationArray count]];
         }
     }
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
@@ -307,6 +314,7 @@ NSMutableString *consolidatedBufferDuration;
     
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setAudioAttributes:attributes];
+    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
 }
 
 +(void) getRecommendationAttributes:(RecommendationAttributes *) attributes{

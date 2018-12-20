@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, AudioPlayerState){
 @property(nonatomic, copy, readonly) NSString *audioType;
 @property(nonatomic, copy, readonly) NSString *audioFormat;
 @property(nonatomic, copy, readonly) NSString *audioCodec;
-@property(nonatomic, copy) NSString *audioConsolidatedBufferTime;
+@property(nonatomic, weak) NSString *audioConsolidatedBufferTime;
 @property(nonatomic) NSInteger audioTotalBufferTime;
 @property(nonatomic) NSInteger audioBufferCount;
 @property(nonatomic, copy, readonly) NSString *audioCategoryID;
@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, AudioPlayerState){
 @property(nonatomic, copy) NSString *audioType;
 @property(nonatomic, copy) NSString *audioFormat;
 @property(nonatomic, copy) NSString *audioCodec;
-@property(nonatomic, copy) NSString *audioConsolidatedBufferTime;
+@property(nonatomic, weak) NSString *audioConsolidatedBufferTime;
 @property(nonatomic) NSInteger audioTotalBufferTime;
 @property(nonatomic) NSInteger audioBufferCount;
 @property(nonatomic, copy) NSString *audioCategoryID;

@@ -35,7 +35,7 @@
 @property(nonatomic, strong) SessionManager *session;
 @property(nonatomic, strong) ArbitaryVariant *arbitaryinvariant;
 @property(nonatomic, strong) VideoAttributes *videoattributes;
-@property(nonatomic, weak) AudioAttributes *audioattributes;
+@property(nonatomic, strong) AudioAttributes *audioattributes;
 @property(nonatomic, strong) RecommendationAttributes *recommendationattributes;
 
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes;

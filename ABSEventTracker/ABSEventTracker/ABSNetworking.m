@@ -219,7 +219,7 @@ bool isHTTPDebug;
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReloadRevalidatingCacheData
                                         timeoutInterval:200.0];
-        NSLog(@"HTTPHeader: %@", headers);
+    
         [requestBody setHTTPMethod:@"POST"];
         [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain]
@@ -227,25 +227,26 @@ bool isHTTPDebug;
 //        [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin]
 //           forHTTPHeaderField:@"Origin"];
         [requestBody setHTTPBody:body];
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            
-            if (respHttp.statusCode != SUCCESS) {
-                errorHandler(nil, error);
-                return;
-            }
             /**
              * Checking the returned JSON
              */
             if ([NSJSONSerialization isValidJSONObject:body]) {
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
-                successHandler(nil, dictionary);
+            
                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], dictionary ] isDebug: isHTTPDebug];
+                if (respHttp.statusCode != SUCCESS) {
+                    errorHandler(nil, error);
+                    return;
+                }else{
+                     successHandler(nil, dictionary);
+                    return;
+                }
             }else{
                 // Trim the string format JSON data to replace special character and convert to dictionary.
                 NSString* returnedString = [[[[NSString alloc] initWithData:body encoding:NSASCIIStringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
@@ -253,7 +254,13 @@ bool isHTTPDebug;
                 NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
                 NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
                 NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
-                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], trimmedString ] isDebug: isHTTPDebug];
+                
+                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
+                
+                NSMutableArray *arrayOfDictionaries = [NSMutableArray array];
+                [arrayOfDictionaries addObject:dictionary];
+                
+                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], arrayOfDictionaries ] isDebug: isHTTPDebug];
                
                 if(data != nil && !error){
                     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
@@ -262,7 +269,6 @@ bool isHTTPDebug;
                     errorHandler(nil, error);
                     return;
                 }
-                
             }
         }] resume];
         
@@ -313,6 +319,8 @@ bool isHTTPDebug;
     if (debug == YES) {
         NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
         NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
+        
+        
     }
     if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];

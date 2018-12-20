@@ -15,7 +15,7 @@
 +(void) storeTokenReceivedTimestamp: (NSDate *) received{
     [[NSUserDefaults standardUserDefaults] setObject:received forKey:@"tokenreceivedTimestamp"];
     [self storeTokenExpirationTimestamp:received];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize];
   
 }
 +(NSDate *) retrieveTokenReceivedTimestamp{
