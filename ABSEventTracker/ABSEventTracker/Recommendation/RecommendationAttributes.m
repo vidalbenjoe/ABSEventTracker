@@ -21,18 +21,22 @@
 
 -(instancetype) initWithBuilder:(RecommendationBuilder *)builder{
     if (self = [super init]) {
-        _userId                 = builder.userId;
-        _categoryId             = builder.categoryId;
-        _digitalPropertyId      = builder.digitalPropertyId;
+        _actionTaken                    = builder.actionTaken;
+        _recoCategoryId                 = builder.recoCategoryId;
+        _recoItemCount                  = builder.recoItemCount;
+        _recoPropertyId                 = builder.recoPropertyId;
+        _recoType                       = builder.recoType;
     }
     return self;
 }
 
 -(RecommendationBuilder *) makeBuilder{
     RecommendationBuilder *builder = [RecommendationBuilder new];
-    builder.userId                  = _userId;
-    builder.categoryId              = _categoryId;
-    builder.digitalPropertyId       = _digitalPropertyId;
+    builder.actionTaken                 = _actionTaken;
+    builder.recoCategoryId              = _recoCategoryId;
+    builder.recoItemCount               = _recoItemCount;
+    builder.recoPropertyId              = _recoPropertyId;
+    builder.recoType                    = _recoType;
   
     return builder;
 }
@@ -59,11 +63,14 @@
 
 -(instancetype) init{
     if (self = [super init]) {
-        _userId                 = nil;
-        _categoryId             = nil;
-        _digitalPropertyId      = nil;
+        _actionTaken            = 0;
+        _recoCategoryId         = nil;
+        _recoItemCount          = 0;
+        _recoPropertyId         = nil;
+        _recoType               = nil;
     }
     return self;
 }
+
 
 @end

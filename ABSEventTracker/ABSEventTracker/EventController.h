@@ -29,5 +29,5 @@
 +(void) writeEvent:(EventAttributes *) attributes;
 +(void) writeVideoAttributes:(VideoAttributes *) attributes;
 +(void) writeAudioAttributes:(AudioAttributes *) attributes;
-+(void) getRecommendationAttributes:(RecommendationAttributes *) attributes;
++(void) writeRecommendationAttributes:(RecommendationAttributes *) attributes;
 @end

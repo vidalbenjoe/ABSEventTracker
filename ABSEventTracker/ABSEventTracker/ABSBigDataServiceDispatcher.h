@@ -32,11 +32,6 @@
 
 
 /*!
- * Method for requesting recommedtation security hash. This method will return a security hash via block(handler)
- */
-+(void) recoSecurityHash: (void (^)(NSString *sechash))handler;
-+(void) recoTokenRequest: (void (^)(NSString *token))handler;
-/*!
  * Method for event attributes dispatcher. This method is responsible for sending events attributes into the data lake.
  */
 +(void) dispatchAttribute:(AttributeManager *) attributes;
@@ -45,5 +40,4 @@
  */
 +(void) dispatchCachedAttributes;
 +(void) dispatcher:(AttributeManager *) attributes;
-+(void) recommendationDispatcher:(AttributeManager *) attributes;
 @end

@@ -10,7 +10,6 @@
 #import "ArbitaryVariant.h"
 #import "FormatUtils.h"
 #import "AttributeManager.h"
-#import "ABSRecommendationEngine.h"
 #import "ABSEventTracker.h"
 #import "CacheManager.h"
 
@@ -317,10 +316,17 @@ NSMutableString *audioconsolidatedBufferDuration;
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
 }
 
-+(void) getRecommendationAttributes:(RecommendationAttributes *) attributes{
++(void) writeRecommendationAttributes:(RecommendationAttributes *) attributes{
+    if (attributes.actionTaken == UNKNOWN) {
+        NSLog(@"Please specify video action");
+    }
+    GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
+        [builder setActionTaken:attributes.actionTaken];
+    }];
+    
+    [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setRecommendationAttributes:attributes];
 }
-
 
 @end
 

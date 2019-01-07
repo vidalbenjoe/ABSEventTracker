@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GenericEventController.h"
 NS_ASSUME_NONNULL_BEGIN
 @class RecommendationBuilder;
 @interface RecommendationAttributes : NSObject
-@property(nonatomic, copy, readonly) NSString *userId;
-@property(nonatomic, copy, readonly) NSString *categoryId;
-@property(nonatomic, copy, readonly) NSString *digitalPropertyId;
+@property(nonatomic) ActionTaken actionTaken;
+@property(nonatomic, copy, readonly) NSString *recoCategoryId;
+@property(nonatomic) NSInteger recoItemCount;
+@property(nonatomic, copy, readonly) NSString *recoPropertyId;
+@property(nonatomic, copy, readonly) NSString *recoType;
 
 +(instancetype) makeWithBuilder:(void (^) (RecommendationBuilder *)) updateBlock;
 -(instancetype) initWithBuilder:(RecommendationBuilder *) builder;
@@ -23,9 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RecommendationBuilder : NSObject
-@property(nonatomic, copy) NSString *userId;
-@property(nonatomic, copy) NSString *categoryId;
-@property(nonatomic, copy) NSString *digitalPropertyId;
+@property(assign, nonatomic) ActionTaken actionTaken;
+@property(nonatomic, copy) NSString *recoCategoryId;
+@property(nonatomic) NSInteger recoItemCount;
+@property(nonatomic, copy) NSString *recoPropertyId;
+@property(nonatomic, copy) NSString *recoType;
 @end
 
 NS_ASSUME_NONNULL_END

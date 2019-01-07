@@ -10,7 +10,6 @@
 #import "EventAuthManager.h"
 #import "DeviceFingerprinting.h"
 #import "ABSBigDataServiceDispatcher.h"
-#import "ABSRecommendationEngine.h"
 #import "PropertyEventSource.h"
 #import "Constant.h"
 #import "EventController.h"
@@ -247,8 +246,10 @@
 +(void) initAudioAttributes:(AudioAttributes *)attributes{
     [EventController writeAudioAttributes:attributes];
 }
-
-
+#pragma mark - Recommendation Attributes
++(void) initRecoAttributes:  (RecommendationAttributes *) attributes{
+     [EventController writeRecommendationAttributes:attributes];
+}
 @end
 
 

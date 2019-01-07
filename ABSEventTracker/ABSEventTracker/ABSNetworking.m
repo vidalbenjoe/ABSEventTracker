@@ -188,7 +188,8 @@ bool isHTTPDebug;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:@"" isDebug:isHTTPDebug];
+            NSString *ksomnda = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], ksomnda ] isDebug: isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
@@ -240,6 +241,7 @@ bool isHTTPDebug;
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
             
                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], dictionary ] isDebug: isHTTPDebug];
+                
                 if (respHttp.statusCode != SUCCESS) {
                     errorHandler(nil, error);
                     return;
@@ -319,9 +321,8 @@ bool isHTTPDebug;
     if (debug == YES) {
         NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
         NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
-        
-        
     }
+    
     if (http.statusCode == UNAUTHORIZE) {
         [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
         [self onTokenRefresh];
@@ -345,6 +346,7 @@ bool isHTTPDebug;
 
 -(void) onTokenRefresh{
     //TODO: Need to create separarate token refresh for Recommendation.
+    //Double calling
     [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
         [EventAuthManager storeTokenToUserDefault:token];
     }];

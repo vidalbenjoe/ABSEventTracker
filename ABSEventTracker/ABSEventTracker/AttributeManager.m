@@ -81,10 +81,7 @@
 #pragma mark - Recommendation Attributes
 -(void) setRecommendationAttributes:(RecommendationAttributes *) recommendationAttributes{
     recommendationattributes = recommendationAttributes;
-    [AttributeWriter recommendationWriter:self];
+     [AttributeWriter writer:self];
 }
 
-- (void)dealloc {
-  
-}
 @end
