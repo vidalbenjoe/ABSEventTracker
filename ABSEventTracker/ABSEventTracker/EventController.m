@@ -236,7 +236,9 @@ NSMutableString *audioconsolidatedBufferDuration;
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify video action");
     }
+    
     [attributes setAudioTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+     NSLog(@"AUDIO CLICKED %ld", (long)attributes.actionTaken);
     switch (attributes.actionTaken) {
         case AUDIO_BUFFERED:
             [attributes setAudioPlayerState:AUDIO_BUFFERING];
@@ -260,6 +262,11 @@ NSMutableString *audioconsolidatedBufferDuration;
             break;
         case AUDIO_COMPLETE:
             [attributes setAudioPlayerState:AUDIO_COMPLETED];
+            break;
+        case AUDIO_NEXT:
+            [attributes setAudioConsolidatedBufferTime:nil];
+            [attributes setAudioTotalBufferTime:0];
+            [attributes setAudioBufferCount:0];
             break;
         default:
             break;
@@ -311,9 +318,12 @@ NSMutableString *audioconsolidatedBufferDuration;
         [builder setActionTaken:attributes.actionTaken];
     }];
     
-    [[AttributeManager init] setGenericAttributes:genericAction];
-    [[AttributeManager init] setAudioAttributes:attributes];
-    [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
+    if (genericAction.actionTaken != AUDIO_NEXT) {
+        [[AttributeManager init] setGenericAttributes:genericAction];
+        [[AttributeManager init] setAudioAttributes:attributes];
+        [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
+    }
+    
 }
 
 +(void) writeRecommendationAttributes:(RecommendationAttributes *) attributes{

@@ -274,6 +274,7 @@ NSString *userID;
  * This method returns a consolidated attributes that will be used for sending event data into the datalake.
  * Attributes is composed of UserAttributes, PropertyEventSource, DeviceAttributes, ArbitaryAttributes, SessionManager, VideoAttributes and EventAttributes. All of the attributes is managed by AttributeManager.
  */
+
 +(NSData *) writerAttribute:(AttributeManager *) attributes {
     NSError *error;
     NSString *viewpageDuration;
@@ -285,6 +286,7 @@ NSString *userID;
     }else{
         userID = attributes.userattributes.gigyaID != nil ? attributes.userattributes.gigyaID : [UserAttributes retrieveUserID];
     }
+    
     NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
     NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
     NSString *isvideoFullScreen = attributes.videoattributes.isVideoFullScreen ? @"True" : @"False";
@@ -328,7 +330,7 @@ NSString *userID;
   
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         isNullObject(userID) , @"GigyaId",
-        isNullObject(attributes.userattributes.ssoID) , @"SSOId",
+        isNullObject(userID) , @"SSOId",
         isNullObject(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         isNullObject([[EventAuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [EventAuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         isNullObject(action), @"ActionTaken",
@@ -426,7 +428,6 @@ NSString *userID;
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.recommendationattributes.recoItemCount]]), @"RecoItemCount",
         isNullObject(attributes.recommendationattributes.recoPropertyId) , @"RecoPropertyId",
         isNullObject(attributes.recommendationattributes.recoType) , @"RecoType",
-                                                 
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error]; // convert dictionary to data
@@ -445,7 +446,7 @@ NSString *userID;
 
 // This method will return null value string if the attributes is nil or empty
 static id isNullObject(id object){
-    return object ?: @"null"; // return string "null" if object is nil and empty
+    return object ?: @""; // return string "null" if object is nil and empty
 }
 
 @end

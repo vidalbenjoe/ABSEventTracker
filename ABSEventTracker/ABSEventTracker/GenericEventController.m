@@ -79,6 +79,7 @@
              @(AUDIO_STOPPED)       : @"audiostop",
              @(AUDIO_BUFFERED)      : @"audiobuff",
              @(AUDIO_COMPLETE)      : @"audiocomplete",
+             @(AUDIO_NEXT)          : @"audionext",
              @(SESSION_EXPIRED)     : @"sessionexpired",
              
              @(VIDEO_AD_CLICK)      : @"videoadclick",

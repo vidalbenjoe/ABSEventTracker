@@ -50,15 +50,16 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     AUDIO_STOPPED       =   36,
     AUDIO_BUFFERED      =   37,
     AUDIO_COMPLETE      =   38,
-    SESSION_EXPIRED     =   39,
+    AUDIO_NEXT          =   39,
+    SESSION_EXPIRED     =   40,
     
-    VIDEO_AD_CLICK      =   40,
-    VIDEO_AD_ERROR      =   41,
-    VIDEO_AD_PLAY       =   42,
-    VIDEO_AD_SKIPPED    =   43,
-    VIDEO_AD_COMPLETE   =   44,
+    VIDEO_AD_CLICK      =   41,
+    VIDEO_AD_ERROR      =   42,
+    VIDEO_AD_PLAY       =   43,
+    VIDEO_AD_SKIPPED    =   44,
+    VIDEO_AD_COMPLETE   =   45,
     
-    CLICK_RECO_ITEM     =   45
+    CLICK_RECO_ITEM     =   46
     
 };
 

@@ -127,10 +127,10 @@ bool isHTTPDebug;
 //    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     [requestBody setHTTPMethod:@"POST"];
+    
 //    NSString* JSONDataString = [[[[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
 //        stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-    
-    
+
 //    NSString* JSONDataString = [[[[NSString alloc] initWithString:parameters] stringByReplacingOccurrencesOfString:@"'" withString:@""]
 //                                stringByReplacingOccurrencesOfString:@"\\" withString:@""];
 //
@@ -138,13 +138,10 @@ bool isHTTPDebug;
 //    NSString *trimmedString = [JSONDataString stringByTrimmingCharactersInSet:quoteCharset];
 //    NSLog(@"loggingJSON: %@", [NSString stringWithFormat:@"\"%@\"", parameters]);
     [requestBody setHTTPBody:[[NSString stringWithFormat:@"\"%@\"", parameters] dataUsingEncoding:NSUTF8StringEncoding]];
-    
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
-    
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            
             if(data != nil){
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                 NSString *ksomnda = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -304,7 +301,7 @@ bool isHTTPDebug;
         if(data != nil && !error){
                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
             
-            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
+//            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
             
             successHandler(nil, dictionary);
             
@@ -318,23 +315,27 @@ bool isHTTPDebug;
 }
 
 -(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request HTTPBody:(NSString *) body isDebug:(BOOL) debug{
-    if (debug == YES) {
-        NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
-        NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+       
+        if (debug == YES) {
+            NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
+            NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
+        }
+        
+        if (http.statusCode == UNAUTHORIZE) {
+            [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
+            [self onTokenRefresh];
+        }else if (http.statusCode== BAD_REQUEST) {
+            [[ABSLogger initialize] setMessage:@"BAD REQUEST"];
+        }else if (http.statusCode == INTERNAL_SERVER_ERROR) {
+            [[ABSLogger initialize] setMessage:@"INTERNAL SERVER ERROR"];
+        }else if (http.statusCode == NOT_FOUND) {
+            [[ABSLogger initialize] setMessage:@"SERVER NOT FOUND"];
+        }else if(http.statusCode == PERMISSION_DENIED){
+            [self onTokenRefresh];
+        }
+    });
     
-    if (http.statusCode == UNAUTHORIZE) {
-        [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
-        [self onTokenRefresh];
-    }else if (http.statusCode== BAD_REQUEST) {
-        [[ABSLogger initialize] setMessage:@"BAD REQUEST"];
-    }else if (http.statusCode == INTERNAL_SERVER_ERROR) {
-        [[ABSLogger initialize] setMessage:@"INTERNAL SERVER ERROR"];
-    }else if (http.statusCode == NOT_FOUND) {
-        [[ABSLogger initialize] setMessage:@"SERVER NOT FOUND"];
-    }else if(http.statusCode == PERMISSION_DENIED){
-        [self onTokenRefresh];
-    }
 }
 
 /*************************HTTP CALLBACK*****************************/
