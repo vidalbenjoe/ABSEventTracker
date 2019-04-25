@@ -24,6 +24,7 @@ NSMutableArray *videobuffDurationArray;
 NSMutableArray *audiobuffDurationArray;
 NSMutableString *videoconsolidatedBufferDuration;
 NSMutableString *audioconsolidatedBufferDuration;
+
 +(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -142,14 +143,14 @@ NSMutableString *audioconsolidatedBufferDuration;
             [attributes setVideoAdPlay:NO];
             [attributes setVideoAdError:NO];
             [attributes setVideoAdSkipped:NO];
-             [attributes setVideoAdComplete:NO];
+            [attributes setVideoAdComplete:NO];
             break;
         case VIDEO_AD_ERROR:
             [attributes setVideoAdError:YES];
             [attributes setVideoAdPlay:NO];
             [attributes setVideoAdClick:NO];
             [attributes setVideoAdSkipped:NO];
-             [attributes setVideoAdComplete:NO];
+            [attributes setVideoAdComplete:NO];
             break;
         case VIDEO_AD_SKIPPED:
             [attributes setVideoAdSkipped:YES];
@@ -238,7 +239,7 @@ NSMutableString *audioconsolidatedBufferDuration;
     }
     
     [attributes setAudioTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
-     NSLog(@"AUDIO CLICKED %ld", (long)attributes.actionTaken);
+    
     switch (attributes.actionTaken) {
         case AUDIO_BUFFERED:
             [attributes setAudioPlayerState:AUDIO_BUFFERING];

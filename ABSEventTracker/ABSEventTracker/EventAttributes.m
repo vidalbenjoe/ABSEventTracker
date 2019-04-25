@@ -29,7 +29,7 @@
         _destinationView        = builder.destinationView;
         _currentView            = builder.currentView;
         
-        _latitute               = builder.latitute;
+        _latitude               = builder.latitude;
         _longitude              = builder.longitude;
         
         _articleCharacterCount  = builder.articleCharacterCount;
@@ -57,7 +57,7 @@
     builder.previousView            = _previousView;
     builder.destinationView         = _destinationView;
     builder.currentView             = _currentView;
-    builder.latitute                = _latitute;
+    builder.latitude                = _latitude;
     builder.longitude               = _longitude;
     builder.articleCharacterCount   = _articleCharacterCount;
     builder.rating                  = _rating;
@@ -77,6 +77,7 @@
     updateBlock(builder);
     return [[EventAttributes alloc] initWithBuilder:builder];
 }
+
 -(instancetype) build{
     EventBuilder *builder = [EventBuilder new];
     return [self initWithBuilder:builder];
@@ -106,7 +107,7 @@
         _currentView            = nil;
         
         _actionTaken            = 0;
-        _latitute               = 0;
+        _latitude               = 0;
         _longitude              = 0;
         
         _articleCharacterCount  = 0;

@@ -30,7 +30,6 @@
  * Method for requesting reco server token. This method will return the recommendation server token via block(handler)
  */
 
-
 /*!
  * Method for event attributes dispatcher. This method is responsible for sending events attributes into the data lake.
  */

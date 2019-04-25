@@ -44,20 +44,20 @@
     return [self initUserWithBuilder:builder];
 }
 
--(void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.ssoID forKey:@"ssoID"];
-    [encoder encodeObject:self.gigyaID forKey:@"gigyaID"];
-    [encoder encodeObject:self.loginTimeStamp forKey:@"logintimestamp"];
-}
-//
--(id)initWithCoder:(NSCoder *)decoder {
-    if((self = [super init])) {
-        self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
-        self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
-        self.loginTimeStamp = [decoder decodeObjectForKey:@"logintimestamp"];
-    }
-    return self;
-}
+//-(void)encodeWithCoder:(NSCoder *)encoder {
+//    [encoder encodeObject:self.ssoID forKey:@"ssoID"];
+//    [encoder encodeObject:self.gigyaID forKey:@"gigyaID"];
+//    [encoder encodeObject:self.loginTimeStamp forKey:@"logintimestamp"];
+//}
+////
+//-(id)initWithCoder:(NSCoder *)decoder {
+//    if((self = [super init])) {
+//        self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
+//        self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
+//        self.loginTimeStamp = [decoder decodeObjectForKey:@"logintimestamp"];
+//    }
+//    return self;
+//}
 
 +(void) cacheUserData: (UserAttributes *) userinfo{
     NSData *encodedPerson = [NSKeyedArchiver archivedDataWithRootObject:userinfo];

@@ -354,7 +354,7 @@ NSString *userID;
         isNullObject([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimeStamp",
         isNullObject(attributes.eventattributes.clickedContent) , @"ClickedContent",
         isNullObject([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
-        isNullObject([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitute]]) , @"Latitude",
+        isNullObject([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitude]]) , @"Latitude",
         isNullObject(attributes.eventattributes.searchQuery) , @"QueryString",
         isNullObject(attributes.eventattributes.readArticle) , @"ReadArticle",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:durations]]), @"ReadingDuration",

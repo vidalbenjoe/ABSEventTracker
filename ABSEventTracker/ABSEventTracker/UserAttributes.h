@@ -15,10 +15,10 @@
 #import <Foundation/Foundation.h>
 #import "EventAttributes.h"
 @class UserBuilder;
-@interface UserAttributes : NSObject<NSCoding>
-@property(nonatomic, weak) NSString *ssoID;
-@property(nonatomic, weak) NSString *gigyaID;
-@property(nonatomic, weak) NSString *loginTimeStamp;
+@interface UserAttributes : NSObject
+@property(nonatomic, copy, readonly) NSString *ssoID;
+@property(nonatomic, copy, readonly) NSString *gigyaID;
+@property(nonatomic, copy, readonly) NSString *loginTimeStamp;
 
 +(instancetype) makeWithBuilder:(void (^) (UserBuilder *)) updateBlock;
 -(instancetype) initUserWithBuilder:(UserBuilder *) builder;
@@ -33,9 +33,9 @@
 @end
 
 @interface UserBuilder : NSObject
-@property(nonatomic, assign) NSString *ssoID;
-@property(nonatomic, assign) NSString *gigyaID;
-@property(nonatomic, strong) NSString *loginTimeStamp;
+@property(nonatomic, copy) NSString *ssoID;
+@property(nonatomic, copy) NSString *gigyaID;
+@property(nonatomic, copy) NSString *loginTimeStamp;
 -(instancetype) init;
 
 @end

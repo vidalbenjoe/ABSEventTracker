@@ -37,7 +37,7 @@
 @property(nonatomic, copy, readonly) NSString *destinationView;
 @property(nonatomic, copy, readonly) NSString *currentView;
 
-@property(nonatomic) float latitute;
+@property(nonatomic) float latitude;
 @property(nonatomic) float longitude;
 @property(nonatomic) int articleCharacterCount;
 @property(nonatomic) int rating;
@@ -69,7 +69,8 @@
 @property(nonatomic, copy) NSString *destinationView;
 @property(nonatomic, copy) NSString *currentView;
 
-@property(nonatomic) float latitute;
+
+@property(nonatomic) float latitude;
 @property(nonatomic) float longitude;
 @property(nonatomic) int articleCharacterCount;
 @property(nonatomic) int rating;
