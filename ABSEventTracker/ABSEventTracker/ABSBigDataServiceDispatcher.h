@@ -17,7 +17,6 @@
 #import "AttributeManager.h"
 #import "ArbitaryVariant.h"
 @interface ABSBigDataServiceDispatcher : NSObject
-
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */

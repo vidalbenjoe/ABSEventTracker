@@ -14,7 +14,6 @@
 /*!
  * Consolidating device entropy for device fingerprinting
  */
-
 +(NSString*) buildRawEntropy{
     NSMutableArray *rawComponents = [NSMutableArray array];
     //Getting data from the device info

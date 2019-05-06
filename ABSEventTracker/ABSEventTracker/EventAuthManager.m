@@ -16,12 +16,13 @@
     [[NSUserDefaults standardUserDefaults] setObject:received forKey:@"tokenreceivedTimestamp"];
     [self storeTokenExpirationTimestamp:received];
     [[NSUserDefaults standardUserDefaults] synchronize];
-  
 }
+
 +(NSDate *) retrieveTokenReceivedTimestamp{
     NSDate *token = (NSDate*) [[NSUserDefaults standardUserDefaults] stringForKey:@"tokenreceivedTimestamp"];
     return token;
 }
+
 +(void) storeTokenExpirationTimestamp:(NSDate *) expiration{
     NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"tokenExpirationTimestamp"];

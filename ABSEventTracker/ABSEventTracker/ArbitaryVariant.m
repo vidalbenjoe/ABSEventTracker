@@ -13,7 +13,6 @@
  */
 #import "ArbitaryVariant.h"
 
-
 @implementation ArbitaryVariant
 +(ArbitaryVariant*) init{
     static ArbitaryVariant *shared = nil;

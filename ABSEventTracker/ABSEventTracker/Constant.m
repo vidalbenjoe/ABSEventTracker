@@ -1,10 +1,15 @@
-//
-//  Constants.m
-//  EventApp
-//
-//  Created by Benjoe Vidal on 01/06/2017.
-//  Copyright © 2017 ABS-CBN. All rights reserved.
-//
+
+/**********************************************************************
+ **                                                                  **
+ **                                                                  **
+ **                        Constants.m                               **
+ **           Created by Benjoe Vidal on 01/06/2017.                 **
+ **                 hello@benjoeriveravidal.com                      **
+ **        Copyright © 2017 ABS-CBN. All rights reserved.            **
+ **                                                                  **
+ **                                                                  **
+ **********************************************************************
+ */
 
 #import "Constant.h"
 #import "PropertyEventSource.h"

@@ -279,8 +279,10 @@ NSString *userID;
     NSError *error;
     NSString *viewpageDuration;
     durations = 0;
-    NSString *action =  [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
-   
+    
+    /*Getting action taken from GenericEventController*/
+    NSString *action = [GenericEventController convertActionTaken:attributes.genericattributes.actionTaken];
+    /*Check if gigyaID is null*/
     if (attributes.userattributes.gigyaID == nil) {
         userID = attributes.userattributes.ssoID == nil ? [UserAttributes retrieveUserID] : attributes.userattributes.ssoID;
     }else{
@@ -327,7 +329,7 @@ NSString *userID;
         }
         }
     }
-  
+    /*Consolidating all attributes into Mutable Dictionary to be sent to data lake*/
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         isNullObject(userID) , @"GigyaId",
         isNullObject(userID) , @"SSOId",

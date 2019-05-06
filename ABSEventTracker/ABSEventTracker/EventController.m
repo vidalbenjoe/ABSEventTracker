@@ -40,6 +40,9 @@ NSMutableString *audioconsolidatedBufferDuration;
  * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
  */
 +(void) writeEvent:(EventAttributes *) attributes{
+    if (attributes.actionTaken == UNKNOWN) {
+        NSLog(@"Please specify event action");
+    }
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -130,7 +133,6 @@ NSMutableString *audioconsolidatedBufferDuration;
         case VIDEO_COMPLETE:
             [attributes setVideostate:COMPLETED];
             break;
-            
         case VIDEO_AD_PLAY:
             [attributes setVideoAdPlay:YES];
             [attributes setVideoAdClick:NO];
@@ -199,7 +201,7 @@ NSMutableString *audioconsolidatedBufferDuration;
         NSComparisonResult result;
         //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
         result = [videoEventTimeStamp compare:videoConvertedbufferTime]; // comparing two dates
-        if(result==NSOrderedDescending){
+        if(result == NSOrderedDescending){
             /*
              * videoEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(VIDEO_BUFFERED)
              */

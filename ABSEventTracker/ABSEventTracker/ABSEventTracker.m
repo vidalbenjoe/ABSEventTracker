@@ -20,20 +20,20 @@
 @implementation ABSEventTracker
 
 +(instancetype) initializeTracker :(EnvironmentConfig) config isEnableHTTPLogs :(BOOL) HTTPLogs{
-//    NSLog(@"EnvironmentConfig: %ld", (long) config);
     static ABSEventTracker *shared = nil;
-    static dispatch_once_t pred;                 // Lock
-        dispatch_once(&pred, ^{                 // This code is called at most once per app
+    static dispatch_once_t pred; // Lock
+        dispatch_once(&pred, ^{  // This code is called at most once per app
             shared = [[self alloc] init];
+            /*Listing all digital property bundle identifier */
             NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
-            //Checking the list of valid identifier if it's matched on the current app bundle identifier
+            /*Checking the list of valid identifier if it's matched on the current app bundle identifier */
             BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
             if (isValid) {
                 // Establishing Session
                 [[SessionManager init] establish];
                 [self initSession:[SessionManager init]];
-                // Initilize all of the required attributes and entropy to be able to gather event and device related properties.
-                // Getting the device information to be used on device fingerprinting and analytics.
+                /* Initilize all of the required attributes and entropy to be able to gather event and device related properties.
+                 Getting the device information to be used on device fingerprinting and analytics.*/
                 DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
                                            (DeviceInvariantBuilder *builder) {
                                                [builder setDeviceFingerprint:config == PRODUCTION ?[DeviceFingerprinting generateDeviceFingerprint] : [NSString stringWithFormat:@"%@", [DeviceFingerprinting generateDeviceFingerprint]]];
@@ -42,7 +42,6 @@
                                                [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
                                                [builder setDeviceType:[DeviceInfo deviceType]];
                                                [builder setAppversionBuildRelease:[PropertyEventSource getAppVersion]];
-                                               
                                            }];
                 
                 // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
@@ -51,8 +50,8 @@
                 [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
                 [digitalProperty setUrl:config == PRODUCTION ? urlProd : urlStaging];
                 [digitalProperty setPath:config == PRODUCTION ? eventSendProdPath : eventSendStagingPath];
-                //Check digital property if for production or for staging
                 
+                //Check digital property if for production or for staging
                 if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
                     [digitalProperty setSiteDomain:config == PRODUCTION ? TFCHostProdURL : TFCHostStagingURL];
                     [digitalProperty setOrigin:TFCOriginURL];
@@ -69,31 +68,32 @@
                     [digitalProperty setSiteDomain:config == PRODUCTION ? ONEOTTHostProdURL : ONEOTTHostStagingURL];
                     [digitalProperty setOrigin:ONEOTTOriginURL];
                 }
+                
                 //Storing fingerprintID to EventAuthManager
                 [EventAuthManager storeFingerPrintID:[DeviceFingerprinting generateDeviceFingerprint]];
                 
                 [self checkEventSource];
-                [self initWithDevice:device];
-                [self initAppProperty:digitalProperty];
+                [self initWithDevice:device]; // initializing device attributes
+                [self initAppProperty:digitalProperty]; // Initializing app property
                 
+                /*Requesting server token*/
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                     EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
                         // Set Event action into LOAD
                         [builder setActionTaken:LOAD];
                     }];
-                    // Event writing
+                    // Writing to event attributes
                     [ABSEventTracker initEventAttributes:launchEvent];
-                    [ABSBigDataServiceDispatcher dispatchCachedAttributes];
+                    [ABSBigDataServiceDispatcher dispatchCachedAttributes]; // Dispatched failed/cached attributes
                 }];
                 // Setting a boolean to enable/disable HTTP Logs
                 [[ABSLogger initialize] setDisplayHTTPLogs:HTTPLogs];
             }else{
+                //Error logging
                 [[ABSLogger initialize] setMessage:@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property"];
                 NSLog(@"Initilization error: Bundle Identifier is not registered on the list of valid ABS-CBN's Digital Property");
             }
         });
-    
-    
    
     return shared;
 }
@@ -143,17 +143,12 @@
  */
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
-    // Send LOGIN action into server
-    [UserAttributes cachedUserInfoWithID:attributes.ssoID == nil ? attributes.gigyaID : attributes.ssoID];
-    
+    //Saving GigyaId/SSOId into userdefaults and get the saved id when sending event to data lake.
+    [UserAttributes cachedUserInfoWithID:attributes.gigyaID == nil ? attributes.ssoID : attributes.gigyaID];
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
-        [builder setActionTaken:LOGIN];
+        [builder setActionTaken:LOGIN];   // Send LOGIN action into server
     }]];
     [[AttributeManager init] setUserAttributes:attributes];
-    
-   
-  
-
 }
 
 /**
