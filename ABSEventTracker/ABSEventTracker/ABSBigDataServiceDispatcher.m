@@ -344,7 +344,6 @@ NSString *userID;
         isNullObject(screenSize)  , @"ScreenSize",
         isNullObject(attributes.deviceinvariant.deviceType) , @"DeviceType",
         isNullObject(attributes.deviceinvariant.appversionBuildRelease) , @"BuildVersionRelease",
-        isNullObject(attributes.propertyinvariant.bundleIdentifier) , @"PageURL",
         isNullObject([DeviceInfo deviceConnectivity]) , @"ConnectivityType",
         isNullObject(attributes.arbitaryinvariant.applicationLaunchTimeStamp == nil ? [CacheManager retrieveApplicationLoadTimestamp] : attributes.arbitaryinvariant.applicationLaunchTimeStamp), @"ApplicationLoadTimeStamp",
         isNullObject(attributes.arbitaryinvariant.applicationAbandonTimeStamp), @"ApplicationAbandonTimeStamp",

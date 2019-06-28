@@ -77,7 +77,6 @@
     return userID;
 }
 
-
 +(UserAttributes *) retrieveUserInfoFromCache{
     //retrieving
     NSData *encodedPerson = [[NSUserDefaults standardUserDefaults] objectForKey:@"encodedPersonKey"];

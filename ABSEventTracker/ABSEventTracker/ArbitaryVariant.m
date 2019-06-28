@@ -51,7 +51,6 @@
     builder.viewAbandonTimeStamp            =   _viewAbandonTimeStamp;
     builder.videoBufferTime                 =   _videoBufferTime;
     builder.audioBufferTime                 =   _audioBufferTime;
-    
     return builder;
 }
 

@@ -14,7 +14,8 @@
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
 bool isHTTPDebug;
-//@synthesize requestBody;
+
+ /* Initializing network configuration */
 +(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config enableHTTPLog:(BOOL) isEnableHTTPLog{
     static ABSNetworking *shared = nil;
     static dispatch_once_t onceToken;
@@ -23,11 +24,13 @@ bool isHTTPDebug;
         sessionConfiguration = config;
         isHTTPDebug = isEnableHTTPLog;
     });
+    
     return shared;
 }
 
 /* This method will send string parameters into server and will return server response into blocks handler
  */
+
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -66,10 +69,12 @@ bool isHTTPDebug;
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
     for (id key in headers){
         id token = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
+    
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
@@ -84,7 +89,6 @@ bool isHTTPDebug;
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
-    
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
@@ -282,8 +286,8 @@ bool isHTTPDebug;
     for (id key in headers){
         id header = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
-       
     }
+    
      NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
@@ -300,11 +304,8 @@ bool isHTTPDebug;
         }
         if(data != nil && !error){
                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-            
 //            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
-            
             successHandler(nil, dictionary);
-            
         }else{
             errorHandler(nil, error);
             return;

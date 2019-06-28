@@ -11,14 +11,15 @@
 @implementation FormatUtils
 +(NSDateFormatter * ) dateFormatter{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
     return dateFormatter;
 }
+
 +(NSString*) getCurrentTimeAndDate: (NSDate *) date{
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setCalendar:calendar];
-    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:sswSSS"];
     return [dateFormat stringFromDate:date];
 }
 

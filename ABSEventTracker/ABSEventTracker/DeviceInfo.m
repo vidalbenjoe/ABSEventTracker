@@ -173,6 +173,7 @@
 +(NSString*) deviceName{
     return [[UIDevice currentDevice] name];
 }
+
 //The name of the operating system running on the device represented by the receiver.
 //Ex: @"iOS"
 +(NSString*) systemName{
@@ -301,10 +302,10 @@
         return -1;
     }
 }
-
 /*
  * Return device UUID
  */
+
 +(NSString *) deviceUUID{
     NSString *uniqueIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     return uniqueIdentifier;

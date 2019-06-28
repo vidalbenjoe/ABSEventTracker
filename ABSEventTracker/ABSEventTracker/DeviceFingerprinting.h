@@ -5,7 +5,7 @@
  **                                                                  **
  **                        ABSEventTracker                           **
  **            Created by Benjoe Vidal on 22/05/2017.                **
- **          Copyright © 2017 ABS-CBN. All rights reserved.          **
+ **         Copyright © 2017 ABS-CBN. All rights reserved.           **
  **                                                                  **
  **                                                                  **
  **                                                                  **

@@ -45,12 +45,13 @@
     eventattributes = eventAttributes;
     [AttributeWriter writer:self];
 }
+
 #pragma mark - User Attributes
 -(void) setUserAttributes:(UserAttributes *) userAttributes{
     videoattributes = nil;
     userattributes = userAttributes;
-    
 }
+
 #pragma mark - Property Attributes
 -(void) setPropertyAttributes:(PropertyEventSource *) propertyAttributes{
     propertyinvariant = propertyAttributes;

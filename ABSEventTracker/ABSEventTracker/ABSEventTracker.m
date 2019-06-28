@@ -139,7 +139,7 @@
     [[AttributeManager init] setPropertyAttributes:attributes];
 }
 /**
- * This method wil l trigger after the user successfully logged in to their account.
+ * This method will trigger after the user successfully logged in to their account.
  */
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
