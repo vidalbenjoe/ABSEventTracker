@@ -22,6 +22,7 @@
 -(instancetype) initWithBuilder:(RecommendationBuilder *)builder{
     if (self = [super init]) {
         _actionTaken                    = builder.actionTaken;
+        _recoUserId                     = builder.recoUserId;
         _recoCategoryId                 = builder.recoCategoryId;
         _recoItemCount                  = builder.recoItemCount;
         _recoPropertyId                 = builder.recoPropertyId;
@@ -33,6 +34,7 @@
 -(RecommendationBuilder *) makeBuilder{
     RecommendationBuilder *builder = [RecommendationBuilder new];
     builder.actionTaken                 = _actionTaken;
+    builder.recoUserId                  = _recoUserId;
     builder.recoCategoryId              = _recoCategoryId;
     builder.recoItemCount               = _recoItemCount;
     builder.recoPropertyId              = _recoPropertyId;
@@ -64,6 +66,7 @@
 -(instancetype) init{
     if (self = [super init]) {
         _actionTaken            = 0;
+        _recoUserId             = nil;
         _recoCategoryId         = nil;
         _recoItemCount          = 0;
         _recoPropertyId         = nil;

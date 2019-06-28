@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class RecommendationBuilder;
 @interface RecommendationAttributes : NSObject
 @property(nonatomic) ActionTaken actionTaken;
+@property(nonatomic, copy, readonly) NSString *recoUserId;
 @property(nonatomic, copy, readonly) NSString *recoCategoryId;
 @property(nonatomic) NSInteger recoItemCount;
 @property(nonatomic, copy, readonly) NSString *recoPropertyId;
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RecommendationBuilder : NSObject
 @property(assign, nonatomic) ActionTaken actionTaken;
+@property(nonatomic, copy) NSString *recoUserId;
 @property(nonatomic, copy) NSString *recoCategoryId;
 @property(nonatomic) NSInteger recoItemCount;
 @property(nonatomic, copy) NSString *recoPropertyId;

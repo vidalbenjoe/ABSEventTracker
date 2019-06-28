@@ -48,5 +48,7 @@
 -(void) setVideoAttributes:(VideoAttributes *) videoAttribute;
 -(void) setAudioAttributes:(AudioAttributes *) audioAttributes;
 -(void) setRecommendationAttributes:(RecommendationAttributes *) recommendationAttributes;
+-(void) updateRecommendation:(RecommendationAttributes *) recommendationAttributes;
+
 @end
 

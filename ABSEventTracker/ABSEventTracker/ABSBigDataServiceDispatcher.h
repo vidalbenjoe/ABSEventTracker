@@ -16,6 +16,7 @@
 #import <Foundation/Foundation.h>
 #import "AttributeManager.h"
 #import "ArbitaryVariant.h"
+
 @interface ABSBigDataServiceDispatcher : NSObject
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
@@ -38,4 +39,13 @@
  */
 +(void) dispatchCachedAttributes;
 +(void) dispatcher:(AttributeManager *) attributes;
+
+
+/*!
+ * Method for requesting recommedtation security hash. This method will return a security hash via block(handler)
+ */
++(void) recoSecurityHash: (void (^)(NSString *sechash))handler;
++(void) recoTokenRequest: (void (^)(NSString *token))handler;
+
++(void) recommendationDispatcher:(AttributeManager *) attributes;
 @end

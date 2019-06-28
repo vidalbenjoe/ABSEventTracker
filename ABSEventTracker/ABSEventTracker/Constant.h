@@ -35,13 +35,14 @@ extern NSString* const eventSendStagingPath;
 extern NSString* const eventSendProdPath;
 extern NSString* const eventMobileResourceURL;
 
-//extern NSString* const recoMobileResourceURL;
+extern NSString* const recoMobileResourceURL;
 extern NSString* const devRecoURL;
+extern NSString* const prodRecoURL;
 //extern NSString* const recommendationPopular;
 //extern NSString* const UserToItemURL;
 //extern NSString* const ItemToItemURL;
 //extern NSString* const recommendationCommunityToItem;
-extern NSString* const recommendationGetItemToItem;
+extern NSString* const recommendationUpdateURL;
 
 // Staging host URL
 extern NSString* const TFCHostStagingURL;

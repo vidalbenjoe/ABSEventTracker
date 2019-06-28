@@ -85,4 +85,8 @@
      [AttributeWriter writer:self];
 }
 
+-(void) updateRecommendation:(RecommendationAttributes *) recommendationAttributes{
+    recommendationattributes = recommendationAttributes;
+    [AttributeWriter recommendationWriter:self];
+}
 @end

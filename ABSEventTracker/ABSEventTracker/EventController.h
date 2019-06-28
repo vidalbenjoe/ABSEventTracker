@@ -30,4 +30,6 @@
 +(void) writeVideoAttributes:(VideoAttributes *) attributes;
 +(void) writeAudioAttributes:(AudioAttributes *) attributes;
 +(void) writeRecommendationAttributes:(RecommendationAttributes *) attributes;
++(void) getRecommendationAttributes:(RecommendationAttributes *) attributes;
+
 @end

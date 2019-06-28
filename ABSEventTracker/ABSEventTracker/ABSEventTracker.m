@@ -16,6 +16,7 @@
 #import "DeviceInfo.h"
 #import "CacheManager.h"
 #import "ABSLogger.h"
+#import "ABSRecommendationEngine.h"
 
 @implementation ABSEventTracker
 
