@@ -14,7 +14,7 @@
 #import "RecommendationAttributes.h"
 @interface ABSRecommendationEngine : NSObject
 
-+(void) recommendationUser:(void (^)(NSMutableDictionary *userToItem)) userToitem userID: (NSString* ) userID digitalPropertyID: (NSString *) digitalPropertyID;
++(void) recommendationUpdate:(void (^)(NSMutableDictionary *userToItem)) userToitem userID: (NSString* ) userID categoryId: (NSString*) categoryId digitalPropertyID: (NSString *) digitalPropertyID;
 
-+(void) updateRecommendation: (RecommendationAttributes *) attributes;
++(void) updateRecommendations: (RecommendationAttributes *) attributes;
 @end

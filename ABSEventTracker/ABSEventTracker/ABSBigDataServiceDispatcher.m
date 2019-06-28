@@ -590,7 +590,7 @@ NSString *userID;
 +(void) dispatchrecoupdate:(RecommendationAttributes *) attributes{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
-    NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", devRecoURL, recommendationUpdateURL, isNullObject(attributes.recoUserId), isNullObject(attributes.recoCategoryId), isNullObject(attributes.recoPropertyId)];
+    NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", prodRecoURL, recommendationUpdateURL, isNullObject(attributes.recoUserId), isNullObject(attributes.recoCategoryId), isNullObject(attributes.recoPropertyId)];
     
     NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     NSError *error;

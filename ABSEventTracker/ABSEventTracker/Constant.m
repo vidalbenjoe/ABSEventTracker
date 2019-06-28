@@ -26,7 +26,7 @@ NSString* const devRecoURL                      = @"https://recoengineapidev.azu
 NSString* const prodRecoURL                     = @"https://recoengapi.bigdata.abs-cbn.com";
 
 NSString* const recoMobileResourceURL           = @"/api/recommendation/mobiledatasource";
-//NSString* const UserToItemURL                   = @"/api/recommendation/usertoitem"; //POST
+NSString* const UserToItemURL                   = @"/api/recommendation/usertoitem"; //POST
 //NSString* const ItemToItemURL                   = @"/api/recommendation/itemtoitem"; //POST
 //NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
 

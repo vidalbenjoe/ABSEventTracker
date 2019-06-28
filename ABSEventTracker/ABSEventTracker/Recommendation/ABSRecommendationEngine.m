@@ -20,7 +20,7 @@
 @implementation ABSRecommendationEngine
 
 
-+(void) recommendationUser:(void (^)(NSMutableDictionary *userToItem)) userToitem userID: (NSString* ) userID digitalPropertyID: (NSString *) digitalPropertyID{
++(void) recommendationUpdate:(void (^)(NSMutableDictionary *userToItem)) userToitem userID: (NSString* ) userID categoryId: (NSString*) categoryId digitalPropertyID: (NSString *) digitalPropertyID{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
     [ABSBigDataServiceDispatcher recoTokenRequest:^(NSString *token) {
@@ -28,9 +28,9 @@
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
         if (!error) {
             dispatch_async(queue, ^{
-                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@&digitalPropertyId=%@", devRecoURL, UserToItemURL, userID, digitalPropertyID] path:@"" headerParameters:header
+                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@categoryId=%@&&digitalPropertyId=%@", devRecoURL, recommendationUpdateURL, userID, categoryId ,digitalPropertyID ] path:@"" headerParameters:header
                         success:^(NSURLSessionDataTask *task, id responseObject) {
-                            userToitem(responseObject);
+//                            userToitem(responseObject);
                         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                             
                             return;
@@ -40,9 +40,7 @@
     }];
 }
 
-
-
-+(void) updateRecommendation: (RecommendationAttributes *) attributes{
++(void) updateRecommendations: (RecommendationAttributes *) attributes{
     [EventController getRecommendationAttributes:attributes];
 }
 
