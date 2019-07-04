@@ -36,7 +36,7 @@ extern NSString* const eventSendProdPath;
 extern NSString* const eventMobileResourceURL;
 
 extern NSString* const recoMobileResourceURL;
-extern NSString* const devRecoURL;
+//extern NSString* const devRecoURL;
 extern NSString* const prodRecoURL;
 //extern NSString* const recommendationPopular;
 extern NSString* const UserToItemURL;

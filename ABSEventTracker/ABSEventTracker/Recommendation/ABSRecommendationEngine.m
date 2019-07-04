@@ -28,11 +28,11 @@
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", token]};
         if (!error) {
             dispatch_async(queue, ^{
-                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@categoryId=%@&&digitalPropertyId=%@", devRecoURL, recommendationUpdateURL, userID, categoryId ,digitalPropertyID ] path:@"" headerParameters:header
+                [networking GET:[NSString stringWithFormat:@"%@%@?userId=%@categoryId=%@&&digitalPropertyId=%@", prodRecoURL, recommendationUpdateURL, userID, categoryId ,digitalPropertyID ] path:@"" headerParameters:header
                         success:^(NSURLSessionDataTask *task, id responseObject) {
 //                            userToitem(responseObject);
                         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                            
+
                             return;
                         }];
             });

@@ -43,6 +43,7 @@ NSMutableString *audioconsolidatedBufferDuration;
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify event action");
     }
+    
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -342,7 +343,6 @@ NSMutableString *audioconsolidatedBufferDuration;
 }
 
 +(void) getRecommendationAttributes:(RecommendationAttributes *) attributes{
-    
         [[AttributeManager init] updateRecommendation:attributes];
 }
 

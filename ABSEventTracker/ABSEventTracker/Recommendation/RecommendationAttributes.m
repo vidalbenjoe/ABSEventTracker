@@ -39,7 +39,6 @@
     builder.recoItemCount               = _recoItemCount;
     builder.recoPropertyId              = _recoPropertyId;
     builder.recoType                    = _recoType;
-  
     return builder;
 }
 
@@ -54,6 +53,7 @@
     updateBlock(builder);
     return [[RecommendationAttributes alloc] initWithBuilder:builder];
 }
+
 -(instancetype) build{
     RecommendationBuilder *builder = [RecommendationBuilder new];
     return [self initWithBuilder:builder];

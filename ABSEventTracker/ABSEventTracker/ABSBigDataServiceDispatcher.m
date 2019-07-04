@@ -449,14 +449,13 @@ NSString *userID;
 
 
 
-
 +(void) recoSecurityHash: (void (^)(NSString *sechash))handler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         // REQUEST TOKEN
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:devRecoURL path:recoMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:prodRecoURL path:recoMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *seccode = responseObject[@"seccode"];
             handler(seccode);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -464,9 +463,6 @@ NSString *userID;
         }];
     });
 }
-
-
-
 
 /* Request token for  Recommedation
  */
@@ -477,7 +473,7 @@ NSString *userID;
         NSDate *timeNow = [NSDate date];
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         // REQUEST TOKEN
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", devRecoURL ,eventTokenURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prodRecoURL ,eventTokenURL]];
         if ([RecoAuthManager retrieveRecoSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if it's not exceeding the server sechash expiration date.
@@ -534,9 +530,6 @@ NSString *userID;
         }
     });
 }
-
-
-
 //
 
 +(void) recommendationDispatcher:(AttributeManager *) attributes{
@@ -560,7 +553,6 @@ NSString *userID;
                 [RecoAuthManager storeRecoTokenToUserDefault:token];
                 // update reco
                 [self dispatchrecoupdate:attributes.recommendationattributes];
-                
             }];
         }else{
             /*
@@ -579,13 +571,8 @@ NSString *userID;
             [RecoAuthManager storeRecoTokenToUserDefault:token];
         }];
     }
-    
-    
+
 }
-
-
-
-
 
 +(void) dispatchrecoupdate:(RecommendationAttributes *) attributes{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -593,6 +580,7 @@ NSString *userID;
     NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", prodRecoURL, recommendationUpdateURL, isNullObject(attributes.recoUserId), isNullObject(attributes.recoCategoryId), isNullObject(attributes.recoPropertyId)];
     
     NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    
     NSError *error;
     if ([RecoAuthManager retrieveServerRecoTokenFromUserDefault] != nil) {
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [RecoAuthManager retrieveServerRecoTokenFromUserDefault]]};
@@ -620,12 +608,6 @@ NSString *userID;
         }];
     }
 }
-
-
-
-
-
-
 
 // This method will return null value string if the attributes is nil or empty
 static id isNullObject(id object){
