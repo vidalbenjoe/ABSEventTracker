@@ -21,7 +21,7 @@
     return token;
 }
 +(void) storeRecoTokenExpirationTimestamp:(NSDate *) expiration{
-    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
+    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_RECO_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"recotokenExpirationTimestamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -56,7 +56,7 @@
     return token;
 }
 +(void) storeRecoSecHashExpirationTimestamp:(NSDate *) expiration{
-    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
+    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_RECO_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
     
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"recosechashreceivedTimestamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
