@@ -62,6 +62,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic, readonly) double videoResumePosition;
 @property(nonatomic, readonly) double videoStopPosition;
 @property(nonatomic, readonly) double videoBufferPosition;
+@property(nonatomic, readonly) double videoCurrentPosition;
 
 +(instancetype) makeWithBuilder:(void (^) (VideoBuilder *)) updateBlock;
 -(instancetype) initWithBuilder:(VideoBuilder *) builder;
@@ -109,6 +110,7 @@ typedef NS_ENUM(NSInteger, VideoState){
 @property(nonatomic) double videoResumePosition;
 @property(nonatomic) double videoStopPosition;
 @property(nonatomic) double videoBufferPosition;
+@property(nonatomic) double videoCurrentPosition;
 
 @end
 

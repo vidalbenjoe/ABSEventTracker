@@ -42,6 +42,7 @@ bool isHTTPDebug;
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     [requestBody setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
       dispatch_async(queue, ^{
           [[session dataTaskWithRequest:requestBody completionHandler:

@@ -1,12 +1,9 @@
-
-
 //
 //  ABSRecommendationEngine.m
 //  ABSEventTracker
 //
 //  Created by Benjoe Vidal on 10/07/2017.
 //  Copyright © 2017 ABS-CBN. All rights reserved.
-//
 
 #import "ABSRecommendationEngine.h"
 #import "ABSBigDataServiceDispatcher.h"
@@ -18,7 +15,6 @@
 #import "EventController.h"
 
 @implementation ABSRecommendationEngine
-
 
 +(void) recommendationUpdate:(void (^)(NSMutableDictionary *userToItem)) userToitem userID: (NSString* ) userID categoryId: (NSString*) categoryId digitalPropertyID: (NSString *) digitalPropertyID{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);

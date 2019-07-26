@@ -67,8 +67,12 @@
     return token;
 }
 +(void) storeSecHashExpirationTimestamp:(NSDate *) expiration{
-    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_TOKEN_EXPIRATION_IN_MINUTE(s)*60)];
-    
+    NSDate *tokenExpirationTime = [expiration dateByAddingTimeInterval:(DEFAULT_SECHASH_EXPIRATION_IN_MINUTE(s)*60)];
+    /*
+     Multiply by 60 to get the equivalent of seconds to minutes.
+     Eq: 50*60 = 3000
+     3000 is equivalent to 50 minutes.
+     */
     [[NSUserDefaults standardUserDefaults] setObject:tokenExpirationTime forKey:@"sechashreceivedTimestamp"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

@@ -53,6 +53,7 @@
         _videoResumePosition            = builder.videoResumePosition;
         _videoStopPosition              = builder.videoStopPosition;
         _videoBufferPosition            = builder.videoBufferPosition;
+        _videoCurrentPosition           = builder.videoCurrentPosition;
         
         _videoBufferCount               = builder.videoBufferCount;
         _videoTotalBufferTime           = builder.videoTotalBufferTime;
@@ -101,6 +102,7 @@
     builder.videoTotalBufferTime        = _videoTotalBufferTime;
     builder.videoBufferCount            = _videoBufferCount;
     builder.videoConsolidatedBufferTime = _videoConsolidatedBufferTime;
+    builder.videoCurrentPosition        = _videoCurrentPosition;
     
     return builder;
 }
@@ -175,6 +177,7 @@
         _videoResumePosition    = 0;
         _videoStopPosition      = 0;
         _videoBufferPosition    = 0;
+        _videoCurrentPosition   = 0;
     }
     return self;
 }

@@ -24,7 +24,7 @@ NSMutableArray *videobuffDurationArray;
 NSMutableArray *audiobuffDurationArray;
 NSMutableString *videoconsolidatedBufferDuration;
 NSMutableString *audioconsolidatedBufferDuration;
-
+NSDateFormatter * formatter;
 +(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -98,6 +98,7 @@ NSMutableString *audioconsolidatedBufferDuration;
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         videoconsolidatedBufferDuration = [[NSMutableString alloc] init];
+        formatter = [[NSDateFormatter alloc] init];
     }
     
     if (attributes.actionTaken == UNKNOWN) {
@@ -106,6 +107,7 @@ NSMutableString *audioconsolidatedBufferDuration;
     
     [attributes setVideoTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
     switch (attributes.actionTaken) {
+            
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
             break;
@@ -161,7 +163,6 @@ NSMutableString *audioconsolidatedBufferDuration;
             [attributes setVideoAdError:NO];
             [attributes setVideoAdComplete:NO];
             break;
-            
         case VIDEO_AD_COMPLETE:
             [attributes setVideoAdComplete:YES];
             [attributes setVideoAdSkipped:NO];
@@ -190,13 +191,11 @@ NSMutableString *audioconsolidatedBufferDuration;
             break;
     }
    
-    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-   
     NSString *videocurrentTime = [formatter stringFromDate:[[ArbitaryVariant init] videoBufferTime]];
     videoConvertedbufferTime = [formatter dateFromString:videocurrentTime];
     videoEventTimeStamp = currentTimeStamp;
-    
+    // Getting the Video buffer time.
     if (videoConvertedbufferTime != nil) {
         NSComparisonResult result;
         //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
@@ -208,18 +207,17 @@ NSMutableString *audioconsolidatedBufferDuration;
             [videobuffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:videoConvertedbufferTime endTime:videoEventTimeStamp]]];
             
             //            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
-            //            NSInteger maxtotalBuffTime = [maxValue integerValue];
-            
+            //            NSInteger maxtotalBuffTime = [maxValue integerValue];/Users/indra/Documents/BIGDATA-MOBILE-LIBRARY/iOS/ABSCBNBigdataAnalyticsiOS/ABSEventTracker/ABSEventTracker/Recommendation/ABSRecommendationEngine.m
             NSInteger sum = 0;
             for (NSNumber *num in videobuffDurationArray){
                 sum += [num intValue];
             }
-            
             [attributes setVideoConsolidatedBufferTime:[videobuffDurationArray componentsJoinedByString: @"|"]];
             [attributes setVideoTotalBufferTime:sum];
             [attributes setVideoBufferCount:[videobuffDurationArray count]];
         }
     }
+    
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
@@ -236,6 +234,7 @@ NSMutableString *audioconsolidatedBufferDuration;
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         audioconsolidatedBufferDuration = [[NSMutableString alloc] init];
     }
+    
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify video action");
     }
