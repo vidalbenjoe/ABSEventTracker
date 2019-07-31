@@ -26,6 +26,8 @@
 @property(nonatomic, strong) NSString *viewAbandonTimeStamp;
 @property(nonatomic, strong) NSDate *videoBufferTime;
 @property(nonatomic, strong) NSDate *audioBufferTime;
+
+
 +(ArbitaryVariant*) init;
 +(instancetype) makeWithBuilder:(void (^) (ArbitaryBuilder *)) updateBlock;
 -(instancetype) initTimeStampWithBuilder:(ArbitaryBuilder *) builder;

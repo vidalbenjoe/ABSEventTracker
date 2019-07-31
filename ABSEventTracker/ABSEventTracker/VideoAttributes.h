@@ -51,6 +51,8 @@ typedef NS_ENUM(NSInteger, VideoState){
 
 @property(nonatomic, copy, readonly) NSString *videoMeta;
 @property(nonatomic, weak) NSString *videoConsolidatedBufferTime;
+@property(nonatomic, weak) NSString *videoConsolidatedPulse;
+@property(nonatomic, readonly) double videoPulseTimeStamp;
 @property(nonatomic) NSInteger videoTotalBufferTime;
 @property(nonatomic) NSInteger videoBufferCount;
 @property(nonatomic, readonly) double videoDuration;
@@ -90,6 +92,8 @@ typedef NS_ENUM(NSInteger, VideoState){
 
 @property(nonatomic, copy) NSString *videoMeta;
 @property(nonatomic, weak) NSString *videoConsolidatedBufferTime;
+@property(nonatomic, weak) NSString *videoConsolidatedPulse;
+@property(nonatomic) double videoPulseTimeStamp;
 @property(nonatomic) NSInteger videoTotalBufferTime;
 @property(nonatomic) NSInteger videoBufferCount;
 

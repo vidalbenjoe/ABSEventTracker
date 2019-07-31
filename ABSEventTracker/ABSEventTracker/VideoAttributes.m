@@ -58,6 +58,8 @@
         _videoBufferCount               = builder.videoBufferCount;
         _videoTotalBufferTime           = builder.videoTotalBufferTime;
         _videoConsolidatedBufferTime    = builder.videoConsolidatedBufferTime;
+        _videoConsolidatedPulse         = builder.videoConsolidatedPulse;
+        _videoPulseTimeStamp            = builder.videoPulseTimeStamp;
         
     }
     
@@ -102,6 +104,8 @@
     builder.videoTotalBufferTime        = _videoTotalBufferTime;
     builder.videoBufferCount            = _videoBufferCount;
     builder.videoConsolidatedBufferTime = _videoConsolidatedBufferTime;
+    builder.videoConsolidatedPulse      = _videoConsolidatedPulse;
+    builder.videoPulseTimeStamp         = _videoPulseTimeStamp;
     builder.videoCurrentPosition        = _videoCurrentPosition;
     
     return builder;
@@ -152,6 +156,8 @@
         _videoQuality           = nil;
         
         _videoConsolidatedBufferTime = nil;
+        _videoConsolidatedPulse = nil;
+        _videoPulseTimeStamp   = 0;
         _videoAdClick           = NO;
         _videoAdComplete        = NO;
         _videoAdSkipped         = NO;

@@ -12,6 +12,7 @@
 #import "AttributeManager.h"
 #import "ABSEventTracker.h"
 #import "CacheManager.h"
+#import "Constant.h"
 
 @implementation EventController
 NSDate *currentTimeStamp;
@@ -26,6 +27,8 @@ NSMutableArray *audiobuffDurationArray;
 NSMutableString *videoconsolidatedBufferDuration;
 NSMutableString *audioconsolidatedBufferDuration;
 NSDateFormatter * formatter;
+NSTimer *videoPulseTimer;
+double counter = 0.0;
 
 +(id) initialize{
     static EventController *shared = nil;
@@ -45,6 +48,7 @@ NSDateFormatter * formatter;
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify event action");
     }
+    
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -128,12 +132,14 @@ NSDateFormatter * formatter;
         case VIDEO_PLAYED:
             [attributes setVideostate:PLAYING];
             [attributes setIsVideoPaused:NO];
+            NSLog(@"nalog %f", attributes.videoPulseTimeStamp);
             currentTimeStamp = [NSDate date];
             break;
         case VIDEO_PAUSED:
             [attributes setVideostate:PAUSED];
             [attributes setIsVideoPaused:YES];
             currentTimeStamp = [NSDate date];
+            [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector: @selector(terminateVideoPulse) userInfo:nil repeats:NO]; // 5 minutes delay
             break;
         case VIDEO_SEEKED:
             [attributes setVideostate:SEEKING];
@@ -185,7 +191,13 @@ NSDateFormatter * formatter;
             [[ArbitaryVariant init] setVideoBufferTime:[NSDate date]];
             break;
         case PLAYING:
-           currentTimeStamp = [NSDate date];
+            currentTimeStamp = [NSDate date];
+            
+            int asd = attributes.videoDuration / 5;
+            NSLog(@"Total Duration: %d", asd);
+            
+            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:YES]; // 5 seconds delay
+            
             break;
         case SEEKING:
             currentTimeStamp = [NSDate date];
@@ -201,7 +213,6 @@ NSDateFormatter * formatter;
     NSString *videocurrentTime = [formatter stringFromDate:[[ArbitaryVariant init] videoBufferTime]];
     videoConvertedbufferTime = [formatter dateFromString:videocurrentTime];
   
-    NSLog(@"dwawd %@", videocurrentTime);
     videoEventTimeStamp = currentTimeStamp;
     // Getting the Video buffer time.
     if (videoConvertedbufferTime != nil) {
@@ -226,22 +237,39 @@ NSDateFormatter * formatter;
     }
     
     
-    
-
     // Get pulse timestamp and store it into string
-    
-   
-    
-    
+
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setVideoAttributes:attributes];
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
-
 }
 
++(void) VideoPulse:(NSTimer*) timer {
+   double i = counter+=5;
+   VideoAttributes *videoattributes = [timer userInfo];
+    
+    [videoPulseArray addObject:[NSNumber numberWithDouble:i]];
+    [videoattributes setVideoConsolidatedPulse:[videoPulseArray componentsJoinedByString:@"|"]];
+
+    NSLog(@"VIDEO PULSE: %@", [videoPulseArray componentsJoinedByString:@"|"]);
+    NSLog(@"cpos PULSE: %@", videoattributes.videoConsolidatedPulse);
+    NSLog(@"cpos title: %@", videoattributes.videoTitle);
+}
+
++(void) terminateVideoPulse{
+    NSLog(@"VideoPulseTerminatedLastIndex %@", [videoPulseArray lastObject]);
+    [videoPulseTimer invalidate];
+    videoPulseTimer = nil;
+    
+//    [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+//        [builder setActionTaken:TERMINATE_VIDEO_PULSE];
+//        [builder setVideoConsolidatedPulse:[videoPulseArray lastObject]];
+//    }];
+
+}
 +(void) writeAudioAttributes:(AudioAttributes *)attributes{
     if (audiobuffDurationArray == nil) {
         audiobuffDurationArray = [NSMutableArray array];

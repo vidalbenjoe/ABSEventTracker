@@ -27,6 +27,10 @@
 
 #define DEFAULT_RECO_TOKEN_EXPIRATION_IN_MINUTE(s) 9
 
+#define DEFAULT_PULSE_IDLE_TIME_IN_MINUTE(s)   5
+
+
+
 @interface Constant : NSObject
 extern NSString *const urlStaging;
 extern NSString *const urlProd;

@@ -87,7 +87,8 @@
              @(VIDEO_AD_PLAY)       : @"videoadplay",
              @(VIDEO_AD_SKIPPED)    : @"videoadskipped",
              @(VIDEO_AD_COMPLETE)   : @"videoadcomplete",
-             @(CLICK_RECO_ITEM)     : @"clickrecoitem"
+             @(CLICK_RECO_ITEM)     : @"clickrecoitem",
+             @(TERMINATE_VIDEO_PULSE) : @"videopulseterminated"
              };
 }
 

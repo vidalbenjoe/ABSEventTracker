@@ -328,7 +328,7 @@ NSString *userID;
 //            NSLog(@"newDate is less");
         viewpageDuration = [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]];
         }
-        }
+    }
     }
     /*Consolidating all attributes into Mutable Dictionary to be sent to data lake*/
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:

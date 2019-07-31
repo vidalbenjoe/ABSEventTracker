@@ -50,7 +50,6 @@
 
 // Update the session end time based on the last event
 -(void) updateSessionTime{
-    
     NSDate *currentTime = [NSDate date];
     // Add 30 minutes expiration from the current time.
     NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
