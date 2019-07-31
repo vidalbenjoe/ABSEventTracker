@@ -21,10 +21,12 @@ NSDate *videoConvertedbufferTime;
 NSDate *audioConvertedbufferTime;
 NSDateFormatter *dateFormatter;
 NSMutableArray *videobuffDurationArray;
+NSMutableArray *videoPulseArray;
 NSMutableArray *audiobuffDurationArray;
 NSMutableString *videoconsolidatedBufferDuration;
 NSMutableString *audioconsolidatedBufferDuration;
 NSDateFormatter * formatter;
+
 +(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -99,6 +101,10 @@ NSDateFormatter * formatter;
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         videoconsolidatedBufferDuration = [[NSMutableString alloc] init];
         formatter = [[NSDateFormatter alloc] init];
+    }
+    
+    if (videoPulseArray == nil) {
+         videoPulseArray = [NSMutableArray array];
     }
     
     if (attributes.actionTaken == UNKNOWN) {
@@ -190,10 +196,12 @@ NSDateFormatter * formatter;
         default:
             break;
     }
-   
+    
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *videocurrentTime = [formatter stringFromDate:[[ArbitaryVariant init] videoBufferTime]];
     videoConvertedbufferTime = [formatter dateFromString:videocurrentTime];
+  
+    NSLog(@"dwawd %@", videocurrentTime);
     videoEventTimeStamp = currentTimeStamp;
     // Getting the Video buffer time.
     if (videoConvertedbufferTime != nil) {
@@ -205,7 +213,6 @@ NSDateFormatter * formatter;
              * videoEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(VIDEO_BUFFERED)
              */
             [videobuffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:videoConvertedbufferTime endTime:videoEventTimeStamp]]];
-            
             //            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
             //            NSInteger maxtotalBuffTime = [maxValue integerValue];/Users/indra/Documents/BIGDATA-MOBILE-LIBRARY/iOS/ABSCBNBigdataAnalyticsiOS/ABSEventTracker/ABSEventTracker/Recommendation/ABSRecommendationEngine.m
             NSInteger sum = 0;
@@ -217,6 +224,14 @@ NSDateFormatter * formatter;
             [attributes setVideoBufferCount:[videobuffDurationArray count]];
         }
     }
+    
+    
+    
+
+    // Get pulse timestamp and store it into string
+    
+   
+    
     
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
@@ -305,12 +320,10 @@ NSDateFormatter * formatter;
              * audioEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(AUDIO_BUFFERED)
              */
             [audiobuffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:audioConvertedbufferTime endTime:audioEventTimeStamp]]];
-            
             NSInteger sum = 0;
             for (NSNumber *num in audiobuffDurationArray){
                 sum += [num intValue];
             }
-        
             [attributes setAudioConsolidatedBufferTime:[audiobuffDurationArray componentsJoinedByString: @"|"]];
             [attributes setAudioTotalBufferTime:sum];
             [attributes setAudioBufferCount:[audiobuffDurationArray count]];
@@ -319,13 +332,11 @@ NSDateFormatter * formatter;
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
-    
     if (genericAction.actionTaken != AUDIO_NEXT) {
         [[AttributeManager init] setGenericAttributes:genericAction];
         [[AttributeManager init] setAudioAttributes:attributes];
         [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     }
-    
 }
 
 +(void) writeRecommendationAttributes:(RecommendationAttributes *) attributes{
