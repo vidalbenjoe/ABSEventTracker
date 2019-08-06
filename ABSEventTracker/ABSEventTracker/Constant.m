@@ -42,7 +42,7 @@ NSString* const ONEOTTHostStagingURL            = @"bigdata.oneott.com.ph";
 // Production host URL
 NSString* const TFCHostProdURL                  = @"tfc.tv";
 NSString* const NEWSHostProdURL                 = @"news.abs-cbn.com";
-NSString* const IWANTVHostProdURL               = @"iwantv.com.ph";
+NSString* const IWANTVHostProdURL               = @"ios.iwantv.com.ph";
 NSString* const SODHostProdURL                  = @"skyondemand.com.ph";
 NSString* const ONEOTTHostProdURL               = @"oneott.com.ph";
 

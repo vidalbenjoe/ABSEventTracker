@@ -102,6 +102,8 @@ typedef NS_ENUM(NSInteger, DeviceVersion){
 ////identifier
 //+(NSString*) deviceIdentifierIDFA;
 
+
++(NSString *) deviceAdvertiserIdentifier;
 +(id) sharedInstance;
 
 

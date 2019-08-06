@@ -11,6 +11,7 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "DeviceInfo.h"
 #import "Reachability.h"
+#import <AdSupport/ASIdentifierManager.h>
 
 @implementation DeviceInfo
 // Mobile Gestalt EquipmentInfo
@@ -380,6 +381,11 @@
     }
     
     return connectivity;
+}
+
++(NSString *) deviceAdvertiserIdentifier{
+    NSString *idfaString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    return idfaString;
 }
 
 @end

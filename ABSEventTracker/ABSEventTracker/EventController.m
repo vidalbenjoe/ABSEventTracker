@@ -140,6 +140,7 @@ double counter = 0.0;
             [attributes setIsVideoPaused:YES];
             currentTimeStamp = [NSDate date];
             [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector: @selector(terminateVideoPulse) userInfo:nil repeats:NO]; // 5 minutes delay
+            // Create condition to determine if idle is below 5 minutes
             break;
         case VIDEO_SEEKED:
             [attributes setVideostate:SEEKING];
@@ -148,6 +149,7 @@ double counter = 0.0;
             [attributes setVideostate:COMPLETED];
             break;
         case VIDEO_AD_PLAY:
+            // Should Pause Video Pulse
             [attributes setVideoAdPlay:YES];
             [attributes setVideoAdClick:NO];
             [attributes setVideoAdError:NO];
@@ -192,12 +194,7 @@ double counter = 0.0;
             break;
         case PLAYING:
             currentTimeStamp = [NSDate date];
-            
-            int asd = attributes.videoDuration / 5;
-            NSLog(@"Total Duration: %d", asd);
-            
-            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:YES]; // 5 seconds delay
-            
+            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:YES]; // 5 seconds delay
             break;
         case SEEKING:
             currentTimeStamp = [NSDate date];
@@ -236,7 +233,6 @@ double counter = 0.0;
         }
     }
     
-    
     // Get pulse timestamp and store it into string
 
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
@@ -250,10 +246,8 @@ double counter = 0.0;
 +(void) VideoPulse:(NSTimer*) timer {
    double i = counter+=5;
    VideoAttributes *videoattributes = [timer userInfo];
-    
     [videoPulseArray addObject:[NSNumber numberWithDouble:i]];
     [videoattributes setVideoConsolidatedPulse:[videoPulseArray componentsJoinedByString:@"|"]];
-
     NSLog(@"VIDEO PULSE: %@", [videoPulseArray componentsJoinedByString:@"|"]);
     NSLog(@"cpos PULSE: %@", videoattributes.videoConsolidatedPulse);
     NSLog(@"cpos title: %@", videoattributes.videoTitle);
@@ -264,11 +258,10 @@ double counter = 0.0;
     [videoPulseTimer invalidate];
     videoPulseTimer = nil;
     
-//    [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
-//        [builder setActionTaken:TERMINATE_VIDEO_PULSE];
-//        [builder setVideoConsolidatedPulse:[videoPulseArray lastObject]];
-//    }];
-
+    [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+        [builder setActionTaken:TERMINATE_VIDEO_PULSE];
+        [builder setVideoConsolidatedPulse:[videoPulseArray lastObject]];
+    }];
 }
 +(void) writeAudioAttributes:(AudioAttributes *)attributes{
     if (audiobuffDurationArray == nil) {
