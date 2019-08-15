@@ -60,7 +60,8 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     VIDEO_AD_COMPLETE   =   45,
     
     CLICK_RECO_ITEM     =   46,
-    TERMINATE_VIDEO_PULSE = 47
+    VIDEO_PULSE         =   47,
+    TERMINATE_VIDEO_PULSE = 48
     
     
 };

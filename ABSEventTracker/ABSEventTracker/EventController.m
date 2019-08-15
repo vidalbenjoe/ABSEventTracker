@@ -29,7 +29,7 @@ NSMutableString *audioconsolidatedBufferDuration;
 NSDateFormatter * formatter;
 NSTimer *videoPulseTimer;
 double counter = 0.0;
-
+double pulse = 0;
 +(id) initialize{
     static EventController *shared = nil;
     static dispatch_once_t onceToken;
@@ -117,7 +117,6 @@ double counter = 0.0;
     
     [attributes setVideoTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
     switch (attributes.actionTaken) {
-            
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
             break;
@@ -128,18 +127,19 @@ double counter = 0.0;
         case VIDEO_STOPPED:
             [attributes setVideostate:COMPLETED];
             currentTimeStamp = [NSDate date];
+            
             break;
         case VIDEO_PLAYED:
             [attributes setVideostate:PLAYING];
             [attributes setIsVideoPaused:NO];
-            NSLog(@"nalog %f", attributes.videoPulseTimeStamp);
             currentTimeStamp = [NSDate date];
             break;
         case VIDEO_PAUSED:
             [attributes setVideostate:PAUSED];
             [attributes setIsVideoPaused:YES];
             currentTimeStamp = [NSDate date];
-            [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector: @selector(terminateVideoPulse) userInfo:nil repeats:NO]; // 5 minutes delay
+//            [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector: @selector(terminateVideoPulse) userInfo:nil repeats:NO];
+            // 5 minutes delay
             // Create condition to determine if idle is below 5 minutes
             break;
         case VIDEO_SEEKED:
@@ -194,13 +194,14 @@ double counter = 0.0;
             break;
         case PLAYING:
             currentTimeStamp = [NSDate date];
-            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:YES]; // 5 seconds delay
+//            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:YES]; // 5 seconds delay
             break;
         case SEEKING:
             currentTimeStamp = [NSDate date];
             break;
         case COMPLETED:
             [attributes setIsVideoEnded:YES];
+            [self terminateVideoPulse];
             break;
         default:
             break;
@@ -233,31 +234,65 @@ double counter = 0.0;
         }
     }
     
-    // Get pulse timestamp and store it into string
-
+    //Getting the percentage of total duration
+    double durationPercentage =  attributes.videoDuration * .10;
+    NSLog(@"10 percent of total duration %f" , durationPercentage);
+    pulse = durationPercentage;
+    NSLog(@"Total Duration: %f", attributes.videoDuration);
+    /**
+     * Looping the total video duration to get the segment of duration percentage within the video duration.
+     */
+    for (int i = 1; i < attributes.videoDuration; i++) {
+        // Multiply the percentage duration to get the segment
+        double segment = durationPercentage * i;
+        if (attributes.videoDuration > segment) {
+            NSLog(@"Multiple %f", segment);
+            //Start timer interval on every segment | The interval is now dynamically based on the computed segment.
+            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:segment target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:NO];
+        }else{
+            // Invalidating timer when the segment exceed the total duration
+            [videoPulseTimer invalidate];
+        }
+    }
+    
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
+    
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setVideoAttributes:attributes];
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
+    
 }
 
+/*
+ * This method will be called on every segment.
+ * This method consolidate the video pulse.
+ */
 +(void) VideoPulse:(NSTimer*) timer {
-   double i = counter+=5;
+    /*
+     * Increment counter on pulse
+     */
+   double count = counter += pulse;
+    NSLog(@"count %f", count);
    VideoAttributes *videoattributes = [timer userInfo];
-    [videoPulseArray addObject:[NSNumber numberWithDouble:i]];
-    [videoattributes setVideoConsolidatedPulse:[videoPulseArray componentsJoinedByString:@"|"]];
-    NSLog(@"VIDEO PULSE: %@", [videoPulseArray componentsJoinedByString:@"|"]);
-    NSLog(@"cpos PULSE: %@", videoattributes.videoConsolidatedPulse);
-    NSLog(@"cpos title: %@", videoattributes.videoTitle);
+    [videoPulseArray addObject:[NSNumber numberWithDouble:count]];
+    if (videoattributes.videoDuration > count) {
+        [videoattributes setVideoConsolidatedPulse:[videoPulseArray componentsJoinedByString:@"|"]];
+        NSLog(@"VIDEO PULSE: %@", [videoPulseArray componentsJoinedByString:@"|"]);
+        //TODO send video pulse last index to API
+        NSLog(@"VideoPulseTerminatedLastIndex %@", [videoPulseArray lastObject]);
+        //This will send the VIDEO_PULSE action on every segment.
+        [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+            [builder setActionTaken:VIDEO_PULSE];
+        }];
+    }
 }
+
 
 +(void) terminateVideoPulse{
-    NSLog(@"VideoPulseTerminatedLastIndex %@", [videoPulseArray lastObject]);
     [videoPulseTimer invalidate];
     videoPulseTimer = nil;
-    
     [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
         [builder setActionTaken:TERMINATE_VIDEO_PULSE];
         [builder setVideoConsolidatedPulse:[videoPulseArray lastObject]];
@@ -377,4 +412,18 @@ double counter = 0.0;
 }
 
 @end
+
+
+//Carlo = HK5 - Japanese = 85
+//Gino = HK5 - Japanese = 85
+//Derwin = HK5 Sharkfin + Siopao 85+38
+//Jed = HK2 - Pork = 42
+//Benjoe = HK5 - Japanese = 85
+//Aries = Siopao = 38
+//GAB - SIOPAO = 38
+//DALE - SIOAPo = 38
+//JOPHET - SIOPAO = 38
+//JOSHUA HK3 JAPANESE (SPICY) 45
+//FRANCIS - HK3 JAPANSES (SPICY) = 45
+//PAUL - HK3 JAPANSESE (SPICY) = 45
 

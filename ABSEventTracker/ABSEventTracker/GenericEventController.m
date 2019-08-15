@@ -33,6 +33,7 @@
     updateBlock(builder);
     return [[GenericEventController alloc] initWithBuilder:builder];
 }
+
 -(instancetype) build{
     GenericBuilder *builder = [GenericBuilder new];
     return [self initWithBuilder:builder];
@@ -88,7 +89,8 @@
              @(VIDEO_AD_SKIPPED)    : @"videoadskipped",
              @(VIDEO_AD_COMPLETE)   : @"videoadcomplete",
              @(CLICK_RECO_ITEM)     : @"clickrecoitem",
-             @(TERMINATE_VIDEO_PULSE) : @"videopulseterminated"
+             @(TERMINATE_VIDEO_PULSE) : @"videopulseterminated",
+             @(VIDEO_PULSE)         : @"videopulse"
              };
 }
 
