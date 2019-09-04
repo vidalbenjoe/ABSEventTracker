@@ -127,7 +127,6 @@ double pulse = 0;
         case VIDEO_STOPPED:
             [attributes setVideostate:COMPLETED];
             currentTimeStamp = [NSDate date];
-            
             break;
         case VIDEO_PLAYED:
             [attributes setVideostate:PLAYING];
@@ -228,6 +227,7 @@ double pulse = 0;
             for (NSNumber *num in videobuffDurationArray){
                 sum += [num intValue];
             }
+            
             [attributes setVideoConsolidatedBufferTime:[videobuffDurationArray componentsJoinedByString: @"|"]];
             [attributes setVideoTotalBufferTime:sum];
             [attributes setVideoBufferCount:[videobuffDurationArray count]];
@@ -235,13 +235,15 @@ double pulse = 0;
     }
     
     //Getting the percentage of total duration
-    double durationPercentage =  attributes.videoDuration * .10;
+    double durationPercentage =  attributes.videoDuration * .5;
     NSLog(@"10 percent of total duration %f" , durationPercentage);
     pulse = durationPercentage;
     NSLog(@"Total Duration: %f", attributes.videoDuration);
+    
     /**
      * Looping the total video duration to get the segment of duration percentage within the video duration.
      */
+    
     for (int i = 1; i < attributes.videoDuration; i++) {
         // Multiply the percentage duration to get the segment
         double segment = durationPercentage * i;
@@ -385,9 +387,11 @@ double pulse = 0;
             [attributes setAudioBufferCount:[audiobuffDurationArray count]];
         }
     }
+    
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
+    
     if (genericAction.actionTaken != AUDIO_NEXT) {
         [[AttributeManager init] setGenericAttributes:genericAction];
         [[AttributeManager init] setAudioAttributes:attributes];
@@ -413,17 +417,4 @@ double pulse = 0;
 
 @end
 
-
-//Carlo = HK5 - Japanese = 85
-//Gino = HK5 - Japanese = 85
-//Derwin = HK5 Sharkfin + Siopao 85+38
-//Jed = HK2 - Pork = 42
-//Benjoe = HK5 - Japanese = 85
-//Aries = Siopao = 38
-//GAB - SIOPAO = 38
-//DALE - SIOAPo = 38
-//JOPHET - SIOPAO = 38
-//JOSHUA HK3 JAPANESE (SPICY) 45
-//FRANCIS - HK3 JAPANSES (SPICY) = 45
-//PAUL - HK3 JAPANSESE (SPICY) = 45
 

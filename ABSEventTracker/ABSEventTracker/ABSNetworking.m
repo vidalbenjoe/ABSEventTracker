@@ -104,24 +104,23 @@ bool isHTTPDebug;
             if(data != nil){
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                 successHandler(nil, dictionary);
-                
             }else{
                 errorHandler(nil, error);
                 return;
             }
             
-            
         }] resume];
     });
 }
 
-
 -(void) POST:(NSURL *) url JSONString:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
     for (id key in headers){
         id token = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
+    
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
@@ -135,13 +134,13 @@ bool isHTTPDebug;
     
 //    NSString* JSONDataString = [[[[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
 //        stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-
 //    NSString* JSONDataString = [[[[NSString alloc] initWithString:parameters] stringByReplacingOccurrencesOfString:@"'" withString:@""]
 //                                stringByReplacingOccurrencesOfString:@"\\" withString:@""];
 //
 //    NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
 //    NSString *trimmedString = [JSONDataString stringByTrimmingCharactersInSet:quoteCharset];
 //    NSLog(@"loggingJSON: %@", [NSString stringWithFormat:@"\"%@\"", parameters]);
+    
     [requestBody setHTTPBody:[[NSString stringWithFormat:@"\"%@\"", parameters] dataUsingEncoding:NSUTF8StringEncoding]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     dispatch_async(queue, ^{
@@ -152,7 +151,6 @@ bool isHTTPDebug;
                 NSString *ksomnda = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], ksomnda ] isDebug: isHTTPDebug];
                 successHandler(nil, dictionary);
-                
             }else{
                 errorHandler(nil, error);
                 return;
@@ -162,7 +160,6 @@ bool isHTTPDebug;
                 errorHandler(nil, error);
                 return;
             }
-            
             
         }] resume];
     });
@@ -205,6 +202,7 @@ bool isHTTPDebug;
                 errorHandler(nil, error);
                 return;
             }
+            
         }] resume];
     });
 }
@@ -318,12 +316,10 @@ bool isHTTPDebug;
 
 -(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request HTTPBody:(NSString *) body isDebug:(BOOL) debug{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-       
         if (debug == YES) {
             NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
             NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
         }
-        
         if (http.statusCode == UNAUTHORIZE) {
             [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
             [self onTokenRefresh];
