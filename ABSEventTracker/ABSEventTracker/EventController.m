@@ -183,6 +183,9 @@ double pulse = 0;
             [attributes setVideoAdClick:NO];
             [attributes setVideoAdError:NO];
             break;
+            
+        case VIDEO_QUALITY_CHANGED:
+            break;
         default:
             break;
     }

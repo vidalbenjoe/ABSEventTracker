@@ -187,8 +187,8 @@ bool isHTTPDebug;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-            NSString *ksomnda = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], ksomnda ] isDebug: isHTTPDebug];
+            NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], stringData ] isDebug: isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);

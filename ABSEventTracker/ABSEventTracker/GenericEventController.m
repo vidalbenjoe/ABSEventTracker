@@ -91,7 +91,7 @@
              @(CLICK_RECO_ITEM)     : @"clickrecoitem",
              @(TERMINATE_VIDEO_PULSE) : @"videopulseterminated",
              @(VIDEO_PULSE)         : @"videopulse",
-             @(VIDEO_QUALITY_CHANGED): @"videoqualitychaned"
+             @(VIDEO_QUALITY_CHANGED): @"videoqualitychanged"
              };
 }
 

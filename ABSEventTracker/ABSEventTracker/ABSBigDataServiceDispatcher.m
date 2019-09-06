@@ -339,6 +339,7 @@ NSString *userID;
         isNullObject(attributes.propertyinvariant.applicationName) , @"ApplicationName",
         isNullObject(attributes.propertyinvariant.bundleIdentifier) , @"ApplicationUniqueId",
         isNullObject(attributes.deviceinvariant.deviceOS), @"DeviceOs",
+        isNullObject([DeviceInfo deviceAdvertiserIdentifier]) , @"DeviceAdvertisingId",
         isNullObject(attributes.deviceinvariant.deviceType) , @"MobileDevice",
         isNullObject(screenSize)  , @"ScreenSize",
         isNullObject(attributes.deviceinvariant.deviceType) , @"DeviceType",
@@ -574,13 +575,11 @@ NSString *userID;
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
     NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", prodRecoURL, recommendationUpdateURL, isNullObject(attributes.recoUserId), isNullObject(attributes.recoCategoryId), isNullObject(attributes.recoPropertyId)];
 
-
     NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     
     NSError *error;
     if ([RecoAuthManager retrieveServerRecoTokenFromUserDefault] != nil) {
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [RecoAuthManager retrieveServerRecoTokenFromUserDefault]]};
-        
         if (!error) {
             dispatch_async(queue, ^{
                 [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -588,7 +587,6 @@ NSString *userID;
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                     [RecoAuthManager removeRecoSechHash];
                     [RecoAuthManager removeRecoToken];
-                    
                     NSLog(@"Unknown error from server - Recommendation: %@", error.description);
                 }];
             });
