@@ -196,7 +196,7 @@ double pulse = 0;
             break;
         case PLAYING:
             currentTimeStamp = [NSDate date];
-//            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:YES]; // 5 seconds delay
+//            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:YES]; // 5 seconds delay
             break;
         case SEEKING:
             currentTimeStamp = [NSDate date];
@@ -212,7 +212,6 @@ double pulse = 0;
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *videocurrentTime = [formatter stringFromDate:[[ArbitaryVariant init] videoBufferTime]];
     videoConvertedbufferTime = [formatter dateFromString:videocurrentTime];
-  
     videoEventTimeStamp = currentTimeStamp;
     // Getting the Video buffer time.
     if (videoConvertedbufferTime != nil) {
@@ -239,7 +238,7 @@ double pulse = 0;
     
     //Getting the percentage of total duration
     double durationPercentage =  attributes.videoDuration * .5;
-    NSLog(@"10 percent of total duration %f" , durationPercentage);
+    NSLog(@"5 percent of total duration %f" , durationPercentage);
     pulse = durationPercentage;
     NSLog(@"Total Duration: %f", attributes.videoDuration);
     
@@ -288,10 +287,20 @@ double pulse = 0;
         //TODO send video pulse last index to API
         NSLog(@"VideoPulseTerminatedLastIndex %@", [videoPulseArray lastObject]);
         //This will send the VIDEO_PULSE action on every segment.
-        [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+        
+//        [VideoAttributes makeWithBuilder:^(VideoBuilder *builder) {
+//            [builder setActionTaken:VIDEO_PULSE];
+//        }];
+        
+        GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
             [builder setActionTaken:VIDEO_PULSE];
         }];
+        [[AttributeManager init] setGenericAttributes:genericAction];
+        [[AttributeManager init] setVideoAttributes:videoattributes];
+        
     }
+    
+    
 }
 
 
