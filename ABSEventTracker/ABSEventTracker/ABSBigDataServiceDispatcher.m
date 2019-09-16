@@ -302,7 +302,6 @@ NSString *userID;
     NSString *isVideoAdComplete = attributes.videoattributes.videoAdComplete ? @"True" : @"False";
     
     NSString *videoState = [VideoAttributes convertVideoStateToString:attributes.videoattributes.videostate];
-    
     NSString *audioState = [AudioAttributes convertAudioStateToString:attributes.audioattributes.audioPlayerState];
         NSString *videoSize = [NSString stringWithFormat:@"%dx%d", attributes.videoattributes.videoHeight, attributes.videoattributes.videoWidth];
     NSString *screenSize = [NSString stringWithFormat:@"%lix%li", (long)attributes.deviceinvariant.deviceScreenWidth, (long)attributes.deviceinvariant.deviceScreenHeight];
