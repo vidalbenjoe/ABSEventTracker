@@ -183,7 +183,6 @@ double pulse = 0;
             break;
             
         case VIDEO_QUALITY_CHANGED:
-            [attributes setActionTaken:VIDEO_QUALITY_CHANGED];
             break;
         default:
             break;
@@ -255,25 +254,33 @@ double pulse = 0;
             [videoPulseTimer invalidate];
         }
     }
-    
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];
-    
     [[AttributeManager init] setGenericAttributes:genericAction];
     [[AttributeManager init] setVideoAttributes:attributes];
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
-    
 }
 
 /*
  * This method will be called on every segment.
  * This method consolidate the video pulse.
  */
+
 +(void) VideoPulse:(NSTimer*) timer {
+//    5.23Kb Request size
+//    3 Hour movie is equals to 10,800
+//    5% of 10,800 is 540 secs
+//    540 sec is equals to 9 minutes
+//    10,800 / 540 = VideoPulse will be called 20 times
+//    5.23kb * 20 = 104.6 klb
+//    104.6 is equals to 0.106
+    
+    //Video steam 5 segments in every 5 secs
     /*
      * Increment counter on pulse
      */
+    
    double count = counter += pulse;
     NSLog(@"count %f", count);
    VideoAttributes *videoattributes = [timer userInfo];

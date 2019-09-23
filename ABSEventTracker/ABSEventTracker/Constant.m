@@ -15,7 +15,9 @@
 #import "PropertyEventSource.h"
 @implementation Constant
 NSString *const urlStaging                      = @"https://bigdataeventsapistaging.azurewebsites.net";
-NSString *const urlProd                         = @"https://pre-prodeventsapi.azurewebsites.net";
+NSString *const urlProd                         = @"https://eventsapi.bigdata.abs-cbn.com";
+
+//https://pre-prodeventsapi.azurewebsites.net old prodURL
 
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
