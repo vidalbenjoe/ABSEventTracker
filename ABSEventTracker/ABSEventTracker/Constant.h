@@ -18,7 +18,6 @@
 #define NEWS_ID                 @""
 #define ONE_OTT                 @"com.abscbn.iwantNow"
 #define TESTER_ID               @"com.abs.cbn.event.processing.library.test"
-
 #define SECHASH_ERROR_REQUEST   @"Encountered an error while requesting for Security hash "
 
 #define DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)   30
@@ -28,8 +27,6 @@
 #define DEFAULT_RECO_TOKEN_EXPIRATION_IN_MINUTE(s) 9
 
 #define DEFAULT_PULSE_IDLE_TIME_IN_MINUTE(s)   5
-
-
 
 @interface Constant : NSObject
 extern NSString *const urlStaging;

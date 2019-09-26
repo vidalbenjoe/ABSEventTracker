@@ -9,11 +9,13 @@
 #import "UserAttributes.h"
 
 @implementation UserAttributes
-
 -(instancetype) initUserWithBuilder:(UserBuilder *)builder{
     if (self = [super init]) {
         _ssoID          =   builder.ssoID;
         _gigyaID        =   builder.gigyaID;
+        _kapamilyaName  =   builder.kapamilyaName;
+        _emailAddress   =   builder.emailAddress;
+        _mobileNumber   =   builder.mobileNumber;
         _loginTimeStamp =   builder.loginTimeStamp;
     }
     return self;
@@ -29,6 +31,9 @@
     UserBuilder *builder = [UserBuilder new];
     builder.ssoID           =   _ssoID;
     builder.gigyaID         =   _gigyaID;
+    builder.kapamilyaName   =   _kapamilyaName;
+    builder.emailAddress    =   _emailAddress;
+    builder.mobileNumber    =   _mobileNumber;
     builder.loginTimeStamp  =   _loginTimeStamp;
     return builder;
 }
@@ -43,21 +48,6 @@
     UserBuilder *builder = [UserBuilder new];
     return [self initUserWithBuilder:builder];
 }
-
-//-(void)encodeWithCoder:(NSCoder *)encoder {
-//    [encoder encodeObject:self.ssoID forKey:@"ssoID"];
-//    [encoder encodeObject:self.gigyaID forKey:@"gigyaID"];
-//    [encoder encodeObject:self.loginTimeStamp forKey:@"logintimestamp"];
-//}
-////
-//-(id)initWithCoder:(NSCoder *)decoder {
-//    if((self = [super init])) {
-//        self.ssoID = [decoder decodeObjectForKey:@"ssoID"];
-//        self.gigyaID = [decoder decodeObjectForKey:@"gigyaID"];
-//        self.loginTimeStamp = [decoder decodeObjectForKey:@"logintimestamp"];
-//    }
-//    return self;
-//}
 
 +(void) cacheUserData: (UserAttributes *) userinfo{
     NSData *encodedPerson = [NSKeyedArchiver archivedDataWithRootObject:userinfo];
@@ -96,6 +86,9 @@
     if (self = [super init]) {
         _ssoID                      =   nil;
         _gigyaID                    =   nil;
+        _kapamilyaName              =   nil;
+        _emailAddress               =   nil;
+        _mobileNumber               =   nil;
         _loginTimeStamp             =   nil;
     }
     return self;

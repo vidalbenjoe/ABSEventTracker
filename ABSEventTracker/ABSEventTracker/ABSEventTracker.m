@@ -160,7 +160,6 @@
 +(void) initWithDevice:(DeviceInvariant *) attributes{
     [[AttributeManager init] setDeviceInvariantAttributes:attributes];
 }
-
 /**
  * Set the Arbitary attributes into attriutes manager.
  * Parameters: ArbitaryVariant -
@@ -171,7 +170,6 @@
  * logoutTimeStamp,
  * searchTimeStamp
  */
-
 #pragma mark - Arbitary
 +(void) initArbitaryAttributes:(ArbitaryVariant *) attributes{
     [[AttributeManager init] setArbitaryAttributes:attributes];
@@ -200,12 +198,10 @@
  * rating
  * duration
  */
-
 #pragma mark - Event Attributes
 +(void) initEventAttributes: (EventAttributes *) attributes{
     [EventController writeEvent:attributes];
 }
-
 /*!
  * @discussion Set the Video Attributes into attriutes manager.
  * @param
@@ -238,7 +234,6 @@
  * videoStopPosition
  * videoBufferPosition
  */
-
 #pragma mark - Video Attributes
 +(void) initVideoAttributes:(VideoAttributes *)attributes{
     [EventController writeVideoAttributes:attributes];

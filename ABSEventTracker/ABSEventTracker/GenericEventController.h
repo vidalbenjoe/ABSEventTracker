@@ -62,7 +62,10 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     CLICK_RECO_ITEM     =   46,
     VIDEO_PULSE         =   47,
     TERMINATE_VIDEO_PULSE = 48,
-    VIDEO_QUALITY_CHANGED = 49
+    VIDEO_QUALITY_CHANGED = 49,
+    ON_TEXT_CHANGED     =   50,
+    ERROR_OCCURED       =   51,
+    BUTTON_CLICKED      =   52
     
     
 };

@@ -19,6 +19,8 @@
 @interface EventAttributes : NSObject
 
 @property(nonatomic, copy, readonly) NSString *clickedContent;
+@property(nonatomic, copy, readonly) NSString *errorMessage;
+@property(nonatomic, copy, readonly) NSString *inputField;
 @property(nonatomic, copy, readonly) NSString *searchQuery;
 
 @property(nonatomic) ActionTaken actionTaken;
@@ -51,6 +53,8 @@
 
 @interface EventBuilder : NSObject
 @property(nonatomic, copy) NSString *clickedContent;
+@property(nonatomic, copy) NSString *errorMessage;
+@property(nonatomic, copy) NSString *inputField;
 @property(nonatomic, copy) NSString *searchQuery;
 
 @property(assign, nonatomic) ActionTaken actionTaken;

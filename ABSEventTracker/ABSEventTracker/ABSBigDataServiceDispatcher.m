@@ -331,6 +331,9 @@ NSString *userID;
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         isNullObject(userID) , @"GigyaId",
         isNullObject(userID) , @"SSOId",
+        isNullObject(attributes.userattributes.kapamilyaName) , @"KapamilyaName",
+        isNullObject(attributes.userattributes.emailAddress) , @"EmailAddress",
+        isNullObject(attributes.userattributes.mobileNumber) , @"MobileNumber",
         isNullObject(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         isNullObject([[EventAuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [EventAuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         isNullObject(action), @"ActionTaken",
@@ -353,6 +356,8 @@ NSString *userID;
         isNullObject([FormatUtils getCurrentTimeAndDate:attributes.session.sessionStart]), @"SessionStartTimeStamp",
         isNullObject([FormatUtils getCurrentTimeAndDate:attributes.session.sessionEnd]), @"SessionEndTimeStamp",
         isNullObject(attributes.eventattributes.clickedContent) , @"ClickedContent",
+        isNullObject(attributes.eventattributes.errorMessage) , @"ErrorMessage",
+        isNullObject(attributes.eventattributes.inputField) , @"InputField",
         isNullObject([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.longitude]]), @"Longitude",
         isNullObject([NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:attributes.eventattributes.latitude]]) , @"Latitude",
         isNullObject(attributes.eventattributes.searchQuery) , @"QueryString",

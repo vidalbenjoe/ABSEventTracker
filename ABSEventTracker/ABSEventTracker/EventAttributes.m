@@ -13,6 +13,8 @@
     if (self = [super init]) {
         
         _clickedContent         = builder.clickedContent;
+        _errorMessage           = builder.errorMessage;
+        _inputField             = builder.inputField;
         _searchQuery            = builder.searchQuery;
         _actionTaken            = builder.actionTaken;
         _readArticle            = builder.readArticle;
@@ -44,6 +46,8 @@
     EventBuilder *builder = [EventBuilder new];
     builder.actionTaken             = _actionTaken;
     builder.clickedContent          = _clickedContent;
+    builder.errorMessage            = _errorMessage;
+    builder.inputField              = _inputField;
     builder.searchQuery             = _searchQuery;
     builder.readArticle             = _readArticle;
     builder.articleAuthor           = _articleAuthor;
@@ -90,6 +94,8 @@
 -(instancetype) init{
     if (self = [super init]) {
         _clickedContent         = nil;
+        _errorMessage           = nil;
+        _inputField             = nil;
         _searchQuery            = nil;
         
         _readArticle            = nil;
