@@ -57,7 +57,7 @@
              @(RATE)                    : @"rate",
              @(LOAD)                    : @"load",
              @(CLICK_IMAGE)             : @"clickimage",
-             @(SLIDER)                  : @"slider",
+             @(SLIDING_ITEM_CLICK)      : @"slider",
              @(READ_ARTICLES)           : @"readarticle",
              @(ABANDON_APP)             : @"abandonapp",
              @(OTHERS)                  : @"Other",

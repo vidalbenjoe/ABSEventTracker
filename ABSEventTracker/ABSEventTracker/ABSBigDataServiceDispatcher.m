@@ -331,9 +331,9 @@ NSString *userID;
     NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         isNullObject(userID) , @"GigyaId",
         isNullObject(userID) , @"SSOId",
-        isNullObject(attributes.userattributes.kapamilyaName) , @"KapamilyaName",
-        isNullObject(attributes.userattributes.emailAddress) , @"EmailAddress",
-        isNullObject(attributes.userattributes.mobileNumber) , @"MobileNumber",
+        isNullObject(attributes.eventattributes.kapamilyaName) , @"KapamilyaName",
+        isNullObject(attributes.eventattributes.emailAddress) , @"EmailAddress",
+        isNullObject(attributes.eventattributes.mobileNumber) , @"MobileNumber",
         isNullObject(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         isNullObject([[EventAuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [EventAuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         isNullObject(action), @"ActionTaken",

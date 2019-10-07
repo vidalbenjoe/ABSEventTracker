@@ -18,9 +18,7 @@
 @interface UserAttributes : NSObject
 @property(nonatomic, copy, readonly) NSString *ssoID;
 @property(nonatomic, copy, readonly) NSString *gigyaID;
-@property(nonatomic, copy, readonly) NSString *kapamilyaName;
-@property(nonatomic, copy, readonly) NSString *emailAddress;
-@property(nonatomic, copy, readonly) NSString *mobileNumber;
+
 @property(nonatomic, copy, readonly) NSString *loginTimeStamp;
 
 +(instancetype) makeWithBuilder:(void (^) (UserBuilder *)) updateBlock;
@@ -38,9 +36,7 @@
 @interface UserBuilder : NSObject
 @property(nonatomic, copy) NSString *ssoID;
 @property(nonatomic, copy) NSString *gigyaID;
-@property(nonatomic, copy) NSString *kapamilyaName;
-@property(nonatomic, copy) NSString *emailAddress;
-@property(nonatomic, copy) NSString *mobileNumber;
+
 @property(nonatomic, copy) NSString *loginTimeStamp;
 -(instancetype) init;
 

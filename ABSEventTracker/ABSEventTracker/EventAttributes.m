@@ -30,6 +30,9 @@
         _previousView           = builder.previousView;
         _destinationView        = builder.destinationView;
         _currentView            = builder.currentView;
+        _kapamilyaName          = builder.kapamilyaName;
+        _emailAddress           = builder.emailAddress;
+        _mobileNumber           = builder.mobileNumber;
         
         _latitude               = builder.latitude;
         _longitude              = builder.longitude;
@@ -61,6 +64,9 @@
     builder.previousView            = _previousView;
     builder.destinationView         = _destinationView;
     builder.currentView             = _currentView;
+    builder.kapamilyaName           = _kapamilyaName;
+    builder.emailAddress            = _emailAddress;
+    builder.mobileNumber            = _mobileNumber;
     builder.latitude                = _latitude;
     builder.longitude               = _longitude;
     builder.articleCharacterCount   = _articleCharacterCount;
@@ -111,6 +117,10 @@
         _previousView           = nil;
         _destinationView        = nil;
         _currentView            = nil;
+        
+        _kapamilyaName              =   nil;
+        _emailAddress               =   nil;
+        _mobileNumber               =   nil;
         
         _actionTaken            = 0;
         _latitude               = 0;

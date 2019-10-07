@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     SOCIAL_LIKE         =   13,
     RATE                =   14,
     CLICK_IMAGE         =   15,
-    SLIDER              =   16,
+    SLIDING_ITEM_CLICK  =   16,
     LOGIN               =   17,
     LOGOUT              =   18,
     READ_ARTICLES       =   19,
@@ -66,7 +66,6 @@ typedef NS_ENUM(NSInteger, ActionTaken){
     ON_TEXT_CHANGED     =   50,
     ERROR_OCCURED       =   51,
     BUTTON_CLICKED      =   52
-    
     
 };
 

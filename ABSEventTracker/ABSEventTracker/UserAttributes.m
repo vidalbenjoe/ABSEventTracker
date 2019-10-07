@@ -13,9 +13,6 @@
     if (self = [super init]) {
         _ssoID          =   builder.ssoID;
         _gigyaID        =   builder.gigyaID;
-        _kapamilyaName  =   builder.kapamilyaName;
-        _emailAddress   =   builder.emailAddress;
-        _mobileNumber   =   builder.mobileNumber;
         _loginTimeStamp =   builder.loginTimeStamp;
     }
     return self;
@@ -31,9 +28,6 @@
     UserBuilder *builder = [UserBuilder new];
     builder.ssoID           =   _ssoID;
     builder.gigyaID         =   _gigyaID;
-    builder.kapamilyaName   =   _kapamilyaName;
-    builder.emailAddress    =   _emailAddress;
-    builder.mobileNumber    =   _mobileNumber;
     builder.loginTimeStamp  =   _loginTimeStamp;
     return builder;
 }
@@ -86,9 +80,6 @@
     if (self = [super init]) {
         _ssoID                      =   nil;
         _gigyaID                    =   nil;
-        _kapamilyaName              =   nil;
-        _emailAddress               =   nil;
-        _mobileNumber               =   nil;
         _loginTimeStamp             =   nil;
     }
     return self;

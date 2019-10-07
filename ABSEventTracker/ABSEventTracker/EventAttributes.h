@@ -39,6 +39,12 @@
 @property(nonatomic, copy, readonly) NSString *destinationView;
 @property(nonatomic, copy, readonly) NSString *currentView;
 
+@property(nonatomic, copy, readonly) NSString *kapamilyaName;
+@property(nonatomic, copy, readonly) NSString *emailAddress;
+@property(nonatomic, copy, readonly) NSString *mobileNumber;
+
+
+
 @property(nonatomic) float latitude;
 @property(nonatomic) float longitude;
 @property(nonatomic) int articleCharacterCount;
@@ -72,6 +78,11 @@
 @property(nonatomic, copy) NSString *previousView;
 @property(nonatomic, copy) NSString *destinationView;
 @property(nonatomic, copy) NSString *currentView;
+
+
+@property(nonatomic, copy) NSString *kapamilyaName;
+@property(nonatomic, copy) NSString *emailAddress;
+@property(nonatomic, copy) NSString *mobileNumber;
 
 
 @property(nonatomic) float latitude;
