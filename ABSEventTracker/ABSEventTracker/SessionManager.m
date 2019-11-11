@@ -77,6 +77,7 @@
             NSDate *end = [start dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
             [self setSessionStart:start];
             [self setSessionEnd:end];
+            
         }else{
             // Update only the session time if the current time is less than 30 minutes.
             // The end time will be based on the updated start time.
