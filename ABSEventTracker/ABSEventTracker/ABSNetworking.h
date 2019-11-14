@@ -53,9 +53,6 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
  */
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
-
-
-
 /*!
  * This method will send request into server without parameter and will return server response into blocks handler
  * @params
