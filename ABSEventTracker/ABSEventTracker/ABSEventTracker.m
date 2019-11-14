@@ -109,7 +109,7 @@
     if ([[PropertyEventSource getBundleIdentifier]  isEqual: I_WANT_TV_ID]) {
         [[PropertyEventSource sharedInstance] setDigitalProperty:I_WANT_TV];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: TFC_ID]) {
-        [[PropertyEventSource sharedInstance] setDigitalProperty:TFC_ID];
+        [[PropertyEventSource sharedInstance] setDigitalProperty:TFC];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: SKY_ON_DEMAND_ID]) {
         [[PropertyEventSource sharedInstance] setDigitalProperty:SKY_ON_DEMAND];
     }else if ([[PropertyEventSource getBundleIdentifier]  isEqual: NEWS_ID]) {
