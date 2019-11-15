@@ -22,10 +22,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1B144428237E6B2A00EA5FA0 /* GenericEventController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */; };
 		2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D164E49204FF10F00603865 /* AudioAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D164E4A204FF10F00603865 /* AudioAttributes.m */; };
-		2D251C3E2161E83F005B224D /* GenericEventController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D3529B822C5EC670077E5DD /* RecoAuthManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D3529B622C5EC670077E5DD /* RecoAuthManager.h */; };
 		2D3529B922C5EC670077E5DD /* RecoAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D3529B722C5EC670077E5DD /* RecoAuthManager.m */; };
 		2D3529BC22C5ECB50077E5DD /* ABSRecommendationEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D3529BA22C5ECB50077E5DD /* ABSRecommendationEngine.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -380,9 +380,9 @@
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 				2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */,
 				2D3529BC22C5ECB50077E5DD /* ABSRecommendationEngine.h in Headers */,
+				1B144428237E6B2A00EA5FA0 /* GenericEventController.h in Headers */,
 				2D3529B822C5EC670077E5DD /* RecoAuthManager.h in Headers */,
 				2D9F9FFC2179B97000E149C2 /* RecommendationAttributes.h in Headers */,
-				2D251C3E2161E83F005B224D /* GenericEventController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,7 +643,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ABSEventTracker/Info.plist;
-				OTHER_CFLAGS = "-fembed-bitcode-marker";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
@@ -662,7 +662,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ABSEventTracker/Info.plist;
-				OTHER_CFLAGS = "-fembed-bitcode";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
@@ -676,7 +676,7 @@
 			buildSettings = {
 				ENABLE_BITCODE = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				OTHER_CFLAGS = "-fembed-bitcode-marker";
+				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "-o library";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -689,7 +689,7 @@
 				ENABLE_BITCODE = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "-fembed-bitcode";
+				OTHER_CFLAGS = "";
 				OTHER_CODE_SIGN_FLAGS = "-o library";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
