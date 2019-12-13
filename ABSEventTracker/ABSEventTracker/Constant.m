@@ -24,7 +24,7 @@ NSString* const eventTokenURL                   = @"/token";
 NSString* const eventSendStagingPath            = @"/api/event/send";
 NSString* const eventSendProdPath               = @"/api/event/sendasynchub";
 
-//NSString* const devRecoURL                      = @"https://recoengineapidev.azurewebsites.net";
+//NSString* const devRecoURL                      = @"https://bigdatarecoapistaging.azurewebsites.net";
 NSString* const prodRecoURL                     = @"https://recoengapi.bigdata.abs-cbn.com";
 
 NSString* const recoMobileResourceURL           = @"/api/recommendation/mobiledatasource";
@@ -33,7 +33,6 @@ NSString* const UserToItemURL                   = @"/api/recommendation/usertoit
 //NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
 
 NSString* const recommendationUpdateURL   = @"/api/recommendation/update?";
-
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
 NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";

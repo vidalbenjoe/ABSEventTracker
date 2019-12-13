@@ -26,6 +26,7 @@
  * BigData's iOS library event processing functionality.
  * It also manages the events data triggered by the digital property
  */
+
 +(AttributeManager*) init{
     static dispatch_once_t onceToken = 0;
     static id shared = nil;

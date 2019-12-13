@@ -86,8 +86,6 @@ typedef NS_ENUM(NSUInteger, HTTPStatus){
  */
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler;
-
-
 /*!
  * This method will send JSON as string parameters into server and will return server response into blocks handler
  * @params

@@ -301,6 +301,7 @@ bool isHTTPDebug;
             [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", headers] isDebug:isHTTPDebug];
             return;
         }
+        
         if(data != nil && !error){
                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
 //            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
