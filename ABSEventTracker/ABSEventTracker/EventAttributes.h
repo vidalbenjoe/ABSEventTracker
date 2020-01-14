@@ -43,8 +43,6 @@
 @property(nonatomic, copy, readonly) NSString *emailAddress;
 @property(nonatomic, copy, readonly) NSString *mobileNumber;
 
-
-
 @property(nonatomic) float latitude;
 @property(nonatomic) float longitude;
 @property(nonatomic) int articleCharacterCount;
@@ -94,8 +92,3 @@
 -(instancetype) init;
 
 @end
-
-
-
-
-

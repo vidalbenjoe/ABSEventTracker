@@ -32,30 +32,34 @@ bool isHTTPDebug;
  */
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
+    NSLog(@"DDDWWDCC");
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReloadRevalidatingCacheData
-                                        timeoutInterval:200.0];
+                                        timeoutInterval:HTTP_TIMEOUT_INTERVAL];
     [requestBody setHTTPMethod:@"POST"];
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     [requestBody setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
+ 
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
       dispatch_async(queue, ^{
           [[session dataTaskWithRequest:requestBody completionHandler:
                                   ^(NSData *data, NSURLResponse *response, NSError *error) {
                                       NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+              
+                                NSLog(@"SECCC: %li", (long)respHttp.statusCode);
                                         // Logging token
-//                                      [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: parameters isDebug:isHTTPDebug];
+                                      [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody: parameters isDebug:isHTTPDebug];
                                       
+              
                                       if (respHttp.statusCode != SUCCESS) {
                                           errorHandler(nil, error);
                                           return;
                                       }
-                                      
                                       if(data != nil){
                                           NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                           successHandler(nil, dictionary);
@@ -63,7 +67,6 @@ bool isHTTPDebug;
                                           errorHandler(nil, error);
                                            return;
                                       }
-                                      
                                    }] resume];
       });
 }
@@ -80,7 +83,7 @@ bool isHTTPDebug;
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReloadRevalidatingCacheData
-                                        timeoutInterval:200.0];
+                                        timeoutInterval:HTTP_TIMEOUT_INTERVAL];
     
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -94,7 +97,7 @@ bool isHTTPDebug;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-//            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", parameters] isDebug:isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
@@ -125,7 +128,7 @@ bool isHTTPDebug;
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                        timeoutInterval:200.0];
+                                        timeoutInterval:HTTP_TIMEOUT_INTERVAL];
     
     [requestBody setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
 //    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -163,6 +166,15 @@ bool isHTTPDebug;
             
         }] resume];
     });
+}
+
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler{
+  if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
+    if([challenge.protectionSpace.host isEqualToString:@"https://bigdatarecoapi-stg.trafficmanager.net"]){
+      NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+      completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+    }
+  }
 }
 
 /*
@@ -219,7 +231,7 @@ bool isHTTPDebug;
         NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReloadRevalidatingCacheData
-                                        timeoutInterval:200.0];
+                                        timeoutInterval:HTTP_TIMEOUT_INTERVAL];
     
         [requestBody setHTTPMethod:@"POST"];
         [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -304,7 +316,7 @@ bool isHTTPDebug;
         
         if(data != nil && !error){
                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-//            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
             successHandler(nil, dictionary);
         }else{
             errorHandler(nil, error);
@@ -318,9 +330,11 @@ bool isHTTPDebug;
 -(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request HTTPBody:(NSString *) body isDebug:(BOOL) debug{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (debug == YES) {
-            NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
-            NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
+            
         }
+        
+        NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
+        NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
         if (http.statusCode == UNAUTHORIZE) {
             [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
             [self onTokenRefresh];

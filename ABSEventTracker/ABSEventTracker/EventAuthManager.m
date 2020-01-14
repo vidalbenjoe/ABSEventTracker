@@ -19,6 +19,7 @@
 }
 
 +(NSDate *) retrieveTokenReceivedTimestamp{
+    NSLog(@"RETTT");
     NSDate *token = (NSDate*) [[NSUserDefaults standardUserDefaults] stringForKey:@"tokenreceivedTimestamp"];
     return token;
 }

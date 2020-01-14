@@ -35,11 +35,11 @@
     [self updateSession];
 }
 
-
 -(void) updateSessionID{
     NSString *uuid = [FormatUtils randomUUID];
     [self setSessionID:uuid];
 }
+
 -(void) startSession{
     NSDate *currentTime = [NSDate date];
     // Add 30 minutes expiration from the current time.
@@ -54,7 +54,6 @@
     // Add 30 minutes expiration from the current time.
     NSDate *endtime = [currentTime dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
     [self setSessionEnd:endtime];
-    
 }
 
 -(void) updateSession{
@@ -65,9 +64,10 @@
         /* Check if the current time is less than 30 minutes
          */
         if ([start timeIntervalSinceDate:[self sessionEnd]] >= 0){
-            /* Update the session ID if the current time is greater than 30 minutes since the last triggered event
+            /* Update the session ID if the current time is greater than 30 minutes since the last triggered event.
              */
             [self updateSessionID];
+            
             /*  Update the SessionEndTime and sessionStartTime if the current time is less than the sessionEndTime - Meaning the session is expired, and you have to initialize another session
              */
             [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *buider) {

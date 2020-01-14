@@ -20,4 +20,5 @@
 +(id) init;
 -(void) establish;
 -(void) update;
+-(void) updateSessionID;
 @end

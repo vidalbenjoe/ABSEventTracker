@@ -33,6 +33,9 @@
                 // Establishing Session
                 [[SessionManager init] establish];
                 [self initSession:[SessionManager init]];
+                
+                
+                NSLog(@"fdhhfhdhfdhdfh");
                 /* Initilize all of the required attributes and entropy to be able to gather event and device related properties.
                  Getting the device information to be used on device fingerprinting and analytics.*/
                 DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
@@ -87,6 +90,7 @@
                     [ABSEventTracker initEventAttributes:launchEvent];
                     [ABSBigDataServiceDispatcher dispatchCachedAttributes]; // Dispatched failed/cached attributes
                 }];
+                
                 // Setting a boolean to enable/disable HTTP Logs
                 [[ABSLogger initialize] setDisplayHTTPLogs:HTTPLogs];
             }else{
@@ -155,6 +159,8 @@
 /**
  * Set the Device information into attriutes manager.
  */
+
+
 
 #pragma mark - Device
 +(void) initWithDevice:(DeviceInvariant *) attributes{
