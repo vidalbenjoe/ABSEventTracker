@@ -36,7 +36,7 @@ NSString *userID;
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
         [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
-            NSLog(@"REQUESTING HASH... %@", sechash);
+      
             handler(sechash);
             [EventAuthManager storeSecurityHashTouserDefault:sechash];
             NSDate *receivedTimestamp = [NSDate date];
@@ -68,7 +68,7 @@ NSString *userID;
              * Note: The sechash will last for 60 minutes.
              * The system should request a new sechash after 60 minutes when there are no user activities or session detected.
              */
-            NSLog(@"TOKEKEN:");
+         
             if ([timeNow timeIntervalSinceDate:[EventAuthManager retrieveSecHashReceivedTimestamp] ] > 0) {
                 /*
                  * Request a new Sechash if the current time exceed the Sechash expiration timestamp
@@ -78,7 +78,7 @@ NSString *userID;
                     [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                         // store the token somewhere
                         NSString *token = responseObject[@"access_token"];
-                        NSLog(@"TOKEKEN: %@", token);
+                      
                         [EventAuthManager storeTokenToUserDefault:token];
                         handler(token);
                         NSDate *receivedTimestamp = [NSDate date];
@@ -95,7 +95,7 @@ NSString *userID;
                 [networking POST:url URLparameters:post success:^(NSURLSessionDataTask *task, id responseObject) {
                     // store the token somewhere
                     NSString *token = responseObject[@"access_token"];
-                    NSLog(@"TOKEKEN: %@", token);
+                    
                     [EventAuthManager storeTokenToUserDefault:token];
                     handler(token);
                     NSDate *receivedTimestamp = [NSDate date];
@@ -115,7 +115,7 @@ NSString *userID;
                     NSString *token = responseObject[@"access_token"];
                     [EventAuthManager storeTokenToUserDefault:token];
                     handler(token);
-                    NSLog(@"TOKEKEN: %@", token);
+                    
                     NSDate *receivedTimestamp = [NSDate date];
                     [EventAuthManager storeTokenReceivedTimestamp:receivedTimestamp];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -158,7 +158,6 @@ NSString *userID;
                  * Request a new server token if the current time exceeded the server token expiration timestamp
                  */
                 [self requestToken:^(NSString *token) {
-                    NSLog(@"Request a new server token: %@", token);
                     /*Capture the current view inside the mobile app
                      * Storing server token in NSUserDefault
                      */
@@ -196,13 +195,11 @@ NSString *userID;
                 }];
             }
         }else{
-              NSLog(@"walang nag Request a new server token:");
-              
+            
             /*
              * If server token is null in NSUserdefault, request a new token
              */
             [self requestToken:^(NSString *token) {
-                NSLog(@"Server token is null in NSUserdefault: %@", token);
                 NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [EventAuthManager retrieveServerTokenFromUserDefault]]};
 //                [networking POST:url JSONString:JSONDataString headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
 //                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRIsTING: %@", responseObject]];
@@ -212,14 +209,13 @@ NSString *userID;
                 
                 
                 [networking POST:url HTTPBody:writerAttributes headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    NSLog(@"loob nag Request a new server token:");
+                   
                     /*
                      * Success: Sending server response to ABSLogger.
                      */
                      [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRIsTING: %@", responseObject]];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                     
-                    NSLog(@"faild nag Request a new server token:");
                     /*
                      * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
                      */
@@ -334,10 +330,8 @@ NSString *userID;
         //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
         result = [accessViewTimeStamp compare:abandonViewTimeStamp]; // comparing two dates
         if(result==NSOrderedAscending){
-//            NSLog(@"today is less");
         viewpageDuration = [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:accessViewTimeStamp endTime:abandonViewTimeStamp]]];
         }else if(result==NSOrderedDescending){
-//            NSLog(@"newDate is less");
         viewpageDuration = [NSString stringWithFormat:@"%@",[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:abandonViewTimeStamp endTime:accessViewTimeStamp]]];
         }
     }
