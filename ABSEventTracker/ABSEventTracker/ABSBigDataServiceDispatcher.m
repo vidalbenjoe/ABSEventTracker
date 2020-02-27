@@ -334,6 +334,7 @@ NSString *userID;
         isNullObject(attributes.eventattributes.kapamilyaName) , @"KapamilyaName",
         isNullObject(attributes.eventattributes.emailAddress) , @"EmailAddress",
         isNullObject(attributes.eventattributes.mobileNumber) , @"MobileNumber",
+        isNullObject(attributes.eventattributes.UserName), @"UserName",
         isNullObject(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         isNullObject([[EventAuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [EventAuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         isNullObject(action), @"ActionTaken",

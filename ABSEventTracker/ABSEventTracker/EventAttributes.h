@@ -42,6 +42,7 @@
 @property(nonatomic, copy, readonly) NSString *kapamilyaName;
 @property(nonatomic, copy, readonly) NSString *emailAddress;
 @property(nonatomic, copy, readonly) NSString *mobileNumber;
+@property(nonatomic, copy, readonly) NSString *UserName;
 
 
 
@@ -83,6 +84,7 @@
 @property(nonatomic, copy) NSString *kapamilyaName;
 @property(nonatomic, copy) NSString *emailAddress;
 @property(nonatomic, copy) NSString *mobileNumber;
+@property(nonatomic, copy) NSString *UserName;
 
 
 @property(nonatomic) float latitude;

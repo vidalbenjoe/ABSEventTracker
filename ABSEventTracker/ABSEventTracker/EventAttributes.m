@@ -33,6 +33,7 @@
         _kapamilyaName          = builder.kapamilyaName;
         _emailAddress           = builder.emailAddress;
         _mobileNumber           = builder.mobileNumber;
+        _UserName               = builder.UserName;
         
         _latitude               = builder.latitude;
         _longitude              = builder.longitude;
@@ -67,6 +68,7 @@
     builder.kapamilyaName           = _kapamilyaName;
     builder.emailAddress            = _emailAddress;
     builder.mobileNumber            = _mobileNumber;
+    builder.UserName                = _UserName;
     builder.latitude                = _latitude;
     builder.longitude               = _longitude;
     builder.articleCharacterCount   = _articleCharacterCount;
@@ -121,6 +123,7 @@
         _kapamilyaName              =   nil;
         _emailAddress               =   nil;
         _mobileNumber               =   nil;
+        _UserName                   =   nil;
         
         _actionTaken            = 0;
         _latitude               = 0;

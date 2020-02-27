@@ -14,7 +14,7 @@
 #import "Constant.h"
 #import "PropertyEventSource.h"
 @implementation Constant
-NSString *const urlStaging                      = @"https://bigdataeventsapistaging.azurewebsites.net";
+NSString *const urlStaging                      = @"https://eventsapi-stg.bigdata.abs-cbn.com";
 NSString *const urlProd                         = @"https://eventsapi.bigdata.abs-cbn.com";
 
 //https://pre-prodeventsapi.azurewebsites.net old prodURL
@@ -34,7 +34,7 @@ NSString* const UserToItemURL                   = @"/api/recommendation/usertoit
 
 NSString* const recommendationUpdateURL   = @"/api/recommendation/update?";
 // Staging host URL
-NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
+NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
 NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";
 NSString* const IWANTVHostStagingURL            = @"bigdata.iwantv.com.ph";
 NSString* const SODHostStagingURL               = @"ppportal.skyondemand.com.ph";
