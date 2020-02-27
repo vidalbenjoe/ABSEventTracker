@@ -14,8 +14,7 @@
 @implementation ABSNetworking
 NSURLSessionConfiguration *sessionConfiguration;
 bool isHTTPDebug;
-
- /* Initializing network configuration */
+//@synthesize requestBody;
 +(instancetype) initWithSessionConfiguration:(NSURLSessionConfiguration *) config enableHTTPLog:(BOOL) isEnableHTTPLog{
     static ABSNetworking *shared = nil;
     static dispatch_once_t onceToken;
@@ -24,13 +23,11 @@ bool isHTTPDebug;
         sessionConfiguration = config;
         isHTTPDebug = isEnableHTTPLog;
     });
-    
     return shared;
 }
 
 /* This method will send string parameters into server and will return server response into blocks handler
  */
-
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -42,7 +39,6 @@ bool isHTTPDebug;
     [requestBody setHTTPBody:[NSData dataWithBytes:
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     [requestBody setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
       dispatch_async(queue, ^{
           [[session dataTaskWithRequest:requestBody completionHandler:
@@ -70,12 +66,10 @@ bool isHTTPDebug;
 
 -(void) POST:(NSURL *) url URLparameters:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
     for (id key in headers){
         id token = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
     }
-    
     sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
     NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
@@ -90,6 +84,7 @@ bool isHTTPDebug;
                               [parameters UTF8String]length:strlen([parameters UTF8String])]];
     
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
+    
     dispatch_async(queue, ^{
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
@@ -104,62 +99,12 @@ bool isHTTPDebug;
             if(data != nil){
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                 successHandler(nil, dictionary);
+                
             }else{
                 errorHandler(nil, error);
                 return;
             }
             
-        }] resume];
-    });
-}
-
--(void) POST:(NSURL *) url JSONString:(NSString *) parameters headerParameters:(NSDictionary* ) headers success:(void (^)(NSURLSessionDataTask *  task, id   responseObject)) successHandler errorHandler:(void (^)(NSURLSessionDataTask *  task, NSError *  error)) errorHandler{
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    
-    for (id key in headers){
-        id token = [headers objectForKey:key];
-        [sessionConfiguration setHTTPAdditionalHeaders:@{key: token}];
-    }
-    
-    sessionConfiguration.URLCache = [NSURLCache sharedURLCache];
-    NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
-                                        initWithURL:url
-                                        cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                        timeoutInterval:200.0];
-    
-    [requestBody setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
-//    [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain] forHTTPHeaderField:@"SiteDomain"];
-    [requestBody setHTTPMethod:@"POST"];
-    
-//    NSString* JSONDataString = [[[[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
-//        stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-//    NSString* JSONDataString = [[[[NSString alloc] initWithString:parameters] stringByReplacingOccurrencesOfString:@"'" withString:@""]
-//                                stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-//
-//    NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-//    NSString *trimmedString = [JSONDataString stringByTrimmingCharactersInSet:quoteCharset];
-//    NSLog(@"loggingJSON: %@", [NSString stringWithFormat:@"\"%@\"", parameters]);
-    
-    [requestBody setHTTPBody:[[NSString stringWithFormat:@"\"%@\"", parameters] dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
-    dispatch_async(queue, ^{
-        [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
-            NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
-            if(data != nil){
-                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-                NSString *ksomnda = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], ksomnda ] isDebug: isHTTPDebug];
-                successHandler(nil, dictionary);
-            }else{
-                errorHandler(nil, error);
-                return;
-            }
-            
-            if (respHttp.statusCode != SUCCESS) {
-                errorHandler(nil, error);
-                return;
-            }
             
         }] resume];
     });
@@ -187,8 +132,7 @@ bool isHTTPDebug;
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
             
-            NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], stringData ] isDebug: isHTTPDebug];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:@"" isDebug:isHTTPDebug];
             
             if (respHttp.statusCode != SUCCESS) {
                 errorHandler(nil, error);
@@ -198,14 +142,15 @@ bool isHTTPDebug;
             if(data != nil){
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                 successHandler(nil, dictionary);
+                
             }else{
                 errorHandler(nil, error);
                 return;
             }
-            
         }] resume];
     });
 }
+
 /*
  * Method: POST
  * This post method is used for sending json object with multiple header into server through NSURLSession
@@ -219,8 +164,8 @@ bool isHTTPDebug;
         NSMutableURLRequest *requestBody = [[NSMutableURLRequest alloc]
                                         initWithURL:url
                                         cachePolicy: NSURLRequestReloadRevalidatingCacheData
-                                        timeoutInterval:200.0];
-    
+                                        timeoutInterval:150.0];
+        
         [requestBody setHTTPMethod:@"POST"];
         [requestBody setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [requestBody setValue:[[[AttributeManager init] propertyinvariant] siteDomain]
@@ -228,49 +173,46 @@ bool isHTTPDebug;
 //        [requestBody setValue:[[[AttributeManager init] propertyinvariant] origin]
 //           forHTTPHeaderField:@"Origin"];
         [requestBody setHTTPBody:body];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:nil];
     
         [[session dataTaskWithRequest:requestBody completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * error) {
             NSHTTPURLResponse* respHttp = (NSHTTPURLResponse*) response;
+      
+            NSString *params = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], params ] isDebug: isHTTPDebug];
+            
+            if (respHttp.statusCode != SUCCESS) {
+                errorHandler(nil, error);
+                return;
+            }
             /**
              * Checking the returned JSON
              */
             if ([NSJSONSerialization isValidJSONObject:body]) {
                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
-            
-                [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], dictionary ] isDebug: isHTTPDebug];
-                
-                if (respHttp.statusCode != SUCCESS) {
-                    errorHandler(nil, error);
-                    return;
-                }else{
-                     successHandler(nil, dictionary);
-                    return;
-                }
+                successHandler(nil, dictionary);
             }else{
                 // Trim the string format JSON data to replace special character and convert to dictionary.
-                NSString* returnedString = [[[[NSString alloc] initWithData:body encoding:NSASCIIStringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
-                                             stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+                NSString* returnedString = [[[[[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"'" withString:@""]
+                                             stringByReplacingOccurrencesOfString:@"\\" withString:@"" ]
+                                            stringByReplacingOccurrencesOfString:@" " withString:@""];
                 NSCharacterSet *quoteCharset = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+
                 NSString *trimmedString = [returnedString stringByTrimmingCharactersInSet:quoteCharset];
                 NSData *jsonData = [trimmedString dataUsingEncoding:NSUTF8StringEncoding];
-                
-                 NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:body options:NSJSONReadingAllowFragments error:&error];
-                
-                NSMutableArray *arrayOfDictionaries = [NSMutableArray array];
-                [arrayOfDictionaries addObject:dictionary];
-                
-                 [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@ Body %@",[respHttp allHeaderFields], arrayOfDictionaries ] isDebug: isHTTPDebug];
-               
+
                 if(data != nil && !error){
                     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
                     successHandler(nil, dictionary);
+
                 }else{
                     errorHandler(nil, error);
                     return;
                 }
+                
             }
         }] resume];
         
@@ -285,8 +227,8 @@ bool isHTTPDebug;
     for (id key in headers){
         id header = [headers objectForKey:key];
         [sessionConfiguration setHTTPAdditionalHeaders:@{key: header}];
+       
     }
-    
      NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", url,path]]];
     request.HTTPMethod = @"GET";
@@ -301,11 +243,13 @@ bool isHTTPDebug;
             [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", headers] isDebug:isHTTPDebug];
             return;
         }
-        
         if(data != nil && !error){
                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-//            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
+            
+            [self HTTPerrorLogger:respHttp service:[NSString stringWithFormat:@"%@", url] HTTPBody:[NSString stringWithFormat:@"%@", dictionary] isDebug:isHTTPDebug];
+            
             successHandler(nil, dictionary);
+            
         }else{
             errorHandler(nil, error);
             return;
@@ -316,25 +260,22 @@ bool isHTTPDebug;
 }
 
 -(void) HTTPerrorLogger: (NSHTTPURLResponse *) http service:(NSString *) request HTTPBody:(NSString *) body isDebug:(BOOL) debug{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (debug == YES) {
-            NSLog(@"BIG-DATA-STATUSCODE: %ld", (long) http.statusCode);
-            NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
-        }
-        if (http.statusCode == UNAUTHORIZE) {
-            [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
-            [self onTokenRefresh];
-        }else if (http.statusCode== BAD_REQUEST) {
-            [[ABSLogger initialize] setMessage:@"BAD REQUEST"];
-        }else if (http.statusCode == INTERNAL_SERVER_ERROR) {
-            [[ABSLogger initialize] setMessage:@"INTERNAL SERVER ERROR"];
-        }else if (http.statusCode == NOT_FOUND) {
-            [[ABSLogger initialize] setMessage:@"SERVER NOT FOUND"];
-        }else if(http.statusCode == PERMISSION_DENIED){
-            [self onTokenRefresh];
-        }
-    });
+    if (debug == YES) {
+        NSLog(@"%@", [NSString stringWithFormat:@"ABS-CBN BIG DATA RESPONSE : %ld - SERVICE: %@ - HTTPHeaders: %@",(long) http.statusCode, request, body]);
+    }
     
+    if (http.statusCode == UNAUTHORIZE) {
+        [[ABSLogger initialize] setMessage:@"UNAUTHORIZE"];
+        [self onTokenRefresh];
+    }else if (http.statusCode== BAD_REQUEST) {
+        [[ABSLogger initialize] setMessage:@"BAD REQUEST"];
+    }else if (http.statusCode == INTERNAL_SERVER_ERROR) {
+        [[ABSLogger initialize] setMessage:@"INTERNAL SERVER ERROR"];
+    }else if (http.statusCode == NOT_FOUND) {
+        [[ABSLogger initialize] setMessage:@"SERVER NOT FOUND"];
+    }else if(http.statusCode == PERMISSION_DENIED){
+        [self onTokenRefresh];
+    }
 }
 
 /*************************HTTP CALLBACK*****************************/
@@ -346,7 +287,6 @@ bool isHTTPDebug;
 
 -(void) onTokenRefresh{
     //TODO: Need to create separarate token refresh for Recommendation.
-    //Double calling
     [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
         [EventAuthManager storeTokenToUserDefault:token];
     }];

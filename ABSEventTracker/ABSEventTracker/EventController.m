@@ -49,7 +49,6 @@ double pulse = 0;
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify event action");
     }
-    
     switch (attributes.actionTaken) {
         case LOAD:
             [[ArbitaryVariant init] setApplicationLaunchTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
@@ -63,6 +62,7 @@ double pulse = 0;
             break;
         case LOGOUT:
             [[ArbitaryVariant init] setLogoutTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
+//            [[SessionManager init] updateSessionID];
             [UserAttributes clearUserData];
             break;
         case SEARCH:
@@ -182,8 +182,7 @@ double pulse = 0;
             [attributes setVideoAdError:NO];
             break;
             
-        case VIDEO_QUALITY_CHANGED:
-            break;
+    
         default:
             break;
     }
@@ -206,7 +205,6 @@ double pulse = 0;
         default:
             break;
     }
-     NSLog(@"testingpulse");
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *videocurrentTime = [formatter stringFromDate:[[ArbitaryVariant init] videoBufferTime]];
     videoConvertedbufferTime = [formatter dateFromString:videocurrentTime];
@@ -218,11 +216,11 @@ double pulse = 0;
         result = [videoEventTimeStamp compare:videoConvertedbufferTime]; // comparing two dates
         if(result == NSOrderedDescending){
             /*
-             * videoEventTimeStamp(PLAY,PAUSE,STOP,RESUME) - bufferTime(VIDEO_BUFFERED)
+             * videoEventTimeStamp(PLAY,PAUSE,STOxP,RESUME) - bufferTime(VIDEO_BUFFERED)
              */
             [videobuffDurationArray addObject:[NSNumber numberWithLong: [FormatUtils timeDifferenceInSeconds:videoConvertedbufferTime endTime:videoEventTimeStamp]]];
             //            NSNumber *maxValue = [buffDurationArray valueForKeyPath:@"@max.intValue"];
-            //            NSInteger maxtotalBuffTime = [maxValue integerValue];/Users/indra/Documents/BIGDATA-MOBILE-LIBRARY/iOS/ABSCBNBigdataAnalyticsiOS/ABSEventTracker/ABSEventTracker/Recommendation/ABSRecommendationEngine.m
+            //            NSInteger maxtotalBuffTime = [maxValue integerValue];
             NSInteger sum = 0;
             for (NSNumber *num in videobuffDurationArray){
                 sum += [num intValue];
@@ -254,6 +252,7 @@ double pulse = 0;
             [videoPulseTimer invalidate];
         }
     }
+    
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];
     }];

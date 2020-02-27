@@ -22,9 +22,9 @@ NSString *const urlProd                         = @"https://eventsapi.bigdata.ab
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventSendStagingPath            = @"/api/event/send";
-NSString* const eventSendProdPath               = @"/api/event/sendasynchub";
+NSString* const eventSendProdPath               = @"/api/event/send";
 
-//NSString* const devRecoURL                      = @"https://bigdatarecoapistaging.azurewebsites.net";
+//NSString* const devRecoURL                      = @"https://recoengapi-stg.bigdata.abs-cbn.com";
 NSString* const prodRecoURL                     = @"https://recoengapi.bigdata.abs-cbn.com";
 
 NSString* const recoMobileResourceURL           = @"/api/recommendation/mobiledatasource";
@@ -32,7 +32,7 @@ NSString* const UserToItemURL                   = @"/api/recommendation/usertoit
 //NSString* const ItemToItemURL                   = @"/api/recommendation/itemtoitem"; //POST
 //NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
 
-NSString* const recommendationUpdateURL   = @"/api/recommendation/update?";
+NSString* const recommendationUpdateURL         = @"/api/recommendation/update?";
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
 NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";
@@ -62,7 +62,7 @@ NSString* const ONEOTTOriginURL             = @"https://com.abscbn.iwantNow";
     NSData* data = [bundleIdentifier dataUsingEncoding:NSUTF8StringEncoding];
     // Get NSString from NSData object in Base64
     NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
-//    NSLog(@"baseLcoded: %@", base64Encoded);
+    NSLog(@"baseLcoded: %@", base64Encoded);
     return base64Encoded;
 }
 @end

@@ -26,6 +26,7 @@
         _shareRetweetContent    = builder.shareRetweetContent;
         _followedEntity         = builder.followedEntity;
         
+        
         _metaTags               = builder.metaTags;
         _previousView           = builder.previousView;
         _destinationView        = builder.destinationView;
