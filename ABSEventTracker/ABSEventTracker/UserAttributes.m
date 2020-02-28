@@ -9,11 +9,16 @@
 #import "UserAttributes.h"
 
 @implementation UserAttributes
+
+NSString* cachedUserName = @"cachedUserName";
+NSString* cachedUserID = @"cachedUserID";
+
 -(instancetype) initUserWithBuilder:(UserBuilder *)builder{
     if (self = [super init]) {
         _ssoID          =   builder.ssoID;
         _gigyaID        =   builder.gigyaID;
         _loginTimeStamp =   builder.loginTimeStamp;
+        _userName       =   builder.userName;
     }
     return self;
 }
@@ -28,6 +33,7 @@
     UserBuilder *builder = [UserBuilder new];
     builder.ssoID           =   _ssoID;
     builder.gigyaID         =   _gigyaID;
+    builder.userName        =   _userName;
     builder.loginTimeStamp  =   _loginTimeStamp;
     return builder;
 }
@@ -49,16 +55,23 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+(void) cachedUserInfoWithID: (NSString *) userID{
++(void) cachedUserInfoWithID: (NSString *) userID name: (NSString*) userName{
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setValue:userID forKey:@"cachedUserID"];
+    [prefs setValue:userID forKey:cachedUserID];
+    [prefs setValue:userName forKey:cachedUserName];
     [prefs synchronize];
 }
 
 +(NSString *) retrieveUserID{
     NSString *userID = [[NSUserDefaults standardUserDefaults]
-                       stringForKey:@"cachedUserID"];
+                       stringForKey:cachedUserID];
     return userID;
+}
+
++(NSString *) retrieveUserName{
+    NSString *userName = [[NSUserDefaults standardUserDefaults]
+                       stringForKey:cachedUserName];
+    return userName;
 }
 
 +(UserAttributes *) retrieveUserInfoFromCache{
@@ -80,7 +93,9 @@
     if (self = [super init]) {
         _ssoID                      =   nil;
         _gigyaID                    =   nil;
+        _userName                   =   nil;
         _loginTimeStamp             =   nil;
+        
     }
     return self;
 }

@@ -42,7 +42,6 @@
 @property(nonatomic, copy, readonly) NSString *kapamilyaName;
 @property(nonatomic, copy, readonly) NSString *emailAddress;
 @property(nonatomic, copy, readonly) NSString *mobileNumber;
-@property(nonatomic, copy, readonly) NSString *UserName;
 
 @property(nonatomic) float latitude;
 @property(nonatomic) float longitude;

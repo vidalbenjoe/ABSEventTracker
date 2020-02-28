@@ -150,7 +150,8 @@
 #pragma mark User
 +(void) initWithUser:(UserAttributes *) attributes {
     //Saving GigyaId/SSOId into userdefaults and get the saved id when sending event to data lake.
-    [UserAttributes cachedUserInfoWithID:attributes.gigyaID == nil ? attributes.ssoID : attributes.gigyaID];
+    [UserAttributes cachedUserInfoWithID:attributes.gigyaID == nil ? attributes.ssoID : attributes.gigyaID name:attributes.userName];
+
     [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *builder) {
         [builder setActionTaken:LOGIN];   // Send LOGIN action into server
     }]];

@@ -21,7 +21,7 @@
 
 @implementation ABSBigDataServiceDispatcher
 double durations;
-NSString *userID;
+NSString *userID, *userName;
 
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
@@ -299,6 +299,8 @@ NSString *userID;
         userID = attributes.userattributes.gigyaID != nil ? attributes.userattributes.gigyaID : [UserAttributes retrieveUserID];
     }
     
+    userName = attributes.userattributes.userName != nil ? attributes.userattributes.userName : [UserAttributes retrieveUserName];
+    
     NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
     NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
     NSString *isvideoFullScreen = attributes.videoattributes.isVideoFullScreen ? @"True" : @"False";
@@ -343,7 +345,7 @@ NSString *userID;
         isNullObject(attributes.eventattributes.kapamilyaName) , @"KapamilyaName",
         isNullObject(attributes.eventattributes.emailAddress) , @"EmailAddress",
         isNullObject(attributes.eventattributes.mobileNumber) , @"MobileNumber",
-        isNullObject(attributes.eventattributes.UserName), @"UserName",
+        isNullObject(userName), @"UserName",
         isNullObject(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         isNullObject([[EventAuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [EventAuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         isNullObject(action), @"ActionTaken",
