@@ -57,7 +57,7 @@
 		86B6F3241F1740E3005B2B26 /* VideoAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 86B6F3221F1740E3005B2B26 /* VideoAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86B6F3251F1740E3005B2B26 /* VideoAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B6F3231F1740E3005B2B26 /* VideoAttributes.m */; };
 		F20C95FB23D6E04D00EA13F0 /* ABSEventTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8645B77F1F04F51B00F21735 /* ABSEventTracker.m */; };
-		F24AF47A23E007C800919785 /* ABSEventTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B77E1F04F51B00F21735 /* ABSEventTracker.h */; };
+		F24AF47A23E007C800919785 /* ABSEventTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 8645B77E1F04F51B00F21735 /* ABSEventTracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F24AF48623E020B200919785 /* ABSLogger.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 8628DB0E1F1F293200DCDB22 /* ABSLogger.h */; };
 		F24AF48B23E0228500919785 /* ABSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 8628DB0E1F1F293200DCDB22 /* ABSLogger.h */; };
 /* End PBXBuildFile section */

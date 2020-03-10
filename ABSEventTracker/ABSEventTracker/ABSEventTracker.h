@@ -31,9 +31,6 @@ typedef NS_ENUM(NSInteger, EnvironmentConfig){
 
 +(instancetype) initializeTracker :(EnvironmentConfig) config isEnableHTTPLogs :(BOOL) HTTPLogs;
 
-
-
-+(void) initDavid:(UserAttributes* ) attributes;
 +(void) initWithUser:(UserAttributes *) attributes;
 
 /*!
