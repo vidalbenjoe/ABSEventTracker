@@ -81,7 +81,6 @@
 @property(nonatomic, copy) NSString *kapamilyaName;
 @property(nonatomic, copy) NSString *emailAddress;
 @property(nonatomic, copy) NSString *mobileNumber;
-@property(nonatomic, copy) NSString *UserName;
 
 
 @property(nonatomic) float latitude;

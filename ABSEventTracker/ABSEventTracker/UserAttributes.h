@@ -18,7 +18,6 @@
 @interface UserAttributes : NSObject
 @property(nonatomic, copy, readonly) NSString *ssoID;
 @property(nonatomic, copy, readonly) NSString *gigyaID;
-@property(nonatomic, copy, readonly) NSString *userName;
 
 @property(nonatomic, copy, readonly) NSString *loginTimeStamp;
 
@@ -27,9 +26,8 @@
 -(instancetype) update:(void(^)(UserBuilder *)) updateBlock;
 -(instancetype) build;
 +(void) cacheUserData: (UserAttributes *) userinfo;
-+(void) cachedUserInfoWithID: (NSString *) userID name: (NSString*) userName;
++(void) cachedUserInfoWithID: (NSString *) userID;
 +(NSString *) retrieveUserID;
-+(NSString *) retrieveUserName;
 
 +(UserAttributes *) retrieveUserInfoFromCache;
 +(void) clearUserData;
@@ -38,7 +36,6 @@
 @interface UserBuilder : NSObject
 @property(nonatomic, copy) NSString *ssoID;
 @property(nonatomic, copy) NSString *gigyaID;
-@property(nonatomic, copy) NSString *userName;
 
 @property(nonatomic, copy) NSString *loginTimeStamp;
 -(instancetype) init;

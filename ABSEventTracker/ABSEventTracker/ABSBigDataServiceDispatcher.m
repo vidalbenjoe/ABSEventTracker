@@ -21,7 +21,7 @@
 
 @implementation ABSBigDataServiceDispatcher
 double durations;
-NSString *userID, *userName;
+NSString *userID;
 
 /*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
@@ -299,7 +299,7 @@ NSString *userID, *userName;
         userID = attributes.userattributes.gigyaID != nil ? attributes.userattributes.gigyaID : [UserAttributes retrieveUserID];
     }
     
-    userName = attributes.userattributes.userName != nil ? attributes.userattributes.userName : [UserAttributes retrieveUserName];
+
     
     NSString *isvideoEnded = attributes.videoattributes.isVideoEnded ? @"True" : @"False";
     NSString *isvideoPaused = attributes.videoattributes.isVideoPaused ? @"True" : @"False";
@@ -345,7 +345,6 @@ NSString *userID, *userName;
         isNullObject(attributes.eventattributes.kapamilyaName) , @"KapamilyaName",
         isNullObject(attributes.eventattributes.emailAddress) , @"EmailAddress",
         isNullObject(attributes.eventattributes.mobileNumber) , @"MobileNumber",
-        isNullObject(userName), @"UserName",
         isNullObject(attributes.deviceinvariant.deviceFingerprint) , @"FingerPrintId",
         isNullObject([[EventAuthManager retrievedFingerPrintID] isEqualToString:attributes.deviceinvariant.deviceFingerprint] ? attributes.deviceinvariant.deviceFingerprint : [EventAuthManager retrievedFingerPrintID]) , @"PreviousFingerPrintId",
         isNullObject(action), @"ActionTaken",
