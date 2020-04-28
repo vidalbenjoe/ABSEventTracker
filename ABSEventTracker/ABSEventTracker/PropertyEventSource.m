@@ -13,7 +13,8 @@
 @synthesize bundleIdentifier;
 @synthesize siteDomain;
 @synthesize origin;
-@synthesize url;
+@synthesize eventUrl;
+@synthesize recoUrl;
 @synthesize path;
 +(instancetype) sharedInstance{
     static PropertyEventSource *shared = nil;

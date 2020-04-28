@@ -35,7 +35,6 @@
                 [self initSession:[SessionManager init]];
                 
                 
-                NSLog(@"fdhhfhdhfdhdfh");
                 /* Initilize all of the required attributes and entropy to be able to gather event and device related properties.
                  Getting the device information to be used on device fingerprinting and analytics.*/
                 DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
@@ -44,15 +43,17 @@
                                                [builder setDeviceOS:[NSString stringWithFormat:@"%@ %@", [DeviceInfo systemName],[DeviceInfo systemVersion]]];
                                                [builder setDeviceScreenWidth:[DeviceInfo screenWidth]];
                                                [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
-                                               [builder setDeviceType:[DeviceInfo deviceType]];
+                                               [builder setDeviceType:[DeviceInfo deviceStringName]];
                                                [builder setAppversionBuildRelease:[PropertyEventSource getAppVersion]];
                                            }];
                 
                 // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
+                
                 PropertyEventSource *digitalProperty = [[PropertyEventSource alloc] init];
                 [digitalProperty setApplicationName:[PropertyEventSource getAppName]];
                 [digitalProperty setBundleIdentifier:[PropertyEventSource getBundleIdentifier]];
-                [digitalProperty setUrl:config == PRODUCTION ? urlProd : urlStaging];
+                [digitalProperty setEventUrl:config == PRODUCTION ? urlProd : urlStaging];
+                [digitalProperty setRecoUrl:config == PRODUCTION ? prodRecoURL : devRecoURL];
                 [digitalProperty setPath:config == PRODUCTION ? eventSendProdPath : eventSendStagingPath];
                 
                 //Check digital property if for production or for staging
@@ -161,8 +162,6 @@
 /**
  * Set the Device information into attriutes manager.
  */
-
-
 
 #pragma mark - Device
 +(void) initWithDevice:(DeviceInvariant *) attributes{

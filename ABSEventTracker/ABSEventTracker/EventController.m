@@ -200,11 +200,13 @@ double pulse = 0;
             break;
         case COMPLETED:
             [attributes setIsVideoEnded:YES];
-            [self terminateVideoPulse];
+//            [self terminateVideoPulse];
             break;
         default:
             break;
     }
+    
+    
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *videocurrentTime = [formatter stringFromDate:[[ArbitaryVariant init] videoBufferTime]];
     videoConvertedbufferTime = [formatter dateFromString:videocurrentTime];
@@ -226,32 +228,35 @@ double pulse = 0;
                 sum += [num intValue];
             }
             
+//            NSLog(@"BUFFERSUME: %ld", (long)sum);
+//            NSLog(@"CONSBUFFERTIME: %@",[videobuffDurationArray componentsJoinedByString: @"|"]);
+            
             [attributes setVideoConsolidatedBufferTime:[videobuffDurationArray componentsJoinedByString: @"|"]];
             [attributes setVideoTotalBufferTime:sum];
             [attributes setVideoBufferCount:[videobuffDurationArray count]];
         }
     }
     
-    //Getting the percentage of total duration
-    double durationPercentage =  attributes.videoDuration * .02;
-    NSLog(@"5 percent of total duration %f" , durationPercentage);
-    pulse = durationPercentage;
-    NSLog(@"Total Duration: %f", attributes.videoDuration);
-    /**
-     * Looping the total video duration to get the segment of duration percentage within the video duration.
-     */
-    for (int i = 1; i < attributes.videoDuration; i++) {
-        // Multiply the percentage duration to get the segment
-        double segment = durationPercentage * i;
-        if (attributes.videoDuration > segment) {
-            NSLog(@"Multiple %f", segment);
-            //Start timer interval on every segment | The interval is now dynamically based on the computed segment.
-            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:durationPercentage target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:NO];
-        }else{
-            // Invalidating timer when the segment exceed the total duration
-            [videoPulseTimer invalidate];
-        }
-    }
+//    //Getting the percentage of total duration
+//    double durationPercentage =  attributes.videoDuration * .02;
+//    NSLog(@"5 percent of total duration %f" , durationPercentage);
+//    pulse = durationPercentage;
+//    NSLog(@"Total Duration: %f", attributes.videoDuration);
+//    /**
+//     * Looping the total video duration to get the segment of duration percentage within the video duration.
+//     */
+//    for (int i = 1; i < attributes.videoDuration; i++) {
+//        // Multiply the percentage duration to get the segment
+//        double segment = durationPercentage * i;
+//        if (attributes.videoDuration > segment) {
+//            NSLog(@"Multiple %f", segment);
+//            //Start timer interval on every segment | The interval is now dynamically based on the computed segment.
+//            videoPulseTimer = [NSTimer scheduledTimerWithTimeInterval:durationPercentage target:self selector: @selector(VideoPulse:) userInfo:attributes repeats:NO];
+//        }else{
+//            // Invalidating timer when the segment exceed the total duration
+//            [videoPulseTimer invalidate];
+//        }
+//    }
     
     GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
         [builder setActionTaken:attributes.actionTaken];

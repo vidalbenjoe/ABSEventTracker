@@ -24,7 +24,7 @@ NSString* const eventTokenURL                   = @"/token";
 NSString* const eventSendStagingPath            = @"/api/event/send";
 NSString* const eventSendProdPath               = @"/api/event/send";
 
-//NSString* const devRecoURL                      = @"https://recoengapi-stg.bigdata.abs-cbn.com";
+NSString* const devRecoURL                      = @"https://recoengapi-stg.bigdata.abs-cbn.com";
 NSString* const prodRecoURL                     = @"https://recoengapi.bigdata.abs-cbn.com";
 
 NSString* const recoMobileResourceURL           = @"/api/recommendation/mobiledatasource";

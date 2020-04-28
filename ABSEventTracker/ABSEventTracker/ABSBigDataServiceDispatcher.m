@@ -34,7 +34,7 @@ NSString *userID, *userName;
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:[[[AttributeManager init] propertyinvariant] url] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:[[[AttributeManager init] propertyinvariant] eventUrl] path:eventMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *sechash = responseObject[@"seccode"];
       
             handler(sechash);
@@ -60,7 +60,7 @@ NSString *userID, *userName;
         NSDate *timeNow = [NSDate date];
          ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         // REQUEST TOKEN
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url] ,eventTokenURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] eventUrl] ,eventTokenURL]];
            
         if ([EventAuthManager retrieveSecurityHashFromUserDefault] != nil) {
             /*
@@ -136,7 +136,9 @@ NSString *userID, *userName;
       
     NSData *writerAttributes = [self writerAttribute:attributes]; // Get the value of attributes from the AttributesManager
 //    NSString *JSONDataString = [[NSString alloc] initWithData:writerAttributes encoding:NSASCIIStringEncoding];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] url], [[[AttributeManager init] propertyinvariant] path]]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [[[AttributeManager init] propertyinvariant] eventUrl], [[[AttributeManager init] propertyinvariant] path]]];
+    
+    
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         /*
          * Initializing NSURL - @eventAppsBaseURL @eventWriteURL
@@ -245,7 +247,7 @@ NSString *userID, *userName;
             [operationQueue setMaxConcurrentOperationCount:5];
             ABSCustomOperation *customOperation = [[ABSCustomOperation alloc] initWithData:attributes];
             //You can pass any object in the initWithData method. Here we are passing a NSDictionary Object
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] url], [[[AttributeManager init] propertyinvariant] path]]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[[[AttributeManager init] propertyinvariant] eventUrl], [[[AttributeManager init] propertyinvariant] path]]];
         
            ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
             
@@ -467,7 +469,7 @@ NSString *userID, *userName;
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         // REQUEST TOKEN
         NSDictionary *header = @{@"x-mobile-header" : [Constant generateNewMobileHeader]};
-        [networking GET:prodRecoURL path:recoMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
+        [networking GET:[[[AttributeManager init] propertyinvariant] recoUrl] path:recoMobileResourceURL headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
             NSString *seccode = responseObject[@"seccode"];
             handler(seccode);
         } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
@@ -485,7 +487,7 @@ NSString *userID, *userName;
         NSDate *timeNow = [NSDate date];
         ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
         // REQUEST TOKEN
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", prodRecoURL ,eventTokenURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",  [[[AttributeManager init] propertyinvariant] recoUrl] ,eventTokenURL]];
         if ([RecoAuthManager retrieveRecoSecurityHashFromUserDefault] != nil) {
             /*
              * Checking the current time if it's not exceeding the server sechash expiration date.
@@ -587,13 +589,13 @@ NSString *userID, *userName;
 }
 
 +(void) dispatchrecoupdate:(RecommendationAttributes *) attributes{
+    NSError *error;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
-    NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", prodRecoURL, recommendationUpdateURL, isNullObject(attributes.recoUserId), isNullObject(attributes.recoCategoryId), isNullObject(attributes.recoPropertyId)];
+    NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", [[[AttributeManager init] propertyinvariant] recoUrl], recommendationUpdateURL, isNullObject(attributes.recoUserId), isNullObject(attributes.recoCategoryId), isNullObject(attributes.recoPropertyId)];
 
     NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     
-    NSError *error;
     if ([RecoAuthManager retrieveServerRecoTokenFromUserDefault] != nil) {
         NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [RecoAuthManager retrieveServerRecoTokenFromUserDefault]]};
         if (!error) {

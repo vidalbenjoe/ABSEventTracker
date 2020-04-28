@@ -19,7 +19,7 @@
     //Getting data from the device info
     [rawComponents addObject:[DeviceInfo systemName]];
     [rawComponents addObject:[DeviceInfo systemVersion]];
-    [rawComponents addObject:[DeviceInfo deviceType]];
+    [rawComponents addObject:[DeviceInfo deviceStringName]];
     [rawComponents addObject:[DeviceInfo totalSpace]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo screenWidth]]];
     [rawComponents addObject:[NSNumber numberWithInteger:[DeviceInfo screenHeight]]];

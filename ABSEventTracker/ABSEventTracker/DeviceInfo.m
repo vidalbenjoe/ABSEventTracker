@@ -12,6 +12,7 @@
 #import "DeviceInfo.h"
 #import "Reachability.h"
 #import <AdSupport/ASIdentifierManager.h>
+#import <sys/utsname.h> // import it in your header or implementation file.
 
 @implementation DeviceInfo
 // Mobile Gestalt EquipmentInfo
@@ -26,148 +27,99 @@
     return shared;
 }
 
-+ (NSDictionary*) deviceNameByCode{
-    static NSDictionary *deviceNameByCode = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-#pragma clang diagnositc push
-#pragma clang dignostic ignored - "-Wdeprecated-declaration"
-        deviceNameByCode = @{
-                             //iPhones
-                             @"iPhone3,1" : @(iPhone4),
-                             @"iPhone3,2" : @(iPhone4),
-                             @"iPhone3,3" : @(iPhone4),
-                             @"iPhone4,1" : @(iPhone4S),
-                             @"iPhone4,2" : @(iPhone4S),
-                             @"iPhone4,3" : @(iPhone4S),
-                             @"iPhone5,1" : @(iPhone5),
-                             @"iPhone5,2" : @(iPhone5),
-                             @"iPhone5,3" : @(iPhone5C),
-                             @"iPhone5,4" : @(iPhone5C),
-                             @"iPhone6,1" : @(iPhone5S),
-                             @"iPhone6,2" : @(iPhone5S),
-                             @"iPhone7,2" : @(iPhone6),
-                             @"iPhone7,1" : @(iPhone6Plus),
-                             @"iPhone8,1" : @(iPhone6S),
-                             @"iPhone8,2" : @(iPhone6SPlus),
-                             @"iPhone8,4" : @(iPhoneSE),
-                             @"iPhone9,1" : @(iPhone7),
-                             @"iPhone9,3" : @(iPhone7),
-                             @"iPhone9,2" : @(iPhone7Plus),
-                             @"iPhone9,4" : @(iPhone7Plus),
-                             @"i386"      : @(Simulator),
-                             @"x86_64"    : @(Simulator),
-                             
-                             //iPads
-                             @"iPad1,1" : @(iPad1),
-                             @"iPad2,1" : @(iPad2),
-                             @"iPad2,2" : @(iPad2),
-                             @"iPad2,3" : @(iPad2),
-                             @"iPad2,4" : @(iPad2),
-                             @"iPad2,5" : @(iPadMini),
-                             @"iPad2,6" : @(iPadMini),
-                             @"iPad2,7" : @(iPadMini),
-                             @"iPad3,1" : @(iPad3),
-                             @"iPad3,2" : @(iPad3),
-                             @"iPad3,3" : @(iPad3),
-                             @"iPad3,4" : @(iPad4),
-                             @"iPad3,5" : @(iPad4),
-                             @"iPad3,6" : @(iPad4),
-                             @"iPad4,1" : @(iPadAir),
-                             @"iPad4,2" : @(iPadAir),
-                             @"iPad4,3" : @(iPadAir),
-                             @"iPad4,4" : @(iPadMini2),
-                             @"iPad4,5" : @(iPadMini2),
-                             @"iPad4,6" : @(iPadMini2),
-                             @"iPad4,7" : @(iPadMini3),
-                             @"iPad4,8" : @(iPadMini3),
-                             @"iPad4,9" : @(iPadMini3),
-                             @"iPad5,1" : @(iPadMini4),
-                             @"iPad5,2" : @(iPadMini4),
-                             @"iPad5,3" : @(iPadAir2),
-                             @"iPad5,4" : @(iPadAir2),
-                             @"iPad6,3" : @(iPadPro9Dot7Inch),
-                             @"iPad6,4" : @(iPadPro9Dot7Inch),
-                             @"iPad6,7" : @(iPadPro12Dot9Inch),
-                             @"iPad6,8" : @(iPadPro12Dot9Inch),
-                             @"iPad6,11": @(iPad5),
-                             @"iPad6,12": @(iPad5),
-                             
-                             //iPods
-                             @"iPod1,1" : @(iPodTouch1Gen),
-                             @"iPod2,1" : @(iPodTouch2Gen),
-                             @"iPod3,1" : @(iPodTouch3Gen),
-                             @"iPod4,1" : @(iPodTouch4Gen),
-                             @"iPod5,1" : @(iPodTouch5Gen),
-                             @"iPod7,1" : @(iPodTouch6Gen)};
-#pragma clang diagnostic pop
-        
-    });
-    return deviceNameByCode;
-}
++(NSString*) deviceStringName{
+   struct utsname systemInfo;
 
-/**
- * This method will generate current device version
- * Ex: iOS 10.3
- */
-+ (DeviceVersion) deviceVersion{
-    struct utsname systemInfo;
     uname(&systemInfo);
-    NSString *code = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-    DeviceVersion version = (DeviceVersion) [[self.deviceNameByCode objectForKey:code] integerValue];
-    return version;
-    
-}
-/**
- * This method will get the current device name
- * Ex: MyIphone7
- */
-+ (NSString *)deviceNameString
-{
-    return [DeviceInfo deviceNameForVersion:[DeviceInfo deviceVersion]];
+
+    NSString* code = [NSString stringWithCString:systemInfo.machine
+                                        encoding:NSUTF8StringEncoding];
+
+    static NSDictionary* deviceNamesByCode = nil;
+
+    if (!deviceNamesByCode) {
+
+        deviceNamesByCode = @{@"i386"      : @"Simulator",
+                              @"x86_64"    : @"Simulator",
+                              @"iPod1,1"   : @"iPod Touch",        // (Original)
+                              @"iPod2,1"   : @"iPod Touch",        // (Second Generation)
+                              @"iPod3,1"   : @"iPod Touch",        // (Third Generation)
+                              @"iPod4,1"   : @"iPod Touch",        // (Fourth Generation)
+                              @"iPod7,1"   : @"iPod Touch",        // (6th Generation)
+                              @"iPhone1,1" : @"iPhone",            // (Original)
+                              @"iPhone1,2" : @"iPhone",            // (3G)
+                              @"iPhone2,1" : @"iPhone",            // (3GS)
+                              @"iPad1,1"   : @"iPad",              // (Original)
+                              @"iPad2,1"   : @"iPad 2",            //
+                              @"iPad3,1"   : @"iPad",              // (3rd Generation)
+                              @"iPhone3,1" : @"iPhone 4",          // (GSM)
+                              @"iPhone3,3" : @"iPhone 4",          // (CDMA/Verizon/Sprint)
+                              @"iPhone4,1" : @"iPhone 4S",         //
+                              @"iPhone5,1" : @"iPhone 5",          // (model A1428, AT&T/Canada)
+                              @"iPhone5,2" : @"iPhone 5",          // (model A1429, everything else)
+                              @"iPad3,4"   : @"iPad",              // (4th Generation)
+                              @"iPad2,5"   : @"iPad Mini",         // (Original)
+                              @"iPhone5,3" : @"iPhone 5c",         // (model A1456, A1532 | GSM)
+                              @"iPhone5,4" : @"iPhone 5c",         // (model A1507, A1516, A1526 (China), A1529 | Global)
+                              @"iPhone6,1" : @"iPhone 5s",         // (model A1433, A1533 | GSM)
+                              @"iPhone6,2" : @"iPhone 5s",         // (model A1457, A1518, A1528 (China), A1530 | Global)
+                              @"iPhone7,1" : @"iPhone 6 Plus",     //
+                              @"iPhone7,2" : @"iPhone 6",          //
+                              @"iPhone8,1" : @"iPhone 6S",         //
+                              @"iPhone8,2" : @"iPhone 6S Plus",    //
+                              @"iPhone8,4" : @"iPhone SE",         //
+                              @"iPhone9,1" : @"iPhone 7",          //
+                              @"iPhone9,3" : @"iPhone 7",          //
+                              @"iPhone9,2" : @"iPhone 7 Plus",     //
+                              @"iPhone9,4" : @"iPhone 7 Plus",     //
+                              @"iPhone10,1": @"iPhone 8",          // CDMA
+                              @"iPhone10,4": @"iPhone 8",          // GSM
+                              @"iPhone10,2": @"iPhone 8 Plus",     // CDMA
+                              @"iPhone10,5": @"iPhone 8 Plus",     // GSM
+                              @"iPhone10,3": @"iPhone X",          // CDMA
+                              @"iPhone10,6": @"iPhone X",          // GSM
+                              @"iPhone11,2": @"iPhone XS",         //
+                              @"iPhone11,4": @"iPhone XS Max",     //
+                              @"iPhone11,6": @"iPhone XS Max",     // China
+                              @"iPhone11,8": @"iPhone XR",         //
+                              @"iPhone12,1": @"iPhone 11",         //
+                              @"iPhone12,3": @"iPhone 11 Pro",     //
+                              @"iPhone12,5": @"iPhone 11 Pro Max", //
+
+                              @"iPad4,1"   : @"iPad Air",          // 5th Generation iPad (iPad Air) - Wifi
+                              @"iPad4,2"   : @"iPad Air",          // 5th Generation iPad (iPad Air) - Cellular
+                              @"iPad4,4"   : @"iPad Mini",         // (2nd Generation iPad Mini - Wifi)
+                              @"iPad4,5"   : @"iPad Mini",         // (2nd Generation iPad Mini - Cellular)
+                              @"iPad4,7"   : @"iPad Mini",         // (3rd Generation iPad Mini - Wifi (model A1599))
+                              @"iPad6,7"   : @"iPad Pro (12.9\")", // iPad Pro 12.9 inches - (model A1584)
+                              @"iPad6,8"   : @"iPad Pro (12.9\")", // iPad Pro 12.9 inches - (model A1652)
+                              @"iPad6,3"   : @"iPad Pro (9.7\")",  // iPad Pro 9.7 inches - (model A1673)
+                              @"iPad6,4"   : @"iPad Pro (9.7\")"   // iPad Pro 9.7 inches - (models A1674 and A1675)
+                              };
+    }
+
+    NSString* deviceName = [deviceNamesByCode objectForKey:code];
+
+    if (!deviceName) {
+        // Not found on database. At least guess main device type from string contents:
+
+        if ([code rangeOfString:@"iPod"].location != NSNotFound) {
+            deviceName = @"iPod Touch";
+        }
+        else if([code rangeOfString:@"iPad"].location != NSNotFound) {
+            deviceName = @"iPad";
+        }
+        else if([code rangeOfString:@"iPhone"].location != NSNotFound){
+            deviceName = @"iPhone";
+        }
+        else {
+            deviceName = @"Unknown";
+        }
+    }
+
+    return deviceName;
 }
 
-+ (NSString *)deviceNameForVersion:(DeviceVersion)deviceVersion
-{
-    return @{
-             @(iPhone4)           : @"iPhone 4",
-             @(iPhone4S)          : @"iPhone 4S",
-             @(iPhone5)           : @"iPhone 5",
-             @(iPhone5C)          : @"iPhone 5C",
-             @(iPhone5S)          : @"iPhone 5S",
-             @(iPhone6)           : @"iPhone 6",
-             @(iPhone6Plus)       : @"iPhone 6 Plus",
-             @(iPhone6S)          : @"iPhone 6S",
-             @(iPhone6SPlus)      : @"iPhone 6S Plus",
-             @(iPhone7)           : @"iPhone 7",
-             @(iPhone7Plus)       : @"iPhone 7 Plus",
-             @(iPhoneSE)          : @"iPhone SE",
-             
-             @(iPad1)             : @"iPad 1",
-             @(iPad2)             : @"iPad 2",
-             @(iPadMini)          : @"iPad Mini",
-             @(iPad3)             : @"iPad 3",
-             @(iPad4)             : @"iPad 4",
-             @(iPadAir)           : @"iPad Air",
-             @(iPadMini2)         : @"iPad Mini 2",
-             @(iPadAir2)          : @"iPad Air 2",
-             @(iPadMini3)         : @"iPad Mini 3",
-             @(iPadMini4)         : @"iPad Mini 4",
-             @(iPadPro9Dot7Inch)  : @"iPad Pro",
-             @(iPadPro12Dot9Inch) : @"iPad Pro",
-             @(iPad5)             : @"iPad 5",
-             
-             @(iPodTouch1Gen)     : @"iPod Touch 1st Gen",
-             @(iPodTouch2Gen)     : @"iPod Touch 2nd Gen",
-             @(iPodTouch3Gen)     : @"iPod Touch 3rd Gen",
-             @(iPodTouch4Gen)     : @"iPod Touch 4th Gen",
-             @(iPodTouch5Gen)     : @"iPod Touch 5th Gen",
-             @(iPodTouch6Gen)     : @"iPod Touch 6th Gen",
-             
-             @(Simulator)         : @"Simulator",
-             @(UnknownDevice)     : @"Unknown Device"
-             }[@(deviceVersion)];
-}
 
 //The end-user-visible name for the end product.
 //Ex: "My iPhone"
@@ -190,11 +142,7 @@
 +(NSString*) localizeModel{
     return [[UIDevice currentDevice] localizedModel];
 }
-//The type of current device
-//iPhone, iPad, iPad Air, Simulator
-+(NSString*) deviceType{
-    return [self deviceNameString];
-}
+
 //Current user interface of device:
 // Ex: Phone, Tablet, TV, CarPlay
 +(NSString*) deviceIdiom{

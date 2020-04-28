@@ -34,7 +34,8 @@ typedef NS_ENUM(NSUInteger, DigitalProperty){
 @property(nonatomic, assign) NSString *bundleIdentifier;
 @property(nonatomic, assign) NSString *origin;
 @property(nonatomic, strong) NSString *siteDomain;
-@property(nonatomic, assign) NSString *url;
+@property(nonatomic, assign) NSString *eventUrl;
+@property(nonatomic, assign) NSString *recoUrl;
 @property(nonatomic, assign) NSString *path;
 
 +(instancetype) sharedInstance;
