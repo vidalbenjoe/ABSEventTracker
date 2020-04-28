@@ -35,6 +35,7 @@
     NSString* code = [NSString stringWithCString:systemInfo.machine
                                         encoding:NSUTF8StringEncoding];
 
+
     static NSDictionary* deviceNamesByCode = nil;
 
     if (!deviceNamesByCode) {
@@ -97,7 +98,9 @@
                               @"iPad6,4"   : @"iPad Pro (9.7\")"   // iPad Pro 9.7 inches - (models A1674 and A1675)
                               };
     }
-
+    
+    
+ 
     NSString* deviceName = [deviceNamesByCode objectForKey:code];
 
     if (!deviceName) {
@@ -113,7 +116,7 @@
             deviceName = @"iPhone";
         }
         else {
-            deviceName = @"Unknown";
+            deviceName = deviceName;
         }
     }
 

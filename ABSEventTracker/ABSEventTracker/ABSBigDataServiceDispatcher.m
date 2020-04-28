@@ -183,7 +183,7 @@ NSString *userID, *userName;
                     /*
                      * Success: Sending server response to ABSLogger.
                      */
-                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
+//                    [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                     /*
                      * Failed to send attributes: Converting writerAttributes(NSData) to Dictionary to store in CacheManager.
@@ -215,7 +215,7 @@ NSString *userID, *userName;
                     /*
                      * Success: Sending server response to ABSLogger.
                      */
-                     [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRIsTING: %@", responseObject]];
+                     [[ABSLogger initialize] setMessage:[NSString stringWithFormat:@"-WRITING: %@", responseObject]];
                 } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
                     
                     /*
