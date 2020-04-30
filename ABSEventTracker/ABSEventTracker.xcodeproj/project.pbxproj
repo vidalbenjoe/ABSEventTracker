@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		1B144428237E6B2A00EA5FA0 /* GenericEventController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B22D8502458999500200FA1 /* ABSBigdataAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B22D84F2458999500200FA1 /* ABSBigdataAnalyticsTest.m */; };
+		1B22D8522458999500200FA1 /* libABSEventTracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8645B77B1F04F51B00F21735 /* libABSEventTracker.a */; };
 		1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */; };
 		2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D164E49204FF10F00603865 /* AudioAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D164E4A204FF10F00603865 /* AudioAttributes.m */; };
@@ -63,6 +65,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B22D8532458999500200FA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8645B7731F04F51B00F21735 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8645B77A1F04F51B00F21735;
+			remoteInfo = ABSEventTracker;
+		};
 		8645B9D71F050A4700F21735 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8645B7731F04F51B00F21735 /* Project object */;
@@ -87,6 +96,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B22D84D2458999500200FA1 /* ABSBigdataAnalyticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ABSBigdataAnalyticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B22D84F2458999500200FA1 /* ABSBigdataAnalyticsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ABSBigdataAnalyticsTest.m; sourceTree = "<group>"; };
+		1B22D8512458999500200FA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GenericEventController.h; sourceTree = "<group>"; };
 		1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GenericEventController.m; sourceTree = "<group>"; };
 		2D164E49204FF10F00603865 /* AudioAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioAttributes.h; sourceTree = "<group>"; };
@@ -146,6 +158,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1B22D84A2458999500200FA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B22D8522458999500200FA1 /* libABSEventTracker.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8645B7781F04F51B00F21735 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -156,6 +176,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B22D84E2458999500200FA1 /* ABSBigdataAnalyticsTest */ = {
+			isa = PBXGroup;
+			children = (
+				1B22D84F2458999500200FA1 /* ABSBigdataAnalyticsTest.m */,
+				1B22D8512458999500200FA1 /* Info.plist */,
+			);
+			path = ABSBigdataAnalyticsTest;
+			sourceTree = "<group>";
+		};
 		1BDAB9231FFCECE0008E3BF7 /* EventDispatcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				8645B77D1F04F51B00F21735 /* ABSEventTracker */,
+				1B22D84E2458999500200FA1 /* ABSBigdataAnalyticsTest */,
 				8645B77C1F04F51B00F21735 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -197,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				8645B77B1F04F51B00F21735 /* libABSEventTracker.a */,
+				1B22D84D2458999500200FA1 /* ABSBigdataAnalyticsTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -393,6 +424,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1B22D84C2458999500200FA1 /* ABSBigdataAnalyticsTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B22D8572458999500200FA1 /* Build configuration list for PBXNativeTarget "ABSBigdataAnalyticsTest" */;
+			buildPhases = (
+				1B22D8492458999500200FA1 /* Sources */,
+				1B22D84A2458999500200FA1 /* Frameworks */,
+				1B22D84B2458999500200FA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1B22D8542458999500200FA1 /* PBXTargetDependency */,
+			);
+			name = ABSBigdataAnalyticsTest;
+			productName = ABSBigdataAnalyticsTest;
+			productReference = 1B22D84D2458999500200FA1 /* ABSBigdataAnalyticsTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8645B77A1F04F51B00F21735 /* ABSEventTracker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8645B7841F04F51B00F21735 /* Build configuration list for PBXNativeTarget "ABSEventTracker" */;
@@ -421,6 +470,11 @@
 				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "ABS-CBN";
 				TargetAttributes = {
+					1B22D84C2458999500200FA1 = {
+						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = N824669R3R;
+						ProvisioningStyle = Automatic;
+					};
 					8645B77A1F04F51B00F21735 = {
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
@@ -446,9 +500,20 @@
 			targets = (
 				8645B77A1F04F51B00F21735 /* ABSEventTracker */,
 				8645B9D31F050A4300F21735 /* Framework */,
+				1B22D84C2458999500200FA1 /* ABSBigdataAnalyticsTest */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1B22D84B2458999500200FA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		8645B9CE1F0509BC00F21735 /* ShellScript */ = {
@@ -480,6 +545,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1B22D8492458999500200FA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B22D8502458999500200FA1 /* ABSBigdataAnalyticsTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8645B7771F04F51B00F21735 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -517,6 +590,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1B22D8542458999500200FA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8645B77A1F04F51B00F21735 /* ABSEventTracker */;
+			targetProxy = 1B22D8532458999500200FA1 /* PBXContainerItemProxy */;
+		};
 		8645B9D81F050A4700F21735 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8645B77A1F04F51B00F21735 /* ABSEventTracker */;
@@ -525,6 +603,47 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1B22D8552458999500200FA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N824669R3R;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ABSBigdataAnalyticsTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = abscbn.bigdata.ABSBigdataAnalyticsTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1B22D8562458999500200FA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N824669R3R;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ABSBigdataAnalyticsTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = abscbn.bigdata.ABSBigdataAnalyticsTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		8645B7821F04F51B00F21735 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -705,6 +824,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1B22D8572458999500200FA1 /* Build configuration list for PBXNativeTarget "ABSBigdataAnalyticsTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B22D8552458999500200FA1 /* Debug */,
+				1B22D8562458999500200FA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8645B7761F04F51B00F21735 /* Build configuration list for PBXProject "ABSEventTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
