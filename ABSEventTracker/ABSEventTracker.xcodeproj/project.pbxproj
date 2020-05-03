@@ -769,7 +769,10 @@
 				);
 				INFOPLIST_FILE = ABSEventTracker/Info.plist;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-fprofile-instr-generate",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
@@ -788,7 +791,10 @@
 				);
 				INFOPLIST_FILE = ABSEventTracker/Info.plist;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-fprofile-instr-generate",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;

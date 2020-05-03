@@ -92,6 +92,10 @@ double pulse = 0;
     [[AttributeManager init] setArbitaryAttributes:[ArbitaryVariant init]];
     [[AttributeManager init] setEventAttributes:attributes];
     
+    
+    currentTimeStamp = nil;
+    videobuffDurationArray = nil;
+    [[ArbitaryVariant init] setVideoBufferTime:nil];
 }
 
 /**
@@ -118,6 +122,11 @@ double pulse = 0;
     
     [attributes setVideoTimeStamp:[FormatUtils getCurrentTimeAndDate:[NSDate date]]];
     switch (attributes.actionTaken) {
+        case VIDEO_PLAYED:
+            [attributes setVideostate:PLAYING];
+            [attributes setIsVideoPaused:NO];
+            currentTimeStamp = [NSDate date];
+            break;
         case VIDEO_BUFFERED:
             [attributes setVideostate:BUFFERING];
             break;
@@ -127,11 +136,6 @@ double pulse = 0;
             break;
         case VIDEO_STOPPED:
             [attributes setVideostate:COMPLETED];
-            currentTimeStamp = [NSDate date];
-            break;
-        case VIDEO_PLAYED:
-            [attributes setVideostate:PLAYING];
-            [attributes setIsVideoPaused:NO];
             currentTimeStamp = [NSDate date];
             break;
         case VIDEO_PAUSED:
@@ -229,7 +233,7 @@ double pulse = 0;
             }
             
 //            NSLog(@"BUFFERSUME: %ld", (long)sum);
-//            NSLog(@"CONSBUFFERTIME: %@",[videobuffDurationArray componentsJoinedByString: @"|"]);
+            NSLog(@"CONSBUFFERTIME: %@",[videobuffDurationArray componentsJoinedByString: @"|"]);
             
             [attributes setVideoConsolidatedBufferTime:[videobuffDurationArray componentsJoinedByString: @"|"]];
             [attributes setVideoTotalBufferTime:sum];
