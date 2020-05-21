@@ -19,6 +19,7 @@
     }
     return self;
 }
+
 -(DeviceInvariantBuilder *) makeBuilder{
     DeviceInvariantBuilder *builder = [DeviceInvariantBuilder new];
     builder.deviceFingerprint       = _deviceFingerprint;
