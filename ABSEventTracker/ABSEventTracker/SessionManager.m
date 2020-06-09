@@ -16,6 +16,7 @@
 @synthesize eventTriggeredTime;
 @synthesize sessionEnd;
 
+NSComparisonResult result;
 +(id) init{
     static SessionManager *shared = nil;
     static dispatch_once_t onceToken;
@@ -59,26 +60,31 @@
 -(void) updateSession{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        
         NSDate *start = [NSDate date];
         /* Check if the current time is less than 30 minutes
          */
-        if ([start timeIntervalSinceDate:[self sessionEnd]] >= 0){
+        
+        //has three possible values: NSOrderedSame,NSOrderedDescending, NSOrderedAscending
+        result = [start compare:[self sessionEnd]]; // comparing two dates
+    
+        if(result == NSOrderedDescending){
+            NSLog(@"UPDTETIMERSES OK");
             /* Update the session ID if the current time is greater than 30 minutes since the last triggered event.
              */
             [self updateSessionID];
             
             /*  Update the SessionEndTime and sessionStartTime if the current time is less than the sessionEndTime - Meaning the session is expired, and you have to initialize another session
-             */
+                       */
+            [self startSession];
+
+            /* Call the SESSION_EXPIRED action
+            */
             [ABSEventTracker initEventAttributes:[EventAttributes makeWithBuilder:^(EventBuilder *buider) {
-                [buider setActionTaken:SESSION_EXPIRED];
+                          [buider setActionTaken:SESSION_EXPIRED];
             }]];
             
-            NSDate *end = [start dateByAddingTimeInterval:(DEFAULT_SESSION_EXPIRATION_IN_MINUTE(s)*60)];
-            [self setSessionStart:start];
-            [self setSessionEnd:end];
-            
         }else{
+             NSLog(@"UPDTETIMERSES FAILED");
             // Update only the session time if the current time is less than 30 minutes.
             // The end time will be based on the updated start time.
             [self updateSessionTime];

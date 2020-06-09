@@ -46,6 +46,7 @@ double pulse = 0;
  * Function that handle writing of Arbitary, action, and event attributes into AttributeManager
  */
 +(void) writeEvent:(EventAttributes *) attributes{
+    
     if (attributes.actionTaken == UNKNOWN) {
         NSLog(@"Please specify event action");
     }

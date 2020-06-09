@@ -27,9 +27,13 @@
             shared = [[self alloc] init];
             /*Listing all digital property bundle identifier */
             NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
+            
+            
             /*Checking the list of valid identifier if it's matched on the current app bundle identifier */
             BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
             if (isValid) {
+                
+              
                 // Establishing Session
                 [[SessionManager init] establish];
                 [self initSession:[SessionManager init]];
