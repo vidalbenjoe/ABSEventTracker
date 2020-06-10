@@ -22,7 +22,6 @@
 #import "ArbitaryVariant.h"
 #import "VideoAttributes.h"
 #import "AudioAttributes.h"
-#import "RecommendationAttributes.h"
 // AttributeManager is the responsible for consolidating all of the attributes to be used in the event dispatcher - /Network/ABSBigDataServiceDispatcher
 @interface AttributeManager : NSObject
 +(AttributeManager*) init;
@@ -36,7 +35,6 @@
 @property(nonatomic, strong) ArbitaryVariant *arbitaryinvariant;
 @property(nonatomic, strong) VideoAttributes *videoattributes;
 @property(nonatomic, strong) AudioAttributes *audioattributes;
-@property(nonatomic, strong) RecommendationAttributes *recommendationattributes;
 
 -(void) setGenericAttributes:(GenericEventController*) genericAttributes;
 -(void) setEventAttributes:(EventAttributes*) eventAttributes;
@@ -47,8 +45,6 @@
 -(void) setArbitaryAttributes:(ArbitaryVariant *) timestamp;
 -(void) setVideoAttributes:(VideoAttributes *) videoAttribute;
 -(void) setAudioAttributes:(AudioAttributes *) audioAttributes;
--(void) setRecommendationAttributes:(RecommendationAttributes *) recommendationAttributes;
--(void) updateRecommendation:(RecommendationAttributes *) recommendationAttributes;
 
 @end
 

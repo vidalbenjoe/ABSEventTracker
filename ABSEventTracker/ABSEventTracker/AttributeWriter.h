@@ -18,5 +18,4 @@
  * @parameters manager
  */
 +(void) writer:(AttributeManager *) manager;
-+(void) recommendationWriter:(AttributeManager *) manager;
 @end

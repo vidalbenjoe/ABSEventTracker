@@ -20,7 +20,6 @@
 @synthesize arbitaryinvariant;
 @synthesize videoattributes;
 @synthesize audioattributes;
-@synthesize recommendationattributes;
 /*
  * This class acts as a Facade/Manager for different sub-modules that constitutes the entire
  * BigData's iOS library event processing functionality.
@@ -80,14 +79,5 @@
     audioattributes = audioAttributes;
     [AttributeWriter writer:self];
 }
-#pragma mark - Recommendation Attributes
--(void) setRecommendationAttributes:(RecommendationAttributes *) recommendationAttributes{
-    recommendationattributes = recommendationAttributes;
-     [AttributeWriter writer:self];
-}
 
--(void) updateRecommendation:(RecommendationAttributes *) recommendationAttributes{
-    recommendationattributes = recommendationAttributes;
-    [AttributeWriter recommendationWriter:self];
-}
 @end

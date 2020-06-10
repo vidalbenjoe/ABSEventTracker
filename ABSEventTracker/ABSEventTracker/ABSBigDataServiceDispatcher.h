@@ -47,5 +47,4 @@
 +(void) recoSecurityHash: (void (^)(NSString *sechash))handler;
 +(void) recoTokenRequest: (void (^)(NSString *token))handler;
 
-+(void) recommendationDispatcher:(AttributeManager *) attributes;
 @end

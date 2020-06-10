@@ -16,7 +16,6 @@
 #import "DeviceInfo.h"
 #import "CacheManager.h"
 #import "ABSLogger.h"
-#import "ABSRecommendationEngine.h"
 
 @implementation ABSEventTracker
 
@@ -253,10 +252,7 @@
 +(void) initAudioAttributes:(AudioAttributes *)attributes{
     [EventController writeAudioAttributes:attributes];
 }
-#pragma mark - Recommendation Attributes
-+(void) initRecoAttributes:  (RecommendationAttributes *) attributes{
-     [EventController writeRecommendationAttributes:attributes];
-}
+
 @end
 
 
