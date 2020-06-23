@@ -99,4 +99,14 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++(void) storeSendFlag:(BOOL)sendFlag{
+    [[NSUserDefaults standardUserDefaults] setBool:sendFlag forKey:@"sendflag"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(BOOL) retrieveSendFlag{
+   return [[NSUserDefaults standardUserDefaults]
+                       boolForKey:@"sendflag"];
+}
+
 @end

@@ -68,7 +68,6 @@ NSComparisonResult result;
         result = [start compare:[self sessionEnd]]; // comparing two dates
     
         if(result == NSOrderedDescending){
-            NSLog(@"UPDTETIMERSES OK");
             /* Update the session ID if the current time is greater than 30 minutes since the last triggered event.
              */
             [self updateSessionID];
@@ -84,7 +83,6 @@ NSComparisonResult result;
             }]];
             
         }else{
-             NSLog(@"UPDTETIMERSES FAILED");
             // Update only the session time if the current time is less than 30 minutes.
             // The end time will be based on the updated start time.
             [self updateSessionTime];
