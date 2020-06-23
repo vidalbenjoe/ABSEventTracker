@@ -26,17 +26,21 @@
             shared = [[self alloc] init];
             /*Listing all digital property bundle identifier */
             NSArray *identifier = [NSArray arrayWithObjects:I_WANT_TV_ID,TFC_ID,SKY_ON_DEMAND_ID,NEWS_ID, ONE_OTT, nil];
-            
-            
+        
             /*Checking the list of valid identifier if it's matched on the current app bundle identifier */
             BOOL isValid = [identifier containsObject: [PropertyEventSource getBundleIdentifier]];
             if (isValid) {
-                
-              
+            
                 // Establishing Session
                 [[SessionManager init] establish];
                 [self initSession:[SessionManager init]];
-                
+            
+                NSInteger random = [self randomNumberBetween:1 maxNumber:1000];
+                if (random == 499) {
+                    [EventAuthManager storeSendFlag:YES];
+                }else{
+                    [EventAuthManager storeSendFlag:NO];
+                }
                 
                 /* Initilize all of the required attributes and entropy to be able to gather event and device related properties.
                  Getting the device information to be used on device fingerprinting and analytics.*/
@@ -106,7 +110,15 @@
    
     return shared;
 }
+/**
+*  This method will generate radom number on a given range
+*  This method will be used to determine if the user is allowed to send all logs when they hit the target number (ex: 499)
+*/
 
++ (NSInteger) randomNumberBetween:(NSInteger)min maxNumber:(NSInteger)max
+{
+    return min + arc4random_uniform((uint32_t)(max - min + 1));
+}
 /**
  * Simple conditional statement to filter out ABS-CBN digital properties.
  * IMPORTANT: if the bundle Identifier doesn't meet the pre-defined identifier, the server will not return any valid security hash.

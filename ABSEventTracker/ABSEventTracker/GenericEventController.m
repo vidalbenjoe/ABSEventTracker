@@ -72,6 +72,7 @@
              @(VIDEO_STOPPED)           : @"videostop",
              @(VIDEO_BUFFERED)          : @"videobuff",
              @(VIDEO_COMPLETE)          : @"videocomplete",
+             @(VIDEO_ERROR)             : @"videoerror",
              
              @(AUDIO_PLAYED)            : @"audioplay",
              @(AUDIO_PAUSED)            : @"audiopause",
