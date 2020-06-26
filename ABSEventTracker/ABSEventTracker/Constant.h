@@ -50,6 +50,8 @@ extern NSString* const UserToItemURL;
 //extern NSString* const recommendationCommunityToItem;
 extern NSString* const recommendationUpdateURL;
 
+extern NSString* const randomizerURL;
+
 // Staging host URL
 extern NSString* const TFCHostStagingURL;
 extern NSString* const NEWSHostStagingURL;
