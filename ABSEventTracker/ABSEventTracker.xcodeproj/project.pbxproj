@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		1B144428237E6B2A00EA5FA0 /* GenericEventController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B18818C24A5D8DA00519622 /* Random.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B18818A24A5D8DA00519622 /* Random.h */; };
+		1B18818D24A5D8DA00519622 /* Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B18818B24A5D8DA00519622 /* Random.m */; };
 		1B22D8502458999500200FA1 /* ABSBigdataAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B22D84F2458999500200FA1 /* ABSBigdataAnalyticsTest.m */; };
 		1B22D8522458999500200FA1 /* libABSEventTracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8645B77B1F04F51B00F21735 /* libABSEventTracker.a */; };
 		1BDAB9211FFC934D008E3BF7 /* GenericEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */; };
@@ -92,6 +94,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B18818A24A5D8DA00519622 /* Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		1B18818B24A5D8DA00519622 /* Random.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Random.m; sourceTree = "<group>"; };
 		1B22D84D2458999500200FA1 /* ABSBigdataAnalyticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ABSBigdataAnalyticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B22D84F2458999500200FA1 /* ABSBigdataAnalyticsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ABSBigdataAnalyticsTest.m; sourceTree = "<group>"; };
 		1B22D8512458999500200FA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -292,6 +296,8 @@
 				8645B7C01F04F93F00F21735 /* EventController.m */,
 				1BDAB91E1FFC934D008E3BF7 /* GenericEventController.h */,
 				1BDAB91F1FFC934D008E3BF7 /* GenericEventController.m */,
+				1B18818A24A5D8DA00519622 /* Random.h */,
+				1B18818B24A5D8DA00519622 /* Random.m */,
 			);
 			name = Attributes;
 			sourceTree = "<group>";
@@ -393,6 +399,7 @@
 				8645B7F71F05029900F21735 /* UserAttributes.h in Headers */,
 				2D164E4B204FF10F00603865 /* AudioAttributes.h in Headers */,
 				1B144428237E6B2A00EA5FA0 /* GenericEventController.h in Headers */,
+				1B18818C24A5D8DA00519622 /* Random.h in Headers */,
 				F24AF47A23E007C800919785 /* ABSEventTracker.h in Headers */,
 				F24AF48B23E0228500919785 /* ABSLogger.h in Headers */,
 				2D3529B822C5EC670077E5DD /* RecoAuthManager.h in Headers */,
@@ -543,6 +550,7 @@
 				8645B7F31F05001B00F21735 /* PropertyEventSource.m in Sources */,
 				2D164E4C204FF10F00603865 /* AudioAttributes.m in Sources */,
 				8645B7BD1F04F8FF00F21735 /* DeviceFingerprinting.m in Sources */,
+				1B18818D24A5D8DA00519622 /* Random.m in Sources */,
 				8645B7BA1F04F8AF00F21735 /* ABSCustomOperation.m in Sources */,
 				8645B7AE1F04F79400F21735 /* EventAuthManager.m in Sources */,
 				8645B7CD1F04FA0500F21735 /* UserAttributes.m in Sources */,

@@ -34,14 +34,7 @@
                 // Establishing Session
                 [[SessionManager init] establish];
                 [self initSession:[SessionManager init]];
-            
-                NSInteger random = [self randomNumberBetween:1 maxNumber:1000];
-                if (random == 499) {
-                    [EventAuthManager storeSendFlag:YES];
-                }else{
-                    [EventAuthManager storeSendFlag:NO];
-                }
-                
+                [EventAuthManager storeSendFlag:NO];
                 /* Initilize all of the required attributes and entropy to be able to gather event and device related properties.
                  Getting the device information to be used on device fingerprinting and analytics.*/
                 DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
@@ -88,6 +81,19 @@
                 [self initWithDevice:device]; // initializing device attributes
                 [self initAppProperty:digitalProperty]; // Initializing app property
                 
+                // Fetch random sampling
+                [ABSBigDataServiceDispatcher fetchRandomizer:^(Random *random) {
+                    NSInteger min = random.minValue;
+                    NSInteger max = random.maxValue;
+                    NSInteger target = random.targetValue;
+                    NSInteger r = [self randomNumberBetween:min maxNumber:max];
+                        if (r == target) {
+                            [EventAuthManager storeSendFlag:YES];
+                        }else{
+                            [EventAuthManager storeSendFlag:NO];
+                        }
+                }];
+                    
                 /*Requesting server token*/
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
                     EventAttributes *launchEvent = [EventAttributes makeWithBuilder:^(EventBuilder *builder) {
