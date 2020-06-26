@@ -96,6 +96,7 @@
              @(ON_TEXT_CHANGED)         : @"textchanged",
              @(ERROR_OCCURED)           : @"erroroccured",
              @(BUTTON_CLICKED)          : @"buttonclick",
+             @(REGISTER)                : @"register",
              };
 }
 
