@@ -16,6 +16,7 @@
         _deviceScreenWidth          = builder.deviceScreenWidth;
         _deviceScreenHeight         = builder.deviceScreenHeight;
         _appversionBuildRelease     = builder.appversionBuildRelease;
+        _isSample                   = builder.isSample;
     }
     return self;
 }
@@ -28,6 +29,7 @@
     builder.deviceScreenWidth       = _deviceScreenWidth;
     builder.deviceScreenHeight      = _deviceScreenHeight;
     builder.appversionBuildRelease  = _appversionBuildRelease;
+    builder.isSample                = _isSample;
     return builder;
 }
 
@@ -57,6 +59,7 @@
         _deviceScreenWidth          =   0;
         _deviceScreenHeight         =   0;
         _appversionBuildRelease     = nil;
+        _isSample                   = nil;
     }
     return self;
 }
