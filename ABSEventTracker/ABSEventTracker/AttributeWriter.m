@@ -16,6 +16,9 @@
     if (manager.videoattributes.videostate != PLAYING) {
         [[SessionManager init] update];
     }
+    
+    manager.deviceinvariant.isSample = [EventAuthManager retrieveSendFlag] == TRUE ? @"True" : @"False";
+    
     // This will controll the logging transaction since it will depends on the sampled user (Ex: 499)
     if ([EventAuthManager retrieveSendFlag] == NO){
         if (manager.videoattributes.actionTaken == VIDEO_PLAYED || manager.eventattributes.actionTaken == LOAD || manager.eventattributes.actionTaken == VIDEO_ERROR) {

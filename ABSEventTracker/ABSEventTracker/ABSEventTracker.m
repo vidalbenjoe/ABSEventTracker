@@ -36,6 +36,12 @@
                 [[SessionManager init] establish];
                 [self initSession:[SessionManager init]];
                 [EventAuthManager storeSendFlag:NO];
+                
+                
+                // Fetch random sampling
+                [self generateRandomizerSampling];
+                
+                
                 /* Initilize all of the required attributes and entropy to be able to gather event and device related properties.
                  Getting the device information to be used on device fingerprinting and analytics.*/
                 DeviceInvariant *device = [DeviceInvariant makeWithBuilder:^
@@ -46,6 +52,7 @@
                                                [builder setDeviceScreenHeight:[DeviceInfo screenHeight]];
                                                [builder setDeviceType:[DeviceInfo deviceStringName]];
                                                [builder setAppversionBuildRelease:[PropertyEventSource getAppVersion]];
+                                               [builder setIsSample:[EventAuthManager retrieveSendFlag] == TRUE ? @"True" : @"False"];
                                            }];
                 
                 // Initilizing PropertyEventSource to be able to get proprty app name and its bundle Identifier
@@ -82,18 +89,6 @@
                 [self initWithDevice:device]; // initializing device attributes
                 [self initAppProperty:digitalProperty]; // Initializing app property
                 
-                // Fetch random sampling
-                [ABSBigDataServiceDispatcher fetchRandomizer:^(Random *random) {
-                    NSInteger min = random.minValue;
-                    NSInteger max = random.maxValue;
-                    NSInteger target = random.targetValue;
-                    NSInteger r = [self randomNumberBetween:min maxNumber:max];
-                        if (r == target) {
-                            [EventAuthManager storeSendFlag:YES];
-                        }else{
-                            [EventAuthManager storeSendFlag:NO];
-                        }
-                }];
                     
                 /*Requesting server token*/
                 [ABSBigDataServiceDispatcher requestToken:^(NSString *token) {
@@ -117,6 +112,23 @@
    
     return shared;
 }
+
+
++(void) generateRandomizerSampling{
+    // Fetch random sampling
+                  [ABSBigDataServiceDispatcher fetchRandomizer:^(Random *random) {
+                      NSInteger min = random.minValue;
+                      NSInteger max = random.maxValue;
+                      NSInteger target = random.targetValue;
+                      NSInteger r = [self randomNumberBetween:min maxNumber:max];
+                          if (r == target) {
+                              [EventAuthManager storeSendFlag:YES];
+                          }else{
+                              [EventAuthManager storeSendFlag:NO];
+                          }
+                  }];
+}
+
 /**
 *  This method will generate radom number on a given range
 *  This method will be used to determine if the user is allowed to send all logs when they hit the target number (ex: 499)
@@ -229,7 +241,11 @@
  */
 #pragma mark - Event Attributes
 +(void) initEventAttributes: (EventAttributes *) attributes{
+    if (attributes.actionTaken == SESSION_EXPIRED) {
+        [self generateRandomizerSampling];
+    }
     [EventController writeEvent:attributes];
+
 }
 /*!
  * @discussion Set the Video Attributes into attriutes manager.
