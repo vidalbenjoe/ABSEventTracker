@@ -1,14 +1,12 @@
 
 /**********************************************************************
- **                                                                  **
- **                                                                  **
- **                        ABSEventTracker                           **
- **           Created by Benjoe Vidal on 31/05/2017.                 **
- **                 hello@benjoeriveravidal.com                      **
- **        Copyright © 2017 ABS-CBN. All rights reserved.            **
- **                                                                  **
- **                                                                  **
+ *  iOS Library version 1.2.2
+ *  ABSEventTracker
+ *  Created by Benjoe Vidal on 31/05/2017.
+ *  Copyright © 2017 ABS-CBN. All rights reserved.
+ *
  **********************************************************************
+ *
  */
 
 #import <Foundation/Foundation.h>
@@ -16,7 +14,6 @@
 #import "EventAttributes.h"
 #import "VideoAttributes.h"
 #import "AudioAttributes.h"
-#import "RecommendationAttributes.h"
 
 typedef NS_ENUM(NSInteger, EnvironmentConfig){
      STAGING             =   0,
@@ -93,7 +90,6 @@ typedef NS_ENUM(NSInteger, EnvironmentConfig){
 
 +(void) initVideoAttributes: (VideoAttributes *) attributes;
 +(void) initAudioAttributes: (AudioAttributes *) attributes;
-+(void) initRecoAttributes:  (RecommendationAttributes *) attributes;
 
 @end
 

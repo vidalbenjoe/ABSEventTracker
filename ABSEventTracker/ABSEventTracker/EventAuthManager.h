@@ -26,6 +26,12 @@
 +(NSDate *) retrieveTokenReceivedTimestamp;
 +(void) storeTokenExpirationTimestamp:(NSDate *) expiration;
 +(NSDate *) retrieveTokenExpirationTimestamp;
+
+
+
++(void) storeSendFlag: (BOOL) sendFlag;
++(BOOL) retrieveSendFlag;
+
 /*!
  * Method to store token to NSUserDefault
  */

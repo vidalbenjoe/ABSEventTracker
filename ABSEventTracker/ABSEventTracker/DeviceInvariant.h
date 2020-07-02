@@ -21,6 +21,7 @@
 @property(nonatomic, readonly) NSInteger deviceScreenWidth;
 @property(nonatomic, readonly) NSInteger deviceScreenHeight;
 @property(nonatomic, readonly) NSString *appversionBuildRelease;
+@property(nonatomic, copy) NSString *isSample;
 
 +(instancetype) makeWithBuilder:(void (^) (DeviceInvariantBuilder *)) updateBlock;
 -(instancetype) initWithBuilder:(DeviceInvariantBuilder *) builder;
@@ -36,6 +37,7 @@
 @property(nonatomic) NSInteger deviceScreenWidth;
 @property(nonatomic) NSInteger deviceScreenHeight;
 @property(nonatomic) NSString *appversionBuildRelease;
+@property(nonatomic, assign) NSString *isSample;
 -(instancetype) init;
 
 @end

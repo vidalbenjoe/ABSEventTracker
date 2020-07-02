@@ -8,6 +8,7 @@
 
 #import "AttributeWriter.h"
 #import "ABSBigDataServiceDispatcher.h"
+#import "EventAuthManager.h"
 @implementation AttributeWriter
 
 +(void) writer:(AttributeManager *) manager{
@@ -15,12 +16,21 @@
     if (manager.videoattributes.videostate != PLAYING) {
         [[SessionManager init] update];
     }
-    // Dispatch the consolidated attributes into server
-    [ABSBigDataServiceDispatcher dispatchAttribute:manager];
+    
+    manager.deviceinvariant.isSample = [EventAuthManager retrieveSendFlag] == TRUE ? @"True" : @"False";
+    
+    // This will controll the logging transaction since it will depends on the sampled user (Ex: 499)
+    if ([EventAuthManager retrieveSendFlag] == NO){
+        if (manager.videoattributes.actionTaken == VIDEO_PLAYED || manager.eventattributes.actionTaken == LOAD || manager.eventattributes.actionTaken == VIDEO_ERROR) {
+            // Dispatch the consolidated attributes into server
+            [ABSBigDataServiceDispatcher dispatchAttribute:manager];
+        }
+    }else{
+        // Dispatch the consolidated attributes into server
+        [ABSBigDataServiceDispatcher dispatchAttribute:manager];
+    }
+    
 }
 
-+(void) recommendationWriter:(AttributeManager *)manager{
-    [ABSBigDataServiceDispatcher recommendationDispatcher: manager];
-}
 
 @end

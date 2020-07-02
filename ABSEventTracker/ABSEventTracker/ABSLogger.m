@@ -15,7 +15,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[super alloc] init];
-        
     });
     return shared;
 }

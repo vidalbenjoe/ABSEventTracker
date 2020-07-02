@@ -15,7 +15,6 @@
 #import "EventAttributes.h"
 #import "VideoAttributes.h"
 #import "AudioAttributes.h"
-#import "RecommendationAttributes.h"
 @interface EventController : NSObject
 
 /** Method to initialize EventController class */
@@ -29,7 +28,5 @@
 +(void) writeEvent:(EventAttributes *) attributes;
 +(void) writeVideoAttributes:(VideoAttributes *) attributes;
 +(void) writeAudioAttributes:(AudioAttributes *) attributes;
-+(void) writeRecommendationAttributes:(RecommendationAttributes *) attributes;
-+(void) getRecommendationAttributes:(RecommendationAttributes *) attributes;
 
 @end

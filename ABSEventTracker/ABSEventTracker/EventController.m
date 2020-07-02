@@ -423,21 +423,6 @@ double pulse = 0;
     }
 }
 
-+(void) writeRecommendationAttributes:(RecommendationAttributes *) attributes{
-    if (attributes.actionTaken == UNKNOWN) {
-        NSLog(@"Please specify video action");
-    }
-    GenericEventController *genericAction = [GenericEventController makeWithBuilder:^(GenericBuilder *builder) {
-        [builder setActionTaken:attributes.actionTaken];
-    }];
-    
-    [[AttributeManager init] setGenericAttributes:genericAction];
-    [[AttributeManager init] setRecommendationAttributes:attributes];
-}
-
-+(void) getRecommendationAttributes:(RecommendationAttributes *) attributes{
-        [[AttributeManager init] updateRecommendation:attributes];
-}
 
 @end
 

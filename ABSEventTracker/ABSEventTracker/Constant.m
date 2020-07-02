@@ -19,6 +19,7 @@ NSString *const urlProd                         = @"https://eventsapi.bigdata.ab
 
 //https://pre-prodeventsapi.azurewebsites.net old prodURL
 
+
 NSString* const eventMobileResourceURL          = @"/api/event/mobiledatasource";
 NSString* const eventTokenURL                   = @"/token";
 NSString* const eventSendStagingPath            = @"/api/event/send";
@@ -33,6 +34,10 @@ NSString* const UserToItemURL                   = @"/api/recommendation/usertoit
 //NSString* const recommendationCommunityToItem   = @"/api/recommendation/communitytoitem"; //POST
 
 NSString* const recommendationUpdateURL         = @"/api/recommendation/update?";
+NSString* const randomizerURL                   = @"/api/event/randomizer";
+
+
+
 // Staging host URL
 NSString* const TFCHostStagingURL               = @"uatgnsok.tfc.tv";
 NSString* const NEWSHostStagingURL              = @"stagingnews.abs-cbn.com";

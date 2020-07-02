@@ -24,6 +24,36 @@ double durations;
 NSString *userID, *userName;
 
 /*!
+* Method for requesting ranndome sampling from API . This method will return MinValue, MaxValue, and TargetValue
+*/
++(void) fetchRandomizer:(void (^)(Random *))handler {
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: [[ABSLogger initialize] displayHTTPLogs]];
+             
+             [networking GET:[[[AttributeManager init] propertyinvariant] eventUrl] path:randomizerURL headerParameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+                 NSNumber* maxValue = [responseObject valueForKey:@"MaxValue"];
+                 NSNumber* minValue = [responseObject valueForKey:@"MinValue"];
+                 NSNumber* targetValue = [responseObject valueForKey:@"TargetValue"];
+                 int min = [minValue intValue];
+                 int max = [maxValue intValue];
+                 int target = [targetValue intValue];
+                 
+                 Random *r = [[Random alloc] init];
+                 r.minValue = min;
+                 r.minValue = max;
+                 r.targetValue = target;
+                 handler(r);
+              
+             } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
+                 NSLog(SECHASH_ERROR_REQUEST  "%@", error.description);
+                 [[ABSLogger initialize] setMessage:error.description];
+             }];
+    });
+}
+
+/*!
  * Method for requesting security hash. This method will return a security hash via block(handler)
  */
 +(void) requestSecurityHash: (void (^)(NSString *sechash)) handler{
@@ -443,10 +473,6 @@ NSString *userID, *userName;
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioPausePosition]]) ,@"AudioPause",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioResumePosition]]) ,@"AudioResume",
         isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.audioattributes.audioStopPosition]]) ,@"AudioStop",
-        isNullObject(attributes.recommendationattributes.recoCategoryId) , @"RecoCategoryId",
-        isNullObject([NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:attributes.recommendationattributes.recoItemCount]]), @"RecoItemCount",
-        isNullObject(attributes.recommendationattributes.recoPropertyId) , @"RecoPropertyId",
-        isNullObject(attributes.recommendationattributes.recoType) , @"RecoType",
                                                  nil];
     
          NSData *attributesData = [NSJSONSerialization dataWithJSONObject:attributesDictionary options:NSJSONWritingPrettyPrinted error:&error]; // convert dictionary to data
@@ -546,80 +572,7 @@ NSString *userID, *userName;
 }
 //
 
-+(void) recommendationDispatcher:(AttributeManager *) attributes{
-    /*
-     * Check if server token is stored in NSUserDefault and not null
-     */
-    if ([RecoAuthManager retrieveServerRecoTokenFromUserDefault] != nil) {
-        NSDate *timeNow = [NSDate date];
-        /*
-         * Checking the current time if not exceed the server token expiration date.
-         * Note: The server token will last for only 9 minutes.
-         */
-        if ([timeNow timeIntervalSinceDate:[RecoAuthManager retrieveRecoTokenExpirationTimestamp] ] > 0){
-            /*
-             * Request a new server token if the current time exceeded the server token expiration timestamp
-             */
-            [self recoTokenRequest:^(NSString *token) {
-                /*
-                 * Storing server token in NSUserDefault
-                 */
-                [RecoAuthManager storeRecoTokenToUserDefault:token];
-                // update reco
-                [self dispatchrecoupdate:attributes.recommendationattributes];
-            }];
-        }else{
-            /*
-             * If current time is less than the 9 minutes expiration time allowance, dispatch attributes into the data lake
-             */
-            [self dispatchrecoupdate:attributes.recommendationattributes];
-        }
-    }else{
-        /*
-         * If server token is null in NSUserdefault, request a new token
-         */
-        [self recoTokenRequest:^(NSString *token) {
-            /*
-             * Storing server token in NSUserDefault
-             */
-            [RecoAuthManager storeRecoTokenToUserDefault:token];
-        }];
-    }
 
-}
-
-+(void) dispatchrecoupdate:(RecommendationAttributes *) attributes{
-    NSError *error;
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    ABSNetworking *networking = [ABSNetworking initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] enableHTTPLog: YES];
-    NSString *paramURL = [NSString stringWithFormat:@"%@%@userId=%@&categoryId=%@&digitalPropertyId=%@", [[[AttributeManager init] propertyinvariant] recoUrl], recommendationUpdateURL, isNullObject(attributes.recoUserId), isNullObject(attributes.recoCategoryId), isNullObject(attributes.recoPropertyId)];
-
-    NSURL *url = [NSURL URLWithString:[paramURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-    
-    if ([RecoAuthManager retrieveServerRecoTokenFromUserDefault] != nil) {
-        NSDictionary *header = @{@"Authorization" : [NSString stringWithFormat:@"Bearer %@", [RecoAuthManager retrieveServerRecoTokenFromUserDefault]]};
-        if (!error) {
-            dispatch_async(queue, ^{
-                [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                    NSLog(@"Success - Updating recommendation");
-                } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                    [RecoAuthManager removeRecoSechHash];
-                    [RecoAuthManager removeRecoToken];
-                    NSLog(@"Unknown error from server - Recommendation: %@", error.description);
-                }];
-            });
-        }
-    }else{
-        [self recoTokenRequest:^(NSString *token) {
-            NSDictionary *header = @{@"Authorization":[NSString stringWithFormat:@"Bearer %@", token != nil ? token : [RecoAuthManager retrieveServerRecoTokenFromUserDefault]]};
-            [networking POST:url queryParams:nil headerParameters:header success:^(NSURLSessionDataTask *task, id responseObject) {
-                NSLog(@"Success - Updating recommendation: %@", responseObject);
-            } errorHandler:^(NSURLSessionDataTask *task, NSError *error) {
-                NSLog(@"Unknown error from server - Recommendation: %@", error.description);
-            }];
-        }];
-    }
-}
 
 // This method will return null value string if the attributes is nil or empty
 static id isNullObject(id object){
